@@ -32,18 +32,23 @@ tailwind.config = {
         'container-max': '1280px', 'section-padding': '96px'
       },
       maxWidth: { 'container-max': '1280px' },
+      /* Koppen: Fraunces. Zelfde redactionele, ambachtelijke sfeer als Bodoni,
+         maar met veel minder verschil tussen dikke en dunne lijnen — daardoor
+         blijven koppen leesbaar op klein scherm. Wil je iets anders proberen:
+         vervang 'Fraunces' hieronder én de fonts.googleapis-link in de <head>
+         van de 7 pagina's. Rustiger alternatief: 'Lora'. */
       fontFamily: {
-        'display-lg': ['Bodoni Moda', 'serif'], 'display-lg-mobile': ['Bodoni Moda', 'serif'],
-        'headline-md': ['Bodoni Moda', 'serif'],
+        'display-lg': ['Fraunces', 'serif'], 'display-lg-mobile': ['Fraunces', 'serif'],
+        'headline-md': ['Fraunces', 'serif'],
         'body-lg': ['Source Serif 4', 'serif'], 'body-md': ['Source Serif 4', 'serif'],
         'label-sm': ['Hanken Grotesk', 'sans-serif']
       },
       fontSize: {
-        'display-lg': ['64px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '600' }],
-        'display-lg-mobile': ['40px', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '600' }],
-        'headline-md': ['32px', { lineHeight: '1.3', fontWeight: '500' }],
-        'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+        'display-lg': ['62px', { lineHeight: '1.12', letterSpacing: '-0.015em', fontWeight: '600' }],
+        'display-lg-mobile': ['38px', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '600' }],
+        'headline-md': ['31px', { lineHeight: '1.32', fontWeight: '600' }],
+        'body-lg': ['19px', { lineHeight: '1.65', fontWeight: '400' }],
+        'body-md': ['17px', { lineHeight: '1.6', fontWeight: '400' }],
         'label-sm': ['12px', { lineHeight: '1.2', letterSpacing: '0.1em', fontWeight: '600' }]
       }
     }
