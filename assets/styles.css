@@ -3,16 +3,11 @@
 /* Tailwind's display-klassen (flex, grid) winnen het anders van [hidden]. */
 [hidden] { display: none !important; }
 
-/* Fraunces is een variabel lettertype. SOFT rondt de uiteinden lichtjes af
-   (warmer, ambachtelijker); WONK 0 houdt de eigenzinnige letters uit —
-   dat leest rustiger. font-optical-sizing laat de letter zich per formaat
-   aanpassen: steviger bij kleine tekst, verfijnder bij grote koppen. */
+/* Veel koppen krijgen hun grootte via een eigen pixelwaarde (text-[40px]) en
+   dus geen gewicht uit de Tailwind-config. Zonder deze regel vallen ze terug
+   op 400 en worden ze te dun. Een expliciete font-*-klasse wint hier nog van.
+   Lora loopt van 400 tot 700; 600 is een stevige maar rustige kop. */
 .font-display-lg, .font-display-lg-mobile, .font-headline-md {
-  font-variation-settings: 'SOFT' 20, 'WONK' 0;
-  font-optical-sizing: auto;
-  /* Veel koppen krijgen hun grootte via een eigen pixelwaarde en dus geen
-     gewicht uit de Tailwind-config. Zonder deze regel vallen ze terug op 400
-     en worden ze te dun. Een expliciete font-*-klasse wint hier nog van. */
   font-weight: 600;
 }
 

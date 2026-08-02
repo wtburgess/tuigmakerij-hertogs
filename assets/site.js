@@ -32,14 +32,15 @@ tailwind.config = {
         'container-max': '1280px', 'section-padding': '96px'
       },
       maxWidth: { 'container-max': '1280px' },
-      /* Koppen: Fraunces. Zelfde redactionele, ambachtelijke sfeer als Bodoni,
-         maar met veel minder verschil tussen dikke en dunne lijnen — daardoor
-         blijven koppen leesbaar op klein scherm. Wil je iets anders proberen:
-         vervang 'Fraunces' hieronder én de fonts.googleapis-link in de <head>
-         van de 7 pagina's. Rustiger alternatief: 'Lora'. */
+      /* Koppen: Lora. Klassieke serif met zachte, licht gebogen schreven en
+         een gematigd verschil tussen dikke en dunne lijnen — daardoor blijven
+         koppen leesbaar op klein scherm, waar Bodoni's haarlijnen wegvielen.
+         Wil je iets anders proberen: vervang 'Lora' hieronder én de
+         fonts.googleapis-link in de <head> van de 7 pagina's.
+         Uitgesprokener alternatief: 'Fraunces'. */
       fontFamily: {
-        'display-lg': ['Fraunces', 'serif'], 'display-lg-mobile': ['Fraunces', 'serif'],
-        'headline-md': ['Fraunces', 'serif'],
+        'display-lg': ['Lora', 'serif'], 'display-lg-mobile': ['Lora', 'serif'],
+        'headline-md': ['Lora', 'serif'],
         'body-lg': ['Source Serif 4', 'serif'], 'body-md': ['Source Serif 4', 'serif'],
         'label-sm': ['Hanken Grotesk', 'sans-serif']
       },
