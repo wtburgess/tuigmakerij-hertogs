@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afrekenen — Tuigtassen Hertogs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="assets/site.js"></script>
+</head>
+<body data-page="bestellen" class="bg-background text-on-background antialiased min-h-screen flex flex-col">
+
+<header class="w-full flex justify-center items-center py-8 bg-surface-container-low border-b-2 border-stitch-color">
+  <a href="index.html" class="font-headline-md text-headline-md text-primary">Tuigtassen Hertogs</a>
+</header>
+
+<main class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-16 md:py-24">
+
+  <!-- Leeg mandje -->
+  <div id="leeg" hidden class="py-16 text-center max-w-lg mx-auto">
+    <span class="material-symbols-outlined text-5xl text-secondary-fixed-dim mb-6">shopping_bag</span>
+    <h1 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Je mandje is nog leeg</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+      Elke tas bestaat maar één keer — neem gerust je tijd om rond te kijken.
+    </p>
+    <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors">
+      Bekijk de collectie
+    </a>
+  </div>
+
+  <!-- Afrekenen -->
+  <div id="checkout" hidden class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+
+    <!-- Formulier -->
+    <div class="lg:col-span-7">
+      <h1 class="font-display-lg text-display-lg-mobile md:text-[52px] text-primary mb-4">Afrekenen</h1>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-12">
+        Je bestelling wordt met de hand ingepakt en verstuurd door Karolien zelf.
+      </p>
+
+      <form id="bestelform" class="space-y-12" novalidate>
+
+        <section>
+          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">mail</span> Contact
+          </h2>
+          <div class="space-y-6">
+            <input class="input-underline" name="email" type="email" required placeholder="E-mailadres *">
+            <input class="input-underline" name="telefoon" type="tel" placeholder="Telefoon (optioneel)">
+          </div>
+        </section>
+
+        <section>
+          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">local_shipping</span> Levering
+          </h2>
+          <div class="space-y-6">
+            <div>
+              <label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-2" for="levering">Hoe wil je je tas ontvangen?</label>
+              <select id="levering" name="levering" class="input-underline"></select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input class="input-underline" name="voornaam" required placeholder="Voornaam *">
+              <input class="input-underline" name="achternaam" required placeholder="Achternaam *">
+            </div>
+            <div id="adresvelden" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="md:col-span-2">
+                <input class="input-underline" name="adres" required placeholder="Straat en nummer *">
+              </div>
+              <input class="input-underline" name="postcode" required placeholder="Postcode *">
+              <input class="input-underline" name="stad" required placeholder="Gemeente *">
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">edit_note</span> Bericht
+          </h2>
+          <textarea name="bericht" rows="3" class="input-underline resize-none"
+                    placeholder="Iets dat ik moet weten? Een cadeauverpakking, een leveringswens…"></textarea>
+        </section>
+
+        <section>
+          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">account_balance</span> Betaling
+          </h2>
+          <div class="bg-surface-container-low p-6 border border-surface-variant space-y-4">
+            <p class="font-body-md text-body-md text-on-surface">Betaling via overschrijving</p>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Na het plaatsen van je bestelling krijg je meteen het rekeningnummer en een bestelnummer te zien —
+              ook per mail. Zodra de betaling binnen is, gaat je tas op de post. Ik reserveer je tas 5 dagen.
+            </p>
+            <label class="flex items-start gap-3 pt-2">
+              <input type="checkbox" name="akkoord" required
+                     class="form-checkbox mt-1 h-4 w-4 text-primary border-outline rounded-sm bg-transparent focus:ring-primary">
+              <span class="font-body-md text-body-md text-on-surface-variant">
+                Ik ga akkoord met betaling via overschrijving en met de verkoopsvoorwaarden. *
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <p id="fout" hidden class="font-body-md text-body-md text-error"></p>
+
+        <button type="submit"
+                class="w-full bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest py-5 rounded-lg hover:bg-primary-container transition-colors duration-300">
+          Bestelling plaatsen
+        </button>
+        <p class="font-body-md text-body-md text-on-surface-variant text-center">
+          <span class="material-symbols-outlined align-middle text-base mr-1">lock</span>
+          Je gegevens gaan enkel naar het atelier. Geen kaartgegevens nodig.
+        </p>
+      </form>
+    </div>
+
+    <!-- Overzicht -->
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-12 bg-secondary-fixed p-8 md:p-10 ambient-shadow border border-secondary-fixed-dim">
+        <h2 class="font-headline-md text-headline-md text-on-secondary-fixed-variant text-center mb-8">Jouw mandje</h2>
+        <div class="stitch-divider"></div>
+
+        <div id="regels" class="my-8 space-y-8"></div>
+
+        <div class="stitch-divider"></div>
+
+        <div class="space-y-3 my-8 font-body-md text-body-md text-on-secondary-fixed-variant">
+          <div class="flex justify-between"><span>Subtotaal</span><span id="subtotaal"></span></div>
+          <div class="flex justify-between"><span id="verzendlabel">Verzending</span><span id="verzending"></span></div>
+        </div>
+
+        <div class="stitch-divider"></div>
+
+        <div class="flex justify-between items-center my-8">
+          <span class="font-headline-md text-[24px] text-on-secondary-fixed-variant">Totaal</span>
+          <span id="totaal" class="font-headline-md text-[24px] text-on-secondary-fixed-variant"></span>
+        </div>
+
+        <div class="bg-surface-container-lowest/60 p-5 text-center border border-stitch-color">
+          <p class="font-body-md text-body-md text-on-secondary-fixed-variant flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-base">handshake</span>
+            Met de hand vervaardigd voor jou door Karolien.
+          </p>
+        </div>
+
+        <a href="collectie.html" class="block text-center mt-6 font-label-sm text-label-sm uppercase tracking-widest text-secondary hover:text-primary transition-colors">
+          Verder kijken
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="w-full bg-surface-container-low border-t-2 border-stitch-color mt-auto py-10">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center font-body-md text-body-md text-on-surface-variant">
+    Vragen over je bestelling?
+    <a data-wa="Dag Karolien, ik heb een vraag over mijn bestelling: " target="_blank" rel="noopener"
+       class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me een berichtje</a>
+    of mail naar <a data-mail="" class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors" data-contact-mail>info</a>.
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('bestelform');
+  const leveringSelect = document.getElementById('levering');
+  const adresvelden = document.getElementById('adresvelden');
+  const fout = document.getElementById('fout');
+
+  document.querySelector('[data-contact-mail]').textContent = CONTACT.email;
+
+  leveringSelect.innerHTML = Object.entries(LEVERING)
+    .map(([k, v]) => `<option value="${k}">${v.label}${v.kost ? ' — ' + euro.format(v.kost) : ' — gratis'}</option>`)
+    .join('');
+
+  const teken = () => {
+    const regels = cartLines();
+    document.getElementById('leeg').hidden = regels.length > 0;
+    document.getElementById('checkout').hidden = regels.length === 0;
+    if (!regels.length) return;
+
+    document.getElementById('regels').innerHTML = regels.map((l) => `
+      <div class="flex items-start gap-4">
+        <a href="product.html?id=${l.product.id}" class="w-20 h-24 shrink-0 border-4 border-surface-container-lowest bg-surface-container block">
+          <img src="${IMG[l.product.fotos[0]]}" alt="${l.product.naam}" class="w-full h-full object-cover">
+        </a>
+        <div class="flex-grow min-w-0">
+          <h3 class="font-body-lg text-body-lg text-on-secondary-fixed-variant">${l.product.naam}</h3>
+          <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mt-1">${l.product.herkomst}</p>
+          <div class="flex items-center gap-3 mt-3">
+            <div class="flex items-center border border-secondary-fixed-dim bg-surface-container-lowest">
+              <button type="button" data-min="${l.product.id}" aria-label="Eén minder"
+                      class="w-8 h-8 flex items-center justify-center text-secondary hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-base">remove</span>
+              </button>
+              <span class="w-8 text-center font-body-md text-body-md text-on-surface">${l.aantal}</span>
+              <button type="button" data-plus="${l.product.id}" aria-label="Eén meer"
+                      ${l.aantal >= l.product.voorraad ? 'disabled' : ''}
+                      class="w-8 h-8 flex items-center justify-center text-secondary hover:text-primary transition-colors disabled:opacity-30 disabled:hover:text-secondary">
+                <span class="material-symbols-outlined text-base">add</span>
+              </button>
+            </div>
+            <button type="button" data-weg="${l.product.id}"
+                    class="font-label-sm text-label-sm uppercase tracking-widest text-secondary hover:text-error transition-colors">
+              Verwijder
+            </button>
+          </div>
+        </div>
+        <div class="font-body-lg text-body-lg text-on-secondary-fixed-variant whitespace-nowrap">${euro.format(l.subtotaal)}</div>
+      </div>`).join('');
+
+    const sub = cartTotal();
+    const lev = LEVERING[leveringSelect.value];
+    document.getElementById('subtotaal').textContent = euro.format(sub);
+    document.getElementById('verzendlabel').textContent = lev.adres ? 'Verzending' : 'Afhalen';
+    document.getElementById('verzending').textContent = lev.kost ? euro.format(lev.kost) : 'Gratis';
+    document.getElementById('totaal').textContent = euro.format(sub + lev.kost);
+
+    // Adres is enkel verplicht wanneer er verzonden wordt.
+    adresvelden.hidden = !lev.adres;
+    adresvelden.querySelectorAll('input').forEach((i) => { i.required = lev.adres; });
+  };
+
+  document.addEventListener('cart:changed', teken);
+  leveringSelect.addEventListener('change', teken);
+  teken();
+
+  document.getElementById('regels').addEventListener('click', (e) => {
+    const knop = e.target.closest('[data-min],[data-plus],[data-weg]');
+    if (!knop) return;
+    const { min, plus, weg } = knop.dataset;
+    if (weg) return cartSet(weg, 0);
+    const huidig = cartLines().find((l) => l.product.id === (min || plus));
+    if (!huidig) return;
+    cartSet(huidig.product.id, huidig.aantal + (plus ? 1 : -1));
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    fout.hidden = true;
+
+    if (!form.checkValidity()) {
+      fout.textContent = 'Vul de velden met een * nog even aan.';
+      fout.hidden = false;
+      form.reportValidity();
+      return;
+    }
+
+    const regels = cartLines();
+    if (!regels.length) return teken();
+
+    const data = Object.fromEntries(new FormData(form));
+    const lev = LEVERING[data.levering];
+    const bestelling = {
+      referentie: 'TH-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 9000) + 1000),
+      datum: new Date().toISOString(),
+      klant: {
+        email: data.email, telefoon: data.telefoon || '',
+        naam: `${data.voornaam} ${data.achternaam}`,
+        adres: lev.adres ? `${data.adres}, ${data.postcode} ${data.stad}` : '(afhalen in het atelier)',
+        bericht: data.bericht || ''
+      },
+      levering: lev.label,
+      regels: regels.map((l) => ({ tas: l.product.naam, aantal: l.aantal, bedrag: l.subtotaal })),
+      subtotaal: cartTotal(),
+      verzendkost: lev.kost,
+      totaal: cartTotal() + lev.kost
+    };
+
+    // Zolang er geen endpoint is ingesteld, blijft de bestelling lokaal en
+    // krijgt de klant op de bedanktpagina de gegevens om te mailen/betalen.
+    if (ORDER_ENDPOINT) {
+      try {
+        await fetch(ORDER_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bestelling)
+        });
+      } catch {
+        fout.textContent = 'De bestelling kon niet verstuurd worden. Probeer opnieuw of stuur me een berichtje.';
+        fout.hidden = false;
+        return;
+      }
+    }
+
+    sessionStorage.setItem('th-last-order', JSON.stringify(bestelling));
+    cartClear();
+    location.href = 'bedankt.html';
+  });
+});
+</script>
+</body>
+</html>

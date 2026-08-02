@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onderhoud &amp; Reparaties | Tuigtassen Hertogs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&amp;family=Hanken+Grotesk:wght@600&amp;family=Source+Serif+4:opsz,wght@8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#f5f3f3",
+                      "success-green": "#334428",
+                      "surface-container-highest": "#e4e2e1",
+                      "surface": "#fcf9f8",
+                      "inverse-on-surface": "#f2f0f0",
+                      "surface-container": "#efeded",
+                      "on-secondary-fixed": "#241a0d",
+                      "tertiary": "#33271a",
+                      "surface-variant": "#e3e2e2",
+                      "secondary-fixed-dim": "#d7c3b0",
+                      "stitch-color": "#d7c3b0",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fbf9f8",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#303030",
+                      "tertiary-fixed": "#f4dfcb",
+                      "on-surface": "#1b1c1c",
+                      "secondary-container": "#f1dcc8",
+                      "on-secondary-fixed-variant": "#524435",
+                      "inverse-primary": "#b8cda7",
+                      "primary": "#1e2e14",
+                      "on-tertiary-fixed-variant": "#524436",
+                      "on-surface-variant": "#444840",
+                      "on-tertiary-fixed": "#241a0d",
+                      "tertiary-container": "#4a3d2f",
+                      "surface-dim": "#dbdad9",
+                      "primary-fixed-dim": "#b8cda7",
+                      "primary-container": "#334428",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#f4dfcb",
+                      "on-secondary-container": "#6f6050",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#9db18d",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#fbf9f8",
+                      "on-primary-fixed": "#101f07",
+                      "tertiary-fixed-dim": "#d7c3b0",
+                      "surface-container-high": "#e9e8e7",
+                      "on-background": "#1b1c1c",
+                      "on-primary-fixed-variant": "#3a4c2f",
+                      "surface-tint": "#526445",
+                      "primary-fixed": "#d4e9c2",
+                      "outline-variant": "#c5c8bd",
+                      "outline": "#75786f",
+                      "on-tertiary-container": "#baa895",
+                      "secondary": "#6b5c4c"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "section-padding": "96px",
+                      "margin-desktop": "64px",
+                      "margin-mobile": "20px",
+                      "unit": "8px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Bodoni Moda"
+                      ],
+                      "body-md": [
+                              "\"Source Serif 4\""
+                      ],
+                      "body-lg": [
+                              "\"Source Serif 4\""
+                      ],
+                      "display-lg-mobile": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .stitch-divider {
+            height: 2px;
+            background-color: theme('colors.secondary-fixed-dim');
+            width: 100%;
+            display: block;
+        }
+        .ambient-shadow {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-surface-container-low font-display-lg text-display-lg font-body-lg text-body-lg full-width top-0 sticky border-b-2 border-stitch-color transition-all duration-300 ease-in-out z-50">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-24">
+<a class="text-headline-md font-headline-md text-primary dark:text-on-primary-fixed" href="#">Tuigtassen Hertogs</a>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Collectie &amp; op maat</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Bio</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary pb-1 hover:text-primary transition-colors duration-300" href="#">Onderhoud &amp; Reparaties</a>
+</div>
+<div class="flex items-center">
+<button class="text-primary dark:text-primary-fixed p-2 hover:bg-surface-container-low rounded-full transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+</button>
+<button class="md:hidden text-primary p-2 ml-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- 1. Intro Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5 md:col-start-2 space-y-6">
+<div class="flex items-center gap-4">
+<span class="stitch-divider w-12"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Vakmanschap</span>
+</div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary">
+                        Zorg &amp; Herstel
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Ik herstel ook paardenmateriaal, en ik help je je tas goed te onderhouden. Elk stuk leer heeft een verhaal, en met de juiste zorg kan dat verhaal generaties lang doorgaan.
+                    </p>
+</div>
+<div class="md:col-span-5 md:col-start-8 mt-12 md:mt-0">
+<div class="aspect-[3/4] bg-surface-container-low p-2 ambient-shadow">
+<img class="w-full h-full object-cover rounded-sm" data-alt="A close-up shot of a skilled artisan's hands carefully polishing a rich, dark brown leather saddle in a warmly lit, rustic workshop. The lighting is soft and golden, highlighting the texture of the leather and the dedication in the craftsmanship. The mood is calm, traditional, and focused on quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYPp7Sj7V0jPhmWJy5ktWQ2pmhzgBW1a9V-rHQ_gChku4_z33cjr3I2gTnr8a-ewuoRyKZmJXYPI_drt9VsA7Wxn6pBRZe4_sKZXAZ4wORXRH4UGhzNznsZJbJ-zE18FIxYj5SBwzRywmQhbPQRXo0PeLOj55uzd4MFMfXBEyD1g_UpU0P4zhkPP3pNaMBNXL6Qi5Gg6s4-yFdqjRxHV4tuuZZqh97T_iHYuBM4qgUln9wV980hdDiQA"/>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Onderhoudstips -->
+<section class="bg-surface-container-low py-section-padding">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Onderhoudstips</h2>
+<span class="stitch-divider w-24 mx-auto"></span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Tip 1 -->
+<div class="bg-surface p-8 ambient-shadow rounded-sm flex flex-col items-center text-center group hover:bg-surface-bright transition-colors duration-300">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl">water_drop</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Voeden</h3>
+<p class="text-on-surface-variant text-sm">Behandel het leer regelmatig met een natuurlijke ledervet om uitdroging te voorkomen.</p>
+</div>
+<!-- Tip 2 -->
+<div class="bg-surface p-8 ambient-shadow rounded-sm flex flex-col items-center text-center group hover:bg-surface-bright transition-colors duration-300 md:mt-8">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl">wb_sunny</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Beschermen</h3>
+<p class="text-on-surface-variant text-sm">Vermijd langdurige blootstelling aan direct zonlicht of hittebronnen om verkleuring tegen te gaan.</p>
+</div>
+<!-- Tip 3 -->
+<div class="bg-surface p-8 ambient-shadow rounded-sm flex flex-col items-center text-center group hover:bg-surface-bright transition-colors duration-300">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl">cleaning_services</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Reinigen</h3>
+<p class="text-on-surface-variant text-sm">Veeg vuil af met een licht vochtige, zachte doek. Gebruik geen agressieve schoonmaakmiddelen.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 3 & 4. Wat ik herstel & Hoe het werkt (Bento Style) -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-padding">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Wat ik herstel -->
+<div class="lg:col-span-7 bg-surface border-4 border-surface-container-low p-8 md:p-12 ambient-shadow">
+<h2 class="font-headline-md text-headline-md text-primary mb-8 border-b border-stitch-color pb-4">Wat ik herstel</h2>
+<ul class="space-y-6">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-success-green mt-1">check_circle</span>
+<div>
+<h4 class="font-body-lg text-body-lg text-primary font-semibold">Paardenmateriaal</h4>
+<p class="text-on-surface-variant">Zadels, hoofdstellen, tuigage en halsters. Van stikwerk tot het vervangen van gespen.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-success-green mt-1">check_circle</span>
+<div>
+<h4 class="font-body-lg text-body-lg text-primary font-semibold">Lederen Riemen</h4>
+<p class="text-on-surface-variant">Inkorten, nieuwe gaatjes, of het herstellen van versleten randen.</p>
+</div>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-success-green mt-1">check_circle</span>
+<div>
+<h4 class="font-body-lg text-body-lg text-primary font-semibold">Tassen &amp; Accessoires</h4>
+<p class="text-on-surface-variant">Vervangen van hengsels, ritsen (beperkt), en het herstellen van de vorm.</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Hoe het werkt -->
+<div class="lg:col-span-5 flex flex-col gap-gutter">
+<div class="bg-primary-container text-on-primary-container p-8 ambient-shadow flex-grow">
+<h3 class="font-headline-md text-headline-md mb-6">Hoe het werkt</h3>
+<div class="space-y-4">
+<div class="flex gap-4 items-center border-b border-on-primary-container/20 pb-4">
+<span class="font-display-lg text-display-lg opacity-50">1</span>
+<p class="font-body-md text-body-md">Stuur een foto of bericht via WhatsApp voor een eerste inschatting.</p>
+</div>
+<div class="flex gap-4 items-center border-b border-on-primary-container/20 pb-4">
+<span class="font-display-lg text-display-lg opacity-50">2</span>
+<p class="font-body-md text-body-md">We spreken een moment af om het materiaal af te leveren.</p>
+</div>
+<div class="flex gap-4 items-center">
+<span class="font-display-lg text-display-lg opacity-50">3</span>
+<p class="font-body-md text-body-md">Ik ga aan de slag met ambachtelijke precisie.</p>
+</div>
+</div>
+</div>
+<div class="h-48 w-full bg-surface-container-low ambient-shadow relative overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A macro shot of a sturdy leather needle pulling thick, waxed linen thread through thick, natural tan saddle leather. The focus is incredibly sharp on the stitch, blurring out the rustic tools in the background. The aesthetic highlights meticulous craftsmanship and the tactile quality of leatherworking." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYFDuthYtu59xL9-yV1Q9J_IVEsQCr_AGwWl3-gjxgVjnSYGbtLJvgNY8NXWWUlUK5yiTF1Ry8z1RD-Z8gAEVMd2J6HLLuEJ5lFDa2SziubMiahSwx3NblL5xHn9YdKJudfCmgxhKPGkvppUQ2-rOq5UVYOx61EglxgMENX6k9I6DseXq-pa7AkeytQnEB8kcJS9eWaXxp8UyR53d16qnFf147l-qTjO0ks9XQfECXwIbQz5ghW5IaOQ"/>
+<div class="absolute inset-0 bg-black/10"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. CTA Section -->
+<section class="bg-surface-container-highest py-section-padding text-center px-margin-mobile">
+<div class="max-w-2xl mx-auto space-y-8">
+<span class="material-symbols-outlined text-4xl text-primary">forum</span>
+<h2 class="font-headline-md text-headline-md text-primary">Klaar om je lederwerk nieuw leven in te blazen?</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Neem direct contact op voor overleg of om een afspraak te maken.</p>
+<div class="pt-4">
+<a class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-sm font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-tint transition-colors duration-300" href="https://wa.me/">
+<span class="material-symbols-outlined">chat</span>
+                        WhatsApp Mij
+                    </a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-highest font-body-md text-body-md font-label-sm text-label-sm full-width border-t-4 border-stitch-color transition-opacity duration-300">
+<div class="max-w-container-max mx-auto px-margin-desktop py-section-padding grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="md:col-span-1 space-y-4">
+<h3 class="text-headline-md font-headline-md text-primary">Tuigtassen Hertogs</h3>
+<p class="text-secondary dark:text-on-secondary-fixed-variant text-sm mt-4">
+                    © 2024 Tuigtassen Hertogs. Ambachtelijk lederwerk van de hoogste kwaliteit.
+                </p>
+</div>
+<div class="space-y-3">
+<h4 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4">Navigatie</h4>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Home</a>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Collectie</a>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Bio</a>
+</div>
+<div class="space-y-3">
+<h4 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4">Service</h4>
+<a class="block text-primary font-bold hover:text-primary transition-colors duration-300" href="#">Onderhoud</a>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Contact</a>
+</div>
+<div class="space-y-3">
+<h4 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4">Sociaal</h4>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Instagram</a>
+<a class="block text-secondary dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Facebook</a>
+</div>
+</div>
+</footer>
+</body></html>

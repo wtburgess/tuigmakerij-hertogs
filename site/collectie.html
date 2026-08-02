@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collectie &amp; op maat — Tuigtassen Hertogs</title>
+<meta name="description" content="Handgenaaide tassen uit oude paardenzadels. Koop uit voorraad, of laat een tas maken uit een zadel uit het atelier of uit je eigen zadel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="assets/site.js"></script>
+</head>
+<body data-page="collectie" class="bg-background text-on-background antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+
+<header id="site-header" class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-stitch-color"></header>
+
+<main>
+
+  <!-- 1. Intro: de drie wegen -->
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-16 text-center">
+    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-8">Vind jouw Hertogs</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-16">
+      Elke tas is een eenmalig stuk — er is er maar één van. Er zijn drie wegen naar een tuigtas.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter text-left">
+      <a href="#voorraad" class="bg-surface-container-lowest p-8 ambient-shadow border-t-2 border-primary group">
+        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg één</span>
+        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Uit voorraad</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Een tas die al af is. Je ziet precies wat je krijgt en hij vertrekt binnen enkele dagen.
+        </p>
+        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          Naar de tassen <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </span>
+      </a>
+      <a href="#op-maat" class="bg-surface-container-lowest p-8 ambient-shadow border-t-2 border-secondary-fixed-dim group">
+        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg twee</span>
+        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Uit een zadel van mij</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Ik heb altijd afgedankte zadels op voorraad. Kies er één uit en we bepalen samen het model.
+        </p>
+        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </span>
+      </a>
+      <a href="#op-maat" class="bg-surface-container-lowest p-8 ambient-shadow border-t-2 border-secondary-fixed-dim group">
+        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg drie</span>
+        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Uit je eigen zadel</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Het zadel van jouw paard, met alle herinneringen die eraan hangen, wordt een tas die je dagelijks draagt.
+        </p>
+        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 2. Productgrid -->
+  <section id="voorraad" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 scroll-mt-24">
+    <div class="flex justify-between items-end mb-12 gap-6">
+      <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary">Uit voorraad</h2>
+      <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest whitespace-nowrap">Direct leverbaar</span>
+    </div>
+    <div class="w-24 stitch-divider mb-12"></div>
+    <div id="collectie-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16"></div>
+  </section>
+
+  <!-- 3. Custom-banner -->
+  <section class="bg-surface-container-low border-y border-surface-container-highest">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 flex flex-col md:flex-row items-center justify-between gap-12">
+      <div class="max-w-xl">
+        <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Geen exacte match?</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+          Laat een tas maken uit een zadel dat hier op voorraad ligt, of uit je eigen vertrouwde zadel.
+          Stuur me een berichtje — ik luister graag naar jouw verhaal.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a data-wa="Dag Karolien, ik denk aan een tas op maat. " target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300">
+            <span class="material-symbols-outlined text-base">chat</span> Stuur een bericht
+          </a>
+          <a href="#op-maat" class="inline-flex items-center gap-2 border border-secondary text-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors duration-300">
+            Bekijk de werkwijze
+          </a>
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 aspect-video bg-surface-container-lowest p-2 ambient-shadow">
+        <div data-img-bg="handenStikken" role="img" aria-label="Handen die met priem en gewaxt garen door dik zadelleder werken"
+             class="w-full h-full bg-cover bg-center"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Werkwijze -->
+  <section id="op-maat" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24 scroll-mt-24">
+    <div class="max-w-2xl mb-16">
+      <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Werkwijze</span>
+      <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mt-3 mb-6">Van jouw zadel naar jouw tas</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Vijf stappen, en tussenin heel veel handwerk. Reken op zes tot twaalf weken vanaf het moment
+        dat het zadel bij mij is — afhankelijk van hoe vol het atelier staat.
+      </p>
+    </div>
+
+    <ol class="grid grid-cols-1 md:grid-cols-5 gap-gutter">
+      <li class="bg-surface-container-lowest p-6 ambient-shadow border-t-2 border-primary">
+        <span class="font-display-lg text-[40px] text-secondary-fixed-dim leading-none block mb-4">1</span>
+        <h3 class="font-body-lg text-body-lg text-primary mb-2">Contact</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Je stuurt me een berichtje met een paar foto's, en je vertelt het verhaal van het zadel.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest p-6 ambient-shadow border-t-2 border-secondary-fixed-dim">
+        <span class="font-display-lg text-[40px] text-secondary-fixed-dim leading-none block mb-4">2</span>
+        <h3 class="font-body-lg text-body-lg text-primary mb-2">Gesprek</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          We bekijken samen wat er mogelijk is: welk model, welke sluitingen, welke kleur, welk beslag.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest p-6 ambient-shadow border-t-2 border-secondary-fixed-dim">
+        <span class="font-display-lg text-[40px] text-secondary-fixed-dim leading-none block mb-4">3</span>
+        <h3 class="font-body-lg text-body-lg text-primary mb-2">Ontwerp</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Ik teken een ontwerp op maat van het leder dat er is, en spreek met jou een prijs af.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest p-6 ambient-shadow border-t-2 border-secondary-fixed-dim">
+        <span class="font-display-lg text-[40px] text-secondary-fixed-dim leading-none block mb-4">4</span>
+        <h3 class="font-body-lg text-body-lg text-primary mb-2">Handwerk</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Het zadel gaat uit elkaar, het leder wordt gesorteerd, gesneden en met de hand genaaid.
+        </p>
+      </li>
+      <li class="bg-surface-container-lowest p-6 ambient-shadow border-t-2 border-secondary-fixed-dim">
+        <span class="font-display-lg text-[40px] text-secondary-fixed-dim leading-none block mb-4">5</span>
+        <h3 class="font-body-lg text-body-lg text-primary mb-2">Aflevering</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Je haalt hem op in het atelier, of ik verstuur hem verzekerd naar je toe.
+        </p>
+      </li>
+    </ol>
+
+    <div class="mt-12">
+      <a data-wa="Dag Karolien, ik heb een zadel waar ik graag een tas van zou laten maken. "
+         target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300">
+        <span class="material-symbols-outlined text-base">chat</span> Start via WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. Voor / na -->
+  <section class="bg-surface-container-low border-y border-surface-container-highest">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+      <div class="text-center mb-16">
+        <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Van zadel naar tas</h2>
+        <div class="w-24 stitch-divider mx-auto"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <figure>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="zadelWerkbank" alt="Het oorspronkelijke zadel op de werkbank" loading="lazy" class="w-full h-full object-cover grayscale">
+            </div>
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="bagRuitertas" alt="De tas die eruit gemaakt werd" loading="lazy" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <figcaption class="font-body-md text-body-md text-on-surface-variant">
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-1">Cavaleriezadel, ca. 1940</span>
+            De zitting was onherstelbaar doorgezakt. De flappen leverden het leder voor De Ruitertas.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="zadelSchaduw" alt="Een oud dressuurzadel voor de bewerking" loading="lazy" class="w-full h-full object-cover grayscale">
+            </div>
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="bagBoswachter" alt="De Boswachter Tote" loading="lazy" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <figcaption class="font-body-md text-body-md text-on-surface-variant">
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-1">Dressuurzadel</span>
+            Doorgereden zitting, gave flappen. Daaruit kwamen de twee panelen van De Boswachter Tote.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="zadelSnijden" alt="Het zadel wordt op maat gesneden" loading="lazy" class="w-full h-full object-cover grayscale">
+            </div>
+            <div class="aspect-square bg-surface-container-lowest p-2 ambient-shadow">
+              <img data-img="bagVeldtas" alt="De Veldtas" loading="lazy" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <figcaption class="font-body-md text-body-md text-on-surface-variant">
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-1">Officierszadel</span>
+            De gespen van het originele zadel kwamen terug op de Veldtas — gepoetst, niet weggewerkt.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Mini-FAQ -->
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-24">
+    <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-12 text-center">Veelgestelde vragen</h2>
+
+    <div class="divide-y divide-stitch-color border-y border-stitch-color">
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Hoe lang moet ik wachten op een tas op maat?
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          Reken op zes tot twaalf weken vanaf het moment dat je zadel in het atelier ligt. Ik werk aan één
+          stuk tegelijk, en ik zeg liever eerlijk dat het langer duurt dan dat ik haastwerk aflever.
+          Tassen uit voorraad verstuur ik binnen enkele werkdagen.
+        </p>
+      </details>
+
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Wat kost een tas uit mijn eigen zadel?
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          Dat hangt af van het model, de staat van het leder en het beslag. De meeste maatwerktassen liggen
+          tussen € 350 en € 600. Na ons gesprek en het ontwerp krijg je een vaste prijs — geen verrassingen achteraf.
+        </p>
+      </details>
+
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Hoe krijg ik mijn zadel bij jou?
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          Het liefst breng je het zelf langs — dan kunnen we het samen bekijken en hoor ik het verhaal erbij.
+          Opsturen kan ook; verpak het zadel goed en verzeker de zending. Neem eerst even contact op zodat
+          we een moment kunnen afspreken.
+        </p>
+      </details>
+
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Is elk zadel bruikbaar?
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          Bijna altijd wel iets, maar niet alles. Leder dat volledig is uitgedroogd, verrot of gescheurd,
+          kan ik niet meer verwerken. Stuur me eerst een paar foto's, dan zeg ik je meteen of het lukt —
+          en als het niet lukt, zeg ik dat ook.
+        </p>
+      </details>
+
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Levering en retour
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          Verzending binnen België is gratis en verzekerd. Voor Nederland en Duitsland reken ik € 15.
+          Tassen uit voorraad mag je binnen 14 dagen ongebruikt terugsturen. Maatwerk is per definitie
+          persoonlijk en kan niet geretourneerd worden — daarom nemen we vooraf ruim de tijd voor het ontwerp.
+        </p>
+      </details>
+
+      <details class="faq py-6 group">
+        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
+          Welke maten hebben de tassen?
+          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
+        </summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12">
+          De afmetingen staan bij elke tas vermeld. Twijfel je of je laptop of A4-map erin past?
+          Stuur me een berichtje, dan meet ik het even na voor je bestelt.
+        </p>
+      </details>
+    </div>
+
+    <p class="font-body-md text-body-md text-on-surface-variant text-center mt-12">
+      Staat je vraag er niet bij?
+      <a data-wa="Dag Karolien, ik heb een vraag: " target="_blank" rel="noopener"
+         class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me gerust een berichtje.</a>
+    </p>
+  </section>
+
+</main>
+
+<footer id="site-footer" class="bg-surface-container-low border-t-4 border-stitch-color"></footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Verspringend raster, zoals in een gedrukte catalogus.
+    const offsets = ['', 'md:mt-12', 'lg:-mt-6', 'md:-mt-6 lg:mt-6', 'md:mt-6', 'lg:mt-12'];
+    document.getElementById('collectie-grid').innerHTML =
+      PRODUCTS.map((p, i) => productCard(p, offsets[i % offsets.length])).join('');
+  });
+</script>
+</body>
+</html>

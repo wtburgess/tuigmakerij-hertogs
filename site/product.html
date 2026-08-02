@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuigtassen Hertogs</title>
+<meta name="description" content="Een handgenaaide tas uit een afgedankt paardenzadel — uniek, in één exemplaar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="assets/site.js"></script>
+</head>
+<body data-page="collectie" class="bg-background text-on-background antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+
+<header id="site-header" class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-stitch-color"></header>
+
+<main id="product" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20"></main>
+
+<section id="ook-interessant" class="bg-surface-container-low border-t border-surface-container-highest">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+    <h2 class="font-display-lg text-[28px] md:text-[36px] text-primary mb-12">Andere tassen in het atelier</h2>
+    <div id="ander-grid" class="grid grid-cols-1 md:grid-cols-3 gap-gutter"></div>
+  </div>
+</section>
+
+<footer id="site-footer" class="bg-surface-container-low border-t-4 border-stitch-color"></footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const id = new URLSearchParams(location.search).get('id');
+  const p = productById(id);
+  const root = document.getElementById('product');
+
+  if (!p) {
+    document.getElementById('ook-interessant').hidden = true;
+    root.innerHTML = `
+      <div class="py-24 text-center max-w-lg mx-auto">
+        <h1 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Deze tas vonden we niet</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+          Mogelijk is ze intussen verkocht — elk stuk bestaat maar één keer.
+        </p>
+        <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors">
+          Bekijk de collectie
+        </a>
+      </div>`;
+    return;
+  }
+
+  document.title = `${p.naam} — Tuigtassen Hertogs`;
+  const uitverkocht = p.voorraad < 1;
+
+  const spec = (icoon, label, waarde) => `
+    <div class="flex items-start gap-4">
+      <span class="material-symbols-outlined text-outline mt-1">${icoon}</span>
+      <div>
+        <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-outline mb-1">${label}</h3>
+        <p class="font-body-md text-body-md text-on-surface">${waarde}</p>
+      </div>
+    </div>`;
+
+  root.innerHTML = `
+    <nav class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-10">
+      <a href="collectie.html" class="hover:text-primary transition-colors">Collectie</a>
+      <span class="mx-2 text-outline-variant">/</span>
+      <span class="text-on-surface-variant">${p.naam}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+      <div class="lg:col-span-7">
+        <div class="bg-surface-container-lowest p-3 ambient-shadow mb-4">
+          <div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+            <img id="hoofdfoto" src="${IMG[p.fotos[0]]}" alt="${p.naam}" class="w-full h-full object-cover">
+          </div>
+        </div>
+        ${p.fotos.length > 1 ? `
+        <div class="flex gap-4">
+          ${p.fotos.map((f, i) => `
+            <button type="button" data-foto="${IMG[f]}"
+                    class="w-20 h-24 bg-surface-container-lowest p-1 ambient-shadow ${i === 0 ? 'ring-2 ring-primary' : ''}"
+                    aria-label="Foto ${i + 1} van ${p.naam}">
+              <img src="${IMG[f]}" alt="" class="w-full h-full object-cover">
+            </button>`).join('')}
+        </div>` : ''}
+      </div>
+
+      <div class="lg:col-span-5 lg:sticky lg:top-28">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
+        <h1 class="font-display-lg text-[36px] md:text-[48px] text-primary leading-tight mt-3 mb-4">${p.naam}</h1>
+        <p class="font-body-lg text-[22px] text-secondary mb-6">${euro.format(p.prijs)}</p>
+
+        <div class="w-16 stitch-divider mb-8"></div>
+
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${p.verhaal}</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y border-surface-variant mb-8">
+          ${spec('layers', 'Herkomst leder', p.herkomst)}
+          ${spec('palette', 'Kleur', p.kleur)}
+          ${spec('straighten', 'Afmetingen', p.afmetingen)}
+          ${spec('hardware', 'Beslag', p.beslag)}
+        </div>
+
+        ${uitverkocht ? `
+          <div class="bg-surface-container p-6 mb-6">
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Deze tas is verkocht. Er was er maar één van — maar er ligt altijd ander leder klaar.
+            </p>
+          </div>
+          <a data-wa="Dag Karolien, ${p.naam} is verkocht. Kan je iets vergelijkbaars maken? " target="_blank" rel="noopener"
+             class="w-full py-5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg">
+            <span class="material-symbols-outlined text-base">chat</span> Vraag naar iets gelijkaardigs
+          </a>
+        ` : `
+          <button type="button" data-add="${p.id}"
+                  class="w-full py-5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg group">
+            <span>In mijn mandje</span>
+            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">arrow_right_alt</span>
+          </button>
+          <a href="bestellen.html" class="w-full mt-3 py-4 border border-secondary text-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors duration-300 flex items-center justify-center rounded-lg">
+            Naar het mandje
+          </a>
+        `}
+
+        <div class="bg-surface-container-low p-6 mt-8 flex gap-4 items-start border-l-[3px] border-secondary">
+          <span class="material-symbols-outlined symbol-filled text-secondary shrink-0">verified</span>
+          <div>
+            <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Eén exemplaar</h4>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Volledig met de hand genaaid in het atelier van Karolien. Elk stuk komt uit een ander zadel,
+              dus deze tas bestaat exact één keer. Gratis en verzekerd verzonden binnen België.
+            </p>
+          </div>
+        </div>
+
+        <p class="font-body-md text-body-md text-on-surface-variant mt-6">
+          Een vraag over deze tas?
+          <a data-wa="Dag Karolien, ik heb een vraag over ${p.naam}: " target="_blank" rel="noopener"
+             class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me een berichtje.</a>
+        </p>
+      </div>
+    </div>`;
+
+  // Fotowissel
+  root.querySelectorAll('[data-foto]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+      document.getElementById('hoofdfoto').src = knop.dataset.foto;
+      root.querySelectorAll('[data-foto]').forEach((k) => k.classList.remove('ring-2', 'ring-primary'));
+      knop.classList.add('ring-2', 'ring-primary');
+    });
+  });
+
+  // WhatsApp-links binnen de zojuist gerenderde HTML alsnog invullen.
+  root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+
+  const anderen = PRODUCTS.filter((x) => x.id !== p.id).slice(0, 3);
+  document.getElementById('ander-grid').innerHTML = anderen.map((x) => productCard(x)).join('');
+});
+</script>
+</body>
+</html>

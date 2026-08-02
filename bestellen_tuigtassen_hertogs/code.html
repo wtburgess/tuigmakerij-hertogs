@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tuigtassen Hertogs - Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600&amp;family=Source+Serif+4:wght@400;600&amp;family=Bodoni+Moda:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#444840",
+                      "secondary-fixed": "#f4dfcb",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "outline": "#75786f",
+                      "on-tertiary-fixed-variant": "#524436",
+                      "tertiary-fixed-dim": "#d7c3b0",
+                      "on-primary-fixed": "#101f07",
+                      "secondary": "#6b5c4c",
+                      "on-primary-fixed-variant": "#3a4c2f",
+                      "surface-variant": "#e3e2e2",
+                      "surface-container-highest": "#e4e2e1",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fbf9f8",
+                      "on-secondary-fixed-variant": "#524435",
+                      "surface": "#fcf9f8",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#303030",
+                      "primary-container": "#334428",
+                      "on-error": "#ffffff",
+                      "primary-fixed-dim": "#b8cda7",
+                      "inverse-primary": "#b8cda7",
+                      "on-tertiary-container": "#baa895",
+                      "outline-variant": "#c5c8bd",
+                      "surface-bright": "#fbf9f8",
+                      "tertiary-fixed": "#f4dfcb",
+                      "on-surface": "#1b1c1c",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "success-green": "#334428",
+                      "inverse-on-surface": "#f2f0f0",
+                      "stitch-color": "#d7c3b0",
+                      "surface-tint": "#526445",
+                      "surface-container-high": "#e9e8e7",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#efeded",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#dbdad9",
+                      "secondary-container": "#f1dcc8",
+                      "on-primary-container": "#9db18d",
+                      "primary-fixed": "#d4e9c2",
+                      "on-secondary-container": "#6f6050",
+                      "on-secondary-fixed": "#241a0d",
+                      "on-tertiary-fixed": "#241a0d",
+                      "tertiary": "#33271a",
+                      "tertiary-container": "#4a3d2f",
+                      "on-background": "#1b1c1c",
+                      "primary": "#1e2e14",
+                      "secondary-fixed-dim": "#d7c3b0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "section-padding": "96px",
+                      "container-max": "1280px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "\"Source Serif 4\""
+                      ],
+                      "body-lg": [
+                              "\"Source Serif 4\""
+                      ],
+                      "headline-md": [
+                              "Bodoni Moda"
+                      ],
+                      "display-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .stitch-divider { border-top: 2px dashed theme('colors.secondary-fixed-dim'); width: 100%; margin: theme('spacing.gutter') 0; }
+        .input-underline {
+            border: none;
+            border-bottom: 1px solid theme('colors.secondary');
+            background: transparent;
+            padding: 8px 0;
+            font-family: theme('fontFamily.body-md');
+            font-size: 16px;
+            color: theme('colors.on-surface');
+            width: 100%;
+            border-radius: 0;
+            transition: border-color 0.3s ease;
+        }
+        .input-underline:focus {
+            outline: none;
+            border-bottom: 2px solid theme('colors.primary');
+            box-shadow: none;
+        }
+        .input-underline::placeholder { color: theme('colors.outline'); }
+        
+        .ambient-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .physical-border { border: 4px solid theme('colors.surface-container-lowest'); }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Suppressed due to checkout transactional intent, but keeping a simplified brand header) -->
+<header class="w-full flex justify-center items-center py-8 bg-surface-container-low border-b-2 border-stitch-color">
+<a class="text-headline-md font-headline-md text-primary tracking-widest uppercase" href="#">Tuigtassen Hertogs</a>
+</header>
+<main class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-section-padding">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+<!-- Left Column: Form -->
+<div class="md:col-span-7">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-12">Afrekenen</h1>
+<form class="space-y-12">
+<!-- Contact Info -->
+<section>
+<h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">mail</span> Contact
+                        </h2>
+<div class="space-y-6">
+<input class="input-underline" placeholder="E-mailadres" required="" type="email"/>
+<label class="flex items-center gap-3 mt-4">
+<input class="form-checkbox h-4 w-4 text-primary border-outline rounded-sm bg-transparent focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant">Houd mij op de hoogte van nieuws en exclusieve aanbiedingen.</span>
+</label>
+</div>
+</section>
+<!-- Shipping Address -->
+<section>
+<h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">local_shipping</span> Levering
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<input class="input-underline" placeholder="Voornaam" required="" type="text"/>
+<input class="input-underline" placeholder="Achternaam" required="" type="text"/>
+<div class="md:col-span-2">
+<input class="input-underline" placeholder="Adres" required="" type="text"/>
+</div>
+<input class="input-underline" placeholder="Postcode" required="" type="text"/>
+<input class="input-underline" placeholder="Stad" required="" type="text"/>
+<div class="md:col-span-2">
+<input class="input-underline" placeholder="Land" required="" type="text" value="België"/>
+</div>
+</div>
+</section>
+<!-- Payment -->
+<section>
+<h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">credit_card</span> Betaling
+                        </h2>
+<div class="space-y-6 bg-surface-container-low p-6 rounded-DEFAULT border border-surface-variant">
+<div class="flex items-center justify-between border-b border-surface-variant pb-4">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="form-radio h-4 w-4 text-primary border-outline bg-transparent focus:ring-primary" name="payment" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Kredietkaart</span>
+</label>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-outline">credit_card</span>
+</div>
+</div>
+<div class="space-y-4 pt-2">
+<input class="input-underline" placeholder="Kaartnummer" type="text"/>
+<div class="grid grid-cols-2 gap-6">
+<input class="input-underline" placeholder="MM / JJ" type="text"/>
+<input class="input-underline" placeholder="CVC" type="text"/>
+</div>
+<input class="input-underline" placeholder="Naam op kaart" type="text"/>
+</div>
+</div>
+</section>
+<button class="w-full bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest py-4 px-8 rounded-DEFAULT hover:opacity-90 transition-opacity duration-300 mt-8" type="button">
+                        Bestelling Plaatsen
+                    </button>
+<p class="font-body-md text-body-md text-on-surface-variant text-center mt-4 text-sm">
+<span class="material-symbols-outlined align-middle text-sm mr-1" style="font-variation-settings: 'FILL' 0;">lock</span> Veilig en versleuteld afrekenen.
+                    </p>
+</form>
+</div>
+<!-- Right Column: Order Summary (Ledger Style) -->
+<div class="md:col-span-5 relative mt-12 md:mt-0">
+<div class="sticky top-12 bg-secondary-fixed p-8 md:p-12 ambient-shadow border border-secondary-fixed-dim rounded-sm">
+<div class="text-center mb-8">
+<h2 class="font-headline-md text-headline-md text-on-secondary-fixed-variant mb-2">Orderoverzicht</h2>
+<p class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest">Factuur #TH-0924</p>
+</div>
+<div class="stitch-divider"></div>
+<!-- Product Item -->
+<div class="flex items-center gap-6 my-8">
+<div class="w-24 h-32 flex-shrink-0 physical-border relative bg-surface-container">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A close up, highly detailed, editorial photograph of a premium, handcrafted dark green leather tote bag with thick natural leather handles resting on a wooden workshop table. Soft, natural daylight illuminates the fine grain of the leather and the meticulous saddle stitching. The mood is artisanal, slow commerce, and tactile minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4kYLYn4CDHadW5NUhz6wxnAAmO0UUiAdtQ6KoipxNyspSsCV1hLuyXv7oCgU7BurbKEosbEDBI1-ga-jtSR8BMKN5KgC-p9UcjknRKaOu01RfaEKHeaTXvkGHNFWI8I0PiZU6Z2lH9y5VsxvpFTcI66krYdc8RwOiILwGenJdKcjGzTWFZagDN3Fo8X4inXqqYZSvAMrELXrVRQP7bfACx0OEkSmpwAmXCSBtm5ru5jTW7FlopSL5pg"/>
+<div class="absolute -top-2 -right-2 bg-primary text-on-primary w-6 h-6 rounded-full flex items-center justify-center font-label-sm text-xs">1</div>
+</div>
+<div class="flex-grow">
+<h3 class="font-body-lg text-body-lg text-on-secondary-fixed-variant font-semibold">De Boswachter Tote</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">Kleur: Forest Green</p>
+<p class="font-body-md text-body-md text-secondary">Leder: Volnerf Rundleer</p>
+</div>
+<div class="font-body-lg text-body-lg text-on-secondary-fixed-variant text-right">
+                            € 345,00
+                        </div>
+</div>
+<div class="stitch-divider"></div>
+<!-- Totals -->
+<div class="space-y-4 my-8">
+<div class="flex justify-between font-body-md text-body-md text-secondary">
+<span>Subtotaal</span>
+<span>€ 345,00</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-secondary">
+<span>Verzending (België)</span>
+<span>Gratis</span>
+</div>
+</div>
+<div class="stitch-divider"></div>
+<div class="flex justify-between items-center my-8">
+<span class="font-headline-md text-headline-md text-on-secondary-fixed-variant">Totaal</span>
+<span class="font-headline-md text-headline-md text-on-secondary-fixed-variant">€ 345,00</span>
+</div>
+<!-- Artisanal Note -->
+<div class="mt-12 bg-surface-container-lowest/50 p-6 text-center italic border border-stitch-color">
+<p class="font-body-md text-body-md text-on-secondary-fixed-variant flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">handshake</span>
+                            Met de hand vervaardigd voor u door Karolien.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Simplified for Checkout to keep focus) -->
+<footer class="w-full bg-surface-container-low border-t-2 border-stitch-color mt-auto py-12 px-margin-desktop">
+<div class="max-w-container-max mx-auto text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Tuigtassen Hertogs. Ambachtelijk vervaardigd in België.</p>
+</div>
+</footer>
+</body></html>
