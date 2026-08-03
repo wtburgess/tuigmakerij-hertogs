@@ -323,19 +323,45 @@ function renderFooter() {
 /* ------------------------------------------------------------- productkaart */
 function productCard(p, klasse = '') {
   const uitverkocht = p.voorraad < 1;
+  // Elk stuk is er maar één, dus een catalogusnummer is hier echte informatie.
+  const nr = String(PRODUCTS.indexOf(p) + 1).padStart(2, '0');
+  // Heeft de tas een tweede foto, dan wisselt hij bij hover — je draait het
+  // object als het ware om. Anders blijft het bij de lichte zoom.
+  const tweede = p.fotos[1] ? IMG[p.fotos[1]] : null;
+
   return `
 <a href="product.html?id=${p.id}" class="group block ${klasse}">
-  <div class="bg-surface-container-lowest p-2 ambient-shadow mb-6 relative">
-    <div class="aspect-[3/4] overflow-hidden bg-surface-container-low">
+  <div class="bg-surface-container-lowest p-2 ambient-shadow mb-6">
+    <div class="aspect-[3/4] overflow-hidden bg-surface-container-low relative">
+
       <img src="${IMG[p.fotos[0]]}" alt="${p.naam}" loading="lazy"
-           class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${uitverkocht ? 'grayscale opacity-70' : ''}">
+           class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
+                  group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
+                  ${uitverkocht ? 'grayscale opacity-70' : ''}">
+      ${tweede ? `
+      <img src="${tweede}" alt="" aria-hidden="true" loading="lazy"
+           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
+                  group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}">` : ''}
+
+      <span class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm text-secondary
+                   font-label-sm text-label-sm uppercase tracking-widest px-2.5 py-1">Nr. ${nr}</span>
+
+      ${uitverkocht ? `
+      <span class="absolute top-4 right-4 bg-inverse-surface text-inverse-on-surface
+                   font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">Verkocht</span>` : `
+      <span class="absolute inset-x-0 bottom-0 bg-primary/95 text-on-primary py-3 text-center
+                   font-label-sm text-label-sm uppercase tracking-widest
+                   translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+        Bekijk deze tas
+      </span>`}
     </div>
-    ${uitverkocht ? `<span class="absolute top-5 left-5 bg-inverse-surface text-inverse-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest">Verkocht</span>` : ''}
   </div>
+
   <div class="text-center">
+    <span class="block w-10 stitch-divider mx-auto mb-4"></span>
     <h3 class="font-body-lg text-body-lg text-primary mb-1">${p.naam}</h3>
-    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">${p.herkomst}</p>
-    <p class="font-body-md text-body-md text-secondary">${euro.format(p.prijs)}</p>
+    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3">${p.herkomst}</p>
+    <p class="font-body-lg text-body-lg text-secondary">${euro.format(p.prijs)}</p>
   </div>
 </a>`;
 }
