@@ -171,9 +171,8 @@
 <script>
   // Drie uitgelichte tassen op de home; de rest staat op de collectiepagina.
   document.addEventListener('DOMContentLoaded', () => {
-    const offsets = ['', 'md:mt-12', 'md:-mt-6'];
     document.getElementById('home-grid').innerHTML =
-      PRODUCTS.slice(0, 3).map((p, i) => productCard(p, offsets[i])).join('');
+      PRODUCTS.slice(0, 3).map((p) => productCard(p)).join('');
   });
 </script>
 </body>
