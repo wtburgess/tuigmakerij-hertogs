@@ -24,7 +24,7 @@ tailwind.config = {
         'surface-container': '#f1eee6', 'surface-container-high': '#ebe8e0', 'surface-container-highest': '#e5e2db',
         'inverse-surface': '#31312c', 'inverse-on-surface': '#f3f1e9',
         outline: '#747872', 'outline-variant': '#c4c8c0', 'surface-tint': '#546253',
-        'deep-forest': '#2d3b2d', 'tan-leather': '#e1c0a9', 'burnt-umber': '#5d2800', 'paper-cream': '#f1eee6',
+        'deep-forest': '#2d3b2d', khaki: '#cfc8ad', 'tan-leather': '#e1c0a9', 'burnt-umber': '#5d2800', 'paper-cream': '#f1eee6',
         'stitch-color': '#c0a58c', 'success-green': '#2d3b2d'
       },
       borderRadius: { sm: '0.125rem', DEFAULT: '0.25rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
@@ -34,10 +34,11 @@ tailwind.config = {
         'container-max': '1440px', 'section-padding': '96px', 'section-xl': '120px'
       },
       maxWidth: { 'container-max': '1440px' },
-      /* Drie stemmen (Artisan Wild Heritage):
+      /* Twee stemmen:
          - Caveat — het handschrift van de maakster. Grote koppen.
-         - EB Garamond — de literaire stem. Broodtekst en kleinere koppen.
-         - Courier Prime — de werkplaatsstempel. Labels, prijzen, navigatie.
+         - EB Garamond — al de rest. Broodtekst, kleinere koppen, en in
+           kapitalen met ruime spatiëring ook de labels en de navigatie, zodat
+           die aansluiten bij het woordmerk in het logo.
          Wil je iets anders proberen: vervang de familie hieronder én de
          fonts.googleapis-link in de <head> van de 7 pagina's. */
       fontFamily: {
@@ -45,7 +46,7 @@ tailwind.config = {
         handwritten: ['Caveat', 'cursive'],
         'headline-md': ['EB Garamond', 'serif'],
         'body-lg': ['EB Garamond', 'serif'], 'body-md': ['EB Garamond', 'serif'],
-        'label-sm': ['Courier Prime', 'monospace'], 'label-mono': ['Courier Prime', 'monospace']
+        'label-sm': ['EB Garamond', 'serif'], 'label-mono': ['EB Garamond', 'serif']
       },
       fontSize: {
         'display-lg': ['72px', { lineHeight: '1.1', fontWeight: '600' }],
@@ -53,8 +54,8 @@ tailwind.config = {
         'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '500' }],
         'body-lg': ['20px', { lineHeight: '1.6', fontWeight: '400' }],
         'body-md': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
-        'label-sm': ['12px', { lineHeight: '1.2', letterSpacing: '0.05em', fontWeight: '700' }],
-        'label-mono': ['14px', { lineHeight: '1.4', letterSpacing: '0.05em', fontWeight: '400' }]
+        'label-sm': ['13px', { lineHeight: '1.3', letterSpacing: '0.14em', fontWeight: '600' }],
+        'label-mono': ['15px', { lineHeight: '1.4', letterSpacing: '0.12em', fontWeight: '600' }]
       }
     }
   }
@@ -275,7 +276,7 @@ function renderHeader(actief) {
   </nav>
   <div class="flex items-center gap-1">
     <a href="onderhoud.html#atelier"
-       class="hidden xl:inline-block bg-deep-forest text-on-primary stitched-border border-secondary-fixed rounded
+       class="hidden xl:inline-block bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
               hover:bg-tertiary transition-colors duration-300">Bezoek atelier</a>
     <a href="${wa()}" target="_blank" rel="noopener" aria-label="WhatsApp"
