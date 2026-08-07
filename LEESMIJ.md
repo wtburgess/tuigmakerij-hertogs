@@ -14,8 +14,11 @@ Bijna alles wat Karolien zelf wil wijzigen staat bovenaan in **`assets/site.js`*
 | Tassen: naam, prijs, maten, verhaal, voorraad | `PRODUCTS` |
 | Verzendkosten per land | `LEVERING` |
 
-Een tas verkocht? Zet `voorraad: 0` — hij blijft zichtbaar met "Verkocht" erop
-en de knop wordt "Vraag naar iets gelijkaardigs".
+Een tas verkocht? Zet `voorraad: 0` — hij blijft zichtbaar met "Verkocht" erop,
+in grijstinten, en de knop wordt "Vraag naar iets gelijkaardigs".
+
+Net af? Zet `nieuw: true` en hij krijgt een groen "Nieuw"-label. Haal die regel
+weg zodra hij niet meer nieuw is. Verkocht wint altijd van nieuw.
 
 Een tas toevoegen? Kopieer een blok in `PRODUCTS`, geef het een uniek `id`.
 Hij verschijnt vanzelf op de collectiepagina.

@@ -149,7 +149,7 @@ const IMG = {
    meestal 1. Zet op 0 en de tas toont als "verkocht". */
 const PRODUCTS = [
   {
-    id: 'waegemans', naam: 'Waegemans tuigtas', prijs: 450, voorraad: 1,
+    id: 'waegemans', naam: 'Waegemans tuigtas', prijs: 450, voorraad: 1, nieuw: true,
     herkomst: 'Waegemans-zadel, Ninove',
     kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
     fotos: ['waegemans1', 'waegemans3', 'waegemans4', 'waegemans2'],
@@ -166,7 +166,7 @@ const PRODUCTS = [
     ]
   },
   {
-    id: 'barnsby', naam: 'Barnsby and Son tuigtas', prijs: 450, voorraad: 1,
+    id: 'barnsby', naam: 'Barnsby and Son tuigtas', prijs: 450, voorraad: 1, nieuw: true,
     herkomst: 'Barnsby and Son-zadel, Engeland',
     kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
     fotos: ['barnsby1', 'barnsby3', 'barnsby5', 'barnsby4', 'barnsby2', 'barnsby6'],
@@ -344,6 +344,20 @@ function renderFooter() {
 </div>`;
 }
 
+/* --------------------------------------------------------------- badges
+   Eén plek die bepaalt welk label een tas krijgt. "Verkocht" wint van
+   "Nieuw": een verkochte tas is geen nieuwtje meer.
+   Een tas is nieuw zolang `nieuw: true` in PRODUCTS staat. */
+function badge(p) {
+  const label = p.voorraad < 1 ? 'Verkocht' : p.nieuw ? 'Nieuw' : null;
+  if (!label) return '';
+  const kleur = label === 'Verkocht'
+    ? 'bg-inverse-surface text-inverse-on-surface'
+    : 'bg-primary text-on-primary';
+  return `<span class="absolute top-2 right-2 z-20 ${kleur}
+                 font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">${label}</span>`;
+}
+
 /* ------------------------------------------------------------- productkaart */
 function productCard(p, klasse = '') {
   const uitverkocht = p.voorraad < 1;
@@ -385,9 +399,7 @@ function productCard(p, klasse = '') {
     </div>
 
     <span class="absolute top-2 left-2 z-20 font-label-mono text-label-mono text-secondary">Nr. ${nr}</span>
-    ${uitverkocht ? `
-    <span class="absolute top-2 right-2 z-20 bg-inverse-surface text-inverse-on-surface
-                 font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">Verkocht</span>` : ''}
+    ${badge(p)}
   </div>
 
   <div class="flex justify-between items-start gap-4 mt-6">
