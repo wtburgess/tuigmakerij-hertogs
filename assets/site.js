@@ -258,11 +258,18 @@ function renderHeader(actief) {
 
   return `
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center gap-6 py-5">
-  <a href="index.html" class="font-headline-md text-[22px] md:text-headline-md text-primary leading-none">Tuigtassen Hertogs</a>
+  <a href="index.html" class="shrink-0">
+    <img src="assets/logo.png" alt="Tuigtassen Hertogs — handtassen uit oude paardenzadels"
+         width="600" height="296" class="h-11 md:h-14 w-auto">
+  </a>
   <nav class="hidden lg:flex items-center gap-8">
-    ${NAV.map((n) => link(n, 'border-b-2 pb-1')).join('')}
+    ${NAV.map((n) => link(n, 'border-b pb-1')).join('')}
   </nav>
   <div class="flex items-center gap-1">
+    <a href="onderhoud.html#atelier"
+       class="hidden xl:inline-block bg-deep-forest text-on-primary stitched-border border-secondary-fixed rounded
+              font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
+              hover:bg-tertiary transition-colors duration-300">Bezoek atelier</a>
     <a href="${wa()}" target="_blank" rel="noopener" aria-label="WhatsApp"
        class="hidden sm:inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">chat</span>
@@ -271,7 +278,7 @@ function renderHeader(actief) {
        class="relative p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">shopping_bag</span>
       <span data-cart-badge hidden
-            class="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-on-primary stitched-border
+            class="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-on-primary
                    font-label-sm text-[10px] flex items-center justify-center"></span>
     </a>
     <button type="button" data-menu-toggle aria-label="Menu" aria-expanded="false"
@@ -297,9 +304,11 @@ function renderFooter() {
     `<a href="${href}" ${attr} class="block font-body-md text-body-md text-secondary hover:text-primary transition-colors duration-300">${tekst}</a>`;
 
   return `
-<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-gutter">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-12
+            grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-gutter">
   <div class="space-y-4">
-    <p class="font-headline-md text-headline-md text-primary">Tuigtassen Hertogs</p>
+    <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" loading="lazy"
+         class="h-24 w-auto -ml-1">
     <p class="font-body-md text-body-md text-secondary max-w-xs">
       Handgenaaide tassen uit afgedankte paardenzadels, en herstellingen van paardenmateriaal.
       Uit het atelier van ${CONTACT.naam}.
@@ -316,10 +325,10 @@ function renderFooter() {
     a(CONTACT.facebook, 'Facebook', 'target="_blank" rel="noopener"')
   ])}
 </div>
-<div class="border-t border-stitch-color/60">
+<div class="border-t-2 border-dashed border-secondary/40">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col sm:flex-row justify-between gap-2">
-    <p class="font-label-sm text-label-sm text-secondary">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
-    <p class="font-label-sm text-label-sm text-secondary">Ambachtelijk vervaardigd in België</p>
+    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
+    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ambachtelijk vervaardigd in België</p>
   </div>
 </div>`;
 }
@@ -332,15 +341,28 @@ function productCard(p, klasse = '') {
   // Heeft de tas een tweede foto, dan wisselt hij bij hover — je draait het
   // object als het ware om. Anders blijft het bij de lichte zoom.
   const tweede = p.fotos[1] ? IMG[p.fotos[1]] : null;
-  // Geen twee huiden zijn gelijk: elke kaart krijgt een ander onregelmatig
-  // silhouet, afwisselend over de collectie heen.
-  const huid = ['hide-mask', 'hide-mask-2', 'hide-mask-3'][PRODUCTS.indexOf(p) % 3];
+
+  /* Geen twee huiden zijn gelijk. Elke kaart krijgt een ander silhouet, een
+     andere hoogte en een andere verticale verschuiving, zodat het raster niet
+     als een spreadsheet oogt. Drie varianten die zich herhalen: genoeg om de
+     rigiditeit te breken, weinig genoeg om nog rustig te blijven. */
+  const i = PRODUCTS.indexOf(p) % 3;
+  const huid = ['hide-mask', 'hide-mask-2', 'hide-mask-3'][i];
+  const hoogte = ['h-96', 'h-[28rem]', 'h-80'][i];
+  const zak = ['md:translate-y-12', '', 'md:translate-y-24'][i];
+  // De losse streepjesrand ligt achter het beeld en schuift bij hover weg —
+  // alsof het patroon en het leer twee losse lagen zijn.
+  const wijk = ['group-hover:-translate-x-2 group-hover:-translate-y-2',
+                'group-hover:translate-x-2 group-hover:translate-y-2',
+                'group-hover:translate-x-2 group-hover:-translate-y-2'][i];
 
   return `
-<a href="product.html?id=${p.id}" class="group block ${klasse}">
-  <div class="mb-6">
-    <div class="aspect-[3/4] overflow-hidden bg-surface-container-low relative ${huid} saddle-stitch saddle-stitch-dark">
+<a href="product.html?id=${p.id}" class="group block ${zak} ${klasse}">
+  <div class="${hoogte} relative">
+    <div class="absolute inset-0 border-2 border-dashed border-secondary/60 ${huid}
+                transition-transform duration-500 ${wijk}"></div>
 
+    <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
       <img src="${IMG[p.fotos[0]]}" alt="${p.naam}" loading="lazy"
            class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
                   group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
@@ -349,26 +371,21 @@ function productCard(p, klasse = '') {
       <img src="${tweede}" alt="" aria-hidden="true" loading="lazy"
            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
                   group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}">` : ''}
-
-      <span class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm text-secondary
-                   font-label-sm text-label-sm uppercase tracking-widest px-2.5 py-1">Nr. ${nr}</span>
-
-      ${uitverkocht ? `
-      <span class="absolute top-4 right-4 bg-inverse-surface text-inverse-on-surface
-                   font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">Verkocht</span>` : `
-      <span class="absolute inset-x-0 bottom-0 bg-primary/95 text-on-primary py-3 text-center
-                   font-label-sm text-label-sm uppercase tracking-widest
-                   translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-        Bekijk deze tas
-      </span>`}
     </div>
+
+    <span class="absolute top-2 left-2 z-20 font-label-mono text-label-mono text-secondary">Nr. ${nr}</span>
+    ${uitverkocht ? `
+    <span class="absolute top-2 right-2 z-20 bg-inverse-surface text-inverse-on-surface
+                 font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">Verkocht</span>` : ''}
   </div>
 
-  <div class="text-center">
-    <span class="block w-10 stitch-divider mx-auto mb-4"></span>
-    <h3 class="font-body-lg text-body-lg text-primary mb-1">${p.naam}</h3>
-    <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-3">${p.herkomst}</p>
-    <p class="font-body-lg text-body-lg text-secondary">${euro.format(p.prijs)}</p>
+  <div class="flex justify-between items-start gap-4 mt-6">
+    <div>
+      <h3 class="font-headline-md text-headline-md text-primary leading-tight">${p.naam}</h3>
+      <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mt-1">${p.herkomst}</p>
+    </div>
+    <span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
+                 text-on-surface-variant px-2 py-1 whitespace-nowrap">${euro.format(p.prijs)}</span>
   </div>
 </a>`;
 }

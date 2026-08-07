@@ -15,15 +15,17 @@
 </head>
 <body data-page="bestellen" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased min-h-screen flex flex-col">
 
-<header class="w-full flex justify-center items-center py-8 bg-surface-container-low border-b-2 border-stitch-color">
-  <a href="index.html" class="font-headline-md text-headline-md text-primary">Tuigtassen Hertogs</a>
+<header class="w-full flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
+  <a href="index.html">
+    <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" class="h-14 w-auto">
+  </a>
 </header>
 
 <main class="flex-grow max-w-3xl mx-auto w-full px-margin-mobile py-16 md:py-24">
 
   <div class="text-center mb-16">
     <span class="material-symbols-outlined symbol-filled text-5xl text-primary mb-6">check_circle</span>
-    <h1 class="font-display-lg text-display-lg-mobile md:text-[52px] text-primary mb-6">Bedankt voor je bestelling</h1>
+    <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-6 -rotate-1">Bedankt voor je bestelling</h1>
     <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
       Je tas staat op mijn naam gereserveerd. Hieronder vind je wat je nog moet doen —
       dezelfde gegevens stuur ik je ook per mail.
@@ -33,13 +35,13 @@
   <div id="overzicht"></div>
 
   <div class="text-center mt-16">
-    <a href="collectie.html" class="inline-flex items-center gap-2 border border-secondary text-primary px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors">
+    <a href="collectie.html" class="inline-flex items-center gap-2 border border-secondary text-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors">
       Terug naar de collectie
     </a>
   </div>
 </main>
 
-<footer id="site-footer" class="bg-surface-container-low border-t-4 border-stitch-color"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (bestelling.klant.bericht ? `\n\nBericht: ${bestelling.klant.bericht}` : '');
 
   root.innerHTML = `
-    <div class="bg-secondary-fixed p-8 md:p-10 ambient-shadow border border-secondary-fixed-dim mb-8">
+    <div class="bg-secondary-fixed p-8 md:p-10 border-2 border-dashed border-secondary/50 rounded-lg mb-8">
       <div class="text-center mb-8">
         <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Bestelnummer</span>
         <p class="font-headline-md text-headline-md text-on-secondary-fixed-variant mt-1">${mededeling}</p>
@@ -91,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
 
-    <div class="bg-surface-container-lowest p-8 md:p-10 ambient-shadow border-t-2 border-primary mb-8">
+    <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
       <h2 class="font-headline-md text-headline-md text-primary mb-6">Overschrijven</h2>
       <dl class="space-y-4 font-body-md text-body-md">
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
@@ -123,11 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
         Zo weet ik meteen dat ze binnen is. Eén klik en de mail staat al klaar — jij hoeft enkel te verzenden.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a id="mailknop" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border px-6 py-3 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors">
+        <a id="mailknop" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border border-secondary-fixed px-6 py-3 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
           <span class="material-symbols-outlined text-base">mail</span> Bevestig per mail
         </a>
         <a data-wa="Dag Karolien, ik heb net bestelling ${mededeling} geplaatst. " target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 border border-secondary text-primary px-6 py-3 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors">
+           class="inline-flex items-center gap-2 border border-secondary text-primary px-6 py-3 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors">
           <span class="material-symbols-outlined text-base">chat</span> Of via WhatsApp
         </a>
       </div>

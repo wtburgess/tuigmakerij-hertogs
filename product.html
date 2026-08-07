@@ -15,18 +15,18 @@
 </head>
 <body data-page="collectie" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
 
-<header id="site-header" class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-stitch-color"></header>
+<header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main id="product" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20"></main>
 
-<section id="ook-interessant" class="bg-surface-container-low border-t border-surface-container-highest">
+<section id="ook-interessant" class="bg-surface-container-low border-t-2 border-dashed border-secondary/40">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
-    <h2 class="font-display-lg text-[28px] md:text-[36px] text-primary mb-12">Andere tassen in het atelier</h2>
-    <div id="ander-grid" class="grid grid-cols-1 md:grid-cols-3 gap-gutter"></div>
+    <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary rotate-1 mb-12 pb-4 border-b-2 border-dashed border-secondary">Andere tassen in het atelier</h2>
+    <div id="ander-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-24 md:mb-32"></div>
   </div>
 </section>
 
-<footer id="site-footer" class="bg-surface-container-low border-t-4 border-stitch-color"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ook-interessant').hidden = true;
     root.innerHTML = `
       <div class="py-24 text-center max-w-lg mx-auto">
-        <h1 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Deze tas vonden we niet</h1>
+        <h1 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Deze tas vonden we niet</h1>
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
           Mogelijk is ze intussen verkocht — elk stuk bestaat maar één keer.
         </p>
-        <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors">
+        <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border border-secondary-fixed px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
           Bekijk de collectie
         </a>
       </div>`;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="flex items-start gap-4">
       <span class="material-symbols-outlined text-outline mt-1">${icoon}</span>
       <div>
-        <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-outline mb-1">${label}</h3>
+        <h3 class="font-label-mono text-label-mono uppercase text-outline mb-1">${label}</h3>
         <p class="font-body-md text-body-md text-on-surface">${waarde}</p>
       </div>
     </div>`;
@@ -71,8 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
       <div class="lg:col-span-7">
-        <div class="bg-surface-container-lowest p-3 ambient-shadow mb-4">
-          <div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+        <div class="relative aspect-[4/5] mb-8">
+          <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
+          <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <img id="hoofdfoto" src="${IMG[p.fotos[0]]}" alt="${p.naam}" class="w-full h-full object-cover">
           </div>
         </div>
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="flex gap-4">
           ${p.fotos.map((f, i) => `
             <button type="button" data-foto="${IMG[f]}"
-                    class="w-20 h-24 bg-surface-container-lowest p-1 ambient-shadow ${i === 0 ? 'ring-2 ring-primary' : ''}"
+                    class="w-20 h-24 bg-surface-container-lowest p-1 border border-dashed border-secondary/50 ${i === 0 ? 'border-solid border-primary' : ''}"
                     aria-label="Foto ${i + 1} van ${p.naam}">
               <img src="${IMG[f]}" alt="" class="w-full h-full object-cover">
             </button>`).join('')}
@@ -89,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       <div class="lg:col-span-5 lg:sticky lg:top-28">
         <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
-        <h1 class="font-display-lg text-[36px] md:text-[48px] text-primary leading-tight mt-3 mb-4">${p.naam}</h1>
-        <p class="font-body-lg text-[22px] text-secondary mb-6">${euro.format(p.prijs)}</p>
+        <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
+        <p class="inline-block font-label-mono text-[16px] bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
 
         <div class="w-16 stitch-divider mb-8"></div>
 
         <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${p.verhaal}</p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y border-surface-variant mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y-2 border-dashed border-secondary/40 mb-8">
           ${spec('layers', 'Herkomst leder', p.herkomst)}
           ${spec('palette', 'Kleur', p.kleur)}
           ${spec('straighten', 'Afmetingen', p.afmetingen)}
@@ -110,12 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </p>
           </div>
           <a data-wa="Dag Karolien, ${p.naam} is verkocht. Kan je iets vergelijkbaars maken? " target="_blank" rel="noopener"
-             class="w-full py-5 bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg">
+             class="w-full py-5 bg-primary text-on-primary stitched-border border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg">
             <span class="material-symbols-outlined text-base">chat</span> Vraag naar iets gelijkaardigs
           </a>
         ` : `
           <button type="button" data-add="${p.id}"
-                  class="w-full py-5 bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg group">
+                  class="w-full py-5 bg-primary text-on-primary stitched-border border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg group">
             <span>In mijn mandje</span>
             <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">arrow_right_alt</span>
           </button>

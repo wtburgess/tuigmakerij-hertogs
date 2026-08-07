@@ -15,8 +15,10 @@
 </head>
 <body data-page="bestellen" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased min-h-screen flex flex-col">
 
-<header class="w-full flex justify-center items-center py-8 bg-surface-container-low border-b-2 border-stitch-color">
-  <a href="index.html" class="font-headline-md text-headline-md text-primary">Tuigtassen Hertogs</a>
+<header class="w-full flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
+  <a href="index.html">
+    <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" class="h-14 w-auto">
+  </a>
 </header>
 
 <main class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-16 md:py-24">
@@ -24,11 +26,11 @@
   <!-- Leeg mandje -->
   <div id="leeg" hidden class="py-16 text-center max-w-lg mx-auto">
     <span class="material-symbols-outlined text-5xl text-secondary-fixed-dim mb-6">shopping_bag</span>
-    <h1 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Je mandje is nog leeg</h1>
+    <h1 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Je mandje is nog leeg</h1>
     <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
       Elke tas bestaat maar één keer — neem gerust je tijd om rond te kijken.
     </p>
-    <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border px-8 py-4 rounded-lg font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary-container transition-colors">
+    <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary stitched-border border-secondary-fixed px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
       Bekijk de collectie
     </a>
   </div>
@@ -38,7 +40,7 @@
 
     <!-- Formulier -->
     <div class="lg:col-span-7">
-      <h1 class="font-display-lg text-display-lg-mobile md:text-[52px] text-primary mb-4">Afrekenen</h1>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-4 -rotate-1">Afrekenen</h1>
       <p class="font-body-md text-body-md text-on-surface-variant mb-12">
         Je bestelling wordt met de hand ingepakt en verstuurd door Karolien zelf.
       </p>
@@ -46,7 +48,7 @@
       <form id="bestelform" class="space-y-12" novalidate>
 
         <section>
-          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+          <h2 class="font-label-mono text-label-mono text-secondary uppercase mb-6 pb-3 border-b border-dashed border-secondary/50 flex items-center gap-2">
             <span class="material-symbols-outlined text-base">mail</span> Contact
           </h2>
           <div class="space-y-6">
@@ -56,7 +58,7 @@
         </section>
 
         <section>
-          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+          <h2 class="font-label-mono text-label-mono text-secondary uppercase mb-6 pb-3 border-b border-dashed border-secondary/50 flex items-center gap-2">
             <span class="material-symbols-outlined text-base">local_shipping</span> Levering
           </h2>
           <div class="space-y-6">
@@ -79,7 +81,7 @@
         </section>
 
         <section>
-          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+          <h2 class="font-label-mono text-label-mono text-secondary uppercase mb-6 pb-3 border-b border-dashed border-secondary/50 flex items-center gap-2">
             <span class="material-symbols-outlined text-base">edit_note</span> Bericht
           </h2>
           <textarea name="bericht" rows="3" class="input-underline resize-none"
@@ -87,7 +89,7 @@
         </section>
 
         <section>
-          <h2 class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-6 flex items-center gap-2">
+          <h2 class="font-label-mono text-label-mono text-secondary uppercase mb-6 pb-3 border-b border-dashed border-secondary/50 flex items-center gap-2">
             <span class="material-symbols-outlined text-base">account_balance</span> Betaling
           </h2>
           <div class="bg-surface-container-low p-6 border border-surface-variant space-y-4">
@@ -109,7 +111,7 @@
         <p id="fout" hidden class="font-body-md text-body-md text-error"></p>
 
         <button type="submit"
-                class="w-full bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest py-5 rounded-lg hover:bg-primary-container transition-colors duration-300">
+                class="w-full bg-primary text-on-primary stitched-border border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest py-5 rounded-lg hover:bg-tertiary transition-colors duration-300">
           Bestelling plaatsen
         </button>
         <p class="font-body-md text-body-md text-on-surface-variant text-center">
@@ -121,7 +123,7 @@
 
     <!-- Overzicht -->
     <div class="lg:col-span-5">
-      <div class="lg:sticky lg:top-12 bg-secondary-fixed p-8 md:p-10 ambient-shadow border border-secondary-fixed-dim">
+      <div class="lg:sticky lg:top-12 bg-secondary-fixed p-8 md:p-10 border-2 border-dashed border-secondary/50 rounded-lg">
         <h2 class="font-headline-md text-headline-md text-on-secondary-fixed-variant text-center mb-8">Jouw mandje</h2>
         <div class="stitch-divider"></div>
 
@@ -141,7 +143,7 @@
           <span id="totaal" class="font-headline-md text-[24px] text-on-secondary-fixed-variant"></span>
         </div>
 
-        <div class="bg-surface-container-lowest/60 p-5 text-center border border-stitch-color">
+        <div class="bg-surface-container-lowest/60 p-5 text-center border border-dashed border-secondary/50">
           <p class="font-body-md text-body-md text-on-secondary-fixed-variant flex items-center justify-center gap-2">
             <span class="material-symbols-outlined text-secondary text-base">handshake</span>
             Met de hand vervaardigd voor jou door Karolien.
@@ -156,7 +158,7 @@
   </div>
 </main>
 
-<footer class="w-full bg-surface-container-low border-t-2 border-stitch-color mt-auto py-10">
+<footer class="w-full bg-surface-container-lowest border-t-2 border-dashed border-secondary/40 mt-auto py-10">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center font-body-md text-body-md text-on-surface-variant">
     Vragen over je bestelling?
     <a data-wa="Dag Karolien, ik heb een vraag over mijn bestelling: " target="_blank" rel="noopener"

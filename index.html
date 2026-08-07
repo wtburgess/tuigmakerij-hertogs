@@ -15,95 +15,119 @@
 </head>
 <body data-page="home" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
 
-<header id="site-header" class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-stitch-color"></header>
+<header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main>
 
-  <!-- 1. Hero -->
-  <section class="w-full pt-12 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-      <div class="md:col-span-6 md:pr-12 z-10">
-        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-8">
+  <!-- 1. Hero — tekstblok en beeld overlappen elkaar, ze staan niet netjes
+       naast elkaar: 5/12 tegen 7/12, met het beeld dat eronderdoor loopt. -->
+  <section class="md:min-h-[80vh] px-margin-mobile md:px-margin-desktop py-stack-raw
+                  flex flex-col md:flex-row items-center gap-8 md:gap-0 max-w-container-max mx-auto">
+    <div class="w-full md:w-5/12 relative z-20 md:mr-[-4rem]">
+      <div class="bg-surface-container-high p-8 md:p-12 rounded-lg
+                  border border-dashed border-secondary/30 border-b-2 border-b-secondary/60">
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">
           Jouw zadel is met pensioen. Zijn verhaal nog niet.
         </h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md">
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
           Uit afgedankte paardenzadels maak ik handgenaaide tassen.
           En wat nog hersteld kan worden, herstel ik.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="collectie.html" class="inline-flex items-center justify-center bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded-lg hover:bg-primary-container transition-colors duration-300">
+          <a href="collectie.html" class="inline-flex items-center justify-center bg-primary text-on-primary stitched-border border-secondary-fixed border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
             Bekijk de collectie
           </a>
-          <a href="onderhoud.html" class="inline-flex items-center justify-center border border-secondary text-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded-lg hover:bg-surface-container-low transition-colors duration-300">
+          <a href="onderhoud.html" class="inline-flex items-center justify-center border border-secondary text-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-surface-container-low transition-colors duration-300">
             Iets laten herstellen
           </a>
         </div>
       </div>
-      <div class="md:col-span-6 mt-12 md:mt-0">
-        <div class="relative w-full aspect-[4/5] md:aspect-square overflow-hidden bg-secondary-container hide-mask soft-edge-mask saddle-stitch">
-          <img data-img="heroSaddle" alt="Een gedragen leren zadel op een eiken werkbank in het atelier"
-               class="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700 ease-out">
+    </div>
+    <div class="md:w-7/12 w-full h-[55vh] md:h-[80vh] relative z-0">
+      <div class="w-full h-full hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+        <img data-img="heroSaddle" alt="Een gedragen leren zadel op een eiken werkbank in het atelier"
+             class="object-cover w-full h-full">
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Twee zaken, één ambacht — volle breedte in bosgroen, met een
+       streepjesrail boven en onder alsof de band is ingenaaid. -->
+  <section class="w-full bg-deep-forest text-on-primary my-stack-raw py-stack-raw md:py-section-xl relative">
+    <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary-fixed/50"></div>
+    <div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary-fixed/50"></div>
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+      <div>
+        <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-6">Vakmanschap</span>
+        <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary-fixed-dim mb-8 -rotate-1">
+          Twee zaken, één ambacht
+        </h2>
+        <div class="font-body-lg text-body-lg text-primary-fixed-dim space-y-6">
+          <p>
+            Leder is een waardevol product, en dus vind ik dat we er zorgzaam mee moeten omspringen.
+            In mijn <strong class="font-semibold text-primary-fixed">tuigmakerij</strong> herstel ik je zadel,
+            hoofdstel of tuig wanneer het beschadigd is geraakt.
+          </p>
+          <p>
+            Is herstellen niet meer rendabel, dan wordt datzelfde leder onder de naam
+            <strong class="font-semibold text-primary-fixed">Tuigtassen Hertogs</strong> een tas —
+            handgenaaid, uniek, met de sporen van het verleden zichtbaar in het ontwerp.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-6 mt-10 font-label-mono text-label-mono uppercase">
+          <a href="collectie.html" class="inline-flex items-center gap-2 text-primary-fixed border-b border-dashed border-current pb-1 hover:text-on-primary transition-colors">
+            De tassen <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+          <a href="onderhoud.html" class="inline-flex items-center gap-2 text-primary-fixed border-b border-dashed border-current pb-1 hover:text-on-primary transition-colors">
+            De herstellingen <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+      <div class="relative h-72 md:h-[28rem]">
+        <div class="absolute inset-0 hide-mask-2 border border-secondary-fixed/30 bg-tertiary/20 translate-x-4 translate-y-4"></div>
+        <div class="absolute inset-0 hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden">
+          <img data-img="handenStikken" alt="Handen die dik plantaardig gelooid leder met de hand doorstikken"
+               class="object-cover w-full h-full">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Twee zaken, één ambacht -->
-  <section class="w-full py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-low border-y border-surface-container-highest">
-    <div class="max-w-3xl mx-auto text-center">
-      <div class="flex items-center justify-center gap-4 mb-12">
-        <div class="w-16 stitch-divider"></div>
-        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Vakmanschap</span>
-        <div class="w-16 stitch-divider"></div>
-      </div>
-      <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-8">Twee zaken, één ambacht</h2>
-      <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-10">
-        Leder is een waardevol product, en dus vind ik dat we er zorgzaam mee moeten omspringen.
-        In mijn <strong class="font-semibold text-primary">tuigmakerij</strong> herstel ik je zadel, hoofdstel of tuig
-        wanneer het beschadigd is geraakt. Is herstellen niet meer rendabel, dan wordt datzelfde leder onder
-        de naam <strong class="font-semibold text-primary">Tuigtassen Hertogs</strong> een tas — handgenaaid,
-        uniek, met de sporen van het verleden zichtbaar in het ontwerp.
-      </p>
-      <div class="flex flex-wrap gap-6 justify-center font-label-sm text-label-sm uppercase tracking-widest">
-        <a href="collectie.html" class="inline-flex items-center gap-2 text-primary border-b border-secondary-fixed-dim hover:border-primary pb-1 transition-colors">
-          De tassen <span class="material-symbols-outlined text-base">arrow_forward</span>
-        </a>
-        <a href="onderhoud.html" class="inline-flex items-center gap-2 text-primary border-b border-secondary-fixed-dim hover:border-primary pb-1 transition-colors">
-          De herstellingen <span class="material-symbols-outlined text-base">arrow_forward</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Een glimp van de collectie -->
-  <section class="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-    <div class="flex justify-between items-end mb-16 gap-6">
-      <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary">Een glimp van de collectie</h2>
-      <a href="collectie.html" class="hidden md:inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-secondary hover:text-primary transition-colors whitespace-nowrap">
-        Bekijk alles <span class="material-symbols-outlined text-base">arrow_forward</span>
+  <!-- 3. Een glimp van de collectie — de kop hangt aan een streepjeslijn,
+       het raster staat bewust niet op één hoogte. -->
+  <section class="w-full py-stack-raw md:py-section-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="flex justify-between items-end gap-6 mb-12 pb-4 border-b-2 border-dashed border-secondary">
+      <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary rotate-1">
+        Een glimp van de collectie
+      </h2>
+      <a href="collectie.html" class="hidden md:inline-block font-label-mono text-label-mono uppercase text-tertiary hover:text-primary border-b border-dashed border-current pb-1 whitespace-nowrap">
+        Volledige collectie
       </a>
     </div>
-    <div id="home-grid" class="grid grid-cols-1 md:grid-cols-3 gap-gutter"></div>
-    <div class="mt-12 text-center md:hidden">
-      <a href="collectie.html" class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-secondary">
-        Bekijk alles <span class="material-symbols-outlined text-base">arrow_forward</span>
+    <div id="home-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12 mb-24 md:mb-32"></div>
+    <div class="text-center md:hidden">
+      <a href="collectie.html" class="inline-block font-label-mono text-label-mono uppercase text-tertiary border-b border-dashed border-current pb-1">
+        Volledige collectie
       </a>
     </div>
   </section>
 
-  <!-- 4. Jouw eigen zadel, een nieuw verhaal -->
-  <section class="w-full py-24 md:py-32 bg-secondary-fixed-dim relative overflow-hidden">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        <div class="order-2 md:order-1">
-          <div class="aspect-square bg-surface overflow-hidden p-6 shadow-md transform -rotate-1 border border-secondary-fixed">
+  <!-- 4. Jouw eigen zadel, een nieuw verhaal — beeld links, uit het lood,
+       met een tweede vorm die eronderuit steekt. -->
+  <section class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim relative">
+    <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
+        <div class="order-2 md:order-1 md:col-span-5 relative h-80 md:h-[30rem]">
+          <div class="absolute inset-0 hide-mask-3 border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
+          <div class="absolute inset-0 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden">
             <img data-img="zadelDemonteren" alt="Handen die een oud zadel uit elkaar halen op de werkbank"
                  class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
           </div>
         </div>
-        <div class="order-1 md:order-2">
-          <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-4">Op maat</span>
-          <h2 class="font-display-lg text-[36px] md:text-[52px] text-on-secondary-fixed mb-6 leading-tight">
+        <div class="order-1 md:order-2 md:col-span-6 md:col-start-7">
+          <span class="font-label-mono text-label-mono text-secondary uppercase block mb-6">Op maat</span>
+          <h2 class="font-display-lg text-[40px] md:text-[56px] text-on-secondary-fixed mb-8 leading-tight -rotate-1">
             Jouw eigen zadel, een nieuw verhaal
           </h2>
           <p class="font-body-lg text-body-lg text-on-secondary-fixed-variant mb-10">
@@ -111,7 +135,7 @@
             Een verhaal en herinneringen die diep in het leder staan gegrift. Die geschiedenis probeer ik niet
             te verbergen, maar net een plaats te geven in een nieuw ontwerp — een tas die je elke dag draagt.
           </p>
-          <a href="collectie.html#op-maat" class="inline-block bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded-lg hover:bg-primary-container transition-colors duration-300 shadow-sm">
+          <a href="collectie.html#op-maat" class="inline-block bg-primary text-on-primary stitched-border border-secondary-fixed border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
             Ontdek het proces
           </a>
         </div>
@@ -119,24 +143,26 @@
     </div>
   </section>
 
-  <!-- 5. Over Karolien -->
-  <section class="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-surface">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-      <div class="md:col-span-5 md:col-start-2">
-        <blockquote class="font-display-lg text-[26px] md:text-[34px] leading-snug text-on-secondary-fixed mb-8 border-l-4 border-secondary pl-6">
+  <!-- 5. Over Karolien — het citaat in handschrift, het portret ernaast
+       als een uitgesneden huid. -->
+  <section class="w-full py-stack-raw md:py-section-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
+      <div class="md:col-span-6 md:col-start-1">
+        <blockquote class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary mb-8 pl-6 border-l-2 border-dashed border-secondary">
           “Ik werk op de ambachtelijke manier, zoals ik dat leerde in mijn opleiding tot zadelmaker.
           Daardoor is het meeste van mijn werk handgenaaid. Elk stuk krijgt mijn volledige aandacht.”
         </blockquote>
-        <div class="flex flex-col pl-6 mb-8">
-          <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Karolien Hertogs</span>
-          <span class="font-body-md text-body-md text-secondary mt-1">Zadelmaker &amp; oprichter</span>
+        <div class="flex flex-col pl-6 mb-8 font-label-mono text-label-mono uppercase">
+          <span class="text-primary">Karolien Hertogs</span>
+          <span class="text-secondary mt-1">Zadelmaker &amp; oprichter</span>
         </div>
-        <a href="bio.html" class="inline-flex items-center gap-2 ml-6 font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-secondary-fixed-dim hover:border-primary pb-1 transition-colors">
+        <a href="bio.html" class="inline-flex items-center gap-2 ml-6 font-label-mono text-label-mono uppercase text-tertiary hover:text-primary border-b border-dashed border-current pb-1">
           Lees mijn verhaal <span class="material-symbols-outlined text-base">arrow_forward</span>
         </a>
       </div>
-      <div class="md:col-span-5 md:col-start-8 mt-12 md:mt-0">
-        <div class="aspect-[3/4] overflow-hidden ambient-shadow border-8 border-secondary-fixed">
+      <div class="md:col-span-5 md:col-start-8 relative h-96 md:h-[34rem]">
+        <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 translate-x-4 -translate-y-4"></div>
+        <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden">
           <img data-img="portret" alt="Karolien Hertogs in haar atelier" class="object-cover w-full h-full">
         </div>
       </div>
@@ -144,9 +170,11 @@
   </section>
 
   <!-- 6. Blijf op de hoogte -->
-  <section class="w-full py-24 bg-surface-container-low border-t border-secondary-fixed-dim">
+  <section class="w-full py-stack-raw bg-surface-container-low relative">
+    <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
+    <div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary/40"></div>
     <div class="max-w-xl mx-auto px-margin-mobile text-center">
-      <h2 class="font-display-lg text-[32px] md:text-[40px] text-primary mb-4">Blijf op de hoogte</h2>
+      <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">Blijf op de hoogte</h2>
       <p class="font-body-md text-body-md text-secondary mb-10">
         Verhalen uit het atelier en een berichtje wanneer er een nieuwe tas klaar is.
         Geen overvloed, hooguit een paar keer per jaar.
@@ -157,7 +185,7 @@
           <input id="nieuwsbrief-email" type="email" required placeholder="Jouw e-mailadres"
                  class="input-underline font-body-md text-body-md">
         </div>
-        <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-on-primary stitched-border font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded-lg hover:bg-primary-container transition-colors duration-300 whitespace-nowrap shadow-sm">
+        <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-on-primary stitched-border border-secondary-fixed border-secondary-fixed font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded hover:bg-tertiary transition-colors duration-300 whitespace-nowrap">
           Inschrijven
         </button>
       </form>
@@ -166,7 +194,7 @@
 
 </main>
 
-<footer id="site-footer" class="bg-surface-container-low border-t-4 border-stitch-color"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
 
 <script>
   // Drie uitgelichte tassen op de home; de rest staat op de collectiepagina.

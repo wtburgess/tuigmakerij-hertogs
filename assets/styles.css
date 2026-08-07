@@ -90,8 +90,11 @@ body { text-rendering: optimizeLegibility; }
 a:hover > .ambient-shadow,
 .ambient-shadow:hover { box-shadow: 0 8px 30px rgba(0, 0, 0, .08); }
 
-/* Invulvelden: enkel een onderlijn. */
-.input-underline {
+/* Invulvelden: enkel een onderlijn.
+   De elementnaam staat er bewust bij: de forms-plugin mikt op [type=email]
+   e.d. — even specifiek als een losse klasse — en Tailwind laadt ná dit
+   bestand. Met `input.` erbij wint deze regel wél. */
+input.input-underline, textarea.input-underline, select.input-underline {
   border: 0;
   border-bottom: 1px solid #725946;
   border-radius: 0;
@@ -103,13 +106,13 @@ a:hover > .ambient-shadow,
   color: #1c1c17;
   transition: border-color .3s ease;
 }
-.input-underline::placeholder { color: #747872; }
-.input-underline:focus {
+input.input-underline::placeholder, textarea.input-underline::placeholder { color: #747872; }
+input.input-underline:focus, textarea.input-underline:focus {
   outline: 0;
   box-shadow: none;
   border-bottom-color: #2d3b2d;
 }
-.input-underline:user-invalid { border-bottom-color: #ba1a1a; }
+input.input-underline:user-invalid, textarea.input-underline:user-invalid { border-bottom-color: #ba1a1a; }
 
 /* Bevestigingsberichtje onderaan het scherm. */
 .th-toast-out {
