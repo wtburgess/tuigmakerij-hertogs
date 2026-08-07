@@ -98,6 +98,19 @@ const wa = (tekst) =>
    In de HTML: <img data-img="heroSaddle"> of <div data-img-bg="heroSaddle">. */
 const B = 'https://lh3.googleusercontent.com/aida-public/';
 const IMG = {
+  /* Echte foto's van de tassen, in assets/foto/. De rest hieronder zijn nog
+     de AI-beelden uit de ontwerpen. */
+  waegemans1: 'assets/foto/waegemans-1.jpg',
+  waegemans2: 'assets/foto/waegemans-2.jpg',
+  waegemans3: 'assets/foto/waegemans-3.jpg',
+  waegemans4: 'assets/foto/waegemans-4.jpg',
+  barnsby1:   'assets/foto/barnsby-1.jpg',
+  barnsby2:   'assets/foto/barnsby-2.jpg',
+  barnsby3:   'assets/foto/barnsby-3.jpg',
+  barnsby4:   'assets/foto/barnsby-4.jpg',
+  barnsby5:   'assets/foto/barnsby-5.jpg',
+  barnsby6:   'assets/foto/barnsby-6.jpg',
+
   heroSaddle:       B + 'AB6AXuA0W19LSlWwWTEMP8HjOVEiEiNPJc_Oytzrs1QZEcME3J4HxC7N5U0Ztx4dEJzuL_OS8y_43uXFGx098ohHUbBJX6vKd1fNLglo0F6lKZgOyDA_qL3ZbCOO0E7prpOhKgynUae3pmB7kGxAhpdHqvgJQ3iNdHDKaD79KRYvtLPl_ieJVYftUBgvzzAj8aTw0FRI83hlzY153m1xWgIpajzq_FidWhp9n7Qvfty0zR3gO83o348OVSmbvw',
   portret:          B + 'AB6AXuAQCeyNAI2qmGUlcewi1fi02brTUtV4289881rbgUrOerRS1EOcHY1y7q-jA74-v-gVHkn0I_7K1X9Hd_ks71apLleaIhZBEDI3AjKuxC2gq1rkNjBSLV0pyPSpNFAY1_9SW4DyTbX8KICsFvQvzpTILW5m2d5CLgoDVF-V41JBchTzU3Tgm0noKCu7g1KnlE2DFohhdjQhrBLSRAgpQZ13ijElGqx9AR4uqSfHyxxlGbVhTgquO9wVJw',
   portretDenkend:   B + 'AB6AXuA7c2RkpzkHtvlNqDXc9gmaqpfE5fxTlw9TCJ02F2ONiNSLUxnZPgVlPaeM_2khFvmciXx6QeKk8-Cx6Oj9CownJauaTPmg1qQGwUib5YG6eMA4Kw1zN-3VrB-v8B-gXb1GkMqqnWBDmHBdFlvyob1XxJvhoVrakwDqBFzMe_hFYj_pk7txxtiiA2HdsNCx8yhcM9L2cz5y6kB8l2L1WfbhZWP-TQ-HxqIJK3hYt6UpivJkPf1kqlPgEA',
@@ -135,7 +148,7 @@ const PRODUCTS = [
     id: 'waegemans', naam: 'Waegemans tuigtas', prijs: 450, voorraad: 1,
     herkomst: 'Waegemans-zadel, Ninove',
     kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
-    fotos: ['bagRuitertas2', 'bagRuitertas'],   // TODO: eigen foto's
+    fotos: ['waegemans1', 'waegemans3', 'waegemans4', 'waegemans2'],
     verhaal: 'Deze volledige handtas werd vervaardigd uit een oud Waegemans paardenzadel. ' +
       'Zadelmakerij Waegemans uit Ninove was destijds de hofleverancier van de Belgische adellijke ' +
       'familie, en gebruikte uitsluitend kwalitatief leder. Deze tas werd gemaakt met oog voor detail, ' +
@@ -152,7 +165,7 @@ const PRODUCTS = [
     id: 'barnsby', naam: 'Barnsby and Son tuigtas', prijs: 450, voorraad: 1,
     herkomst: 'Barnsby and Son-zadel, Engeland',
     kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
-    fotos: ['bagTote', 'bagTote2'],             // TODO: eigen foto's
+    fotos: ['barnsby1', 'barnsby3', 'barnsby5', 'barnsby4', 'barnsby2', 'barnsby6'],
     verhaal: 'Net als Waegemans voor België, had ook Engeland zijn vaste hofleverancier. Op zijn ' +
       'hoogtepunt behoorde Barnsby and Son tot de vijf grootste zadelmakerijbedrijven ter wereld, en ' +
       'exporteerde het zadels en andere lederwaren overheen de hele wereld. Het bedrijf maakte ' +

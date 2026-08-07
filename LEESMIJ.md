@@ -39,7 +39,12 @@ juiste vorm klaar in `bestelform`'s submit-handler.
 
 - [ ] Rest van `CONTACT`: mailadres, btw-nummer, IBAN, socials — telefoon en
       gemeente staan er wel al in
-- [ ] Eigen foto's in `IMG` — de huidige zijn de AI-beelden uit de ontwerpen
+- [ ] Eigen foto's voor de hero, het atelier en het portret — die staan nog
+      op de AI-beelden uit de ontwerpen. De tassenfoto's zijn wel echt en
+      staan in `assets/foto/`.
+- [ ] "Van zadel naar tas" op `collectie.html` toont nog drie voor-en-na-
+      paren van tassen die niet meer in de collectie staan. Vervangen door
+      echte voor-en-na-foto's, of het blok weglaten.
 - [ ] Kleur, afmetingen en beslag per tas in `PRODUCTS` (staan nu leeg en
       worden daarom niet getoond op de productpagina)
 - [ ] Twee open plekken in de FAQ op `collectie.html`: de naam van de winkel
