@@ -7,50 +7,54 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        primary: '#334428', 'primary-container': '#4a5c3e', 'on-primary': '#ffffff',
-        'on-primary-container': '#bfd3ae', 'primary-fixed': '#d4e9c2', 'primary-fixed-dim': '#b8cda8',
-        'on-primary-fixed': '#101f07', 'on-primary-fixed-variant': '#3a4c2f', 'inverse-primary': '#b8cda8',
-        secondary: '#6b5c4c', 'on-secondary': '#ffffff', 'secondary-container': '#f4dfcb',
-        'on-secondary-container': '#716252', 'secondary-fixed': '#f4dfcb', 'secondary-fixed-dim': '#d7c3b0',
-        'on-secondary-fixed': '#241a0e', 'on-secondary-fixed-variant': '#524436',
-        tertiary: '#3f403d', 'on-tertiary': '#ffffff', 'tertiary-container': '#575753',
-        'on-tertiary-container': '#cecdc8', 'tertiary-fixed': '#e4e2dd', 'tertiary-fixed-dim': '#c8c6c2',
-        'on-tertiary-fixed': '#1b1c19', 'on-tertiary-fixed-variant': '#474744',
+        primary: '#182519', 'primary-container': '#2d3b2d', 'on-primary': '#ffffff',
+        'on-primary-container': '#7e8d7d', 'primary-fixed': '#d7e7d4', 'primary-fixed-dim': '#bbcbb9',
+        'on-primary-fixed': '#121f13', 'on-primary-fixed-variant': '#3c4a3c', 'inverse-primary': '#bbcbb9',
+        secondary: '#725946', 'on-secondary': '#ffffff', 'secondary-container': '#fbd9c1',
+        'on-secondary-container': '#775e4a', 'secondary-fixed': '#fedcc4', 'secondary-fixed-dim': '#e1c0a9',
+        'on-secondary-fixed': '#291809', 'on-secondary-fixed-variant': '#594230',
+        tertiary: '#3c1700', 'on-tertiary': '#ffffff', 'tertiary-container': '#3c1700',
+        'on-tertiary-container': '#b77b58', 'tertiary-fixed': '#ffdbc9', 'tertiary-fixed-dim': '#fcb790',
+        'on-tertiary-fixed': '#321200', 'on-tertiary-fixed-variant': '#6a3b1d',
         error: '#ba1a1a', 'on-error': '#ffffff', 'error-container': '#ffdad6', 'on-error-container': '#93000a',
-        background: '#fcf9f8', 'on-background': '#1b1c1c',
-        surface: '#fcf9f8', 'on-surface': '#1b1c1c', 'on-surface-variant': '#444840',
-        'surface-dim': '#dcd9d9', 'surface-bright': '#fcf9f8', 'surface-variant': '#e4e2e1',
-        'surface-container-lowest': '#ffffff', 'surface-container-low': '#f6f3f2',
-        'surface-container': '#f0eded', 'surface-container-high': '#eae7e7', 'surface-container-highest': '#e4e2e1',
-        'inverse-surface': '#303030', 'inverse-on-surface': '#f3f0f0',
-        outline: '#75786f', 'outline-variant': '#c5c8bd', 'surface-tint': '#516445',
-        'stitch-color': '#d7c3b0', 'success-green': '#334428'
+        background: '#fcf9f1', 'on-background': '#1c1c17',
+        surface: '#fcf9f1', 'on-surface': '#1c1c17', 'on-surface-variant': '#444842',
+        'surface-dim': '#dcdad2', 'surface-bright': '#fcf9f1', 'surface-variant': '#e5e2db',
+        'surface-container-lowest': '#ffffff', 'surface-container-low': '#f6f3eb',
+        'surface-container': '#f1eee6', 'surface-container-high': '#ebe8e0', 'surface-container-highest': '#e5e2db',
+        'inverse-surface': '#31312c', 'inverse-on-surface': '#f3f1e9',
+        outline: '#747872', 'outline-variant': '#c4c8c0', 'surface-tint': '#546253',
+        'deep-forest': '#2d3b2d', 'tan-leather': '#e1c0a9', 'burnt-umber': '#5d2800', 'paper-cream': '#f1eee6',
+        'stitch-color': '#c0a58c', 'success-green': '#2d3b2d'
       },
-      borderRadius: { DEFAULT: '0.125rem', lg: '0.25rem', xl: '0.5rem', full: '9999px' },
+      borderRadius: { sm: '0.125rem', DEFAULT: '0.25rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
       spacing: {
-        unit: '8px', gutter: '24px', 'margin-mobile': '20px', 'margin-desktop': '64px',
-        'container-max': '1280px', 'section-padding': '96px'
+        unit: '8px', gutter: '24px', 'gutter-stitch': '24px', 'stack-raw': '48px',
+        'margin-mobile': '20px', 'margin-desktop': '5vw',
+        'container-max': '1440px', 'section-padding': '96px', 'section-xl': '120px'
       },
-      maxWidth: { 'container-max': '1280px' },
-      /* Koppen: Lora. Klassieke serif met zachte, licht gebogen schreven en
-         een gematigd verschil tussen dikke en dunne lijnen — daardoor blijven
-         koppen leesbaar op klein scherm, waar Bodoni's haarlijnen wegvielen.
-         Wil je iets anders proberen: vervang 'Lora' hieronder én de
-         fonts.googleapis-link in de <head> van de 7 pagina's.
-         Uitgesprokener alternatief: 'Fraunces'. */
+      maxWidth: { 'container-max': '1440px' },
+      /* Drie stemmen (Artisan Wild Heritage):
+         - Caveat — het handschrift van de maakster. Grote koppen.
+         - EB Garamond — de literaire stem. Broodtekst en kleinere koppen.
+         - Courier Prime — de werkplaatsstempel. Labels, prijzen, navigatie.
+         Wil je iets anders proberen: vervang de familie hieronder én de
+         fonts.googleapis-link in de <head> van de 7 pagina's. */
       fontFamily: {
-        'display-lg': ['Lora', 'serif'], 'display-lg-mobile': ['Lora', 'serif'],
-        'headline-md': ['Lora', 'serif'],
-        'body-lg': ['Source Serif 4', 'serif'], 'body-md': ['Source Serif 4', 'serif'],
-        'label-sm': ['Hanken Grotesk', 'sans-serif']
+        'display-lg': ['Caveat', 'cursive'], 'display-lg-mobile': ['Caveat', 'cursive'],
+        handwritten: ['Caveat', 'cursive'],
+        'headline-md': ['EB Garamond', 'serif'],
+        'body-lg': ['EB Garamond', 'serif'], 'body-md': ['EB Garamond', 'serif'],
+        'label-sm': ['Courier Prime', 'monospace'], 'label-mono': ['Courier Prime', 'monospace']
       },
       fontSize: {
-        'display-lg': ['62px', { lineHeight: '1.12', letterSpacing: '-0.015em', fontWeight: '600' }],
-        'display-lg-mobile': ['38px', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '600' }],
-        'headline-md': ['31px', { lineHeight: '1.32', fontWeight: '600' }],
-        'body-lg': ['19px', { lineHeight: '1.65', fontWeight: '400' }],
-        'body-md': ['17px', { lineHeight: '1.6', fontWeight: '400' }],
-        'label-sm': ['12px', { lineHeight: '1.2', letterSpacing: '0.1em', fontWeight: '600' }]
+        'display-lg': ['72px', { lineHeight: '1.1', fontWeight: '600' }],
+        'display-lg-mobile': ['48px', { lineHeight: '1.1', fontWeight: '600' }],
+        'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '500' }],
+        'body-lg': ['20px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-md': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+        'label-sm': ['12px', { lineHeight: '1.2', letterSpacing: '0.05em', fontWeight: '700' }],
+        'label-mono': ['14px', { lineHeight: '1.4', letterSpacing: '0.05em', fontWeight: '400' }]
       }
     }
   }
@@ -226,7 +230,7 @@ function toast(tekst) {
   if (!el) {
     el = document.createElement('div');
     el.id = 'th-toast';
-    el.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-primary text-on-primary ' +
+    el.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-primary text-on-primary stitched-border ' +
       'font-label-sm text-label-sm uppercase tracking-widest px-6 py-4 rounded shadow-lg';
     document.body.appendChild(el);
   }
@@ -246,7 +250,7 @@ const NAV = [
 
 function renderHeader(actief) {
   const link = (n, extra) =>
-    `<a href="${n.href}" class="font-body-md text-body-md transition-colors duration-300 ${extra} ${
+    `<a href="${n.href}" class="font-label-mono text-label-mono uppercase transition-colors duration-300 ${extra} ${
       n.page === actief
         ? 'text-primary border-primary'
         : 'text-on-surface-variant border-transparent hover:text-primary'
@@ -267,7 +271,7 @@ function renderHeader(actief) {
        class="relative p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">shopping_bag</span>
       <span data-cart-badge hidden
-            class="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-on-primary
+            class="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-on-primary stitched-border
                    font-label-sm text-[10px] flex items-center justify-center"></span>
     </a>
     <button type="button" data-menu-toggle aria-label="Menu" aria-expanded="false"
@@ -328,11 +332,14 @@ function productCard(p, klasse = '') {
   // Heeft de tas een tweede foto, dan wisselt hij bij hover — je draait het
   // object als het ware om. Anders blijft het bij de lichte zoom.
   const tweede = p.fotos[1] ? IMG[p.fotos[1]] : null;
+  // Geen twee huiden zijn gelijk: elke kaart krijgt een ander onregelmatig
+  // silhouet, afwisselend over de collectie heen.
+  const huid = ['hide-mask', 'hide-mask-2', 'hide-mask-3'][PRODUCTS.indexOf(p) % 3];
 
   return `
 <a href="product.html?id=${p.id}" class="group block ${klasse}">
-  <div class="bg-surface-container-lowest p-2 ambient-shadow mb-6">
-    <div class="aspect-[3/4] overflow-hidden bg-surface-container-low relative">
+  <div class="mb-6">
+    <div class="aspect-[3/4] overflow-hidden bg-surface-container-low relative ${huid} saddle-stitch saddle-stitch-dark">
 
       <img src="${IMG[p.fotos[0]]}" alt="${p.naam}" loading="lazy"
            class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out

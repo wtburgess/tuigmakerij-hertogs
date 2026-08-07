@@ -6,10 +6,11 @@
 /* Veel koppen krijgen hun grootte via een eigen pixelwaarde (text-[40px]) en
    dus geen gewicht uit de Tailwind-config. Zonder deze regel vallen ze terug
    op 400 en worden ze te dun. Een expliciete font-*-klasse wint hier nog van.
-   Lora loopt van 400 tot 700; 600 is een stevige maar rustige kop. */
-.font-display-lg, .font-display-lg-mobile, .font-headline-md {
+   Caveat loopt van 400 tot 700, EB Garamond van 400 tot 800. */
+.font-display-lg, .font-display-lg-mobile, .font-handwritten {
   font-weight: 600;
 }
+.font-headline-md { font-weight: 500; }
 
 /* Broodtekst iets ruimer laten ademen dan de standaard. */
 body { text-rendering: optimizeLegibility; }
@@ -23,14 +24,62 @@ body { text-rendering: optimizeLegibility; }
 .stitch-divider {
   height: 2px;
   background-image: repeating-linear-gradient(
-    to right, transparent 0 4px, #d7c3b0 4px 12px
+    to right, transparent 0 4px, #a3866a 4px 12px
   );
 }
 .stitch-border-top {
   border-top: 2px solid transparent;
   border-image: repeating-linear-gradient(
-    to right, transparent 0 4px, #d7c3b0 4px 12px
+    to right, transparent 0 4px, #a3866a 4px 12px
   ) 2;
+}
+
+/* Gestikte rand rond knoppen en kaders: 2px streepjes in zadelbruin. */
+.stitched-border { border: 2px dashed #725946; }
+
+/* Papierkorrel over de hele pagina — haalt het vlakke uit de digitale kleur.
+   De body heeft hiervoor `relative` nodig. */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)"/%3E%3C/svg%3E');
+  opacity: .08;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Huidvormen: onregelmatige silhouetten zoals de rand van een gelooide huid. */
+.hide-mask {
+  clip-path: polygon(15% 0%, 85% 5%, 100% 40%, 90% 95%, 45% 100%, 5% 85%, 0% 35%);
+  border-radius: 40% 60% 70% 30% / 50% 30% 70% 50%;
+}
+.hide-mask-2 { clip-path: polygon(0 10%, 85% 0, 100% 90%, 15% 100%); }
+.hide-mask-3 { clip-path: polygon(5% 5%, 95% 0, 100% 95%, 0 100%); }
+
+/* Beeld dat uit het papier opkomt in plaats van erop geplakt ligt. */
+.soft-edge-mask {
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+}
+
+/* Zadelsteek: een streepjeslijn nét binnen de rand, zoals bij ingenaaid leer. */
+.saddle-stitch { position: relative; }
+.saddle-stitch::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(255, 255, 255, .6);
+  border-radius: inherit;
+  clip-path: inherit;
+  pointer-events: none;
+  z-index: 20;
+}
+.saddle-stitch-dark::after { border-color: rgba(114, 89, 70, .8); inset: 6px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .saddle-stitch::after { transition: inset .3s ease; }
+  .saddle-stitch:hover::after { inset: 14px; }
 }
 
 /* Objecten die op een bureau liggen, niet zweven. */
@@ -44,21 +93,21 @@ a:hover > .ambient-shadow,
 /* Invulvelden: enkel een onderlijn. */
 .input-underline {
   border: 0;
-  border-bottom: 1px solid #6b5c4c;
+  border-bottom: 1px solid #725946;
   border-radius: 0;
   background: transparent;
   width: 100%;
   padding: 8px 0;
-  font-family: 'Source Serif 4', serif;
-  font-size: 16px;
-  color: #1b1c1c;
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: #1c1c17;
   transition: border-color .3s ease;
 }
-.input-underline::placeholder { color: #75786f; }
+.input-underline::placeholder { color: #747872; }
 .input-underline:focus {
   outline: 0;
   box-shadow: none;
-  border-bottom-color: #334428;
+  border-bottom-color: #2d3b2d;
 }
 .input-underline:user-invalid { border-bottom-color: #ba1a1a; }
 
