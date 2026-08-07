@@ -113,6 +113,7 @@ const IMG = {
   barnsby6:   'assets/foto/barnsby-6.jpg',
   heideTractor: 'assets/foto/heide-tractor.jpg',
   atelierKarolien: 'assets/foto/atelier-karolien.jpg',
+  karolienKindje: 'assets/foto/karolien-kindje.jpg',
 
   heroSaddle:       B + 'AB6AXuCI6BfxFL1_rvuIc-9oUZmWLJUD4Dj7RTFOzcSTmwGBmoOgXbNstgaipEPsu9XuzSbC4LyLeNf8cB4u8ayapguXfZnL2sA6PqA7TUchrpk9SkW6FXESfTVUfVfnNaRplh4pHIbzMvh_E2ikc-EF07RZvEVznX3hYYai_3RYtdLt0UCK3M-_DlQpdBAPG2UpR2k0dD-muPeC7VqvIrtkhby6VttueoonQMJereTjcEJcMZn1Ik9W8uFVpw',
   portret:          B + 'AB6AXuAQCeyNAI2qmGUlcewi1fi02brTUtV4289881rbgUrOerRS1EOcHY1y7q-jA74-v-gVHkn0I_7K1X9Hd_ks71apLleaIhZBEDI3AjKuxC2gq1rkNjBSLV0pyPSpNFAY1_9SW4DyTbX8KICsFvQvzpTILW5m2d5CLgoDVF-V41JBchTzU3Tgm0noKCu7g1KnlE2DFohhdjQhrBLSRAgpQZ13ijElGqx9AR4uqSfHyxxlGbVhTgquO9wVJw',
