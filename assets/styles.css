@@ -92,9 +92,13 @@ body { text-rendering: optimizeLegibility; }
 
 /* De tekstkaart naast de hero: rechthoekig genoeg om leesbaar te blijven,
    scheef genoeg om niet als een dialoogvenster te ogen. Alleen de hoeken
-   afronden, geen clip-path — anders sneuvelt de tekst bij lange koppen. */
+   afronden en een halve graad kantelen, geen clip-path — anders sneuvelt de
+   tekst bij lange koppen. Elke hoek een andere straal, en horizontaal een
+   andere dan verticaal: dat is wat het handgesneden maakt in plaats van
+   afgerond-rechthoekig. */
 .kaart-organisch {
-  border-radius: 2.5rem 0.75rem 2rem 0.5rem / 1.25rem 2.25rem 0.75rem 2rem;
+  border-radius: 4rem 1rem 3rem 0.5rem / 2rem 3.5rem 1rem 2.75rem;
+  transform: rotate(-0.6deg);
 }
 
 /* Beeld dat uit het papier opkomt in plaats van erop geplakt ligt. */
