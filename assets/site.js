@@ -112,7 +112,7 @@ const IMG = {
   barnsby6:   'assets/foto/barnsby-6.jpg',
   heideTractor: 'assets/foto/heide-tractor.jpg',
 
-  heroSaddle:       B + 'AB6AXuA0W19LSlWwWTEMP8HjOVEiEiNPJc_Oytzrs1QZEcME3J4HxC7N5U0Ztx4dEJzuL_OS8y_43uXFGx098ohHUbBJX6vKd1fNLglo0F6lKZgOyDA_qL3ZbCOO0E7prpOhKgynUae3pmB7kGxAhpdHqvgJQ3iNdHDKaD79KRYvtLPl_ieJVYftUBgvzzAj8aTw0FRI83hlzY153m1xWgIpajzq_FidWhp9n7Qvfty0zR3gO83o348OVSmbvw',
+  heroSaddle:       B + 'AB6AXuCI6BfxFL1_rvuIc-9oUZmWLJUD4Dj7RTFOzcSTmwGBmoOgXbNstgaipEPsu9XuzSbC4LyLeNf8cB4u8ayapguXfZnL2sA6PqA7TUchrpk9SkW6FXESfTVUfVfnNaRplh4pHIbzMvh_E2ikc-EF07RZvEVznX3hYYai_3RYtdLt0UCK3M-_DlQpdBAPG2UpR2k0dD-muPeC7VqvIrtkhby6VttueoonQMJereTjcEJcMZn1Ik9W8uFVpw',
   portret:          B + 'AB6AXuAQCeyNAI2qmGUlcewi1fi02brTUtV4289881rbgUrOerRS1EOcHY1y7q-jA74-v-gVHkn0I_7K1X9Hd_ks71apLleaIhZBEDI3AjKuxC2gq1rkNjBSLV0pyPSpNFAY1_9SW4DyTbX8KICsFvQvzpTILW5m2d5CLgoDVF-V41JBchTzU3Tgm0noKCu7g1KnlE2DFohhdjQhrBLSRAgpQZ13ijElGqx9AR4uqSfHyxxlGbVhTgquO9wVJw',
   portretDenkend:   B + 'AB6AXuA7c2RkpzkHtvlNqDXc9gmaqpfE5fxTlw9TCJ02F2ONiNSLUxnZPgVlPaeM_2khFvmciXx6QeKk8-Cx6Oj9CownJauaTPmg1qQGwUib5YG6eMA4Kw1zN-3VrB-v8B-gXb1GkMqqnWBDmHBdFlvyob1XxJvhoVrakwDqBFzMe_hFYj_pk7txxtiiA2HdsNCx8yhcM9L2cz5y6kB8l2L1WfbhZWP-TQ-HxqIJK3hYt6UpivJkPf1kqlPgEA',
   atelier:          B + 'AB6AXuDGCKqL7W9-Qmq63tETSjJX5gLIMqmcuXeWN_4uEB6VoV8C-ThXHGbvmwaRzZoeVxBjUS4Y-7JLmhYC4Oautr59GeBGtCczF7nkfCNI-NZFUhj0jCiN1iZRIotwXtkPNfjbFkbHrDiPr5tm0ohXpzoiftrI2uHXUGGLbAv3TqPPMf1_DNL-Mqr2nXDaAK37fXNcXeArPCBqsyjMRG8Xwi_xw_3_wagOV9WrXHMHW6jystNIHc2OVYP21g',
@@ -183,6 +183,13 @@ const PRODUCTS = [
 ];
 
 const productById = (id) => PRODUCTS.find((p) => p.id === id);
+
+/* Google levert deze beelden standaard op 512px breed. Voor een hero of een
+   paginabrede foto is dat zichtbaar zacht; met =w1600 komt het origineel
+   (1408px) binnen. Geldt niet voor de eigen foto's in assets/foto/. */
+for (const sleutel in IMG) {
+  if (IMG[sleutel].startsWith(B)) IMG[sleutel] += '=w1600';
+}
 
 /* ------------------------------------------------------------ mandje
    Opslag: localStorage. Vorm: [{id, aantal}] */
