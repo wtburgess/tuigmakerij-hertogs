@@ -52,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.title = `${p.naam} — Tuigtassen Hertogs`;
   const uitverkocht = p.voorraad < 1;
 
-  const spec = (icoon, label, waarde) => `
+  // Nog niet ingevulde specificaties laten we gewoon weg: liever een korter
+  // lijstje dan een regel met niets erachter.
+  const spec = (icoon, label, waarde) => !waarde ? '' : `
     <div class="flex items-start gap-4">
       <span class="material-symbols-outlined text-outline mt-1">${icoon}</span>
       <div>
@@ -96,6 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="w-16 stitch-divider mb-8"></div>
 
         <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${p.verhaal}</p>
+
+        ${p.kenmerken?.length ? `
+        <ul class="mb-8 space-y-2">
+          ${p.kenmerken.map((k) => `
+            <li class="flex gap-3 font-body-md text-body-md text-on-surface-variant">
+              <span class="text-secondary" aria-hidden="true">—</span>${k}
+            </li>`).join('')}
+        </ul>` : ''}
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y-2 border-dashed border-secondary/40 mb-8">
           ${spec('layers', 'Herkomst leder', p.herkomst)}

@@ -37,7 +37,11 @@ juiste vorm klaar in `bestelform`'s submit-handler.
 
 ## Nog te doen voor livegang
 
-- [ ] Echte contactgegevens in `CONTACT` (staan nu op placeholders)
+- [ ] Rest van `CONTACT`: mailadres, btw-nummer, IBAN, socials — telefoon en
+      gemeente staan er wel al in
 - [ ] Eigen foto's in `IMG` — de huidige zijn de AI-beelden uit de ontwerpen
-- [ ] Echte tassen, prijzen en maten in `PRODUCTS`
+- [ ] Kleur, afmetingen en beslag per tas in `PRODUCTS` (staan nu leeg en
+      worden daarom niet getoond op de productpagina)
+- [ ] Twee open plekken in de FAQ op `collectie.html`: de naam van de winkel
+      die de tassen verkoopt, en wat er precies over cadeaubonnen moet staan
 - [ ] Verkoopsvoorwaarden + privacyverklaring (verplicht bij online verkoop in België)

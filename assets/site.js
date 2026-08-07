@@ -61,18 +61,19 @@ tailwind.config = {
 };
 
 /* ------------------------------------------------------- contactgegevens
-   TODO Karolien: vervang onderstaande door je echte gegevens. */
+   Naam, telefoon en gemeente komen van de bestaande site. De regels met
+   TODO staan er nog niet echt op — die moeten nog ingevuld worden. */
 const CONTACT = {
   naam: 'Karolien Hertogs',
-  atelier: 'Tuigmakerij Hertogs',
-  email: 'info@tuigtassenhertogs.be',
-  telefoon: '+32 470 00 00 00',
-  whatsapp: '32470000000',            // internationaal, zonder + en zonder spaties
-  adres: 'Straat 00, 0000 Gemeente',
-  btw: 'BE 0000.000.000',
-  instagram: 'https://www.instagram.com/tuigtassenhertogs',
-  facebook: 'https://www.facebook.com/tuigtassenhertogs',
-  iban: 'BE00 0000 0000 0000',
+  atelier: 'Tuigtassen Hertogs',
+  email: 'info@tuigtassenhertogs.be',   // TODO: echt mailadres
+  telefoon: '+32 487 49 33 68',
+  whatsapp: '32487493368',            // internationaal, zonder + en zonder spaties
+  adres: 'Eernegem, België',          // TODO: straat en nummer, als je die publiek wil
+  btw: 'BE 0000.000.000',             // TODO: echt btw-nummer
+  instagram: 'https://www.instagram.com/tuigtassenhertogs',   // TODO: echte link
+  facebook: 'https://www.facebook.com/tuigtassenhertogs',     // TODO: echte link
+  iban: 'BE00 0000 0000 0000',        // TODO: echt rekeningnummer
   bic: 'GEBABEBB'
 };
 
@@ -131,53 +132,39 @@ const IMG = {
    meestal 1. Zet op 0 en de tas toont als "verkocht". */
 const PRODUCTS = [
   {
-    id: 'de-ruitertas', naam: 'De Ruitertas', prijs: 425, voorraad: 1,
-    herkomst: 'Cavaleriezadel, ca. 1940',
-    kleur: 'Cognac', afmetingen: '38 × 28 × 12 cm', beslag: 'Massief messing',
-    fotos: ['bagRuitertas2', 'bagRuitertas', 'bagSatchel'],
-    verhaal: 'Dit zadel deed decennialang dienst en droeg de sporen daarvan open en bloot. ' +
-      'De diepste slijtplekken heb ik niet weggewerkt, maar bewust in de klep van de tas gelegd — ' +
-      'daar waar je ze elke dag ziet. Volledig handgenaaid met gewaxt lijnen garen.'
+    id: 'waegemans', naam: 'Waegemans tuigtas', prijs: 450, voorraad: 1,
+    herkomst: 'Waegemans-zadel, Ninove',
+    kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
+    fotos: ['bagRuitertas2', 'bagRuitertas'],   // TODO: eigen foto's
+    verhaal: 'Deze volledige handtas werd vervaardigd uit een oud Waegemans paardenzadel. ' +
+      'Zadelmakerij Waegemans uit Ninove was destijds de hofleverancier van de Belgische adellijke ' +
+      'familie, en gebruikte uitsluitend kwalitatief leder. Deze tas werd gemaakt met oog voor detail, ' +
+      'en met liefde en aandacht voor authentieke elementen. Volledig handgemaakt en handgenaaid.',
+    kenmerken: [
+      'Gesp vervaardigd uit een singelstoot',
+      'Vooraan het zakje waarin de boompunten rusten',
+      'Ook vooraan de gesp voor de stijgbeugelriem',
+      'Schouderriem ontworpen in de vorm van gevlochten teugels',
+      'Bevestiging van schouderriem via halsterringen'
+    ]
   },
   {
-    id: 'klassieke-tote', naam: 'Klassieke Tote', prijs: 380, voorraad: 1,
-    herkomst: 'Tuigleer, plantaardig gelooid',
-    kleur: 'Cognac', afmetingen: '36 × 30 × 14 cm', beslag: 'Massief messing',
-    fotos: ['bagTote', 'bagTote2'],
-    verhaal: 'Een ruime, rechttoe rechtaan tote uit dik tuigleer. Geen voering, geen ritsen — ' +
-      'alleen leder, garen en gesp. Hoe meer je hem gebruikt, hoe mooier hij wordt.'
-  },
-  {
-    id: 'veldtas', naam: 'Veldtas', prijs: 310, voorraad: 1,
-    herkomst: 'Officierszadel',
-    kleur: 'Bosgroen', afmetingen: '28 × 22 × 9 cm', beslag: 'Oud messing, hergebruikt',
-    fotos: ['bagVeldtas', 'bagCrossbody'],
-    verhaal: 'Compact, met een lange schouderband die je kruislings draagt. De gespen komen ' +
-      'van het originele zadel — herbruikt, gepoetst, maar niet gepolijst tot ze hun leeftijd kwijt zijn.'
-  },
-  {
-    id: 'de-boswachter', naam: 'De Boswachter Tote', prijs: 345, voorraad: 1,
-    herkomst: 'Dressuurzadel, bosgroen gebeitst',
-    kleur: 'Forest green', afmetingen: '34 × 30 × 12 cm', beslag: 'Massief messing',
-    fotos: ['bagBoswachter', 'bagToteGroen'],
-    verhaal: 'De zitting van dit dressuurzadel was doorgereden, de flappen nog gaaf. ' +
-      'Uit die flappen kwamen de twee grote panelen van deze tote, met de handvatten uit de singelriemen.'
-  },
-  {
-    id: 'stadstas-hertog', naam: "Stadstas 'Hertog'", prijs: 280, voorraad: 1,
-    herkomst: 'Zadelflappen, bosgroen',
-    kleur: 'Bosgroen', afmetingen: '26 × 20 × 8 cm', beslag: 'Massief messing',
-    fotos: ['bagStadstas'],
-    verhaal: 'Klein genoeg voor de stad, groot genoeg voor wat je echt nodig hebt. ' +
-      'De sluiting is een klassieke zadelmakersgesp — die gaat je overleven.'
-  },
-  {
-    id: 'de-grote-reis', naam: 'De Grote Reis', prijs: 520, voorraad: 1,
-    herkomst: 'Westernzadel, notelaarbruin',
-    kleur: 'Donker notelaar', afmetingen: '48 × 30 × 22 cm', beslag: 'Massief messing',
-    fotos: ['bagGroteReis'],
-    verhaal: 'Een weekendtas uit een zwaar westernzadel. Het dikste leder dat ik in huis had, ' +
-      'en dus ook het meeste handwerk: ruim veertig uur naaien.'
+    id: 'barnsby', naam: 'Barnsby and Son tuigtas', prijs: 450, voorraad: 1,
+    herkomst: 'Barnsby and Son-zadel, Engeland',
+    kleur: '', afmetingen: '', beslag: '',   // TODO Karolien: aanvullen
+    fotos: ['bagTote', 'bagTote2'],             // TODO: eigen foto's
+    verhaal: 'Net als Waegemans voor België, had ook Engeland zijn vaste hofleverancier. Op zijn ' +
+      'hoogtepunt behoorde Barnsby and Son tot de vijf grootste zadelmakerijbedrijven ter wereld, en ' +
+      'exporteerde het zadels en andere lederwaren overheen de hele wereld. Het bedrijf maakte ' +
+      'ceremoniële uitrusting voor vele militaire eenheden, waaronder de cavalerie-eenheden van het ' +
+      'Britse leger en de Household Cavalry, de officiële lijfwacht van het Britse koningshuis. ' +
+      'Het spreekt voor zich dat deze zadelmakerij het meest kwalitatieve leder selecteerde voor het ' +
+      'vervaardigen van hun producten, wat zich weerspiegelt in deze hoogkwalitatieve tas.',
+    kenmerken: [
+      'Binnenvoering uit het originele juten doek van het zadel',
+      'Drie militaire knopen vooraan, die voorheen de zadelkussens op hun plek hielden',
+      'Authentieke elementen zorgvuldig bewaard en weer bij elkaar gepuzzeld'
+    ]
   }
 ];
 
