@@ -93,6 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
 
+    ${bestelling.viaMollie ? `
+    <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
+      <h2 class="font-headline-md text-headline-md text-primary mb-4">Je betaling wordt verwerkt</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-4">
+        Zodra ze bevestigd is, gaat je tas op mijn werkbank klaarstaan en krijg je een bericht van mij.
+        Meestal is dat binnen enkele minuten.
+      </p>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Ging er iets mis met het betalen? Dan is er nog niets afgerekend en blijft je tas gewoon beschikbaar —
+        <a data-wa="Dag Karolien, mijn betaling voor ${mededeling} lukte niet. " target="_blank" rel="noopener"
+           class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">laat het me even weten</a>.
+      </p>
+    </div>` : `
     <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
       <h2 class="font-headline-md text-headline-md text-primary mb-6">Overschrijven</h2>
       <dl class="space-y-4 font-body-md text-body-md">
@@ -133,9 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="material-symbols-outlined text-base">chat</span> Of via WhatsApp
         </a>
       </div>
-    </div>`;
+    </div>`}`;
 
-  document.getElementById('mailknop').href =
+  const mailknop = document.getElementById('mailknop');
+  if (mailknop) mailknop.href =
     `mailto:${CONTACT.email}?subject=${encodeURIComponent('Bestelling ' + mededeling)}&body=${encodeURIComponent(mailBody)}`;
   root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
 });

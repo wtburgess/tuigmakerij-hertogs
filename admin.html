@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Beheer — Tuigtassen Hertogs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body data-page="admin" class="bg-background text-on-background antialiased">
+
+<div class="max-w-4xl mx-auto px-margin-mobile py-12">
+
+  <div class="flex justify-between items-center gap-6 mb-10 pb-4 border-b-2 border-dashed border-secondary">
+    <h1 class="font-display-lg text-[40px] text-primary">Beheer</h1>
+    <div class="flex items-center gap-4">
+      <a href="collectie.html" class="font-label-mono text-label-mono uppercase text-tertiary border-b border-dashed border-current">Naar de site</a>
+      <button type="button" id="uitloggen" hidden
+              class="font-label-mono text-label-mono uppercase text-secondary border-b border-dashed border-current">Uitloggen</button>
+    </div>
+  </div>
+
+  <!-- Inloggen -->
+  <form id="login" hidden class="max-w-sm space-y-4">
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+      Meld je aan om de collectie te bewerken.
+    </p>
+    <label class="block">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">E-mail</span>
+      <input type="email" name="email" required autocomplete="username"
+             class="input-underline font-body-md text-body-md">
+    </label>
+    <label class="block">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Wachtwoord</span>
+      <input type="password" name="wachtwoord" required autocomplete="current-password"
+             class="input-underline font-body-md text-body-md">
+    </label>
+    <button type="submit"
+            class="bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors">
+      Aanmelden
+    </button>
+  </form>
+
+  <!-- Beheer -->
+  <div id="beheer" hidden>
+    <div class="flex justify-between items-center gap-4 mb-6">
+      <h2 class="font-headline-md text-headline-md text-primary">De tassen</h2>
+      <button type="button" id="nieuw"
+              class="inline-flex items-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded hover:bg-tertiary transition-colors">
+        <span class="material-symbols-outlined text-base">add</span> Nieuwe tas
+      </button>
+    </div>
+
+    <ul id="lijst" class="divide-y-2 divide-dashed divide-secondary/40 border-y-2 border-dashed border-secondary/40 mb-12"></ul>
+
+    <h2 class="font-headline-md text-headline-md text-primary mb-6">Bestellingen</h2>
+    <ul id="bestellingen" class="divide-y-2 divide-dashed divide-secondary/40 border-y-2 border-dashed border-secondary/40 mb-12"></ul>
+
+    <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
+      <h2 id="bewerk-titel" class="font-headline-md text-headline-md text-primary"></h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <label class="block sm:col-span-2">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Naam</span>
+          <input name="naam" required class="input-underline font-body-md text-body-md">
+        </label>
+
+        <!-- De link volgt de naam. Hij ligt vast zodra de tas bestaat: anders
+             zouden bestaande links naar deze tas doodlopen. -->
+        <label class="block sm:col-span-2">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Link</span>
+          <input name="id" required readonly pattern="[a-z0-9\-]+"
+                 class="input-underline font-body-md text-body-md text-on-surface-variant">
+        </label>
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Prijs (€)</span>
+          <input name="prijs" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
+        </label>
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Voorraad (0 = verkocht)</span>
+          <input name="voorraad" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Herkomst leder</span>
+          <input name="herkomst" class="input-underline font-body-md text-body-md">
+        </label>
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Kleur</span>
+          <input name="kleur" class="input-underline font-body-md text-body-md">
+        </label>
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Afmetingen</span>
+          <input name="afmetingen" class="input-underline font-body-md text-body-md">
+        </label>
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Volgorde in de collectie</span>
+          <input name="volgorde" type="number" step="1" class="input-underline font-body-md text-body-md">
+        </label>
+      </div>
+
+      <label class="block">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Verhaal</span>
+        <textarea name="verhaal" rows="6" class="input-underline font-body-md text-body-md"></textarea>
+      </label>
+
+      <label class="block">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Kenmerken — één per regel</span>
+        <textarea name="kenmerken" rows="5" class="input-underline font-body-md text-body-md"></textarea>
+      </label>
+
+      <label class="flex items-center gap-3">
+        <input type="checkbox" name="nieuw" class="w-5 h-5 rounded border-secondary text-primary">
+        <span class="font-body-md text-body-md text-on-surface">Toon het label "Nieuw"</span>
+      </label>
+
+      <!-- Bij een nieuwe tas kan je hier al foto's kiezen; ze worden pas
+           geüpload bij het bewaren, want ze hangen aan een id dat dan
+           pas bestaat. -->
+      <div id="fotos-blok" class="pt-5 border-t-2 border-dashed border-secondary/40">
+        <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-4">Foto's</h3>
+        <div id="fotos" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4"></div>
+        <label class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary cursor-pointer">
+          <span class="material-symbols-outlined text-base">upload</span>
+          <span>Foto's toevoegen</span>
+          <input type="file" id="upload" accept="image/*" multiple class="hidden">
+        </label>
+      </div>
+
+      <div class="flex flex-wrap gap-4 pt-5 border-t-2 border-dashed border-secondary/40">
+        <button type="submit"
+                class="bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors">
+          Bewaren
+        </button>
+        <button type="button" id="annuleer"
+                class="stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-surface-container-low transition-colors">
+          Sluiten
+        </button>
+        <button type="button" id="verwijder"
+                class="ml-auto font-label-sm text-label-sm uppercase tracking-widest text-error border-b border-dashed border-current">
+          Tas verwijderen
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const login   = document.getElementById('login');
+const beheer  = document.getElementById('beheer');
+const lijst   = document.getElementById('lijst');
+const bewerk  = document.getElementById('bewerk');
+const fotosEl = document.getElementById('fotos');
+let huidig = null;    // de tas die openstaat, null = een nieuwe
+let wachtrij = [];    // foto's gekozen vóór de tas bestaat
+
+/* ---------------------------------------------------------------- sessie */
+async function toonJuistePagina() {
+  const { data } = await db.auth.getSession();
+  const aan = !!data.session;
+  login.hidden = aan;
+  beheer.hidden = !aan;
+  document.getElementById('uitloggen').hidden = !aan;
+  if (aan) { laadLijst(); laadBestellingen(); }
+}
+
+login.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const { error } = await db.auth.signInWithPassword({
+    email: login.email.value.trim(),
+    password: login.wachtwoord.value
+  });
+  if (error) return toast('Aanmelden lukte niet: ' + error.message);
+  login.reset();
+  toonJuistePagina();
+});
+
+document.getElementById('uitloggen').addEventListener('click', async () => {
+  await db.auth.signOut();
+  bewerk.hidden = true;
+  toonJuistePagina();
+});
+
+/* ----------------------------------------------------------------- lijst */
+async function laadLijst() {
+  const { data, error } = await db
+    .from('producten')
+    .select('*, productfotos(id, pad, volgorde)')
+    .order('volgorde');
+  if (error) return toast('Ophalen lukte niet: ' + error.message);
+
+  lijst.innerHTML = data.map((p) => `
+    <li class="flex items-center gap-4 py-4">
+      <img src="${p.productfotos.length ? opslagUrl(p.productfotos.sort((a,b)=>a.volgorde-b.volgorde)[0].pad) : ''}"
+           alt="" class="w-16 h-16 object-cover bg-surface-container shrink-0">
+      <div class="min-w-0 flex-1">
+        <p class="font-body-lg text-body-lg text-primary truncate">${p.naam}</p>
+        <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
+          ${euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
+        </p>
+      </div>
+      <button type="button" data-bewerk="${p.id}"
+              class="font-label-sm text-label-sm uppercase tracking-widest text-primary border-b border-dashed border-current">
+        Bewerken
+      </button>
+    </li>`).join('');
+
+  lijst.querySelectorAll('[data-bewerk]').forEach((knop) => {
+    knop.addEventListener('click', () => openTas(data.find((p) => p.id === knop.dataset.bewerk)));
+  });
+}
+
+/* ---------------------------------------------------------- bestellingen
+   Alleen lezen: de status komt van Mollie, niet van hier. Openstaande
+   bestellingen die nooit betaald raken, mag je gewoon laten staan. */
+async function laadBestellingen() {
+  const el = document.getElementById('bestellingen');
+  const { data, error } = await db.from('bestellingen')
+    .select('*').order('aangemaakt', { ascending: false }).limit(50);
+  if (error) return toast('Bestellingen ophalen lukte niet: ' + error.message);
+
+  if (!data.length) {
+    el.innerHTML = '<li class="py-4 font-body-md text-body-md text-on-surface-variant">Nog geen bestellingen.</li>';
+    return;
+  }
+
+  const kleur = { betaald: 'bg-primary text-on-primary', open: 'bg-secondary-fixed text-on-secondary-fixed', mislukt: 'bg-surface-container text-on-surface-variant' };
+
+  el.innerHTML = data.map((b) => `
+    <li class="py-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest px-2 py-1 ${kleur[b.status]}">${b.status}</span>
+        <span class="font-body-lg text-body-lg text-primary">${b.referentie}</span>
+        <span class="font-body-md text-body-md text-on-surface-variant">${euro.format(b.totaal)}</span>
+        <span class="font-label-mono text-label-mono text-on-surface-variant uppercase ml-auto">
+          ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
+        </span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+        ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join(', ')} — ${b.levering}
+      </p>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        ${b.klant.naam} · ${b.klant.adres} ·
+        <a href="mailto:${b.klant.email}" class="text-primary border-b border-dashed border-current">${b.klant.email}</a>
+        ${b.klant.telefoon ? ' · ' + b.klant.telefoon : ''}
+      </p>
+      ${b.klant.bericht ? `<p class="font-body-md text-body-md text-secondary mt-1">"${b.klant.bericht}"</p>` : ''}
+    </li>`).join('');
+}
+
+/* --------------------------------------------------------------- bewerken */
+function openTas(p) {
+  huidig = p;
+  bewerk.hidden = false;
+  document.getElementById('bewerk-titel').textContent = p ? p.naam : 'Nieuwe tas';
+  bewerk.elements.id.value = p ? p.id : '';
+  bewerk.naam.value       = p ? p.naam : '';
+  bewerk.prijs.value      = p ? p.prijs : '';
+  bewerk.voorraad.value   = p ? p.voorraad : 1;
+  bewerk.herkomst.value   = p ? p.herkomst : '';
+  bewerk.kleur.value      = p ? p.kleur : '';
+  bewerk.afmetingen.value = p ? p.afmetingen : '';
+  bewerk.volgorde.value   = p ? p.volgorde : 0;
+  bewerk.verhaal.value    = p ? p.verhaal : '';
+  bewerk.kenmerken.value  = p ? (p.kenmerken || []).join('\n') : '';
+  bewerk.nieuw.checked    = p ? p.nieuw : false;
+  document.getElementById('verwijder').hidden = !p;
+  wachtrij = [];
+  toonFotos();
+  bewerk.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* "Barnsby and Son tuigtas" wordt "barnsby-and-son-tuigtas". Accenten eruit,
+   want die horen niet in een URL. */
+const slug = (tekst) => tekst
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Zolang de tas nog niet bewaard is, volgt de link mee met de naam.
+bewerk.naam.addEventListener('input', () => {
+  if (!huidig) bewerk.elements.id.value = slug(bewerk.naam.value);
+});
+
+document.getElementById('nieuw').addEventListener('click', () => openTas(null));
+document.getElementById('annuleer').addEventListener('click', () => { bewerk.hidden = true; huidig = null; });
+
+bewerk.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const rij = {
+    id: bewerk.elements.id.value.trim(),
+    naam: bewerk.naam.value.trim(),
+    prijs: Number(bewerk.prijs.value),
+    voorraad: Number(bewerk.voorraad.value),
+    nieuw: bewerk.nieuw.checked,
+    herkomst: bewerk.herkomst.value.trim(),
+    kleur: bewerk.kleur.value.trim(),
+    afmetingen: bewerk.afmetingen.value.trim(),
+    verhaal: bewerk.verhaal.value.trim(),
+    // Lege regels eruit: anders krijg je een streepje zonder tekst op de site.
+    kenmerken: bewerk.kenmerken.value.split('\n').map((r) => r.trim()).filter(Boolean),
+    volgorde: Number(bewerk.volgorde.value) || 0
+  };
+  // Twee tassen met dezelfde naam zouden anders dezelfde link krijgen, en de
+  // ene zou de andere overschrijven. Dus: -2, -3, tot er eentje vrij is.
+  if (!huidig) {
+    const { data: bezet } = await db.from('producten').select('id');
+    const bestaat = new Set((bezet || []).map((r) => r.id));
+    const basis = rij.id;
+    for (let n = 2; bestaat.has(rij.id); n++) rij.id = `${basis}-${n}`;
+    bewerk.elements.id.value = rij.id;
+  }
+
+  const { error } = await db.from('producten').upsert(rij);
+  if (error) return toast('Bewaren lukte niet: ' + error.message);
+  huidig = rij;
+  document.getElementById('bewerk-titel').textContent = rij.naam;
+  document.getElementById('verwijder').hidden = false;
+  // Foto's die vóór het bewaren gekozen werden, gaan er nu alsnog bij: ze
+  // hebben een tas nodig om aan te hangen.
+  if (wachtrij.length) {
+    const klaar = wachtrij;
+    wachtrij = [];
+    await uploadFotos(klaar);
+  } else {
+    toast('Bewaard');
+    toonFotos();
+  }
+  laadLijst();
+});
+
+document.getElementById('verwijder').addEventListener('click', async () => {
+  if (!huidig) return;
+  if (!confirm(`"${huidig.naam}" definitief verwijderen? De foto's blijven in de opslag staan.`)) return;
+  const { error } = await db.from('producten').delete().eq('id', huidig.id);
+  if (error) return toast('Verwijderen lukte niet: ' + error.message);
+  bewerk.hidden = true;
+  huidig = null;
+  laadLijst();
+});
+
+/* ----------------------------------------------------------------- foto's */
+async function toonFotos() {
+  // Nieuwe tas: nog geen id om foto's aan te hangen, dus tonen we voorlopig
+  // wat er klaarstaat. Het echte uploaden gebeurt zodra je bewaart.
+  if (!huidig) {
+    fotosEl.innerHTML = wachtrij.map((b) => `
+      <figure class="relative">
+        <img src="${URL.createObjectURL(b)}" alt="" class="w-full aspect-square object-cover bg-surface-container opacity-70">
+        <figcaption class="font-label-sm text-[11px] uppercase text-secondary mt-1">Klaar om te bewaren</figcaption>
+      </figure>`).join('');
+    return;
+  }
+  // product_id moet mee: bij het herschikken sturen we de rij in haar geheel
+  // terug, en zonder product_id weigert de database ze.
+  const { data, error } = await db.from('productfotos')
+    .select('id, product_id, pad, volgorde').eq('product_id', huidig.id).order('volgorde');
+  if (error) return toast('Foto\'s ophalen lukte niet: ' + error.message);
+
+  fotosEl.innerHTML = data.map((f) => `
+    <figure class="relative">
+      <img src="${opslagUrl(f.pad)}" alt="" class="w-full aspect-square object-cover bg-surface-container">
+      ${f.volgorde === 0 ? '<figcaption class="absolute top-1 left-1 bg-primary text-on-primary font-label-sm text-[10px] uppercase px-2 py-0.5">Hoofdfoto</figcaption>' : ''}
+      <div class="flex justify-between mt-1">
+        ${f.volgorde === 0 ? '<span></span>' : `<button type="button" data-hoofd="${f.id}" class="font-label-sm text-[11px] uppercase text-primary">Vooraan</button>`}
+        <button type="button" data-weg="${f.id}" data-pad="${f.pad}" class="font-label-sm text-[11px] uppercase text-error">Weg</button>
+      </div>
+    </figure>`).join('');
+
+  // Vooraan zetten = deze op 0, de rest een plaats opschuiven.
+  fotosEl.querySelectorAll('[data-hoofd]').forEach((knop) => {
+    knop.addEventListener('click', async () => {
+      const gekozen = data.find((f) => f.id === knop.dataset.hoofd);
+      const rest = data.filter((f) => f.id !== gekozen.id);
+      const { error } = await db.from('productfotos').upsert([
+        { ...gekozen, volgorde: 0 },
+        ...rest.map((f, i) => ({ ...f, volgorde: i + 1 }))
+      ]);
+      if (error) return toast('Herschikken lukte niet: ' + error.message);
+      toonFotos();
+      laadLijst();
+    });
+  });
+
+  fotosEl.querySelectorAll('[data-weg]').forEach((knop) => {
+    knop.addEventListener('click', async () => {
+      await db.storage.from('productfotos').remove([knop.dataset.pad]);
+      const { error } = await db.from('productfotos').delete().eq('id', knop.dataset.weg);
+      if (error) return toast('Verwijderen lukte niet: ' + error.message);
+      toonFotos();
+      laadLijst();
+    });
+  });
+}
+
+document.getElementById('upload').addEventListener('change', (e) => {
+  const bestanden = [...e.target.files];
+  e.target.value = '';
+  if (!bestanden.length) return;
+  if (!huidig) {                      // tas bestaat nog niet: even parkeren
+    wachtrij = wachtrij.concat(bestanden);
+    toonFotos();
+    return toast('Foto\'s gaan mee zodra je bewaart');
+  }
+  uploadFotos(bestanden);
+});
+
+async function uploadFotos(bestanden) {
+  const { data: bestaand } = await db.from('productfotos')
+    .select('volgorde').eq('product_id', huidig.id).order('volgorde', { ascending: false }).limit(1);
+  let volgende = bestaand && bestaand.length ? bestaand[0].volgorde + 1 : 0;
+
+  for (const bestand of bestanden) {
+    // Naam in een eigen map per tas, met een tijdstempel ervoor: zo overschrijf
+    // je nooit per ongeluk een foto die er al staat.
+    const pad = `${huidig.id}/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
+    const { error: opslagFout } = await db.storage.from('productfotos').upload(pad, bestand);
+    if (opslagFout) { toast('Uploaden lukte niet: ' + opslagFout.message); continue; }
+    const { error } = await db.from('productfotos')
+      .insert({ product_id: huidig.id, pad, volgorde: volgende++ });
+    if (error) toast('Koppelen lukte niet: ' + error.message);
+  }
+  toast('Foto\'s toegevoegd');
+  toonFotos();
+  laadLijst();
+}
+
+toonJuistePagina();
+</script>
+</body>
+</html>

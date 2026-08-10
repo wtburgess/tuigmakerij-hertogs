@@ -1,0 +1,7 @@
+# Wat Cloudflare niet mee online mag zetten. Dit zijn werkbestanden: ze horen
+# in de repo, maar niemand hoeft ze op de site te kunnen opvragen.
+.claude/
+ontwerpen/
+supabase/
+LEESMIJ.md
+.gitignore

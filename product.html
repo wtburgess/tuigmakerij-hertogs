@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tuigtassen Hertogs</title>
-<meta name="description" content="Een handgenaaide tas uit een afgedankt paardenzadel — uniek, in één exemplaar.">
+<meta name="description" content="Een handgenaaide tas uit een oud paardenzadel — uniek, in één exemplaar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
@@ -28,8 +28,20 @@
 
 <footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
 
+<!-- Foto in het groot: geen uitsnede, de hele tas in beeld. -->
+<!-- Kleur en overgang van dit venster staan in styles.css, bij #lightbox. -->
+<dialog id="lightbox" class="w-screen max-w-none h-screen max-h-none bg-transparent p-0">
+  <div class="w-full h-full flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-12 cursor-zoom-out">
+    <span aria-hidden="true" class="material-symbols-outlined absolute top-4 right-4 md:top-8 md:right-8 p-3 text-[32px] text-white/80">close</span>
+    <img id="lightbox-foto" alt="" class="min-h-0 max-w-full max-h-full object-contain">
+    <!-- De andere foto's van deze tas: onder het beeld op een smal scherm,
+         ernaast zodra er plaats is. -->
+    <div id="lightbox-strip" class="flex flex-row md:flex-col gap-3 shrink-0 overflow-auto max-w-full md:max-h-full cursor-default"></div>
+  </div>
+</dialog>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+paginaKlaar.then(() => {
   const id = new URLSearchParams(location.search).get('id');
   const p = productById(id);
   const root = document.getElementById('product');
@@ -76,16 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="relative aspect-[4/5] mb-8">
           <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
           <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-            <img id="hoofdfoto" src="${IMG[p.fotos[0]]}" alt="${p.naam}" class="w-full h-full object-cover">
+            <!-- De huidvorm snijdt de foto aan; klikken toont ze volledig. -->
+            <button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
+                    aria-label="Bekijk de volledige foto van ${p.naam}">
+              <img id="hoofdfoto" src="${fotoUrl(p.fotos[0])}" alt="${p.naam}" class="w-full h-full object-cover">
+            </button>
           </div>
         </div>
+        <p class="font-label-mono text-label-mono uppercase text-outline mb-8 -mt-4">
+          Klik op de foto voor het volledige beeld
+        </p>
         ${p.fotos.length > 1 ? `
         <div class="flex gap-4">
           ${p.fotos.map((f, i) => `
-            <button type="button" data-foto="${IMG[f]}"
+            <button type="button" data-foto="${fotoUrl(f)}"
                     class="w-20 h-24 bg-surface-container-lowest p-1 border border-dashed border-secondary/50 ${i === 0 ? 'border-solid border-primary' : ''}"
                     aria-label="Foto ${i + 1} van ${p.naam}">
-              <img src="${IMG[f]}" alt="" class="w-full h-full object-cover">
+              <img src="${fotoUrl(f)}" alt="" class="w-full h-full object-cover">
             </button>`).join('')}
         </div>` : ''}
       </div>
@@ -111,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
           ${spec('layers', 'Herkomst leder', p.herkomst)}
           ${spec('palette', 'Kleur', p.kleur)}
           ${spec('straighten', 'Afmetingen', p.afmetingen)}
-          ${spec('hardware', 'Beslag', p.beslag)}
         </div>
 
         ${uitverkocht ? `
@@ -154,14 +172,53 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>`;
 
-  // Fotowissel
-  root.querySelectorAll('[data-foto]').forEach((knop) => {
-    knop.addEventListener('click', () => {
-      document.getElementById('hoofdfoto').src = knop.dataset.foto;
-      root.querySelectorAll('[data-foto]').forEach((k) => k.classList.remove('ring-2', 'ring-primary'));
-      knop.classList.add('ring-2', 'ring-primary');
+  /* Eén plek die bijhoudt welke foto in beeld staat. De strook onder de foto
+     en die in het vergrote venster wijzen naar dezelfde teller, dus je verliest
+     je plaats niet wanneer je in- of uitzoomt. */
+  const lightbox = document.getElementById('lightbox');
+  const strook = document.getElementById('lightbox-strip');
+  let actief = 0;
+
+  const kies = (i) => {
+    actief = i;
+    const url = fotoUrl(p.fotos[i]);
+    document.getElementById('hoofdfoto').src = url;
+    document.getElementById('lightbox-foto').src = url;
+    root.querySelectorAll('[data-foto]').forEach((k, n) => {
+      k.classList.toggle('ring-2', n === i);
+      k.classList.toggle('ring-primary', n === i);
     });
+    strook.querySelectorAll('[data-groot]').forEach((k, n) => {
+      k.classList.toggle('border-white', n === i);
+      k.classList.toggle('border-white/30', n !== i);
+    });
+  };
+
+  // Strook in het vergrote venster. Bij één foto heeft ze geen nut.
+  strook.innerHTML = p.fotos.length < 2 ? '' : p.fotos.map((f, i) => `
+    <button type="button" data-groot="${i}"
+            class="w-16 h-16 md:w-20 md:h-20 shrink-0 overflow-hidden rounded border-2 ${i === 0 ? 'border-white' : 'border-white/30'} hover:border-white/70 transition-colors"
+            aria-label="Foto ${i + 1} van ${p.naam}">
+      <img src="${fotoUrl(f)}" alt="" class="w-full h-full object-cover">
+    </button>`).join('');
+
+  strook.addEventListener('click', (e) => {
+    e.stopPropagation();                       // anders sluit het venster meteen
+    const knop = e.target.closest('[data-groot]');
+    if (knop) kies(Number(knop.dataset.groot));
   });
+
+  root.querySelectorAll('[data-foto]').forEach((knop, i) => {
+    knop.addEventListener('click', () => kies(i));
+  });
+
+  root.querySelector('[data-vergroot]').addEventListener('click', () => {
+    kies(actief);
+    document.getElementById('lightbox-foto').alt = p.naam;
+    lightbox.showModal();
+  });
+  // Klik naast de foto sluit weer — Escape doet <dialog> zelf al.
+  lightbox.addEventListener('click', () => lightbox.close());
 
   // WhatsApp-links binnen de zojuist gerenderde HTML alsnog invullen.
   root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });

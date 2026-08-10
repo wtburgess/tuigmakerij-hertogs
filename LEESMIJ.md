@@ -23,20 +23,76 @@ weg zodra hij niet meer nieuw is. Verkocht wint altijd van nieuw.
 Een tas toevoegen? Kopieer een blok in `PRODUCTS`, geef het een uniek `id`.
 Hij verschijnt vanzelf op de collectiepagina.
 
-## Bestellingen
+## Bestellingen en betaling
 
-Betaling gebeurt via **overschrijving**: de klant plaatst de bestelling, krijgt
-meteen bestelnummer + IBAN + bedrag te zien en kan met één klik een
-bevestigingsmail versturen. Geen kaartgegevens, geen betaalprovider, niets dat
-maandelijks geld kost.
+Online betalen loopt via **Mollie**, met Bancontact als voornaamste knop (vaste
+kost per transactie in plaats van een percentage — op een tas van 450 euro
+scheelt dat pakweg zes euro tegenover een kaartbetaling).
 
-Wil je bestellingen automatisch binnenkrijgen in plaats van via de mail van de
-klant: zet een endpoint in `ORDER_ENDPOINT` (bv. een Formspree-URL). Elke
-bestelling wordt er dan als JSON naartoe gestuurd.
+De keten: `bestellen.html` roept de edge function `bestelling` aan → die
+herberekent prijs, voorraad en verzendkost uit de database, bewaart de
+bestelling en start een Mollie-betaling → de klant betaalt → Mollie roept
+`mollie-webhook` aan → die zet de bestelling op betaald en de voorraad op 0.
 
-Wil je later online betalen (Bancontact/Payconiq): dat vraagt een account bij
-Mollie of Stripe en een klein stukje server. De bestelgegevens zitten al in de
-juiste vorm klaar in `bestelform`'s submit-handler.
+Prijzen komen nooit uit de browser. Wat de klant meestuurt is enkel welke tas
+en hoeveel; al de rest wordt op de server nagerekend.
+
+Staat `BETAAL_ENDPOINT` in `assets/site.js` leeg, dan valt het afrekenen terug
+op **overschrijving**: de klant krijgt bestelnummer, IBAN en bedrag te zien en
+kan met één klik een bevestigingsmail sturen. Handig zolang het Mollie-account
+nog niet goedgekeurd is.
+
+`ORDER_ENDPOINT` (bv. een Formspree-URL) stuurt elke bestelling ook nog eens als
+JSON naar je door. Bij een Mollie-betaling heb je dat niet nodig — die staat al
+in de database en op de beheerpagina.
+
+### Opzetten
+
+1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`.
+2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
+   `SITE_URL` (de basis-URL van de site, zonder schuine streep achteraan).
+3. Functions deployen:
+   `npx supabase functions deploy bestelling --no-verify-jwt`
+   `npx supabase functions deploy mollie-webhook --no-verify-jwt`
+   Die `--no-verify-jwt` moet erbij: bezoekers zijn niet aangemeld, en Mollie
+   al helemaal niet.
+4. `BETAAL_ENDPOINT` in `assets/site.js` invullen.
+
+De webhook moet van buitenaf bereikbaar zijn, dus testen met Mollie werkt niet
+tegen een server op je eigen machine. Zet de site eerst online, of test met een
+tunnel.
+
+## Online zetten
+
+De site staat op **Cloudflare Pages**, gekoppeld aan de GitHub-repo: elke push
+naar `main` gaat vanzelf live. Vercel kan niet — hun gratis plan verbiedt
+commercieel gebruik, en dit is een webshop.
+
+Instellingen in Cloudflare Pages:
+
+- Build command: `mkdir -p dist && cp -r *.html assets dist/`
+- Build output directory: `dist`
+
+Er is geen bouwstap nodig voor de site zelf; dat commando dient enkel om
+`ontwerpen/` en `supabase/` niet mee te publiceren. Voeg je later een map toe
+die wél online moet, zet ze dan mee in die `cp`-regel.
+
+Het domein staat bij EasyHost, met de nameservers naar Cloudflare. Daar loopt
+ook Email Routing: `info@tuigtassenhertogs.be` stuurt door naar Gmail.
+
+Let op: een gratis Supabase-project gaat slapen na een week zonder activiteit.
+Een dagelijkse ping (cron-job.org) op de REST-URL houdt het wakker. Slaapt het
+toch, dan blijft de site werken — de collectie valt terug op de ingebouwde
+lijst in `site.js` — maar bestellen en het beheer liggen plat.
+
+## Beheerpagina
+
+`admin.html` — niet in het menu, wel publiek bereikbaar. Zonder account kan je
+er niets: de database weigert elke wijziging van wie niet aangemeld is.
+Gebruikers beheer je in Supabase onder Authentication.
+
+Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's) en
+zie je de laatste vijftig bestellingen met adres en status.
 
 ## Nog te doen voor livegang
 

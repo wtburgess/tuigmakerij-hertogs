@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regels').innerHTML = regels.map((l) => `
       <div class="flex items-start gap-4">
         <a href="product.html?id=${l.product.id}" class="w-20 h-24 shrink-0 border-4 border-surface-container-lowest bg-surface-container block">
-          <img src="${IMG[l.product.fotos[0]]}" alt="${l.product.naam}" class="w-full h-full object-cover">
+          <img src="${fotoUrl(l.product.fotos[0])}" alt="${l.product.naam}" class="w-full h-full object-cover">
         </a>
         <div class="flex-grow min-w-0">
           <h3 class="font-body-lg text-body-lg text-on-secondary-fixed-variant">${l.product.naam}</h3>
@@ -273,6 +273,37 @@ document.addEventListener('DOMContentLoaded', () => {
       verzendkost: lev.kost,
       totaal: cartTotal() + lev.kost
     };
+
+    // Online betalen: de server rekent zelf na wat het kost en stuurt ons
+    // door naar Bancontact. Lukt dat niet, dan blijft de klant hier staan met
+    // een leesbare reden — niet met een leeg mandje en geen tas.
+    if (BETAAL_ENDPOINT) {
+      const knop = form.querySelector('button[type=submit]');
+      knop.disabled = true;
+      try {
+        const antwoord = await fetch(BETAAL_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            levering: data.levering,
+            klant: bestelling.klant,
+            regels: regels.map((l) => ({ id: l.product.id, aantal: l.aantal }))
+          })
+        });
+        const uitslag = await antwoord.json();
+        if (!antwoord.ok) throw new Error(uitslag.fout || 'Er ging iets mis.');
+        bestelling.referentie = uitslag.referentie;
+        bestelling.viaMollie = true;
+        sessionStorage.setItem('th-last-order', JSON.stringify(bestelling));
+        cartClear();
+        location.href = uitslag.betaalUrl;
+      } catch (e) {
+        fout.textContent = e.message + ' Probeer het opnieuw of stuur me een berichtje.';
+        fout.hidden = false;
+        knop.disabled = false;
+      }
+      return;
+    }
 
     // Zolang er geen endpoint is ingesteld, blijft de bestelling lokaal en
     // krijgt de klant op de bedanktpagina de gegevens om te mailen/betalen.

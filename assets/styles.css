@@ -175,6 +175,114 @@ details.faq > summary::-webkit-details-marker { display: none; }
 details.faq > summary .faq-icon { transition: transform .3s ease; }
 details.faq[open] > summary .faq-icon { transform: rotate(45deg); }
 
+/* Kaarten liggen op een werkbank, ze zweven niet. Bij het aanwijzen komen ze
+   een vingerdikte omhoog, valt de schaduw wat verder, en trekt de streepjes-
+   rand strakker aan — alsof de draad wordt aangehaald. Het beeld erin zoomt
+   nauwelijks merkbaar mee, net als bij de productkaarten. */
+@media (prefers-reduced-motion: no-preference) {
+  .kaart-tilt {
+    transition: transform .35s cubic-bezier(.2, .7, .3, 1),
+                box-shadow .35s ease,
+                border-color .35s ease;
+  }
+  .kaart-tilt:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(60, 40, 20, .10);
+    border-color: rgba(114, 89, 70, .7);
+  }
+  .kaart-tilt img { transition: transform .6s cubic-bezier(.2, .7, .3, 1); }
+  .kaart-tilt:hover img { transform: scale(1.04); }
+
+  /* De naad onder het beeld schuift mee, zodat de steken door de kaart
+     lijken te lopen in plaats van stil te staan. */
+  .kaart-tilt > div[class*="border-b"] { transition: border-color .35s ease; }
+  .kaart-tilt:hover > div[class*="border-b"] { border-color: rgba(114, 89, 70, .7); }
+
+  /* De draad wordt aangetrokken: het streepjespatroon kruipt één steek op. */
+  .stitch-divider { transition: background-position .8s cubic-bezier(.2, .7, .3, 1); }
+  .stitch-divider:hover,
+  .kaart-tilt:hover .stitch-divider,
+  a:hover > .stitch-divider { background-position: 12px 0; }
+}
+
+/* Beweging op het ritme van het scrollen. Dit gebeurt volledig in CSS met
+   scroll-driven animations; browsers die het nog niet kennen tonen alles
+   gewoon stil en volledig. Vandaar de @supports: geen JavaScript, geen
+   halfzichtbare blokken bij wie het niet ondersteunt. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+
+    /* De grote beelden schuiven trager dan de pagina. Ze staan al ruim in hun
+       kader, dus die extra 8% schaal valt binnen het masker weg. */
+    .parallax-beeld {
+      /* Longhand, en met duration:auto. De verkorte `animation`-notatie zet de
+         duur op 0s, en dan staat een scroll-tijdlijn stil. */
+      animation-name: parallax;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      /* Niet view(): dat meet tegen het overflow-hidden-kader rond de foto,
+         en dat scrollt nooit. Het kader krijgt daarom zelf een tijdlijn, die
+         wél tegen de pagina meet. */
+      animation-timeline: --beeld;
+      will-change: transform;
+    }
+    .parallax-kader { view-timeline-name: --beeld; }
+    @keyframes parallax {
+      from { transform: scale(1.08) translateY(2.5%); }
+      to   { transform: scale(1.08) translateY(-2.5%); }
+    }
+
+    /* Blokken komen een handbreedte omhoog wanneer ze in beeld komen — één
+       keer, en niet meer dan dat. Niet op .kaart-tilt zetten: die gebruikt
+       transform al voor het aanwijzen. */
+    .rijs-op {
+      animation-name: rijs-op;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    @keyframes rijs-op {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+  }
+}
+
+/* De foto in het groot op de productpagina. Een <dialog> springt standaard
+   in beeld; met een overgang op display (allow-discrete) en @starting-style
+   vervaagt hij netjes in en uit. Browsers die dat nog niet kennen tonen hem
+   gewoon meteen — dan mis je enkel de vloeiende beweging. */
+#lightbox,
+#lightbox::backdrop {
+  opacity: 0;
+  transition: opacity .35s ease, display .35s allow-discrete, overlay .35s allow-discrete;
+}
+#lightbox[open],
+#lightbox[open]::backdrop { opacity: 1; }
+
+@starting-style {
+  #lightbox[open],
+  #lightbox[open]::backdrop { opacity: 0; }
+}
+
+/* Warm donkergrijs in plaats van hard zwart — past bij de rest van de site. */
+#lightbox::backdrop { background: rgba(43, 42, 38, .9); }
+
+#lightbox img {
+  border-radius: 10px;
+  transform: scale(.985);
+  transition: transform .35s ease;
+}
+#lightbox[open] img { transform: scale(1); }
+
+@starting-style {
+  #lightbox[open] img { transform: scale(.985); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;

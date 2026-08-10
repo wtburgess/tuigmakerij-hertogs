@@ -44,11 +44,11 @@
       </div>
 
       <div class="md:col-span-6 lg:col-start-8 lg:col-span-5">
-        <div class="aspect-[4/5] hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+        <div class="parallax-kader aspect-[4/5] hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
           <!-- Staande uitsnede links: op de homepage staat dezelfde foto,
                daar in de volle breedte. -->
-          <img data-img="atelierKarolien" alt="Karolien Hertogs aan het werk in haar atelier"
-               class="w-full h-full object-cover object-[28%_40%]">
+          <img data-img="atelierKarolien"  alt="Karolien Hertogs aan het werk in haar atelier"
+               class="parallax-beeld w-full h-full object-cover object-[28%_40%]">
         </div>
       </div>
     </div>
@@ -82,9 +82,9 @@
         <!-- Liggend beeld, dus een bredere kolom en een liggende verhouding —
              in het staande kader van 3/4 viel de tractor buiten beeld. -->
         <div class="md:col-span-5 md:col-start-7 order-1 md:order-2 mb-8 md:mb-0">
-          <div class="aspect-[3/2] hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-            <img data-img="heideTractor" alt="Een vrouw met een tuigtas over de schouder bij haar paard en een oude tractor in de bloeiende heide" loading="lazy"
-                 class="w-full h-full object-cover">
+          <div class="parallax-kader aspect-[3/2] hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+            <img data-img="heideTractor"  alt="Een vrouw met een tuigtas over de schouder bij haar paard en een oude tractor in de bloeiende heide" loading="lazy"
+                 class="parallax-beeld w-full h-full object-cover">
           </div>
         </div>
       </div>
@@ -96,9 +96,9 @@
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
         <div class="md:col-span-6 order-1 mb-12 md:mb-0 relative">
-          <div class="aspect-square w-4/5 relative z-10 mt-12 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-            <img data-img="handenStiksel" alt="Handen die met gewaxt garen door dik plantaardig gelooid leder stikken" loading="lazy"
-                 class="w-full h-full object-cover">
+          <div class="parallax-kader aspect-square w-4/5 relative z-10 mt-12 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+            <img data-img="handenStiksel"  alt="Handen die met gewaxt garen door dik plantaardig gelooid leder stikken" loading="lazy"
+                 class="parallax-beeld w-full h-full object-cover">
           </div>
           <div class="absolute top-0 right-0 w-3/5 aspect-[4/3] z-0 hidden md:block hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <img data-img="zadelSchaduw" alt="Een oud zadel in het halfduister" loading="lazy"
@@ -160,12 +160,18 @@
             niet te besteden aan datgene waar je hart sneller van gaat slaan.
           </p>
         </div>
-        <div class="md:col-span-4 md:col-start-8 mt-12 md:mt-0">
+        <figure class="md:col-span-4 md:col-start-8 mt-12 md:mt-0">
           <div class="aspect-[3/4] hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-            <img data-img="atelier" alt="Het atelier in de ochtendzon, met leder en gereedschap op de werkbank" loading="lazy"
+            <!-- Zolang de echte foto er nog niet staat, valt hij terug op het atelierbeeld. -->
+            <img data-img="maudPonyzadel" alt="Maud als baby naast het afgewerkte ponyzadel" loading="lazy"
+                 onerror="this.onerror=null; this.src=IMG.atelier;"
                  class="w-full h-full object-cover">
           </div>
-        </div>
+          <figcaption class="font-body-md text-body-md text-on-surface-variant mt-5 pl-5 border-l-2 border-dashed border-secondary">
+            September. De lessen zadelmakerij startten weer. Het ponyzadel is afgewerkt.
+            Met haar in gedachten. De allergrootste motivatie.
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -174,9 +180,16 @@
   <section class="py-24 md:py-32 bg-background">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-        <div class="md:col-span-5 order-2 md:order-1 mt-12 md:mt-0">
-          <div class="aspect-square hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-            <img data-img="patina" alt="Macro-opname van gedragen volnerf leder met diepe patina" loading="lazy"
+        <!-- Twee beelden: een groot, en een kleiner dat er onderaan
+             overheen schuift. -->
+        <div class="md:col-span-5 order-2 md:order-1 mt-12 md:mt-0 relative pb-24 md:pb-32 pr-12 md:pr-16">
+          <div class="parallax-kader aspect-square hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+            <img data-img="patina"  alt="Macro-opname van gedragen volnerf leder met diepe patina" loading="lazy"
+                 class="parallax-beeld w-full h-full object-cover">
+          </div>
+          <div class="absolute bottom-0 right-0 w-40 md:w-56 aspect-[4/5] hide-mask soft-edge-mask saddle-stitch
+                      overflow-hidden bg-surface-container-low border-2 border-dashed border-secondary/40">
+            <img data-img="naaldDraad" alt="Naald en gewaxt garen op de werkbank" loading="lazy"
                  class="w-full h-full object-cover">
           </div>
         </div>

@@ -71,8 +71,8 @@ const CONTACT = {
   telefoon: '+32 487 49 33 68',
   whatsapp: '32487493368',            // internationaal, zonder + en zonder spaties
   adres: 'Eernegem, België',          // TODO: straat en nummer, als je die publiek wil
-  btw: 'BE 0000.000.000',             // TODO: echt btw-nummer
-  instagram: 'https://www.instagram.com/tuigtassenhertogs',   // TODO: echte link
+  btw: 'BE 1039.887.807',
+  instagram: 'https://www.instagram.com/tuigmakerij.hertogs/',
   facebook: 'https://www.facebook.com/tuigtassenhertogs',     // TODO: echte link
   iban: 'BE00 0000 0000 0000',        // TODO: echt rekeningnummer
   bic: 'GEBABEBB'
@@ -90,6 +90,12 @@ const LEVERING = {
    Zet hier een formulier-endpoint (bv. Formspree of een eigen script) en
    elke bestelling wordt ook automatisch naar je doorgestuurd. Leeg = uit. */
 const ORDER_ENDPOINT = '';
+
+/* Online betalen via Mollie. Zolang dit leeg staat, blijft het afrekenen
+   werken zoals voorheen: bestellen en overschrijven. Vul dit pas in wanneer
+   de edge function 'bestelling' in Supabase staat én MOLLIE_API_KEY daar is
+   ingesteld — anders loopt de klant vast op de betaalknop. */
+const BETAAL_ENDPOINT = '';   // `${SUPABASE_URL}/functions/v1/bestelling`
 
 const wa = (tekst) =>
   `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(tekst || 'Dag Karolien, ')}`;
@@ -114,6 +120,9 @@ const IMG = {
   heideTractor: 'assets/foto/heide-tractor.jpg',
   atelierKarolien: 'assets/foto/atelier-karolien.jpg',
   karolienKindje: 'assets/foto/karolien-kindje.jpg',
+  // TODO Karolien: zet de foto van Maud bij het afgewerkte ponyzadel als
+  // assets/foto/maud-ponyzadel.jpg — dan verschijnt ze vanzelf op de biopagina.
+  maudPonyzadel: 'assets/foto/maud-ponyzadel.jpg',
 
   heroSaddle:       B + 'AB6AXuCI6BfxFL1_rvuIc-9oUZmWLJUD4Dj7RTFOzcSTmwGBmoOgXbNstgaipEPsu9XuzSbC4LyLeNf8cB4u8ayapguXfZnL2sA6PqA7TUchrpk9SkW6FXESfTVUfVfnNaRplh4pHIbzMvh_E2ikc-EF07RZvEVznX3hYYai_3RYtdLt0UCK3M-_DlQpdBAPG2UpR2k0dD-muPeC7VqvIrtkhby6VttueoonQMJereTjcEJcMZn1Ik9W8uFVpw',
   portret:          B + 'AB6AXuAQCeyNAI2qmGUlcewi1fi02brTUtV4289881rbgUrOerRS1EOcHY1y7q-jA74-v-gVHkn0I_7K1X9Hd_ks71apLleaIhZBEDI3AjKuxC2gq1rkNjBSLV0pyPSpNFAY1_9SW4DyTbX8KICsFvQvzpTILW5m2d5CLgoDVF-V41JBchTzU3Tgm0noKCu7g1KnlE2DFohhdjQhrBLSRAgpQZ13ijElGqx9AR4uqSfHyxxlGbVhTgquO9wVJw',
@@ -146,8 +155,11 @@ const IMG = {
 
 /* ------------------------------------------------------------- producten
    `voorraad` = aantal beschikbare exemplaren. Elk stuk is uniek, dus
-   meestal 1. Zet op 0 en de tas toont als "verkocht". */
-const PRODUCTS = [
+   meestal 1. Zet op 0 en de tas toont als "verkocht".
+
+   Deze lijst is de terugval. Draait Supabase (zie onderaan), dan worden de
+   tassen hieronder overschreven door wat er in de database staat. */
+let PRODUCTS = [
   {
     id: 'waegemans', naam: 'Waegemans tuigtas', prijs: 450, voorraad: 1, nieuw: true,
     herkomst: 'Waegemans-zadel, Ninove',
@@ -193,6 +205,62 @@ const productById = (id) => PRODUCTS.find((p) => p.id === id);
 for (const sleutel in IMG) {
   if (IMG[sleutel].startsWith(B)) IMG[sleutel] += '=w1600';
 }
+
+/* Een foto is óf een sleutel uit IMG (de ingebouwde lijst) óf een kant-en-
+   klare URL (uit de database). Eén functie die allebei aankan. */
+const fotoUrl = (f) => IMG[f] || f;
+
+/* ------------------------------------------------------------- database
+   De collectie komt uit Supabase. De publishable key hoort thuis in een
+   publieke site: hij mag alleen lezen, schrijven vraagt een login.
+   Lukt het ophalen niet, dan blijft de ingebouwde PRODUCTS-lijst staan —
+   liever een verouderde collectie dan een lege pagina. */
+const SUPABASE_URL = 'https://vpyuagltoqdnvyuwiumo.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_KcNCsgogsA1vEI4Z299YJQ_KwH2G7p2';
+
+const opslagUrl = (pad) => `${SUPABASE_URL}/storage/v1/object/public/productfotos/${pad}`;
+
+const productsGeladen = (async () => {
+  if (!SUPABASE_URL) return PRODUCTS;
+  try {
+    const antwoord = await fetch(
+      `${SUPABASE_URL}/rest/v1/producten` +
+      `?select=*,productfotos(pad,volgorde)&order=volgorde.asc`,
+      { headers: { apikey: SUPABASE_KEY } }
+    );
+    if (!antwoord.ok) throw new Error(`HTTP ${antwoord.status}`);
+    const rijen = await antwoord.json();
+    // Een lege database betekent bijna altijd "nog niet ingevuld", geen
+    // "uitverkocht". Dan houden we de ingebouwde lijst aan.
+    if (rijen.length) {
+      PRODUCTS = rijen.map((r) => {
+        const uitDb = (r.productfotos || [])
+          .sort((a, b) => a.volgorde - b.volgorde)
+          .map((f) => opslagUrl(f.pad));
+        // Staan de foto's nog niet in de opslag, dan blijven de meegeleverde
+        // beelden staan. Anders krijg je een kaart met een leeg vak.
+        const ingebouwd = PRODUCTS.find((x) => x.id === r.id);
+        return {
+          ...r,
+          prijs: Number(r.prijs),
+          fotos: uitDb.length ? uitDb : (ingebouwd ? ingebouwd.fotos : [])
+        };
+      });
+    }
+  } catch (fout) {
+    console.warn('Collectie ophalen uit Supabase lukte niet; de ingebouwde lijst blijft staan.', fout);
+  }
+  return PRODUCTS;
+})();
+
+/* Pagina's die de collectie tonen, wachten hierop in plaats van op
+   DOMContentLoaded: dan staan én de DOM én de tassen klaar. */
+const paginaKlaar = Promise.all([
+  productsGeladen,
+  document.readyState === 'loading'
+    ? new Promise((klaar) => document.addEventListener('DOMContentLoaded', klaar))
+    : Promise.resolve()
+]);
 
 /* ------------------------------------------------------------ mandje
    Opslag: localStorage. Vorm: [{id, aantal}] */
@@ -254,9 +322,10 @@ function toast(tekst) {
 /* ------------------------------------------------------- header & footer */
 const NAV = [
   { href: 'index.html', label: 'Home', page: 'home' },
-  { href: 'collectie.html', label: 'Collectie & op maat', page: 'collectie' },
+  { href: 'collectie.html', label: 'Collectie', page: 'collectie' },
   { href: 'bio.html', label: 'Bio', page: 'bio' },
-  { href: 'onderhoud.html', label: 'Onderhoud & Reparaties', page: 'onderhoud' }
+  { href: 'onderhoud.html', label: 'Herstel & zorg', page: 'onderhoud' },
+  { href: 'faq.html', label: 'FAQ', page: 'faq' }
 ];
 
 function renderHeader(actief) {
@@ -271,16 +340,22 @@ function renderHeader(actief) {
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center gap-6 py-5">
   <a href="index.html" class="shrink-0">
     <img src="assets/logo.png" alt="Tuigtassen Hertogs — handtassen uit oude paardenzadels"
-         width="600" height="296" class="h-11 md:h-14 w-auto">
+         width="600" height="296" class="h-16 md:h-20 w-auto">
   </a>
   <nav class="hidden lg:flex items-center gap-8">
     ${NAV.map((n) => link(n, 'border-b pb-1')).join('')}
   </nav>
   <div class="flex items-center gap-1">
-    <a href="onderhoud.html#atelier"
-       class="hidden xl:inline-block bg-deep-forest text-on-primary rounded
+    <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
+       class="hidden xl:inline-block whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
-              hover:bg-tertiary transition-colors duration-300">Bezoek atelier</a>
+              hover:bg-tertiary transition-colors duration-300">Achter de schermen</a>
+    <!-- Op smallere schermen past de knop hierboven niet; dan blijft de
+         Instagram-link als icoon staan. -->
+    <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="Instagram — een kijkje achter de schermen"
+       class="xl:hidden inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
+      <span class="material-symbols-outlined">photo_camera</span>
+    </a>
     <a href="${wa()}" target="_blank" rel="noopener" aria-label="WhatsApp"
        class="hidden sm:inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">chat</span>
@@ -317,13 +392,10 @@ function renderFooter() {
   return `
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-12
             grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-gutter">
-  <div class="space-y-4">
-    <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" loading="lazy"
-         class="h-24 w-auto -ml-1">
-    <p class="font-body-md text-body-md text-secondary max-w-xs">
-      Handgenaaide tassen uit afgedankte paardenzadels, en herstellingen van paardenmateriaal.
-      Uit het atelier van ${CONTACT.naam}.
-    </p>
+  <div>
+    <!-- Zonder de ondertitel: die staat hier te klein om leesbaar te zijn. -->
+    <img src="assets/logo-woordmerk.png" alt="Tuigtassen Hertogs" width="600" height="270" loading="lazy"
+         class="h-36 w-auto -ml-1">
   </div>
   ${kolom('Navigatie', NAV.map((n) => a(n.href, n.label)))}
   ${kolom('Contact', [
@@ -341,6 +413,28 @@ function renderFooter() {
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ambachtelijk vervaardigd in België</p>
   </div>
+</div>`;
+}
+
+/* ------------------------------------------------------- collectiedrop
+   Staat op de home én op de collectiepagina. Eén plek, want anders loopt de
+   tekst op de twee pagina's vroeg of laat uit elkaar.
+   In de HTML: <section data-drop></section> */
+function renderDrop() {
+  return `
+<div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
+<div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary/40"></div>
+<div class="max-w-xl mx-auto px-margin-mobile text-center">
+  <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">Nieuwe tassen als eerste zien</h2>
+  <p class="font-body-md text-body-md text-secondary mb-10">
+    Een nieuwe collectie is meestal snel weg. Stuur me een berichtje op WhatsApp en ik
+    verwittig je zodra er nieuwe tassen klaar zijn. Geen nieuwsbrief of spam, één
+    berichtje wanneer het zover is.
+  </p>
+  <a href="${wa('Dag Karolien, hou je mij op de hoogte van een volgende collectie? ')}" target="_blank" rel="noopener"
+     class="inline-flex items-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
+    <span class="material-symbols-outlined text-base">chat</span> Hou me op de hoogte
+  </a>
 </div>`;
 }
 
@@ -365,7 +459,7 @@ function productCard(p, klasse = '') {
   const nr = String(PRODUCTS.indexOf(p) + 1).padStart(2, '0');
   // Heeft de tas een tweede foto, dan wisselt hij bij hover — je draait het
   // object als het ware om. Anders blijft het bij de lichte zoom.
-  const tweede = p.fotos[1] ? IMG[p.fotos[1]] : null;
+  const tweede = p.fotos[1] ? fotoUrl(p.fotos[1]) : null;
 
   /* Geen twee huiden zijn gelijk. Elke kaart krijgt een ander silhouet, een
      andere hoogte en een andere verticale verschuiving, zodat het raster niet
@@ -388,7 +482,7 @@ function productCard(p, klasse = '') {
                 transition-transform duration-500 ${wijk}"></div>
 
     <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
-      <img src="${IMG[p.fotos[0]]}" alt="${p.naam}" loading="lazy"
+      <img src="${fotoUrl(p.fotos[0])}" alt="${p.naam}" loading="lazy"
            class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
                   group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
                   ${uitverkocht ? 'grayscale opacity-70' : ''}">
@@ -426,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (header) header.innerHTML = renderHeader(document.body.dataset.page);
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = renderFooter();
+  document.querySelectorAll('[data-drop]').forEach((el) => { el.innerHTML = renderDrop(); });
 
   // mobiel menu
   const toggle = document.querySelector('[data-menu-toggle]');
@@ -462,18 +557,5 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     if (cartAdd(knop.dataset.add)) toast('Toegevoegd aan je mandje');
     else toast('Deze tas is niet meer beschikbaar');
-  });
-
-  // nieuwsbrief: opent een mail met het adres van de bezoeker
-  document.querySelectorAll('[data-newsletter]').forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const adres = form.querySelector('input[type=email]').value.trim();
-      if (!adres) return;
-      location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Inschrijving nieuwsbrief')}` +
-        `&body=${encodeURIComponent('Schrijf mij in met dit adres: ' + adres)}`;
-      form.reset();
-      toast('Je mailprogramma opent — verstuur de mail om af te ronden');
-    });
   });
 });
