@@ -1,0 +1,12 @@
+# Tijdelijk: de site is nog niet officieel open. Zolang dit bestand er staat,
+# houden zoekmachines zich afzijdig.
+#
+# TODO bij livegang: dit bestand vervangen door de regels hieronder, zodat de
+# site wél gevonden wordt.
+#
+#   User-agent: *
+#   Disallow: /admin.html
+#   Disallow: /bedankt.html
+#
+User-agent: *
+Disallow: /
