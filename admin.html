@@ -16,7 +16,7 @@
 </head>
 <body data-page="admin" class="bg-background text-on-background antialiased">
 
-<div class="max-w-4xl mx-auto px-margin-mobile py-12">
+<div class="max-w-6xl mx-auto px-margin-mobile py-12">
 
   <div class="flex justify-between items-center gap-6 mb-10 pb-4 border-b-2 border-dashed border-secondary">
     <h1 class="font-display-lg text-[40px] text-primary">Beheer</h1>
@@ -61,7 +61,7 @@
     <ul id="lijst" class="divide-y-2 divide-dashed divide-secondary/40 border-y-2 border-dashed border-secondary/40 mb-12"></ul>
 
     <h2 class="font-headline-md text-headline-md text-primary mb-6">Bestellingen</h2>
-    <ul id="bestellingen" class="divide-y-2 divide-dashed divide-secondary/40 border-y-2 border-dashed border-secondary/40 mb-12"></ul>
+    <div id="bestellingen" class="mb-12"></div>
 
     <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
       <h2 id="bewerk-titel" class="font-headline-md text-headline-md text-primary"></h2>
@@ -219,41 +219,143 @@ async function laadLijst() {
 }
 
 /* ---------------------------------------------------------- bestellingen
-   Alleen lezen: de status komt van Mollie, niet van hier. Openstaande
-   bestellingen die nooit betaald raken, mag je gewoon laten staan. */
+   Twee soorten status, en die moet je uit elkaar houden. `status` zegt of er
+   betaald is; die komt van Mollie en past niemand met de hand aan.
+   `afhandeling` gaat over het werk erna — inpakken, versturen — en die zet je
+   hier zelf, door een kaartje naar de volgende kolom te slepen of op het
+   pijltje te klikken. Slepen werkt niet op een telefoon, vandaar allebei. */
+const KOLOMMEN = [
+  { sleutel: 'te doen', titel: 'Te doen',  hint: 'Betaald, nog niets mee gedaan' },
+  { sleutel: 'bezig',   titel: 'Bezig',    hint: 'Ingepakt of onderweg' },
+  { sleutel: 'klaar',   titel: 'Klaar',    hint: 'Afgehandeld' }
+];
+
 async function laadBestellingen() {
   const el = document.getElementById('bestellingen');
   const { data, error } = await db.from('bestellingen')
-    .select('*').order('aangemaakt', { ascending: false }).limit(50);
+    .select('*').order('aangemaakt', { ascending: false }).limit(100);
   if (error) return toast('Bestellingen ophalen lukte niet: ' + error.message);
 
   if (!data.length) {
-    el.innerHTML = '<li class="py-4 font-body-md text-body-md text-on-surface-variant">Nog geen bestellingen.</li>';
+    el.innerHTML = '<p class="py-4 font-body-md text-body-md text-on-surface-variant">Nog geen bestellingen.</p>';
     return;
   }
 
-  const kleur = { betaald: 'bg-primary text-on-primary', open: 'bg-secondary-fixed text-on-secondary-fixed', mislukt: 'bg-surface-container text-on-surface-variant' };
+  // Alleen betaalde bestellingen komen op het bord: aan de rest valt niets te
+  // doen tot er geld binnen is.
+  const betaald = data.filter((b) => b.status === 'betaald');
+  const rest    = data.filter((b) => b.status !== 'betaald');
+  const stand   = (b) => KOLOMMEN.some((k) => k.sleutel === b.afhandeling) ? b.afhandeling : 'te doen';
 
-  el.innerHTML = data.map((b) => `
-    <li class="py-4">
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="font-label-sm text-label-sm uppercase tracking-widest px-2 py-1 ${kleur[b.status]}">${b.status}</span>
+  const kaart = (b) => `
+    <article draggable="true" data-kaart="${b.id}"
+             class="bg-surface-container-lowest border-2 border-dashed border-secondary/50 rounded-lg p-4 mb-3 cursor-grab active:cursor-grabbing">
+      <div class="flex justify-between items-baseline gap-3 mb-2">
         <span class="font-body-lg text-body-lg text-primary">${b.referentie}</span>
-        <span class="font-body-md text-body-md text-on-surface-variant">${euro.format(b.totaal)}</span>
-        <span class="font-label-mono text-label-mono text-on-surface-variant uppercase ml-auto">
+        <span class="font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+      </p>
+      <p class="font-label-mono text-label-mono uppercase text-secondary mt-2">${b.levering}</p>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-3">
+        ${b.klant.naam}<br>
+        <a href="mailto:${b.klant.email}" class="text-primary border-b border-dashed border-current">${b.klant.email}</a>
+        ${b.klant.telefoon ? '<br>' + b.klant.telefoon : ''}
+        ${b.klant.adres ? '<br>' + b.klant.adres : ''}
+      </p>
+      ${b.klant.bericht ? `<p class="font-body-md text-body-md text-secondary mt-2">"${b.klant.bericht}"</p>` : ''}
+      <div class="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-secondary/40">
+        <span class="font-label-mono text-label-mono uppercase text-outline">
           ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
         </span>
+        <span class="flex gap-1">
+          <button type="button" data-schuif="${b.id}" data-richting="-1" aria-label="Een stap terug"
+                  class="p-1 text-secondary hover:text-primary ${stand(b) === 'te doen' ? 'invisible' : ''}">
+            <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+          </button>
+          <button type="button" data-schuif="${b.id}" data-richting="1" aria-label="Een stap verder"
+                  class="p-1 text-secondary hover:text-primary ${stand(b) === 'klaar' ? 'invisible' : ''}">
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </button>
+        </span>
       </div>
-      <p class="font-body-md text-body-md text-on-surface-variant mt-2">
-        ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join(', ')} — ${b.levering}
-      </p>
-      <p class="font-body-md text-body-md text-on-surface-variant">
-        ${b.klant.naam} · ${b.klant.adres} ·
-        <a href="mailto:${b.klant.email}" class="text-primary border-b border-dashed border-current">${b.klant.email}</a>
-        ${b.klant.telefoon ? ' · ' + b.klant.telefoon : ''}
-      </p>
-      ${b.klant.bericht ? `<p class="font-body-md text-body-md text-secondary mt-1">"${b.klant.bericht}"</p>` : ''}
-    </li>`).join('');
+    </article>`;
+
+  const teDoen = betaald.filter((b) => stand(b) !== 'klaar').length;
+
+  el.innerHTML = `
+    <p class="font-body-md text-body-md mb-4 ${teDoen ? 'text-primary' : 'text-on-surface-variant'}">
+      ${teDoen
+        ? `<strong>${teDoen}</strong> betaalde bestelling${teDoen > 1 ? 'en' : ''} wacht${teDoen > 1 ? 'en' : ''} nog op je.`
+        : 'Alles afgewerkt.'}
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+      ${KOLOMMEN.map((k) => {
+        const inKolom = betaald.filter((b) => stand(b) === k.sleutel);
+        return `
+        <section data-kolom="${k.sleutel}"
+                 class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-4 min-h-[8rem] transition-colors">
+          <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-1">
+            ${k.titel} <span class="text-outline">(${inKolom.length})</span>
+          </h3>
+          <p class="font-body-md text-body-md text-outline mb-4">${k.hint}</p>
+          ${inKolom.map(kaart).join('') || '<p class="font-body-md text-body-md text-outline">Leeg.</p>'}
+        </section>`;
+      }).join('')}
+    </div>
+
+    ${rest.length ? `
+    <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-3">Nog niet betaald</h3>
+    <ul class="divide-y divide-dashed divide-secondary/40 border-y border-dashed border-secondary/40">
+      ${rest.map((b) => `
+        <li class="py-3 flex flex-wrap items-baseline gap-x-4 font-body-md text-body-md text-on-surface-variant">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest px-2 py-1 bg-surface-container">${b.status}</span>
+          <span class="text-primary">${b.referentie}</span>
+          <span>${euro.format(b.totaal)}</span>
+          <span>${b.klant.naam}</span>
+          <span class="ml-auto font-label-mono text-label-mono uppercase text-outline">
+            ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
+          </span>
+        </li>`).join('')}
+    </ul>` : ''}`;
+
+  const verzet = async (id, naar) => {
+    const { error } = await db.from('bestellingen').update({ afhandeling: naar }).eq('id', id);
+    if (error) return toast('Bijwerken lukte niet: ' + error.message);
+    laadBestellingen();
+  };
+
+  el.querySelectorAll('[data-schuif]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+      const b = data.find((x) => x.id === knop.dataset.schuif);
+      const i = KOLOMMEN.findIndex((k) => k.sleutel === stand(b)) + Number(knop.dataset.richting);
+      if (KOLOMMEN[i]) verzet(b.id, KOLOMMEN[i].sleutel);
+    });
+  });
+
+  el.querySelectorAll('[data-kaart]').forEach((k) => {
+    k.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', k.dataset.kaart);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+  });
+
+  el.querySelectorAll('[data-kolom]').forEach((kolom) => {
+    // Zonder preventDefault op dragover weigert de browser elke drop.
+    kolom.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      kolom.classList.add('bg-secondary-fixed/40');
+    });
+    kolom.addEventListener('dragleave', () => kolom.classList.remove('bg-secondary-fixed/40'));
+    kolom.addEventListener('drop', (e) => {
+      e.preventDefault();
+      kolom.classList.remove('bg-secondary-fixed/40');
+      const id = e.dataTransfer.getData('text/plain');
+      if (id) verzet(id, kolom.dataset.kolom);
+    });
+  });
 }
 
 /* --------------------------------------------------------------- bewerken */
