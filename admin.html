@@ -360,7 +360,7 @@ async function laadBestellingen() {
                 <td class="py-4 pr-4">
                   ${b.status === 'betaald' ? `
                   <select data-afhandeling="${b.id}"
-                          class="font-body-md text-body-md border border-secondary rounded px-2 py-1 bg-surface-container-lowest">
+                          class="font-body-md text-body-md border border-secondary rounded pl-3 pr-9 py-1 min-w-[8.5rem] bg-surface-container-lowest">
                     ${KOLOMMEN.map((k) => `<option value="${k.sleutel}" ${k.sleutel === stand(b) ? 'selected' : ''}>${k.titel.toLowerCase()}</option>`).join('')}
                   </select>` : '<span class="text-outline">—</span>'}
                 </td>
