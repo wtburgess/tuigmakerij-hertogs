@@ -60,7 +60,15 @@
 
     <ul id="lijst" class="divide-y-2 divide-dashed divide-secondary/40 border-y-2 border-dashed border-secondary/40 mb-12"></ul>
 
-    <h2 class="font-headline-md text-headline-md text-primary mb-6">Bestellingen</h2>
+    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+      <h2 class="font-headline-md text-headline-md text-primary">Bestellingen</h2>
+      <div class="flex" role="group" aria-label="Weergave">
+        <button type="button" data-weergave="bord"
+                class="font-label-sm text-label-sm uppercase tracking-widest px-4 py-2 border-2 border-secondary rounded-l">Bord</button>
+        <button type="button" data-weergave="lijst"
+                class="font-label-sm text-label-sm uppercase tracking-widest px-4 py-2 border-2 border-l-0 border-secondary rounded-r">Lijst</button>
+      </div>
+    </div>
     <div id="bestellingen" class="mb-12"></div>
 
     <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
@@ -230,7 +238,31 @@ const KOLOMMEN = [
   { sleutel: 'klaar',   titel: 'Klaar',    hint: 'Afgehandeld' }
 ];
 
+/* Twee manieren om naar hetzelfde te kijken: het bord om te zien wat er nog
+   moet gebeuren, de lijst om iets terug te vinden. De keuze blijft staan. */
+let weergave = localStorage.getItem('th-admin-weergave') || 'bord';
+
+function tekenSchakelaar() {
+  document.querySelectorAll('[data-weergave]').forEach((k) => {
+    const aan = k.dataset.weergave === weergave;
+    k.classList.toggle('bg-primary', aan);
+    k.classList.toggle('text-on-primary', aan);
+    k.classList.toggle('text-secondary', !aan);
+    k.setAttribute('aria-pressed', aan);
+  });
+}
+
+document.querySelectorAll('[data-weergave]').forEach((k) => {
+  k.addEventListener('click', () => {
+    weergave = k.dataset.weergave;
+    localStorage.setItem('th-admin-weergave', weergave);
+    tekenSchakelaar();
+    laadBestellingen();
+  });
+});
+
 async function laadBestellingen() {
+  tekenSchakelaar();
   const el = document.getElementById('bestellingen');
   const { data, error } = await db.from('bestellingen')
     .select('*').order('aangemaakt', { ascending: false }).limit(100);
@@ -284,6 +316,82 @@ async function laadBestellingen() {
 
   const teDoen = betaald.filter((b) => stand(b) !== 'klaar').length;
 
+  const verzet = async (id, naar) => {
+    const { error } = await db.from('bestellingen').update({ afhandeling: naar }).eq('id', id);
+    if (error) return toast('Bijwerken lukte niet: ' + error.message);
+    laadBestellingen();
+  };
+
+  const teller = `
+    <p class="font-body-md text-body-md mb-4 ${teDoen ? 'text-primary' : 'text-on-surface-variant'}">
+      ${teDoen
+        ? `<strong>${teDoen}</strong> betaalde bestelling${teDoen > 1 ? 'en' : ''} wacht${teDoen > 1 ? 'en' : ''} nog op je.`
+        : 'Alles afgewerkt.'}
+    </p>`;
+
+  if (weergave === 'lijst') {
+    const betaalKleur = {
+      betaald: 'bg-primary text-on-primary',
+      open:    'bg-secondary-fixed text-on-secondary-fixed',
+      mislukt: 'bg-surface-container text-on-surface-variant'
+    };
+    el.innerHTML = teller + `
+      <div class="overflow-x-auto border-y-2 border-dashed border-secondary/40">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
+              <th class="py-3 pr-4 font-normal">Betaling</th>
+              <th class="py-3 pr-4 font-normal">Afhandeling</th>
+              <th class="py-3 pr-4 font-normal">Nummer</th>
+              <th class="py-3 pr-4 font-normal">Datum</th>
+              <th class="py-3 pr-4 font-normal">Bedrag</th>
+              <th class="py-3 pr-4 font-normal">Bestelling</th>
+              <th class="py-3 font-normal">Klant</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map((b) => {
+              const wacht = b.status === 'betaald' && stand(b) !== 'klaar';
+              return `
+              <tr class="border-t border-dashed border-secondary/40 align-top ${wacht ? 'bg-secondary-fixed/25' : ''}">
+                <td class="py-4 pr-4 whitespace-nowrap">
+                  <span class="font-label-sm text-label-sm uppercase tracking-widest px-2 py-1 ${betaalKleur[b.status]}">${b.status}</span>
+                </td>
+                <td class="py-4 pr-4">
+                  ${b.status === 'betaald' ? `
+                  <select data-afhandeling="${b.id}"
+                          class="font-body-md text-body-md border border-secondary rounded px-2 py-1 bg-surface-container-lowest">
+                    ${KOLOMMEN.map((k) => `<option value="${k.sleutel}" ${k.sleutel === stand(b) ? 'selected' : ''}>${k.titel.toLowerCase()}</option>`).join('')}
+                  </select>` : '<span class="text-outline">—</span>'}
+                </td>
+                <td class="py-4 pr-4 font-body-md text-body-md text-primary whitespace-nowrap">${b.referentie}</td>
+                <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant whitespace-nowrap">
+                  ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
+                </td>
+                <td class="py-4 pr-4 font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</td>
+                <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant min-w-[14rem]">
+                  ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+                  <span class="block text-secondary">${b.levering}</span>
+                </td>
+                <td class="py-4 font-body-md text-body-md text-on-surface-variant min-w-[16rem]">
+                  ${b.klant.naam}<br>
+                  <a href="mailto:${b.klant.email}" class="text-primary border-b border-dashed border-current">${b.klant.email}</a>
+                  ${b.klant.telefoon ? '<br>' + b.klant.telefoon : ''}
+                  ${b.klant.adres ? '<br>' + b.klant.adres : ''}
+                  ${b.klant.bericht ? `<br><span class="text-secondary">"${b.klant.bericht}"</span>` : ''}
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+
+    el.querySelectorAll('[data-afhandeling]').forEach((keuze) => {
+      keuze.addEventListener('change', () => verzet(keuze.dataset.afhandeling, keuze.value));
+    });
+    return;
+  }
+
   el.innerHTML = `
     <p class="font-body-md text-body-md mb-4 ${teDoen ? 'text-primary' : 'text-on-surface-variant'}">
       ${teDoen
@@ -320,12 +428,6 @@ async function laadBestellingen() {
           </span>
         </li>`).join('')}
     </ul>` : ''}`;
-
-  const verzet = async (id, naar) => {
-    const { error } = await db.from('bestellingen').update({ afhandeling: naar }).eq('id', id);
-    if (error) return toast('Bijwerken lukte niet: ' + error.message);
-    laadBestellingen();
-  };
 
   el.querySelectorAll('[data-schuif]').forEach((knop) => {
     knop.addEventListener('click', () => {
