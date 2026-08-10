@@ -95,7 +95,7 @@ const ORDER_ENDPOINT = '';
    werken zoals voorheen: bestellen en overschrijven. Vul dit pas in wanneer
    de edge function 'bestelling' in Supabase staat én MOLLIE_API_KEY daar is
    ingesteld — anders loopt de klant vast op de betaalknop. */
-const BETAAL_ENDPOINT = '';   // `${SUPABASE_URL}/functions/v1/bestelling`
+const BETAAL_ENDPOINT = 'https://vpyuagltoqdnvyuwiumo.supabase.co/functions/v1/bestelling';
 
 const wa = (tekst) =>
   `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(tekst || 'Dag Karolien, ')}`;
@@ -355,10 +355,6 @@ function renderHeader(actief) {
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="Instagram — een kijkje achter de schermen"
        class="xl:hidden inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">photo_camera</span>
-    </a>
-    <a href="${wa()}" target="_blank" rel="noopener" aria-label="WhatsApp"
-       class="hidden sm:inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
-      <span class="material-symbols-outlined">chat</span>
     </a>
     <a href="bestellen.html" aria-label="Winkelmandje"
        class="relative p-2 text-on-surface hover:text-primary transition-colors duration-300">
