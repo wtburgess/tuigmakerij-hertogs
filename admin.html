@@ -71,6 +71,9 @@
     </div>
     <div id="bestellingen" class="mb-12"></div>
 
+    <h2 class="font-headline-md text-headline-md text-primary mb-6">Op de hoogte blijven</h2>
+    <div id="inschrijvingen" class="mb-12"></div>
+
     <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
       <h2 id="bewerk-titel" class="font-headline-md text-headline-md text-primary"></h2>
 
@@ -177,7 +180,7 @@ async function toonJuistePagina() {
   login.hidden = aan;
   beheer.hidden = !aan;
   document.getElementById('uitloggen').hidden = !aan;
-  if (aan) { laadLijst(); laadBestellingen(); }
+  if (aan) { laadLijst(); laadBestellingen(); laadInschrijvingen(); }
 }
 
 login.addEventListener('submit', async (e) => {
@@ -456,6 +459,64 @@ async function laadBestellingen() {
       kolom.classList.remove('bg-secondary-fixed/40');
       const id = e.dataTransfer.getData('text/plain');
       if (id) verzet(id, kolom.dataset.kolom);
+    });
+  });
+}
+
+/* -------------------------------------------------------- inschrijvingen
+   Mensen die hun nummer achterlieten om verwittigd te worden bij een nieuwe
+   collectie. Er vertrekt niets automatisch: je stuurt ze zelf een berichtje,
+   en de knop per rij opent WhatsApp met dat nummer al ingevuld. */
+async function laadInschrijvingen() {
+  const el = document.getElementById('inschrijvingen');
+  const { data, error } = await db.from('inschrijvingen')
+    .select('*').order('aangemaakt', { ascending: false });
+  if (error) return toast('Inschrijvingen ophalen lukte niet: ' + error.message);
+
+  if (!data.length) {
+    el.innerHTML = '<p class="py-4 font-body-md text-body-md text-on-surface-variant">Nog niemand ingeschreven.</p>';
+    return;
+  }
+
+  // wa.me wil een internationaal nummer zonder + en zonder spaties. Mensen
+  // typen doorgaans 0470…; die 0 wordt 32.
+  // ponytail: gaat uit van een Belgisch nummer. Komt er ooit buitenlands
+  // volk bij, dan het landnummer mee laten invoeren op het formulier.
+  const waNummer = (t) => {
+    const cijfers = t.replace(/\D/g, '');
+    return cijfers.startsWith('0') ? '32' + cijfers.slice(1) : cijfers;
+  };
+
+  el.innerHTML = `
+    <p class="font-body-md text-body-md text-on-surface-variant mb-4">
+      <strong class="text-primary">${data.length}</strong>
+      ${data.length > 1 ? 'mensen wachten' : 'iemand wacht'} op je volgende collectie.
+    </p>
+    <ul class="divide-y divide-dashed divide-secondary/40 border-y border-dashed border-secondary/40">
+      ${data.map((i) => `
+        <li class="py-3 flex flex-wrap items-center gap-x-4 gap-y-2 font-body-md text-body-md text-on-surface">
+          <span>${i.telefoon}</span>
+          <span class="font-label-mono text-label-mono uppercase text-outline">
+            ${new Date(i.aangemaakt).toLocaleDateString('nl-BE')}
+          </span>
+          <a href="https://wa.me/${waNummer(i.telefoon)}" target="_blank" rel="noopener"
+             class="ml-auto inline-flex items-center gap-1 text-primary border-b border-dashed border-current">
+            <span class="material-symbols-outlined text-[20px]">chat</span> Bericht
+          </a>
+          <button type="button" data-schrap="${i.id}" aria-label="Inschrijving verwijderen"
+                  class="p-1 text-secondary hover:text-error">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </li>`).join('')}
+    </ul>`;
+
+  el.querySelectorAll('[data-schrap]').forEach((knop) => {
+    knop.addEventListener('click', async () => {
+      const i = data.find((x) => x.id === knop.dataset.schrap);
+      if (!confirm(`${i.telefoon} uit de lijst halen?`)) return;
+      const { error } = await db.from('inschrijvingen').delete().eq('id', i.id);
+      if (error) return toast('Verwijderen lukte niet: ' + error.message);
+      laadInschrijvingen();
     });
   });
 }
