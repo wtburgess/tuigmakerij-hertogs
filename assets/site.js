@@ -67,10 +67,10 @@ tailwind.config = {
 const CONTACT = {
   naam: 'Karolien Hertogs',
   atelier: 'Tuigtassen Hertogs',
-  email: 'info@tuigtassenhertogs.be',   // TODO: echt mailadres
+  email: 'karolien@tuigtassenhertogs.be',
   telefoon: '+32 487 49 33 68',
   whatsapp: '32487493368',            // internationaal, zonder + en zonder spaties
-  adres: 'Eernegem, België',          // TODO: straat en nummer, als je die publiek wil
+  adres: 'Kriekestraat 131, 8480 Eernegem, België',
   btw: 'BE 1039.887.807',
   instagram: 'https://www.instagram.com/tuigmakerij.hertogs/',
   facebook: 'https://www.facebook.com/tuigtassenhertogs',     // TODO: echte link
@@ -415,23 +415,58 @@ function renderFooter() {
 /* ------------------------------------------------------- collectiedrop
    Staat op de home én op de collectiepagina. Eén plek, want anders loopt de
    tekst op de twee pagina's vroeg of laat uit elkaar.
-   In de HTML: <section data-drop></section> */
-function renderDrop() {
+   De kop verschilt per pagina; die staat in het data-drop-attribuut zelf.
+   In de HTML: <section data-drop="Blijf op de hoogte"></section> */
+function renderDrop(titel) {
   return `
 <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
 <div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary/40"></div>
 <div class="max-w-xl mx-auto px-margin-mobile text-center">
-  <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">Nieuwe tassen als eerste zien</h2>
+  <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">${titel}</h2>
   <p class="font-body-md text-body-md text-secondary mb-10">
-    Een nieuwe collectie is meestal snel weg. Stuur me een berichtje op WhatsApp en ik
-    verwittig je zodra er nieuwe tassen klaar zijn. Geen nieuwsbrief of spam, één
-    berichtje wanneer het zover is.
+    Deze collectie is exclusief, en beperkt in omvang. Wil je als eerste verwittigd worden
+    wanneer er nieuwe collectiestukken beschikbaar zijn? Laat hier je telefoonnummer achter
+    en je ontvangt een bericht.
   </p>
-  <a href="${wa('Dag Karolien, hou je mij op de hoogte van een volgende collectie? ')}" target="_blank" rel="noopener"
-     class="inline-flex items-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
-    <span class="material-symbols-outlined text-base">chat</span> Hou me op de hoogte
-  </a>
+  <form data-inschrijving class="flex flex-col sm:flex-row items-stretch gap-4 text-left">
+    <input class="input-underline flex-1" name="telefoon" type="tel" required
+           autocomplete="tel" placeholder="Jouw telefoonnummer *">
+    <button type="submit"
+            class="shrink-0 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest
+                   px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300
+                   disabled:opacity-60 disabled:cursor-not-allowed">
+      Inschrijven
+    </button>
+  </form>
+  <p data-inschrijving-melding class="font-body-md text-body-md text-secondary mt-4 hidden"></p>
 </div>`;
+}
+
+/* Het nummer gaat naar de tabel `inschrijvingen`; die laat alleen invoegen toe,
+   niemand kan de lijst uitlezen met de publieke sleutel. */
+function inschrijvingKlaarzetten(form) {
+  const melding = form.parentElement.querySelector('[data-inschrijving-melding]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const knop = form.querySelector('button');
+    knop.disabled = true;
+    melding.classList.add('hidden');
+    try {
+      const antwoord = await fetch(`${SUPABASE_URL}/rest/v1/inschrijvingen`, {
+        method: 'POST',
+        headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telefoon: form.telefoon.value.trim() })
+      });
+      if (!antwoord.ok) throw new Error(`HTTP ${antwoord.status}`);
+      form.remove();
+      melding.textContent = 'Genoteerd. Je krijgt een bericht zodra er nieuwe tassen klaar zijn.';
+    } catch (fout) {
+      console.warn('Inschrijven lukte niet.', fout);
+      melding.textContent = 'Dat lukte niet. Probeer het later opnieuw, of stuur me een berichtje op WhatsApp.';
+      knop.disabled = false;
+    }
+    melding.classList.remove('hidden');
+  });
 }
 
 /* --------------------------------------------------------------- badges
@@ -516,7 +551,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (header) header.innerHTML = renderHeader(document.body.dataset.page);
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = renderFooter();
-  document.querySelectorAll('[data-drop]').forEach((el) => { el.innerHTML = renderDrop(); });
+  document.querySelectorAll('[data-drop]').forEach((el) => {
+    el.innerHTML = renderDrop(el.dataset.drop || 'Blijf op de hoogte');
+    inschrijvingKlaarzetten(el.querySelector('[data-inschrijving]'));
+  });
 
   // mobiel menu
   const toggle = document.querySelector('[data-menu-toggle]');

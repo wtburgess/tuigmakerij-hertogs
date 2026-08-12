@@ -78,7 +78,7 @@ Er is geen bouwstap nodig voor de site zelf; dat commando dient enkel om
 die wél online moet, zet ze dan mee in die `cp`-regel.
 
 Het domein staat bij EasyHost, met de nameservers naar Cloudflare. Daar loopt
-ook Email Routing: `info@tuigtassenhertogs.be` stuurt door naar Gmail.
+ook Email Routing: `karolien@tuigtassenhertogs.be` stuurt door naar Gmail.
 
 Let op: een gratis Supabase-project gaat slapen na een week zonder activiteit.
 Een dagelijkse ping (cron-job.org) op de REST-URL houdt het wakker. Slaapt het
