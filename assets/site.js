@@ -34,7 +34,10 @@ tailwind.config = {
         'container-max': '1440px', 'section-padding': '96px', 'section-xl': '120px'
       },
       maxWidth: { 'container-max': '1440px' },
-      /* Twee stemmen:
+      /* Twee stemmen, waarvan één in twee toonhoogtes:
+         - Caveat Brush — de kwastversie, enkel voor de h1. Die staat niet hier
+           maar in styles.css: de klasse hieronder wordt ook door h2's en
+           citaten gebruikt, en die blijven de gewone Caveat.
          - Caveat — het handschrift van de maakster. Grote koppen.
          - EB Garamond — al de rest. Broodtekst, kleinere koppen, en in
            kapitalen met ruime spatiëring ook de labels en de navigatie, zodat
@@ -323,7 +326,7 @@ function toast(tekst) {
 const NAV = [
   { href: 'index.html', label: 'Home', page: 'home' },
   { href: 'collectie.html', label: 'Collectie', page: 'collectie' },
-  { href: 'bio.html', label: 'Bio', page: 'bio' },
+  { href: 'bio.html', label: 'Verhaal', page: 'bio' },
   { href: 'onderhoud.html', label: 'Herstel & zorg', page: 'onderhoud' },
   { href: 'faq.html', label: 'FAQ', page: 'faq' }
 ];
@@ -418,9 +421,11 @@ function renderFooter() {
    De kop verschilt per pagina; die staat in het data-drop-attribuut zelf.
    In de HTML: <section data-drop="Blijf op de hoogte"></section> */
 function renderDrop(titel) {
+  /* Geen streepjesrails boven en onder: het blok heeft zijn eigen kleur en een
+     scheurrand (zie .golfrand in styles.css), en dat is één scheiding genoeg.
+     Op de collectiepagina loopt het bovendien door in het blok eronder — daar
+     zou een rail dwars door één doorlopend vlak lopen. */
   return `
-<div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
-<div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary/40"></div>
 <div class="max-w-xl mx-auto px-margin-mobile text-center">
   <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">${titel}</h2>
   <p class="font-body-md text-body-md text-secondary mb-10">

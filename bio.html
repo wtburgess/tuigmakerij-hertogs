@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bio — Karolien Hertogs, zadelmaker</title>
+<title>Verhaal — Karolien Hertogs, zadelmaker</title>
 <meta name="description" content="Het verhaal van Karolien Hertogs: van dierwetenschappen over een ongeval naar de opleiding tot zadelmaker en een eigen tuigmakerij.">
 <!-- TODO bij livegang: deze regel schrappen. Cloudflare vervangt robots.txt
      door een eigen bestand, dus het weren van zoekmachines moet hier. -->
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -23,10 +23,10 @@
 <main>
 
   <!-- 1. Hero -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-12 pb-16 md:pt-20 md:pb-24">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-gutter items-center">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-16 md:pb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-gutter items-start">
 
-      <div class="md:col-span-6">
+      <div class="lg:col-span-6">
         <div class="flex items-center gap-4 mb-8">
           <span class="w-12 stitch-divider"></span>
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Het verhaal</span>
@@ -46,7 +46,7 @@
         </p>
       </div>
 
-      <div class="md:col-span-6 lg:col-start-8 lg:col-span-5">
+      <div class="lg:col-span-5 lg:col-start-8">
         <div class="parallax-kader aspect-[4/5] hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
           <!-- Staande uitsnede links: op de homepage staat dezelfde foto,
                daar in de volle breedte. -->
@@ -58,14 +58,14 @@
   </section>
 
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-    <div class="stitch-divider"></div>
+    <div class="stitch-divider-dubbel"></div>
   </div>
 
   <!-- 2. Jeugd & masteropleiding -->
   <section class="py-24 md:py-32 bg-background">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-        <div class="md:col-span-5 md:col-start-2 order-2 md:order-1">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+        <div class="lg:col-span-5 lg:col-start-2 order-2 md:order-1">
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Hoofdstuk één</span>
           <h2 class="font-display-lg text-[30px] md:text-[38px] text-primary mt-3 mb-6">Wanneer dromen opdringerig komen aankloppen</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant mb-5">
@@ -84,7 +84,7 @@
         </div>
         <!-- Liggend beeld, dus een bredere kolom en een liggende verhouding —
              in het staande kader van 3/4 viel de tractor buiten beeld. -->
-        <div class="md:col-span-5 md:col-start-7 order-1 md:order-2 mb-8 md:mb-0">
+        <div class="lg:col-span-5 lg:col-start-7 order-1 md:order-2 mb-8 md:mb-0">
           <div class="parallax-kader aspect-[3/2] hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <img data-img="heideTractor"  alt="Een vrouw met een tuigtas over de schouder bij haar paard en een oude tractor in de bloeiende heide" loading="lazy"
                  class="parallax-beeld w-full h-full object-cover">
@@ -94,11 +94,12 @@
     </div>
   </section>
 
-  <!-- 3. Het ongeval -->
-  <section class="py-24 md:py-32 bg-surface-container-low border-y-2 border-dashed border-secondary/40">
+  <!-- 3. Het ongeval. Onderaan geen scheur: het citaatvlak hieronder schuift
+       er met zijn eigen scheurrand overheen. -->
+  <section class="py-24 md:py-32 bg-surface-container-low golfrand-boven">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-        <div class="md:col-span-6 order-1 mb-12 md:mb-0 relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+        <div class="lg:col-span-6 order-1 mb-12 md:mb-0 relative">
           <div class="parallax-kader aspect-square w-4/5 relative z-10 mt-12 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <img data-img="handenStiksel"  alt="Handen die met gewaxt garen door dik plantaardig gelooid leder stikken" loading="lazy"
                  class="parallax-beeld w-full h-full object-cover">
@@ -108,7 +109,7 @@
                  class="w-full h-full object-cover opacity-80">
           </div>
         </div>
-        <div class="md:col-span-5 md:col-start-8 order-2">
+        <div class="lg:col-span-5 lg:col-start-8 order-2">
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Hoofdstuk twee</span>
           <h2 class="font-display-lg text-[30px] md:text-[38px] text-primary mt-3 mb-6">Wanneer het leven je overkomt</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant mb-5">
@@ -130,23 +131,28 @@
     </div>
   </section>
 
-  <!-- Pull-quote -->
-  <section class="py-20 md:py-28 bg-background">
+  <!-- Pull-quote — het kantelpunt van het verhaal, dus krijgt het een eigen
+       vlak in de warme tint met een scheurrand boven en onder. De steken zijn
+       hier wit: op een donkere ondergrond moet de naad oplichten. -->
+  <section class="py-20 md:py-28 bg-secondary texture-linen texture-linen-dark golfrand-boven -mt-8 relative">
     <div class="max-w-3xl mx-auto px-margin-mobile text-center">
-      <span class="block w-16 stitch-divider mx-auto mb-10"></span>
-      <blockquote class="font-display-lg text-[26px] md:text-[38px] leading-snug text-primary">
+      <span class="block w-16 stitch-divider stitch-divider-licht mx-auto mb-10"></span>
+      <blockquote class="font-display-lg leading-snug text-inverse-on-surface">
         “Een sterke wil, geholpen door een flinke dosis geluk, kan soms wonderen verrichten.
         En dat geluk, dat had ik.”
       </blockquote>
-      <span class="block w-16 stitch-divider mx-auto mt-10"></span>
+      <span class="block w-16 stitch-divider stitch-divider-licht mx-auto mt-10"></span>
     </div>
   </section>
 
-  <!-- 4. Leven volgens je eigen waarden -->
-  <section class="py-24 md:py-32 bg-surface-container-low border-y-2 border-dashed border-secondary/40">
+  <!-- 4. Leven volgens je eigen waarden. Schuift 32px over het bruine vlak
+       heen — precies de hoogte van de scheur — zodat de uitsparing op het
+       bruin valt en niet op de paginakleur. Anders zie je tussen de twee
+       vlakken een streepje achtergrond terugkomen. -->
+  <section class="py-24 md:py-32 bg-surface-container-low golfrand -mt-8 relative">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
-        <div class="md:col-span-5 md:col-start-2">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+        <div class="lg:col-span-5 lg:col-start-2">
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Hoofdstuk drie</span>
           <h2 class="font-display-lg text-[30px] md:text-[38px] text-primary mt-3 mb-6">Leven volgens je eigen waarden</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant mb-5">
@@ -163,7 +169,7 @@
             niet te besteden aan datgene waar je hart sneller van gaat slaan.
           </p>
         </div>
-        <figure class="md:col-span-4 md:col-start-8 mt-12 md:mt-0">
+        <figure class="lg:col-span-4 lg:col-start-8 mt-12 md:mt-0">
           <div class="aspect-[3/4] hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <!-- Zolang de echte foto er nog niet staat, valt hij terug op het atelierbeeld. -->
             <img data-img="maudPonyzadel" alt="Maud als baby naast het afgewerkte ponyzadel" loading="lazy"
@@ -182,10 +188,10 @@
   <!-- 5. Een oude ziel -->
   <section class="py-24 md:py-32 bg-background">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
         <!-- Twee beelden: een groot, en een kleiner dat er onderaan
              overheen schuift. -->
-        <div class="md:col-span-5 order-2 md:order-1 mt-12 md:mt-0 relative pb-24 md:pb-32 pr-12 md:pr-16">
+        <div class="lg:col-span-5 order-2 md:order-1 mt-12 md:mt-0 relative pb-24 md:pb-32 pr-12 md:pr-16">
           <div class="parallax-kader aspect-square hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <img data-img="patina"  alt="Macro-opname van gedragen volnerf leder met diepe patina" loading="lazy"
                  class="parallax-beeld w-full h-full object-cover">
@@ -196,7 +202,7 @@
                  class="w-full h-full object-cover">
           </div>
         </div>
-        <div class="md:col-span-5 md:col-start-7 order-1 md:order-2">
+        <div class="lg:col-span-5 lg:col-start-7 order-1 md:order-2">
           <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Hoofdstuk vier</span>
           <h2 class="font-display-lg text-[30px] md:text-[38px] text-primary mt-3 mb-6">Oude ziel</h2>
           <p class="font-body-lg text-body-lg text-on-surface-variant mb-5">
@@ -224,19 +230,20 @@
   <!-- 6. Draagbare kunst -->
   <section class="pb-24 md:pb-32 bg-background">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="bg-primary text-on-primary p-10 md:p-16">
-        <div class="max-w-3xl">
-          <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary-fixed-dim">Tot slot</span>
-          <h2 class="font-display-lg text-[32px] md:text-[44px] mt-4 mb-6 leading-tight">Draagbare kunst</h2>
-          <p class="font-body-lg text-body-lg text-on-primary/90 mb-4">
-            Vandaag geef ik “gepensioneerde” zadels een tweede leven als handtas. Elk zadel draagt sporen uit
-            het verleden met zich mee. Die geschiedenis probeer ik niet te verbergen, maar net een plaats te
-            geven in een nieuw ontwerp. Ik noem mijn werk daarom graag draagbare kunst.
-          </p>
-          <p class="font-body-lg text-body-lg text-on-primary/90">
-            Elk stuk krijgt zo de kans om een nieuw verhaal te beginnen. Net zoals ik.
-          </p>
-        </div>
+      <!-- Zelfde vorm als het slotblok op de collectiepagina: donkergroen,
+           gestikte rand, alles gecentreerd. -->
+      <div class="bg-deep-forest texture-linen texture-linen-dark rounded-lg p-8 md:p-12
+                  border-2 border-dashed border-secondary-fixed/50 text-center">
+        <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-4">Tot slot</span>
+        <h2 class="font-display-lg leading-tight text-primary-fixed-dim mb-4 -rotate-1">Draagbare kunst</h2>
+        <p class="font-body-md text-body-md text-primary-fixed-dim/85 max-w-xl mx-auto mb-4">
+          Vandaag geef ik “gepensioneerde” zadels een tweede leven als handtas. Elk zadel draagt sporen uit
+          het verleden met zich mee. Die geschiedenis probeer ik niet te verbergen, maar net een plaats te
+          geven in een nieuw ontwerp. Ik noem mijn werk daarom graag draagbare kunst.
+        </p>
+        <p class="font-body-md text-body-md text-primary-fixed-dim/85 max-w-xl mx-auto">
+          Elk stuk krijgt zo de kans om een nieuw verhaal te beginnen. Net zoals ik.
+        </p>
       </div>
     </div>
   </section>

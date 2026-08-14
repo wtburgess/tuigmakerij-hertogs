@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -25,7 +25,7 @@
 <section id="ook-interessant" class="bg-surface-container-low border-t-2 border-dashed border-secondary/40">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
     <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary rotate-1 mb-12 pb-4 border-b-2 border-dashed border-secondary">Andere tassen in het atelier</h2>
-    <div id="ander-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-24 md:mb-32"></div>
+    <div id="ander-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-6 md:mb-8"></div>
   </div>
 </section>
 
@@ -117,7 +117,7 @@ paginaKlaar.then(() => {
         <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
         <p class="inline-block font-label-mono text-[16px] bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
 
-        <div class="w-16 stitch-divider mb-8"></div>
+        <div class="w-16 stitch-divider-dubbel mb-8"></div>
 
         <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${p.verhaal}</p>
 

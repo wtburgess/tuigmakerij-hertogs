@@ -12,6 +12,52 @@
 }
 .font-headline-md { font-weight: 500; }
 
+/* De paginakop krijgt de kwastversie van hetzelfde handschrift: dezelfde losse
+   hand als Caveat, maar met de vette streek van een penseel. Caveat blijft de
+   rest doen (h2's, citaten), zo botsen de twee niet — het is dezelfde stem,
+   luider.
+   Alleen h1: de klasse zelf blijft Caveat. Een andere letter proberen? Vervang
+   de familie hier én de fonts.googleapis-link in de <head> van de pagina's.
+   Caveat Brush kent maar één gewicht, vandaar de expliciete 400: anders maakt
+   de browser er zelf nog een vette van en slibben de lussen dicht. */
+h1.font-display-lg {
+  font-family: 'Caveat Brush', cursive;
+  font-weight: 400;
+  line-height: 1.15;
+  /* Eén grootte voor álle paginakoppen. De pagina's droegen elk hun eigen
+     pixelwaarde (72, 64, 54, 40) — dat leest als vier verschillende sites.
+     Deze regel wint van die losse waarden (element + klasse is specifieker dan
+     een klasse), dus het formaat staat hier en nergens anders. Caveat Brush is
+     forser van streek dan Caveat, vandaar dat kleiner hier niet kleiner oogt. */
+  font-size: clamp(34px, 4.4vw, 48px);
+}
+
+/* Dezelfde behandeling voor de rest van de koppenladder. De pagina's droegen
+   elk hun eigen pixelwaarden (52, 56, 44, 48, 42, 64…), waardoor twee even
+   belangrijke koppen op twee pagina's een verschillend formaat kregen. Hier
+   staat de hele ladder bij elkaar, zodat je hem in één blik kunt beoordelen:
+
+     h1  34 → 48px   paginakop, één per pagina
+     h2  30 → 44px   sectiekop
+     h3  26px        kaartkop (font-headline-md)
+     citaat 24 → 34px
+
+   De losse text-[..px]-klassen in de HTML doen hierdoor niets meer. Ze staan er
+   nog voor wie de opmaak in de HTML wil kunnen lezen; wil je een formaat
+   wijzigen, dan doe je dat hier. */
+h2.font-display-lg,
+h3.font-display-lg { font-size: clamp(30px, 3.6vw, 44px); }
+h2.font-headline-md,
+h3.font-headline-md { font-size: 26px; }
+blockquote.font-display-lg { font-size: clamp(24px, 2.6vw, 34px); }
+
+/* Koppen breken vanzelf op de mooiste plek: past de kop op één regel, dan
+   blijft hij op één regel; moet hij breken, dan verdeelt de browser de woorden
+   gelijk over de regels in plaats van er één woord op de laatste te laten
+   bengelen. Een handmatige <br> hoort alleen nog waar de tekst écht uit twee
+   zinnen bestaat die je uit elkaar wíl. */
+h1, h2, h3, blockquote { text-wrap: balance; }
+
 /* Broodtekst iets ruimer laten ademen dan de standaard. */
 body { text-rendering: optimizeLegibility; }
 
@@ -27,6 +73,13 @@ body { text-rendering: optimizeLegibility; }
     to right, transparent 0 4px, #a3866a 4px 12px
   );
 }
+/* Dezelfde naad op een donkere ondergrond: in gebroken wit, anders valt hij
+   weg in het leer. */
+.stitch-divider-licht {
+  background-image: repeating-linear-gradient(
+    to right, transparent 0 4px, #f3f1e9 4px 12px
+  );
+}
 .stitch-border-top {
   border-top: 2px solid transparent;
   border-image: repeating-linear-gradient(
@@ -36,6 +89,63 @@ body { text-rendering: optimizeLegibility; }
 
 /* Gestikte rand rond knoppen en kaders: 2px streepjes in zadelbruin. */
 .stitched-border { border: 2px dashed #725946; }
+
+/* Niet elke naad is dezelfde naad. Naast de streepjesrand hierboven liggen
+   hier de kruisjessteek en de dubbele stiklijn. Ze zijn bedoeld om áf te
+   wisselen: één soort op alle kaders leest weer als één patroon. */
+:root {
+  /* Eén kruisje, voor een rij steken op een lijn. */
+  --steek-kruis: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5" stroke="%23a3866a" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
+  /* Negen kruisjes in een 3x3-raster: vier hoeken, vier zijden, een leeg
+     midden. Precies wat border-image nodig heeft om een kader te naaien. */
+  --steek-kruis-kader: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5M14.5,2.5L21.5,9.5M21.5,2.5L14.5,9.5M26.5,2.5L33.5,9.5M33.5,2.5L26.5,9.5M2.5,14.5L9.5,21.5M9.5,14.5L2.5,21.5M26.5,14.5L33.5,21.5M33.5,14.5L26.5,21.5M2.5,26.5L9.5,33.5M9.5,26.5L2.5,33.5M14.5,26.5L21.5,33.5M21.5,26.5L14.5,33.5M26.5,26.5L33.5,33.5M33.5,26.5L26.5,33.5" stroke="%23a3866a" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
+}
+
+/* Kruisjessteek als kader. Het is een border-image met een 3x3-tegel: de vier
+   hoekvakjes worden één keer geplaatst en nooit uitgerekt, de zijkanten
+   herhalen ertussen. `round` schaalt die herhaling zodat er hele kruisjes
+   uitkomen in plaats van een halve tegen de hoek aan.
+   De rand ligt op een ::after en niet op het element zelf: zo kost hij geen
+   ruimte en verschuift er niets in de kaart.
+   Kaarten in een raster krijgen die steek om de beurt vanzelf — vandaar de
+   nth-child hieronder. Dat gebeurt hier en niet in de HTML: zo hoeft geen
+   enkele kaart te weten welke steek hij toevallig krijgt, en blijft de
+   afwisseling kloppen als er een kaart bijkomt of wegvalt. Elke derde kaart
+   krijgt verderop een dubbele naad (zie .saddle-stitch). */
+.steek-kruis,
+.kaart-tilt:nth-child(3n+2) { position: relative; }
+/* De streepjesrand van Tailwind moet weg waar de kruisjes komen: twee soorten
+   naad op één kader is geen afwisseling maar rommel. */
+.kaart-tilt:nth-child(3n+2) { border-color: transparent; }
+.steek-kruis::after,
+.kaart-tilt:nth-child(3n+2)::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 12px solid transparent;
+  border-image: var(--steek-kruis-kader) 12 round;
+  pointer-events: none;
+}
+
+/* Twee rijen steken, een halve steek verspringend: de zadelnaad van dichtbij. */
+.stitch-divider-dubbel {
+  height: 6px;
+  background-image:
+    repeating-linear-gradient(to right, transparent 0 4px, #a3866a 4px 12px),
+    repeating-linear-gradient(to right, transparent 0 4px, #a3866a 4px 12px);
+  background-size: 100% 2px;
+  background-repeat: repeat-x;
+  background-position: 0 0, 8px 100%;
+}
+
+/* Dezelfde scheidingslijn, maar geborduurd in plaats van gestikt. `round`
+   rekt de tegel een haar op of neer zodat de rij op een heel kruisje eindigt. */
+.stitch-divider-kruis {
+  height: 12px;
+  background-image: var(--steek-kruis);
+  background-repeat: round no-repeat;
+  background-size: 12px 12px;
+}
 
 /* Papierkorrel over de hele pagina — haalt het vlakke uit de digitale kleur.
    De body heeft hiervoor `relative` nodig. */
@@ -60,6 +170,11 @@ body { text-rendering: optimizeLegibility; }
   content: "";
   position: absolute;
   inset: 0;
+  /* Het weefsel volgt de vorm van het vlak. Zonder dit blijft de laag een
+     rechthoek en steekt hij bij een afgeronde kaart in de hoeken buiten het
+     vlak uit — daar vermenigvuldigt hij dan met de páginakleur, en dat leest
+     als vier vuile hoekjes rond de kaart. */
+  border-radius: inherit;
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"%3E%3Cfilter id="schering"%3E%3CfeTurbulence type="turbulence" baseFrequency="0.02 0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Cfilter id="inslag"%3E%3CfeTurbulence type="turbulence" baseFrequency="0.9 0.02" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23schering)"/%3E%3Crect width="100%25" height="100%25" filter="url(%23inslag)" opacity="0.7"/%3E%3C/svg%3E');
   background-size: 220px 220px;
   opacity: .22;
@@ -107,9 +222,13 @@ body { text-rendering: optimizeLegibility; }
   mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
 }
 
-/* Zadelsteek: een streepjeslijn nét binnen de rand, zoals bij ingenaaid leer. */
-.saddle-stitch { position: relative; }
-.saddle-stitch::after {
+/* Zadelsteek: een streepjeslijn nét binnen de rand, zoals bij ingenaaid leer.
+   Op een kader dat zelf al een streepjesrand heeft, wordt dat een dubbele
+   stiklijn — daarom krijgt elke derde kaart in een raster hem erbij. */
+.saddle-stitch,
+.kaart-tilt:nth-child(3n) { position: relative; }
+.saddle-stitch::after,
+.kaart-tilt:nth-child(3n)::after {
   content: "";
   position: absolute;
   inset: 8px;
@@ -120,10 +239,73 @@ body { text-rendering: optimizeLegibility; }
   z-index: 20;
 }
 .saddle-stitch-dark::after { border-color: rgba(114, 89, 70, .8); inset: 6px; }
+/* Op een kaart mag de tweede naad lichter: hij ligt er náást de bestaande
+   rand, niet in plaats van. */
+.kaart-tilt:nth-child(3n)::after { border-color: rgba(114, 89, 70, .45); inset: 6px; }
 
 @media (prefers-reduced-motion: no-preference) {
   .saddle-stitch::after { transition: inset .3s ease; }
   .saddle-stitch:hover::after { inset: 14px; }
+}
+
+/* Volle kleurvlakken hoeven geen rechthoek te zijn. Boven- en onderrand
+   krijgen de lijn van een gescheurde huid: geen regelmatige golf maar een paar
+   lange, trage bulten van verschillende lengte. Bewust rustig — hoe meer
+   bochten, hoe drukker de rand, en dan gaat hij met de pagina concurreren in
+   plaats van hem af te bakenen.
+   Het pad is één keer getekend over 1200 eenheden en wordt uitgerekt over de
+   volle breedte (preserveAspectRatio="none", geen repeat). Dat is bewust:
+   herhaal je een tegel, dan ziet het oog het ritme meteen en oogt het weer
+   machinaal. Uitrekken maakt de bulten op een breed scherm wat breder — dat is
+   precies wat een echte scheurrand ook doet.
+   De onderrand is hetzelfde pad, een halve slag gedraaid, zodat boven en onder
+   geen spiegelbeeld van elkaar zijn.
+   Drie maskerlagen: de rand bovenaan, een vlak middenstuk, de rand onderaan.
+   Let op: een kader met een rechte rand (border-y, een streepjesrail) knipt de
+   scheur weer recht — die hoort hier dus niet bij.
+
+   Er zijn drie varianten, en welke je nodig hebt hangt af van wat eróm staat.
+   In de uitsparing van een scheur zie je namelijk de laag eronder: staat daar
+   de paginakleur terwijl de buur een andere kleur heeft, dan flitst er een
+   derde kleur tussen en oogt de overgang rommelig.
+     .golfrand        scheur boven én onder — als beide buren een andere
+                      kleur hebben dan het vlak zelf
+     .golfrand-boven  alleen bovenaan — het vlak loopt vanonder gewoon door in
+                      wat erop volgt (footer, of een blok van dezelfde kleur)
+     .golfrand-onder  alleen onderaan — spiegelbeeld daarvan
+   Twee blokken van dezelfde kleur onder elkaar krijgen dus géén scheur tussen
+   zich in: daar valt niets te scheiden. */
+.golfrand,
+.golfrand-boven,
+.golfrand-onder {
+  --golf: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1200" height="32" viewBox="0 0 1200 32" preserveAspectRatio="none"%3E%3Cpath d="M0,16C90,10 150,23 262,20C374,17 424,9 542,12C660,15 706,24 832,21C950,18 1002,11 1092,14C1142,16 1172,19 1200,17L1200,32L0,32Z" fill="%23000"/%3E%3C/svg%3E');
+  --golf-om: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1200" height="32" viewBox="0 0 1200 32" preserveAspectRatio="none"%3E%3Cg transform="translate(1200,32) scale(-1,-1)"%3E%3Cpath d="M0,16C90,10 150,23 262,20C374,17 424,9 542,12C660,15 706,24 832,21C950,18 1002,11 1092,14C1142,16 1172,19 1200,17L1200,32L0,32Z" fill="%23000"/%3E%3C/g%3E%3C/svg%3E');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.golfrand {
+  -webkit-mask-image: var(--golf), linear-gradient(#000 0 0), var(--golf-om);
+  -webkit-mask-size: 100% 32px, 100% calc(100% - 62px), 100% 32px;
+  -webkit-mask-position: top left, left 31px, bottom left;
+  mask-image: var(--golf), linear-gradient(#000 0 0), var(--golf-om);
+  mask-size: 100% 32px, 100% calc(100% - 62px), 100% 32px;
+  mask-position: top left, left 31px, bottom left;
+}
+.golfrand-boven {
+  -webkit-mask-image: var(--golf), linear-gradient(#000 0 0);
+  -webkit-mask-size: 100% 32px, 100% calc(100% - 31px);
+  -webkit-mask-position: top left, left 31px;
+  mask-image: var(--golf), linear-gradient(#000 0 0);
+  mask-size: 100% 32px, 100% calc(100% - 31px);
+  mask-position: top left, left 31px;
+}
+.golfrand-onder {
+  -webkit-mask-image: linear-gradient(#000 0 0), var(--golf-om);
+  -webkit-mask-size: 100% calc(100% - 31px), 100% 32px;
+  -webkit-mask-position: top left, bottom left;
+  mask-image: linear-gradient(#000 0 0), var(--golf-om);
+  mask-size: 100% calc(100% - 31px), 100% 32px;
+  mask-position: top left, bottom left;
 }
 
 /* Objecten die op een bureau liggen, niet zweven. */

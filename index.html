@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -24,30 +24,31 @@
 
   <!-- 1. Hero — meteen tonen wát Karolien doet: de twee takken van het
        ambacht. Tekstblok en beeld overlappen elkaar, ze staan niet netjes
-       naast elkaar: 5/12 tegen 7/12, met het beeld dat eronderdoor loopt. -->
-  <section class="md:min-h-[80vh] px-margin-mobile md:px-margin-desktop py-stack-raw
-                  flex flex-col md:flex-row items-center gap-8 md:gap-16 max-w-container-max mx-auto">
-    <div class="w-full md:w-5/12 relative z-20">
+       naast elkaar: 5/12 tegen 7/12, met het beeld dat eronderdoor loopt. Het
+       beeld krijgt het ruimste deel — dat vertelt het ambacht in één blik. -->
+  <section class="lg:min-h-[80vh] px-margin-mobile md:px-margin-desktop py-stack-raw
+                  flex flex-col lg:flex-row items-center gap-8 lg:gap-12 max-w-container-max mx-auto">
+    <div class="w-full lg:w-5/12 relative z-20">
       <div class="kaart-organisch bg-khaki texture-linen p-8 md:p-12">
+        <!-- Drie woorden, drie regels: in de smallere kolom breekt de kop toch,
+             en dan liever op de punt dan middenin een woordgroep. -->
         <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">
-          Herstellen. Hergebruiken. Koesteren.
+          Herstellen.<br>Hergebruiken.<br>Koesteren.
         </h1>
         <div class="font-body-md text-body-md text-on-surface-variant space-y-5 mb-8">
           <p>
-            We leven gehaast, consumeren en vervangen. Wat beschadigd is, wordt al snel afgeschreven.
-            In mijn atelier vertraagt de tijd. Hier kies ik bewust voor trager, duurzamer en degelijker.
-            Voor herstellen wat nog waarde heeft en koesteren wat al een leven achter zich draagt.
+            We leven gehaast, consumeren en vervangen. Wat beschadigd is, wordt snel afgeschreven.
+            In mijn atelier vertraagt de tijd: hier kies ik voor trager, duurzamer en degelijker.
+            Voor herstellen wat waarde heeft, en koesteren wat al een leven achter zich draagt.
           </p>
           <p>
-            Leder is een waardevol product. Het verdient dan ook de tijd en zorg om zo lang mogelijk
-            mee te gaan. In mijn tuigmakerij herstel ik zadels, hoofdstellen en ander paardentuig,
-            zodat jij er nog jarenlang plezier van hebt.
+            Leder verdient die zorg. In mijn tuigmakerij herstel ik zadels, hoofdstellen en ander
+            paardentuig, zodat jij er nog jarenlang van kan genieten.
           </p>
           <p>
-            Bij oudere zadels is herstelling soms niet meer rendabel. Maar ook dan hoeft het niet
-            verloren te gaan. Onder de naam Tuigtassen Hertogs krijgt het leder een nieuwe bestemming
-            in de vorm van een unieke handtas. Met de hand genaaid, gemaakt om jarenlang mee te gaan
-            en met de sporen van het verleden zichtbaar in ieder ontwerp.
+            Is herstellen niet meer rendabel, dan hoeft het leder niet verloren te gaan. Onder de naam
+            Tuigtassen Hertogs krijgt het een nieuw leven als unieke, handgenaaide tas. Gemaakt om
+            jaren mee te gaan, met de sporen van het verleden zichtbaar in elk ontwerp.
           </p>
         </div>
         <div class="flex flex-col sm:flex-row flex-wrap gap-4">
@@ -62,7 +63,7 @@
     </div>
     <!-- Het tekstblok is lang; het beeld rekt mee op tot dezelfde hoogte in
          plaats van als een postzegel in het midden te blijven hangen. -->
-    <div class="md:w-7/12 w-full h-[55vh] md:h-auto md:self-stretch md:min-h-[80vh] relative z-0">
+    <div class="lg:w-7/12 w-full h-[55vh] lg:h-auto lg:self-stretch lg:min-h-[80vh] relative z-0">
       <div class="parallax-kader w-full h-full hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
         <!-- De uitsnede zit op 24%: daar staan de rollen leder en de
              afgewerkte tas op de werkbank. Rechts van 58% komt de figuur in
@@ -76,13 +77,14 @@
   <!-- 2. Twee zaken, één ambacht — volle breedte in bosgroen, met een
        streepjesrail boven en onder alsof de band is ingenaaid. -->
   <section class="w-full bg-deep-forest texture-linen texture-linen-dark text-on-primary my-stack-raw py-stack-raw md:py-section-xl relative">
-    <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary-fixed/50"></div>
-    <div class="absolute bottom-0 inset-x-0 border-b-2 border-dashed border-secondary-fixed/50"></div>
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+    <!-- Geborduurde rails boven en onder, zoals de sierranden in een blad. -->
+    <div class="absolute top-0 inset-x-0 stitch-divider-kruis opacity-70"></div>
+    <div class="absolute bottom-0 inset-x-0 stitch-divider-kruis opacity-70"></div>
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div>
         <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-6">Tijd gevangen in vakmanschap</span>
         <h2 class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary-fixed-dim mb-8 -rotate-1">
-          Tijd is waardevol. Noodzakelijk. En steeds schaarser.<br>
+          Tijd is steeds schaarser.<br>
           Wat als we tijd konden vangen?
         </h2>
         <div class="font-body-md text-body-md text-primary-fixed-dim space-y-6">
@@ -102,7 +104,7 @@
           </p>
         </div>
         <div class="flex flex-wrap gap-6 mt-10 font-label-mono text-label-mono uppercase">
-          <a href="collectie.html#op-maat" class="inline-flex items-center gap-2 text-primary-fixed border-b border-dashed border-current pb-1 hover:text-on-primary transition-colors">
+          <a href="collectie.html" class="inline-flex items-center gap-2 text-primary-fixed border-b border-dashed border-current pb-1 hover:text-on-primary transition-colors">
             Vang de tijd met jouw tuigtas <span class="material-symbols-outlined text-base">arrow_forward</span>
           </a>
         </div>
@@ -128,7 +130,7 @@
         Volledige collectie
       </a>
     </div>
-    <div id="home-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12 mb-24 md:mb-32"></div>
+    <div id="home-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mt-12 mb-6 md:mb-8"></div>
     <div class="text-center md:hidden">
       <a href="collectie.html" class="inline-block font-label-mono text-label-mono uppercase text-tertiary border-b border-dashed border-current pb-1">
         Volledige collectie
@@ -138,18 +140,20 @@
 
   <!-- 4. Jouw eigen zadel, een nieuw verhaal — beeld links, uit het lood,
        met een tweede vorm die eronderuit steekt. -->
-  <section class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen relative">
-    <div class="absolute top-0 inset-x-0 border-t-2 border-dashed border-secondary/40"></div>
+  <section class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen golfrand relative">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
-        <div class="order-2 md:order-1 md:col-span-5 relative h-80 md:h-[30rem]">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <!-- Het beeld staat een kolom smaller dan de tekst ernaast: de
+             opsomming heeft regellengte nodig, anders valt elk punt uiteen
+             over drie regels. -->
+        <div class="order-2 lg:order-1 lg:col-span-4 relative h-80 md:h-[30rem]">
           <div class="absolute inset-0 hide-mask-3 border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
           <div class="parallax-kader absolute inset-0 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden">
             <img data-img="zadelDemonteren"  alt="Handen die een oud zadel uit elkaar halen op de werkbank"
                  class="parallax-beeld object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
           </div>
         </div>
-        <div class="order-1 md:order-2 md:col-span-6 md:col-start-7">
+        <div class="order-1 lg:order-2 lg:col-span-7 lg:col-start-6">
           <span class="font-label-mono text-label-mono text-secondary uppercase block mb-6">Op maat</span>
           <h2 class="font-display-lg text-[40px] md:text-[56px] text-on-secondary-fixed mb-8 leading-tight -rotate-1">
             Jouw dierbare zadel, een unieke tuigtas
@@ -170,7 +174,7 @@
             Die geschiedenis probeer ik niet te verbergen, maar net een plaats te geven in een nieuw
             ontwerp. Zo kan je deze herinneringen blijvend koesteren en altijd dicht bij je dragen.
           </p>
-          <a href="collectie.html#op-maat" class="inline-block bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
+          <a href="collectie.html#werkwijze" class="inline-block bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
             Zo werkt het
           </a>
         </div>
@@ -181,8 +185,8 @@
   <!-- 5. Over Karolien — het citaat in handschrift, het portret ernaast
        als een uitgesneden huid. -->
   <section class="w-full py-stack-raw md:py-section-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
-      <div class="md:col-span-6 md:col-start-1">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="lg:col-span-6 lg:col-start-1">
         <blockquote class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary mb-8 pl-6 border-l-2 border-dashed border-secondary">
           “Met het maken van die eerste tas viel plots ook mijn eigen puzzel in elkaar.
           Daar kwamen alle stukjes samen: mijn liefde voor ambacht en vakmanschap, mijn band
@@ -196,7 +200,7 @@
           Lees mijn verhaal <span class="material-symbols-outlined text-base">arrow_forward</span>
         </a>
       </div>
-      <div class="md:col-span-5 md:col-start-8 relative h-96 md:h-[34rem]">
+      <div class="lg:col-span-5 lg:col-start-8 relative h-96 md:h-[34rem]">
         <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 translate-x-4 -translate-y-4"></div>
         <div class="parallax-kader absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden">
           <img data-img="atelierKarolien"  alt="Karolien Hertogs aan het werk in haar atelier"
@@ -208,7 +212,7 @@
 
   <!-- 6. Verwittiging bij een nieuwe collectie: je nummer achterlaten, en
        Karolien stuurt een berichtje zodra er nieuwe tassen klaar zijn. -->
-  <section id="drop" data-drop="Blijf op de hoogte" class="w-full py-stack-raw bg-surface-container-low relative scroll-mt-24"></section>
+  <section id="drop" data-drop="Blijf op de hoogte" class="w-full pt-stack-raw pb-20 md:pb-24 bg-surface-container-low golfrand relative scroll-mt-24"></section>
 
 </main>
 

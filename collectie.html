@@ -10,7 +10,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -24,9 +24,13 @@
 
   <!-- 1. Intro: de drie wegen — de kaarten staan bewust niet op één lijn. -->
   <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-24">
-    <div class="max-w-3xl">
-      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 -rotate-1">Vind jouw tuigtas</h1>
-      <div class="font-body-lg text-body-lg text-on-surface-variant space-y-6 mb-10">
+    <!-- De intro gebruikt de volle breedte: tekst links, citaat ernaast in
+         plaats van eronder. Dat scheelt zo'n twee schermregels hoogte, en
+         daardoor piepen de drie kaarten hieronder al net in beeld bij het
+         openen van de pagina. -->
+    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 -rotate-1">Vind jouw tuigtas</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-8 mb-14">
+      <div class="lg:col-span-7 font-body-lg text-body-lg text-on-surface-variant space-y-5">
         <p>
           Elke handtas ontstaat uit een paardenzadel dat ooit van grote waarde was voor de ruiter en
           zijn paard. Het leder draagt de sporen van alles wat ze onderweg samen hebben meegemaakt.
@@ -40,14 +44,14 @@
           Op naar nieuwe avonturen.
         </p>
       </div>
-      <blockquote class="font-display-lg text-[28px] md:text-[36px] leading-tight text-secondary mb-16 pl-6 border-l-2 border-dashed border-secondary">
+      <blockquote class="lg:col-span-5 self-start font-display-lg leading-tight text-secondary pl-6 border-l-2 border-dashed border-secondary">
         The art is finding beauty in the old and forgotten.
         The reward is that vintage never goes out of fashion.
       </blockquote>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left
-                [&>*:nth-child(2)]:md:translate-y-8 [&>*:nth-child(3)]:md:translate-y-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left
+                [&>*:nth-child(2)]:lg:translate-y-8 [&>*:nth-child(3)]:lg:translate-y-16">
       <a href="#voorraad" class="bg-surface-container-lowest p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
         <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="waegemans1" alt="Een afgewerkte tuigtas uit de collectie" loading="lazy" class="w-full h-full object-cover">
@@ -63,7 +67,7 @@
           Naar de tassen <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
       </a>
-      <a href="#op-maat" class="bg-secondary-fixed/40 p-8 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
+      <a href="#werkwijze" class="bg-secondary-fixed/40 p-8 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
         <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelWerkbank" alt="Een zadel dat zijn ruiterjaren achter zich heeft, op de werkbank" loading="lazy" class="w-full h-full object-cover">
         </div>
@@ -77,7 +81,7 @@
           Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
       </a>
-      <a href="#op-maat" class="bg-khaki/60 p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
+      <a href="#werkwijze" class="bg-khaki/60 p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
         <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelDemonteren" alt="Handen die een oud zadel uit elkaar halen" loading="lazy" class="w-full h-full object-cover">
         </div>
@@ -96,7 +100,7 @@
 
   <!-- 2. Productgrid — de kaarten verschuiven verticaal, dus onderaan moet
        extra ruimte staan: die verschuiving telt niet mee in de hoogte. -->
-  <section id="voorraad" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 scroll-mt-24">
+  <section id="voorraad" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-8 scroll-mt-24">
     <div class="flex justify-between items-end gap-6 mb-12 pb-4 border-b-2 border-dashed border-secondary">
       <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary rotate-1">Uit voorraad</h2>
       <span class="font-label-mono text-label-mono text-tertiary uppercase whitespace-nowrap">Direct leverbaar</span>
@@ -104,16 +108,29 @@
     <div id="collectie-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"></div>
   </section>
 
-  <!-- De kaarten schuiven verticaal met transforms; die tellen niet mee in de
-       hoogte, vandaar de ruime marge boven dit blok. -->
-  <section id="drop" data-drop="Nieuwe tassen als eerste zien" class="w-full mt-24 md:mt-32 py-stack-raw bg-surface-container-low relative scroll-mt-24"></section>
+  <!-- De onderste kaarten schuiven met een transform naar beneden; die
+       verschuiving telt niet mee in de hoogte, dus zonder marge zou dit blok
+       eroverheen komen. De marge is precies die verschuiving plus een kleine
+       tussenruimte.
+       De scheurrand zit hier, aan het begin van het beige deel: dit blok en de
+       banner eronder raken elkaar zonder kleurwissel, dus dáártussen valt
+       niets te scheiden. -->
+  <section id="drop" data-drop="Nieuwe tassen als eerste zien" class="w-full mt-12 md:mt-28 pt-stack-raw pb-20 md:pb-24 bg-surface-container-low golfrand-boven relative scroll-mt-24"></section>
 
-  <!-- 3. Custom-banner -->
-  <section class="bg-surface-container-low border-y-2 border-dashed border-secondary/40">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 flex flex-col md:flex-row items-center justify-between gap-12">
+  <!-- 3. Custom-banner. Hier draait de pagina: alles hierboven gaat over wat
+       er ligt, alles hieronder over wat er gemaakt wordt. Vandaar de warme
+       tint — dezelfde als het op-maat-blok op de home — met een scheurrand
+       boven én onder. Kleur en vorm zeggen samen: nieuw hoofdstuk. -->
+  <!-- Het blok schuift 32px omhoog, precies de hoogte van de scheur: zo valt
+       de uitsparing van de golf óp het beige blok erboven in plaats van op de
+       paginakleur. Zonder die overlap zie je eerst een streepje achtergrond
+       terugkomen en pas daarna het bruin. -->
+  <section class="bg-secondary-fixed-dim texture-linen golfrand -mt-8 relative">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 flex flex-col lg:flex-row items-center justify-between gap-12">
       <div class="max-w-xl">
-        <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary mb-4 -rotate-1">Geen exacte match?</h2>
-        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+        <span class="font-label-mono text-label-mono text-secondary uppercase block mb-4">Op maat</span>
+        <h2 class="font-display-lg leading-tight text-on-secondary-fixed mb-4 -rotate-1">Geen exacte match?</h2>
+        <p class="font-body-lg text-body-lg text-on-secondary-fixed-variant mb-8">
           Vind je niet volledig wat je zoekt, maar heb je ook geen eigen zadel? Laat een tas maken uit
           een zadel dat hier op voorraad ligt. Stuur me een berichtje of bel me even op en vertel me
           wat je zoekt. Samen bekijken we wat er mogelijk is. Verder verlopen de stappen gelijkaardig
@@ -124,12 +141,12 @@
              class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors duration-300">
             <span class="material-symbols-outlined text-base">chat</span> Stuur me een WhatsApp bericht
           </a>
-          <a href="#op-maat" class="inline-flex items-center gap-2 stitched-border text-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors duration-300">
+          <a href="#werkwijze" class="inline-flex items-center gap-2 stitched-border text-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors duration-300">
             Bekijk het stappenplan
           </a>
         </div>
       </div>
-      <div class="w-full md:w-1/2 aspect-video relative">
+      <div class="w-full lg:w-1/2 aspect-video relative">
         <div class="absolute inset-0 hide-mask-2 border-2 border-dashed border-secondary/50 translate-x-4 translate-y-4"></div>
         <div data-img-bg="handenStikken" role="img" aria-label="Handen die met priem en gewaxt garen door dik zadelleder werken"
              class="absolute inset-0 hide-mask-2 soft-edge-mask saddle-stitch bg-cover bg-center"></div>
@@ -138,11 +155,17 @@
   </section>
 
   <!-- 4. Werkwijze -->
-  <section id="op-maat" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24 scroll-mt-24">
-    <div class="max-w-2xl mb-16">
+  <section id="werkwijze" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-10 scroll-mt-24">
+    <!-- Ook hier de volle breedte: kop bovenaan, tekst eronder in twee
+         kolommen. De browser verdeelt de drie alinea's zelf over die kolommen;
+         de leesvolgorde blijft van boven naar beneden en dan naar rechts.
+         Marge alleen ónder elke alinea, anders krijgt de alinea die bovenaan
+         de tweede kolom belandt een marge boven zich en staan de kolomkoppen
+         niet meer gelijk. -->
+    <div class="mb-16">
       <span class="font-label-mono text-label-mono text-secondary uppercase">Werkwijze</span>
-      <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mt-3 mb-6">Van jouw zadel naar jouw tas</h2>
-      <div class="font-body-lg text-body-lg text-on-surface-variant space-y-6">
+      <h2 class="font-display-lg leading-tight rotate-1 text-primary mt-3 mb-6">Van jouw zadel naar jouw tas</h2>
+      <div class="font-body-lg text-body-lg text-on-surface-variant lg:columns-2 lg:gap-16 [&>p]:mb-6 [&>p:last-child]:mb-0">
         <p>
           Een tuigtas gemaakt uit je eigen zadel is extra bijzonder. Alle gebruikssporen op het leder
           zijn afkomstig van een persoonlijk geschreven verhaal. Het leder vertelt geheimen die enkel
@@ -191,7 +214,7 @@
 
     <!-- De vijf stappen lopen in kleur op: van bijna wit papier naar khaki,
          zodat je aan de tint ziet hoe ver in het traject je staat. -->
-    <ol class="grid grid-cols-1 md:grid-cols-5 gap-gutter">
+    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter">
       <li class="bg-surface-container-lowest p-6 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
         <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelSchaduw" alt="Een oud zadel, klaar om gefotografeerd te worden" loading="lazy" class="w-full h-full object-cover">
@@ -247,37 +270,19 @@
       </li>
     </ol>
 
-    <!-- Stap 1 hierboven is "contact", en dat contact begint hier. Het blok
-         staat er daarom als een eigen vertrekpunt bij, niet als een losse knop. -->
-    <div class="mt-16 bg-deep-forest texture-linen texture-linen-dark rounded-lg p-8 md:p-12
-                border-2 border-dashed border-secondary-fixed/50 text-center">
-      <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-4">Stap 1 van 5</span>
-      <h3 class="font-display-lg text-[32px] md:text-[42px] leading-tight text-primary-fixed-dim mb-4 -rotate-1">
-        Alles begint met jouw berichtje
-      </h3>
-      <p class="font-body-md text-body-md text-primary-fixed-dim/85 max-w-xl mx-auto mb-8">
-        Heb je een specifiek zadel of type tas in gedachten? Stuur me gerust even een foto via
-        WhatsApp. Vertel me er iets meer over, en dan bekijken we samen wat er mogelijk is!
-      </p>
-      <a data-wa="Dag Karolien, ik heb een zadel waar ik graag een tas van zou laten maken. "
-         target="_blank" rel="noopener"
-         class="inline-flex items-center gap-3 bg-primary-fixed text-on-primary-fixed px-10 py-5 rounded
-                font-label-sm text-label-sm uppercase tracking-widest hover:bg-secondary-fixed transition-colors duration-300">
-        <span class="material-symbols-outlined text-base">chat</span> Start via WhatsApp
-        <span class="material-symbols-outlined text-base">arrow_forward</span>
-      </a>
-    </div>
   </section>
 
-  <!-- 5. Voor / na -->
-  <section class="bg-surface-container-low border-y-2 border-dashed border-secondary/40">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
-      <div class="text-center mb-16">
-        <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight -rotate-1 text-primary mb-4">Van zadel naar tas</h2>
-        <div class="w-24 stitch-divider mx-auto"></div>
+  <!-- 5. Voor / na. Hoort bij het stappenplan hierboven — zelfde achtergrond,
+       weinig ruimte ertussen — en staat vóór de oproep onderaan: eerst laten
+       zien wat het oplevert, dan pas vragen om een berichtje. -->
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-4 pb-8">
+    <div>
+      <div class="text-center mb-12">
+        <h2 class="font-display-lg leading-tight -rotate-1 text-primary mb-4">Enkele voorbeelden</h2>
+        <div class="w-24 stitch-divider-kruis mx-auto"></div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
         <figure>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
@@ -323,6 +328,30 @@
           </figcaption>
         </figure>
       </div>
+    </div>
+  </section>
+
+  <!-- 6. Stap 1 van de werkwijze hierboven is "contact", en dat contact begint
+       hier. Het blok staat er daarom als een eigen vertrekpunt bij, niet als
+       een losse knop onder het stappenplan. -->
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+    <div class="bg-deep-forest texture-linen texture-linen-dark rounded-lg p-8 md:p-12
+                border-2 border-dashed border-secondary-fixed/50 text-center">
+      <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-4">Stap 1 van 5</span>
+      <h2 class="font-display-lg leading-tight text-primary-fixed-dim mb-4 -rotate-1">
+        Alles begint met jouw berichtje
+      </h2>
+      <p class="font-body-md text-body-md text-primary-fixed-dim/85 max-w-xl mx-auto mb-8">
+        Heb je een specifiek zadel of type tas in gedachten? Stuur me gerust even een foto via
+        WhatsApp. Vertel me er iets meer over, en dan bekijken we samen wat er mogelijk is!
+      </p>
+      <a data-wa="Dag Karolien, ik heb een zadel waar ik graag een tas van zou laten maken. "
+         target="_blank" rel="noopener"
+         class="inline-flex items-center gap-3 bg-primary-fixed text-on-primary-fixed px-10 py-5 rounded
+                font-label-sm text-label-sm uppercase tracking-widest hover:bg-secondary-fixed transition-colors duration-300">
+        <span class="material-symbols-outlined text-base">chat</span> Start via WhatsApp
+        <span class="material-symbols-outlined text-base">arrow_forward</span>
+      </a>
     </div>
   </section>
 
