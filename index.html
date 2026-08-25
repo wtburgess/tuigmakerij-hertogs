@@ -10,99 +10,117 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 <script src="assets/site.js"></script>
 </head>
-<body data-page="home" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<body data-page="home" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-primary">
 
 <header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main>
 
-  <!-- 1. Hero — meteen tonen wát Karolien doet: de twee takken van het
-       ambacht. Tekstblok en beeld overlappen elkaar, ze staan niet netjes
-       naast elkaar: 5/12 tegen 7/12, met het beeld dat eronderdoor loopt. Het
-       beeld krijgt het ruimste deel — dat vertelt het ambacht in één blik. -->
-  <section class="lg:min-h-[80vh] px-margin-mobile md:px-margin-desktop py-stack-raw
-                  flex flex-col lg:flex-row items-center gap-8 lg:gap-12 max-w-container-max mx-auto">
-    <div class="w-full lg:w-5/12 relative z-20">
-      <div class="kaart-organisch bg-khaki texture-linen p-8 md:p-12">
-        <!-- Drie woorden, drie regels: in de smallere kolom breekt de kop toch,
-             en dan liever op de punt dan middenin een woordgroep. -->
-        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">
-          Herstellen.<br>Hergebruiken.<br>Koesteren.
-        </h1>
-        <div class="font-body-md text-body-md text-on-surface-variant space-y-5 mb-8">
-          <p>
-            We leven gehaast, consumeren en vervangen. Wat beschadigd is, wordt snel afgeschreven.
-            In mijn atelier vertraagt de tijd: hier kies ik voor trager, duurzamer en degelijker.
-            Voor herstellen wat waarde heeft, en koesteren wat al een leven achter zich draagt.
-          </p>
-          <p>
-            Leder verdient die zorg. In mijn tuigmakerij herstel ik zadels, hoofdstellen en ander
-            paardentuig, zodat jij er nog jarenlang van kan genieten.
-          </p>
-          <p>
-            Is herstellen niet meer rendabel, dan hoeft het leder niet verloren te gaan. Onder de naam
-            Tuigtassen Hertogs krijgt het een nieuw leven als unieke, handgenaaide tas. Gemaakt om
-            jaren mee te gaan, met de sporen van het verleden zichtbaar in elk ontwerp.
-          </p>
-        </div>
-        <div class="flex flex-col sm:flex-row flex-wrap gap-4">
-          <a href="collectie.html" class="inline-flex items-center justify-center bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
-            De tassen
-          </a>
-          <a href="onderhoud.html" class="inline-flex items-center justify-center stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-surface-container-low transition-colors duration-300">
-            De herstellingen
-          </a>
-        </div>
-      </div>
+  <!-- 1. Hero — één langgerekt beeld over de volle breedte, met de kop, één
+       zin en één knop erop. Het tekstvak dat hier stond deed te veel tegelijk:
+       drie regels kop, twee alinea's en twee knoppen in een kader naast de
+       foto. Nu draagt het beeld het en staat er precies genoeg tekst bij om te
+       weten waar je bent.
+       De verloopdoek eronder is er niet voor de sfeer maar voor de leesbaar-
+       heid: zonder die donkere onderkant valt witte tekst weg zodra de foto
+       daar licht is. Onderaan een scheurrand, zodat het beeld in de pagina
+       overloopt in plaats van er als een blok op te liggen. -->
+  <section class="relative w-full parallax-kader golfrand-onder overflow-hidden
+                  h-[64vh] min-h-[420px] md:h-[72vh] md:min-h-[520px]">
+    <!-- De figuur stond rechts van 58% in beeld; door in te zoomen op de
+         linkerhelft valt hij weg en blijft het atelier over: het raam, de
+         rollen leder en de werkbank. De zoom staat op deze extra laag en niet
+         op de foto zelf — die draagt al een transform voor de parallax, en
+         twee transforms op één element gaan niet samen. -->
+    <div class="absolute inset-0 scale-[1.75] origin-[18%_55%]">
+      <img data-img="heroSaddle" alt="Het atelier: rollen leder, gereedschap en een afgewerkte tas op de werkbank"
+           class="parallax-beeld w-full h-full object-cover object-center">
     </div>
-    <!-- Het tekstblok is lang; het beeld rekt mee op tot dezelfde hoogte in
-         plaats van als een postzegel in het midden te blijven hangen. -->
-    <div class="lg:w-7/12 w-full h-[55vh] lg:h-auto lg:self-stretch lg:min-h-[80vh] relative z-0">
-      <div class="parallax-kader w-full h-full hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
-        <!-- De uitsnede zit op 24%: daar staan de rollen leder en de
-             afgewerkte tas op de werkbank. Rechts van 58% komt de figuur in
-             beeld, en die valt hier dus buiten de huidvorm. -->
-        <img data-img="heroSaddle"  alt="Het atelier: rollen leder, gereedschap en een afgewerkte tas op de werkbank"
-             class="parallax-beeld object-cover object-[24%_50%] w-full h-full">
+    <!-- Warm donkergrijs in plaats van het bosgroen: dat groen legde een tint
+         over de onderste helft van de foto. Dezelfde toon als de achtergrond
+         van het fotovenster op de productpagina. -->
+    <div class="absolute inset-0 bg-gradient-to-t from-inverse-surface via-inverse-surface/75 to-transparent"></div>
+
+    <div class="absolute inset-x-0 bottom-0 px-margin-mobile md:px-margin-desktop pb-16 md:pb-24">
+      <div class="max-w-container-max mx-auto">
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-inverse-on-surface mb-5">
+          Een zadel dat verder leeft
+        </h1>
+        <p class="font-body-lg text-body-lg text-inverse-on-surface max-w-xl mb-8">
+          Handgemaakte tassen uit gepensioneerde paardenzadels, en herstellingen van zadels
+          en ander paardentuig.
+        </p>
+        <!-- De tweede tak van het ambacht staat er als tekstlink bij: twee
+             knoppen naast elkaar vechten om dezelfde aandacht. Allebei
+             inline-block, anders rekt de streepjeslijn onder de link op een
+             smal scherm mee tot de volle breedte. -->
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-5">
+          <a href="collectie.html" class="inline-flex items-center gap-3 bg-inverse-on-surface text-primary
+                    px-10 py-5 rounded font-label-sm text-label-sm uppercase tracking-widest
+                    hover:bg-secondary-fixed transition-colors duration-300">
+            Bekijk de tassen <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+          <a href="onderhoud.html" class="inline-block font-label-mono text-label-mono
+                    uppercase text-inverse-on-surface hover:text-secondary-fixed border-b border-dashed border-current pb-1">
+            of laat iets herstellen
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- De introtekst staat hier en niet op de foto: twee alinea's over een
+       beeld heen worden een lap tekst, en dan draagt het beeld niets meer. -->
+  <section class="max-w-3xl mx-auto px-margin-mobile py-stack-raw text-center space-y-6">
+    <p class="font-body-lg text-body-lg text-on-surface-variant">
+      In mijn atelier geef ik paardenzadels en tuigage een langer leven: vakkundig hersteld,
+      of herbestemd tot een unieke handgenaaide tas.
+    </p>
+    <p class="font-body-lg text-body-lg text-on-surface-variant">
+      Ik kies bewust voor langzamer, duurzamer, degelijker en eerlijker. Voor herstellen wat nog
+      waarde heeft, en herbestemmen wat al een leven achter zich draagt.
+    </p>
+  </section>
+
   <!-- 2. Twee zaken, één ambacht — volle breedte in bosgroen, met een
        streepjesrail boven en onder alsof de band is ingenaaid. -->
-  <section class="w-full bg-deep-forest texture-linen texture-linen-dark text-on-primary my-stack-raw py-stack-raw md:py-section-xl relative">
+  <section class="w-full bg-deep-forest texture-linen texture-linen-dark text-on-primary py-stack-raw md:py-section-xl relative">
     <!-- Geborduurde rails boven en onder, zoals de sierranden in een blad. -->
     <div class="absolute top-0 inset-x-0 stitch-divider-kruis opacity-70"></div>
     <div class="absolute bottom-0 inset-x-0 stitch-divider-kruis opacity-70"></div>
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div>
-        <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-6">Tijd gevangen in vakmanschap</span>
-        <h2 class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary-fixed-dim mb-8 -rotate-1">
+        <span class="font-label-mono text-label-mono text-primary-fixed-dim uppercase block mb-6">Tijd gevangen in vakmanschap</span>
+        <h2 class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary-fixed mb-8 -rotate-1">
           Tijd is steeds schaarser.<br>
           Wat als we tijd konden vangen?
         </h2>
         <div class="font-body-md text-body-md text-primary-fixed-dim space-y-6">
           <p>
             Ik ga te werk op de ambachtelijke manier, zoals ik dat leerde in mijn opleiding tot
-            zadelmaker. Snijden, schalmen, opboenen… Alles gebeurt handmatig en met het nodige geduld.
-            Het merendeel van mijn werk is eveneens handgenaaid. Steek voor steek groeit een ontwerp
-            waarin aandacht, geduld en ambacht samenkomen. Dat weerspiegelt zich in een degelijk
-            eindresultaat. Zo wordt tijd niet alleen besteed, maar ook gevangen. Tastbaar gemaakt in
-            een tas die haar verhaal jarenlang met zich meedraagt.
+            zadelmaker. Het merendeel van mijn werk is daarom handgenaaid.
           </p>
           <p>
-            Wens je een tas op maat? Dan besteed ik diezelfde tijd ook graag aan jouw verhaal. Ik
-            luister naar je wensen, ideeën en verwachtingen, zodat ik kan begrijpen wat deze tas voor
-            jou bijzonder moet maken. Want iets persoonlijks ontstaat niet in haast. En begrijpen kan
-            alleen door goed te luisteren.
+            Steek voor steek groeit een ontwerp waarin aandacht, geduld en ambacht zichtbaar zijn.
+            Zo wordt tijd niet alleen besteed, maar ook gevangen. Tastbaar gemaakt in een tas die
+            haar verhaal jarenlang met zich meedraagt.
           </p>
         </div>
+        <!-- De vraag aan de lezer staat apart, maar in dezelfde kantlijn als
+             de rest: een gestikte lijn erboven scheidt haar van de uitleg,
+             zodat ze niet meeleest als nog een alinea. -->
+        <span class="block w-24 stitch-divider stitch-divider-licht mt-10 mb-6"></span>
+        <p class="font-body-md text-body-md text-primary-fixed-dim">
+          Wens je een tas op maat? Dan besteed ik diezelfde tijd ook graag aan jouw verhaal.
+          Ik luister naar je wensen, ideeën en verwachtingen, zodat ik kan begrijpen wat deze tas
+          voor jou bijzonder moet maken.
+        </p>
         <div class="flex flex-wrap gap-6 mt-10 font-label-mono text-label-mono uppercase">
           <a href="collectie.html" class="inline-flex items-center gap-2 text-primary-fixed border-b border-dashed border-current pb-1 hover:text-on-primary transition-colors">
             Vang de tijd met jouw tuigtas <span class="material-symbols-outlined text-base">arrow_forward</span>
@@ -110,10 +128,9 @@
         </div>
       </div>
       <div class="relative h-72 md:h-[28rem]">
-        <div class="absolute inset-0 hide-mask-2 border border-secondary-fixed/30 bg-tertiary/20 translate-x-4 translate-y-4"></div>
         <div class="parallax-kader absolute inset-0 hide-mask-2 soft-edge-mask saddle-stitch overflow-hidden">
           <img data-img="handenStikken"  alt="Handen die dik plantaardig gelooid leder met de hand doorstikken"
-               class="parallax-beeld object-cover w-full h-full">
+               class="parallax-beeld object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
         </div>
       </div>
     </div>
@@ -126,13 +143,13 @@
       <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary rotate-1">
         Een glimp van de collectie
       </h2>
-      <a href="collectie.html" class="hidden md:inline-block font-label-mono text-label-mono uppercase text-tertiary hover:text-primary border-b border-dashed border-current pb-1 whitespace-nowrap">
+      <a href="collectie.html" class="hidden md:inline-block font-label-mono text-label-mono uppercase text-secondary hover:text-primary border-b border-dashed border-current pb-1 whitespace-nowrap">
         Volledige collectie
       </a>
     </div>
     <div id="home-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mt-12 mb-6 md:mb-8"></div>
     <div class="text-center md:hidden">
-      <a href="collectie.html" class="inline-block font-label-mono text-label-mono uppercase text-tertiary border-b border-dashed border-current pb-1">
+      <a href="collectie.html" class="inline-block font-label-mono text-label-mono uppercase text-secondary border-b border-dashed border-current pb-1">
         Volledige collectie
       </a>
     </div>
@@ -140,14 +157,13 @@
 
   <!-- 4. Jouw eigen zadel, een nieuw verhaal — beeld links, uit het lood,
        met een tweede vorm die eronderuit steekt. -->
-  <section class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen golfrand relative">
+  <section class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen golfrand-boven relative">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <!-- Het beeld staat een kolom smaller dan de tekst ernaast: de
              opsomming heeft regellengte nodig, anders valt elk punt uiteen
              over drie regels. -->
         <div class="order-2 lg:order-1 lg:col-span-4 relative h-80 md:h-[30rem]">
-          <div class="absolute inset-0 hide-mask-3 border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
           <div class="parallax-kader absolute inset-0 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden">
             <img data-img="zadelDemonteren"  alt="Handen die een oud zadel uit elkaar halen op de werkbank"
                  class="parallax-beeld object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
@@ -155,22 +171,22 @@
         </div>
         <div class="order-1 lg:order-2 lg:col-span-7 lg:col-start-6">
           <span class="font-label-mono text-label-mono text-secondary uppercase block mb-6">Op maat</span>
-          <h2 class="font-display-lg text-[40px] md:text-[56px] text-on-secondary-fixed mb-8 leading-tight -rotate-1">
+          <h2 class="font-display-lg text-[40px] md:text-[56px] text-primary mb-8 leading-tight -rotate-1">
             Jouw dierbare zadel, een unieke tuigtas
           </h2>
-          <p class="font-body-lg text-body-lg text-on-secondary-fixed-variant mb-6">
+          <p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
             Je allereerste ponyzadel, of het zadel van een paard waarvan je helaas afscheid hebt moeten
             nemen. Het draagt nog zoveel herinneringen met zich mee.
           </p>
-          <ul class="font-body-md text-body-md text-on-secondary-fixed-variant space-y-2 mb-6 pl-6 border-l-2 border-dashed border-secondary/60">
+          <ul class="font-body-lg text-body-lg text-on-surface-variant space-y-2 mb-6 pl-6 border-l-2 border-dashed border-secondary/60">
             <li>De krassen van die zware valpartij die jullie samen maakten;</li>
             <li>de sporen van de vele stoffige tornooien waar hechte vriendschappen werden opgebouwd;</li>
-            <li>de patina afkomstig uit het crossparcours waar je met je volledige uitrusting in de waterbak belandde.</li>
+            <li>de patina afkomstig uit het crossparcours waar je met je volledige uitrusting in de waterbak belandde;</li>
           </ul>
-          <p class="font-body-md text-body-md text-on-secondary-fixed-variant mb-6">
+          <p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
             Het zijn verhalen die diep in het leder staan gegrift.
           </p>
-          <p class="font-body-lg text-body-lg text-on-secondary-fixed-variant mb-10">
+          <p class="font-body-lg text-body-lg text-on-surface-variant mb-10">
             Die geschiedenis probeer ik niet te verbergen, maar net een plaats te geven in een nieuw
             ontwerp. Zo kan je deze herinneringen blijvend koesteren en altijd dicht bij je dragen.
           </p>
@@ -184,7 +200,8 @@
 
   <!-- 5. Over Karolien — het citaat in handschrift, het portret ernaast
        als een uitgesneden huid. -->
-  <section class="w-full py-stack-raw md:py-section-xl px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+  <section class="w-full py-stack-raw md:py-section-xl bg-surface-container-lowest golfrand-boven -mt-8 relative">
+   <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
       <div class="lg:col-span-6 lg:col-start-1">
         <blockquote class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary mb-8 pl-6 border-l-2 border-dashed border-secondary">
@@ -196,27 +213,27 @@
           <span class="text-primary">Karolien Hertogs</span>
           <span class="text-secondary mt-1">Zadelmaker &amp; oprichter</span>
         </div>
-        <a href="bio.html" class="inline-flex items-center gap-2 ml-6 font-label-mono text-label-mono uppercase text-tertiary hover:text-primary border-b border-dashed border-current pb-1">
+        <a href="bio.html" class="inline-flex items-center gap-2 ml-6 font-label-mono text-label-mono uppercase text-secondary hover:text-primary border-b border-dashed border-current pb-1">
           Lees mijn verhaal <span class="material-symbols-outlined text-base">arrow_forward</span>
         </a>
       </div>
       <div class="lg:col-span-5 lg:col-start-8 relative h-96 md:h-[34rem]">
-        <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 translate-x-4 -translate-y-4"></div>
         <div class="parallax-kader absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden">
           <img data-img="atelierKarolien"  alt="Karolien Hertogs aan het werk in haar atelier"
                class="parallax-beeld object-cover w-full h-full">
         </div>
       </div>
     </div>
+   </div>
   </section>
 
   <!-- 6. Verwittiging bij een nieuwe collectie: je nummer achterlaten, en
        Karolien stuurt een berichtje zodra er nieuwe tassen klaar zijn. -->
-  <section id="drop" data-drop="Blijf op de hoogte" class="w-full pt-stack-raw pb-20 md:pb-24 bg-surface-container-low golfrand relative scroll-mt-24"></section>
+  <section id="drop" data-drop="Blijf op de hoogte" class="w-full py-stack-raw relative scroll-mt-24"></section>
 
 </main>
 
-<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 
 <script>
   // Drie uitgelichte tassen op de home; de rest staat op de collectiepagina.

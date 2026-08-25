@@ -20,7 +20,7 @@ tailwind.config = {
         background: '#fcf9f1', 'on-background': '#1c1c17',
         surface: '#fcf9f1', 'on-surface': '#1c1c17', 'on-surface-variant': '#444842',
         'surface-dim': '#dcdad2', 'surface-bright': '#fcf9f1', 'surface-variant': '#e5e2db',
-        'surface-container-lowest': '#ffffff', 'surface-container-low': '#f6f3eb',
+        'surface-container-lowest': '#f8f3e8', 'surface-container-low': '#f6f3eb',
         'surface-container': '#f1eee6', 'surface-container-high': '#ebe8e0', 'surface-container-highest': '#e5e2db',
         'inverse-surface': '#31312c', 'inverse-on-surface': '#f3f1e9',
         outline: '#747872', 'outline-variant': '#c4c8c0', 'surface-tint': '#546253',
@@ -28,25 +28,39 @@ tailwind.config = {
         'stitch-color': '#c0a58c', 'success-green': '#2d3b2d'
       },
       borderRadius: { sm: '0.125rem', DEFAULT: '0.25rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+      /* Verticale ruimte tussen secties kent twee maten, en meer niet:
+
+           py-stack-raw md:py-section-xl   48 → 120px   de gewone sectie
+           py-stack-raw                    48px         blokken die als paar
+                                                        horen te lezen: een
+                                                        intro onder een beeld,
+                                                        een formulier, een
+                                                        vervolg op het blok
+                                                        erboven
+
+         Hoort een sectie tegen zijn buur aan, dan is dat pt-0 of pb-0 — geen
+         eigen tussenmaat. Er stonden er eerder een stuk of tien door elkaar
+         (py-24, md:py-32, pt-20, pb-10, pt-4…), en dan valt niet meer te zien
+         welke blokken bij elkaar horen en welke niet. */
       spacing: {
         unit: '8px', gutter: '24px', 'gutter-stitch': '24px', 'stack-raw': '48px',
         'margin-mobile': '20px', 'margin-desktop': '5vw',
         'container-max': '1440px', 'section-padding': '96px', 'section-xl': '120px'
       },
       maxWidth: { 'container-max': '1440px' },
-      /* Twee stemmen, waarvan één in twee toonhoogtes:
-         - Caveat Brush — de kwastversie, enkel voor de h1. Die staat niet hier
-           maar in styles.css: de klasse hieronder wordt ook door h2's en
-           citaten gebruikt, en die blijven de gewone Caveat.
-         - Caveat — het handschrift van de maakster. Grote koppen.
-         - EB Garamond — al de rest. Broodtekst, kleinere koppen, en in
-           kapitalen met ruime spatiëring ook de labels en de navigatie, zodat
-           die aansluiten bij het woordmerk in het logo.
+      /* Twee stemmen, meer niet:
+         - Caveat Brush — het handschrift van de maakster. Álle koppen (h1 tot
+           en met h3), citaten en de grote cijfers. Er stond hier eerder ook
+           nog de gewone Caveat naast, maar twee handschriften door elkaar
+           leest als twee sites; nu is elke kop dezelfde hand.
+         - EB Garamond — al de rest. Broodtekst, en in kapitalen met ruime
+           spatiëring ook de labels en de navigatie, zodat die aansluiten bij
+           het woordmerk in het logo.
          Wil je iets anders proberen: vervang de familie hieronder én de
          fonts.googleapis-link in de <head> van de 7 pagina's. */
       fontFamily: {
-        'display-lg': ['Caveat', 'cursive'], 'display-lg-mobile': ['Caveat', 'cursive'],
-        handwritten: ['Caveat', 'cursive'],
+        'display-lg': ['Caveat Brush', 'cursive'], 'display-lg-mobile': ['Caveat Brush', 'cursive'],
+        handwritten: ['Caveat Brush', 'cursive'],
         'headline-md': ['EB Garamond', 'serif'],
         'body-lg': ['EB Garamond', 'serif'], 'body-md': ['EB Garamond', 'serif'],
         'label-sm': ['EB Garamond', 'serif'], 'label-mono': ['EB Garamond', 'serif']
@@ -54,11 +68,21 @@ tailwind.config = {
       fontSize: {
         'display-lg': ['72px', { lineHeight: '1.1', fontWeight: '600' }],
         'display-lg-mobile': ['48px', { lineHeight: '1.1', fontWeight: '600' }],
-        'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '500' }],
-        'body-lg': ['20px', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-md': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
-        'label-sm': ['13px', { lineHeight: '1.3', letterSpacing: '0.14em', fontWeight: '600' }],
-        'label-mono': ['15px', { lineHeight: '1.4', letterSpacing: '0.12em', fontWeight: '600' }]
+        'headline-md': ['26px', { lineHeight: '1.2', fontWeight: '600' }],
+        /* Eén maat broodtekst. De twee namen blijven bestaan zodat de HTML
+           niet doorzocht hoeft te worden, maar ze zijn bewust gelijk: een
+           inleidende alinea van 20px gevolgd door 18px las als twee maten
+           door elkaar. Wil je de site ruimer of compacter, dan verander je
+           deze twee waarden samen — nergens anders staat een broodtekstmaat. */
+        'body-lg': ['19px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-md': ['19px', { lineHeight: '1.6', fontWeight: '400' }],
+        /* Eén labelstijl. Er stonden er twee — 13px/0.14em en 15px/0.12em —
+           die hetzelfde deden: kapitalen met ruime spatiëring. Naast elkaar
+           op één pagina las dat als slordigheid, niet als verschil. Net als
+           bij de broodtekst blijven de twee namen bestaan zodat de HTML niet
+           doorzocht hoeft te worden. */
+        'label-sm': ['14px', { lineHeight: '1.3', letterSpacing: '0.13em', fontWeight: '600' }],
+        'label-mono': ['14px', { lineHeight: '1.3', letterSpacing: '0.13em', fontWeight: '600' }]
       }
     }
   }
@@ -336,7 +360,7 @@ function renderHeader(actief) {
     `<a href="${n.href}" class="font-label-mono text-label-mono uppercase transition-colors duration-300 ${extra} ${
       n.page === actief
         ? 'text-primary border-primary'
-        : 'text-on-surface-variant border-transparent hover:text-primary'
+        : 'text-secondary border-transparent hover:text-primary'
     }">${n.label}</a>`;
 
   return `
@@ -400,7 +424,7 @@ function renderFooter() {
   ${kolom('Contact', [
     a(wa(), 'WhatsApp', 'target="_blank" rel="noopener"'),
     a('mailto:' + CONTACT.email, CONTACT.email),
-    `<p class="font-body-md text-body-md text-secondary">${CONTACT.adres}</p>`
+    `<p class="font-body-md text-body-md text-on-surface-variant">${CONTACT.adres}</p>`
   ])}
   ${kolom('Volg mee', [
     a(CONTACT.instagram, 'Instagram', 'target="_blank" rel="noopener"'),
@@ -428,10 +452,10 @@ function renderDrop(titel) {
   return `
 <div class="max-w-xl mx-auto px-margin-mobile text-center">
   <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">${titel}</h2>
-  <p class="font-body-md text-body-md text-secondary mb-10">
+  <p class="font-body-md text-body-md text-on-surface-variant mb-10">
     Deze collectie is exclusief, en beperkt in omvang. Wil je als eerste verwittigd worden
     wanneer er nieuwe collectiestukken beschikbaar zijn? Laat hier je telefoonnummer achter
-    en je ontvangt een bericht.
+    en ik stuur je een berichtje!
   </p>
   <form data-inschrijving class="flex flex-col sm:flex-row items-stretch gap-4 text-left">
     <input class="input-underline flex-1" name="telefoon" type="tel" required
@@ -443,7 +467,7 @@ function renderDrop(titel) {
       Inschrijven
     </button>
   </form>
-  <p data-inschrijving-melding class="font-body-md text-body-md text-secondary mt-4 hidden"></p>
+  <p data-inschrijving-melding class="font-body-md text-body-md text-on-surface-variant mt-4 hidden"></p>
 </div>`;
 }
 
@@ -505,18 +529,12 @@ function productCard(p, klasse = '') {
   const huid = ['hide-mask', 'hide-mask-2', 'hide-mask-3'][i];
   const hoogte = ['h-96', 'h-[28rem]', 'h-80'][i];
   const zak = ['md:translate-y-12', '', 'md:translate-y-24'][i];
-  // De losse streepjesrand ligt achter het beeld en schuift bij hover weg —
-  // alsof het patroon en het leer twee losse lagen zijn.
-  const wijk = ['group-hover:-translate-x-2 group-hover:-translate-y-2',
-                'group-hover:translate-x-2 group-hover:translate-y-2',
-                'group-hover:translate-x-2 group-hover:-translate-y-2'][i];
-
   return `
 <a href="product.html?id=${p.id}" class="group block ${zak} ${klasse}">
   <div class="${hoogte} relative">
-    <div class="absolute inset-0 border-2 border-dashed border-secondary/60 ${huid}
-                transition-transform duration-500 ${wijk}"></div>
-
+    <!-- Eén naad per kaart. Achter het beeld lag hier nog een tweede
+         streepjesrand die bij hover wegschoof; samen met de zadelsteek in het
+         beeld bewogen er dan twee stiksels tegelijk. De binnenste blijft. -->
     <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
       <img src="${fotoUrl(p.fotos[0])}" alt="${p.naam}" loading="lazy"
            class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
@@ -535,7 +553,7 @@ function productCard(p, klasse = '') {
   <div class="flex justify-between items-start gap-4 mt-6">
     <div>
       <h3 class="font-headline-md text-headline-md text-primary leading-tight">${p.naam}</h3>
-      <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mt-1">${p.herkomst}</p>
+      <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${p.herkomst}</p>
     </div>
     <span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
                  text-on-surface-variant px-2 py-1 whitespace-nowrap">${euro.format(p.prijs)}</span>

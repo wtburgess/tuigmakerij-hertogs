@@ -10,32 +10,32 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 <script src="assets/site.js"></script>
 </head>
-<body data-page="collectie" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<body data-page="collectie" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-primary">
 
 <header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main id="product" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20"></main>
 
-<section id="ook-interessant" class="bg-surface-container-low border-t-2 border-dashed border-secondary/40">
-  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+<section id="ook-interessant" class="bg-surface-container-lowest golfrand-boven -mt-8 relative">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw md:py-section-xl">
     <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary rotate-1 mb-12 pb-4 border-b-2 border-dashed border-secondary">Andere tassen in het atelier</h2>
     <div id="ander-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-6 md:mb-8"></div>
   </div>
 </section>
 
-<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 
 <!-- Foto in het groot: geen uitsnede, de hele tas in beeld. -->
 <!-- Kleur en overgang van dit venster staan in styles.css, bij #lightbox. -->
 <dialog id="lightbox" class="w-screen max-w-none h-screen max-h-none bg-transparent p-0">
   <div class="w-full h-full flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-12 cursor-zoom-out">
-    <span aria-hidden="true" class="material-symbols-outlined absolute top-4 right-4 md:top-8 md:right-8 p-3 text-[32px] text-white/80">close</span>
+    <span aria-hidden="true" class="material-symbols-outlined absolute top-4 right-4 md:top-8 md:right-8 p-3 text-[32px] text-white">close</span>
     <img id="lightbox-foto" alt="" class="min-h-0 max-w-full max-h-full object-contain">
     <!-- De andere foto's van deze tas: onder het beeld op een smal scherm,
          ernaast zodra er plaats is. -->
@@ -71,10 +71,10 @@ paginaKlaar.then(() => {
   // lijstje dan een regel met niets erachter.
   const spec = (icoon, label, waarde) => !waarde ? '' : `
     <div class="flex items-start gap-4">
-      <span class="material-symbols-outlined text-outline mt-1">${icoon}</span>
+      <span class="material-symbols-outlined text-secondary mt-1">${icoon}</span>
       <div>
-        <h3 class="font-label-mono text-label-mono uppercase text-outline mb-1">${label}</h3>
-        <p class="font-body-md text-body-md text-on-surface">${waarde}</p>
+        <h3 class="font-label-mono text-label-mono uppercase text-secondary mb-1">${label}</h3>
+        <p class="font-body-md text-body-md text-primary">${waarde}</p>
       </div>
     </div>`;
 
@@ -89,7 +89,6 @@ paginaKlaar.then(() => {
 
       <div class="lg:col-span-7">
         <div class="relative aspect-[4/5] mb-8">
-          <div class="absolute inset-0 hide-mask border-2 border-dashed border-secondary/50 -translate-x-4 translate-y-4"></div>
           <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
             <!-- De huidvorm snijdt de foto aan; klikken toont ze volledig. -->
             <button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
@@ -98,7 +97,7 @@ paginaKlaar.then(() => {
             </button>
           </div>
         </div>
-        <p class="font-label-mono text-label-mono uppercase text-outline mb-8 -mt-4">
+        <p class="font-label-mono text-label-mono uppercase text-secondary mb-8 -mt-4">
           Klik op de foto voor het volledige beeld
         </p>
         ${p.fotos.length > 1 ? `
@@ -115,7 +114,7 @@ paginaKlaar.then(() => {
       <div class="lg:col-span-5 lg:sticky lg:top-28">
         <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
         <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
-        <p class="inline-block font-label-mono text-[16px] bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
+        <p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
 
         <div class="w-16 stitch-divider-dubbel mb-8"></div>
 

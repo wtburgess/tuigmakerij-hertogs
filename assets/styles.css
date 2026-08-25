@@ -3,26 +3,39 @@
 /* Tailwind's display-klassen (flex, grid) winnen het anders van [hidden]. */
 [hidden] { display: none !important; }
 
-/* Veel koppen krijgen hun grootte via een eigen pixelwaarde (text-[40px]) en
-   dus geen gewicht uit de Tailwind-config. Zonder deze regel vallen ze terug
-   op 400 en worden ze te dun. Een expliciete font-*-klasse wint hier nog van.
-   Caveat loopt van 400 tot 700, EB Garamond van 400 tot 800. */
+/* Caveat Brush kent maar één gewicht. Zet je er toch 600 op, dan maakt de
+   browser zelf een vette na en slibben de lussen dicht — vandaar 400.
+   EB Garamond loopt wél van 400 tot 800; dat gewicht staat bij de labels. */
 .font-display-lg, .font-display-lg-mobile, .font-handwritten {
-  font-weight: 600;
+  font-weight: 400;
 }
-.font-headline-md { font-weight: 500; }
+/* Bedragen en totalen staan in EB Garamond en mogen wél wat steviger. De
+   koppenregel hieronder is specifieker en wint hier gewoon van. */
+.font-headline-md { font-weight: 600; }
 
-/* De paginakop krijgt de kwastversie van hetzelfde handschrift: dezelfde losse
-   hand als Caveat, maar met de vette streek van een penseel. Caveat blijft de
-   rest doen (h2's, citaten), zo botsen de twee niet — het is dezelfde stem,
-   luider.
-   Alleen h1: de klasse zelf blijft Caveat. Een andere letter proberen? Vervang
-   de familie hier én de fonts.googleapis-link in de <head> van de pagina's.
-   Caveat Brush kent maar één gewicht, vandaar de expliciete 400: anders maakt
-   de browser er zelf nog een vette van en slibben de lussen dicht. */
-h1.font-display-lg {
+/* Elke kop dezelfde hand. De koppen die hun letter uit de Tailwind-config
+   halen (font-display-lg) staan al op Caveat Brush; de kaartkoppen droegen
+   font-headline-md en dus EB Garamond, waardoor een h2 op de ene plek
+   handgeschreven was en op de andere gezet. Die haalt deze regel erbij.
+   `h2[class]` in plaats van `h2`: een kale elementnaam verliest het van
+   Tailwinds font-klasse, met het attribuut erbij wint hij wél. Om diezelfde
+   reden staat de h1 hier ook bij: `text-display-lg` zet gewicht 600, en die
+   utility laadt ná dit bestand. Caveat Brush heeft maar één snede, dus 600
+   betekent dat de browser zelf een vette namaakt en de lussen dichtslibben. */
+h1[class], h2[class], h3[class] {
   font-family: 'Caveat Brush', cursive;
   font-weight: 400;
+}
+/* Behalve waar een kop eigenlijk een label is: een rij kapitalen met ruime
+   spatiëring hoort bij de navigatie en het woordmerk, en dus in EB Garamond.
+   Even specifiek als de regel hierboven, maar later — dus deze wint. Het
+   gewicht moet er expliciet bij, anders erft het label de 400 van daar. */
+h2.font-label-sm, h2.font-label-mono,
+h3.font-label-sm, h3.font-label-mono {
+  font-family: 'EB Garamond', serif;
+  font-weight: 600;
+}
+h1.font-display-lg {
   line-height: 1.15;
   /* Eén grootte voor álle paginakoppen. De pagina's droegen elk hun eigen
      pixelwaarde (72, 64, 54, 40) — dat leest als vier verschillende sites.
@@ -37,10 +50,15 @@ h1.font-display-lg {
    belangrijke koppen op twee pagina's een verschillend formaat kregen. Hier
    staat de hele ladder bij elkaar, zodat je hem in één blik kunt beoordelen:
 
-     h1  34 → 48px   paginakop, één per pagina
-     h2  30 → 44px   sectiekop
-     h3  26px        kaartkop (font-headline-md)
-     citaat 24 → 34px
+     h1  34 → 48px   paginakop, één per pagina    font-display-lg
+     h2  30 → 44px   sectiekop                    font-display-lg
+     h2/h3  26px     kaartkop                     font-headline-md
+     citaat 24 → 34px                             font-display-lg
+
+   Meer smaken zijn er niet. Een kaartkop die als broodtekst was opgemaakt
+   (font-body-lg op een h3) hoort dus op font-headline-md; anders staan er twee
+   maten kaartkop naast elkaar. Koppen die eigenlijk een label zijn houden
+   font-label-sm of font-label-mono en vallen buiten deze ladder.
 
    De losse text-[..px]-klassen in de HTML doen hierdoor niets meer. Ze staan er
    nog voor wie de opmaak in de HTML wil kunnen lezen; wil je een formaat
@@ -58,19 +76,62 @@ blockquote.font-display-lg { font-size: clamp(24px, 2.6vw, 34px); }
    zinnen bestaat die je uit elkaar wíl. */
 h1, h2, h3, blockquote { text-wrap: balance; }
 
-/* Broodtekst iets ruimer laten ademen dan de standaard. */
-body { text-rendering: optimizeLegibility; }
+/* Broodtekst iets ruimer laten ademen dan de standaard. De letter staat er
+   meteen bij: zonder deze regel valt alles zonder eigen font-klasse terug op
+   Tailwinds schreefloze stapel, en dan staat er ineens een derde letter op de
+   pagina. Elementen met een font-klasse winnen hier gewoon van. */
+body {
+  text-rendering: optimizeLegibility;
+  font-family: 'EB Garamond', serif;
+}
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
 }
 .symbol-filled { font-variation-settings: 'FILL' 1; }
 
+/* De achtergronden van de brede banden, en meer zijn er niet:
+
+     paginakleur          #fcf9f1   de bodem; geen klasse nodig
+     surface-container-lowest  #f8f3e8   de beige band die van de pagina oplicht
+     secondary-fixed-dim  #e1c0a9   tan, voor alles wat over maatwerk gaat
+     secondary            #725946   bruin, voor het citaatvlak op het verhaal
+     deep-forest          #2d3b2d   donkergroen, voor het vakmanschapsblok
+
+   Er stonden er vijf in het neutrale bereik — background, container-lowest,
+   -low, container en -high — met een paar procent verschil tussen elk. Naast
+   elkaar leest dat niet als afwisseling maar als toeval, en de grijzige twee
+   (#f1eee6 en #ebe8e0) vielen uit de warme toon van de rest. Er zijn er nu nog
+   twee: de pagina zelf, en één beige band. Wissel je die twee af, dan hoeft er
+   geen derde tint bij.
+
+   Twee banden van dezelfde kleur onder elkaar krijgen géén scheur tussen zich
+   in; daar valt niets te scheiden. Wél een scheur, dan schuift de onderste er
+   met -mt-8 overheen — precies de hoogte van de scheur — zodat de uitsparing
+   op de buur valt en niet op de paginakleur. */
+
+/* De drie tekstkleuren, en meer zijn er niet:
+
+     text-primary              #182519   koppen, actieve nav, nadruk
+     text-on-surface-variant   #444842   broodtekst
+     text-secondary            #725946   labels in kapitalen, en links
+
+   Op het donkergroene vlak schuift dat één trap op: text-primary-fixed voor
+   de kop, text-primary-fixed-dim voor tekst en labels. Die twee zijn groenig
+   en horen dus bij dát vlak. Op een donkere ondergrond die géén groen is — het
+   bruine citaatvlak, een foto met een donkere doek erover — staat de tekst in
+   inverse-on-surface (#f3f1e9), gebroken wit zonder kleurzweem.
+
+   Tekstkleuren zijn altijd vol. De halfdoorzichtige varianten (/70, /85) zijn
+   eruit: die maakten van drie kleuren er zeven, en de tekst zag er vaal uit
+   zonder dat er iets mee bedoeld was. Randen mogen wél doorzichtig blijven —
+   die zijn constructie, geen tekst. */
+
 /* Signatuurmotief: de saddle-stitch als scheidingslijn. */
 .stitch-divider {
   height: 2px;
   background-image: repeating-linear-gradient(
-    to right, transparent 0 4px, #a3866a 4px 12px
+    to right, transparent 0 4px, #b79c85 4px 12px
   );
 }
 /* Dezelfde naad op een donkere ondergrond: in gebroken wit, anders valt hij
@@ -83,7 +144,7 @@ body { text-rendering: optimizeLegibility; }
 .stitch-border-top {
   border-top: 2px solid transparent;
   border-image: repeating-linear-gradient(
-    to right, transparent 0 4px, #a3866a 4px 12px
+    to right, transparent 0 4px, #b79c85 4px 12px
   ) 2;
 }
 
@@ -95,10 +156,10 @@ body { text-rendering: optimizeLegibility; }
    wisselen: één soort op alle kaders leest weer als één patroon. */
 :root {
   /* Eén kruisje, voor een rij steken op een lijn. */
-  --steek-kruis: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5" stroke="%23a3866a" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
+  --steek-kruis: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5" stroke="%23b79c85" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
   /* Negen kruisjes in een 3x3-raster: vier hoeken, vier zijden, een leeg
      midden. Precies wat border-image nodig heeft om een kader te naaien. */
-  --steek-kruis-kader: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5M14.5,2.5L21.5,9.5M21.5,2.5L14.5,9.5M26.5,2.5L33.5,9.5M33.5,2.5L26.5,9.5M2.5,14.5L9.5,21.5M9.5,14.5L2.5,21.5M26.5,14.5L33.5,21.5M33.5,14.5L26.5,21.5M2.5,26.5L9.5,33.5M9.5,26.5L2.5,33.5M14.5,26.5L21.5,33.5M21.5,26.5L14.5,33.5M26.5,26.5L33.5,33.5M33.5,26.5L26.5,33.5" stroke="%23a3866a" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
+  --steek-kruis-kader: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"%3E%3Cpath d="M2.5,2.5L9.5,9.5M9.5,2.5L2.5,9.5M14.5,2.5L21.5,9.5M21.5,2.5L14.5,9.5M26.5,2.5L33.5,9.5M33.5,2.5L26.5,9.5M2.5,14.5L9.5,21.5M9.5,14.5L2.5,21.5M26.5,14.5L33.5,21.5M33.5,14.5L26.5,21.5M2.5,26.5L9.5,33.5M9.5,26.5L2.5,33.5M14.5,26.5L21.5,33.5M21.5,26.5L14.5,33.5M26.5,26.5L33.5,33.5M33.5,26.5L26.5,33.5" stroke="%23b79c85" stroke-width="1.6" stroke-linecap="round"/%3E%3C/svg%3E');
 }
 
 /* Kruisjessteek als kader. Het is een border-image met een 3x3-tegel: de vier
@@ -107,18 +168,12 @@ body { text-rendering: optimizeLegibility; }
    uitkomen in plaats van een halve tegen de hoek aan.
    De rand ligt op een ::after en niet op het element zelf: zo kost hij geen
    ruimte en verschuift er niets in de kaart.
-   Kaarten in een raster krijgen die steek om de beurt vanzelf — vandaar de
-   nth-child hieronder. Dat gebeurt hier en niet in de HTML: zo hoeft geen
-   enkele kaart te weten welke steek hij toevallig krijgt, en blijft de
-   afwisseling kloppen als er een kaart bijkomt of wegvalt. Elke derde kaart
-   krijgt verderop een dubbele naad (zie .saddle-stitch). */
-.steek-kruis,
-.kaart-tilt:nth-child(3n+2) { position: relative; }
-/* De streepjesrand van Tailwind moet weg waar de kruisjes komen: twee soorten
-   naad op één kader is geen afwisseling maar rommel. */
-.kaart-tilt:nth-child(3n+2) { border-color: transparent; }
-.steek-kruis::after,
-.kaart-tilt:nth-child(3n+2)::after {
+   Kaarten krijgen deze steek niet meer. Ze stond daar om de beurt op een
+   kaart, en dat gaf drie soorten naad naast elkaar in één raster — te veel
+   verschil voor iets wat één patroon hoort te zijn. Wil je hem ergens los
+   gebruiken, zet dan `steek-kruis` op het element. */
+.steek-kruis { position: relative; }
+.steek-kruis::after {
   content: "";
   position: absolute;
   inset: 3px;
@@ -131,8 +186,8 @@ body { text-rendering: optimizeLegibility; }
 .stitch-divider-dubbel {
   height: 6px;
   background-image:
-    repeating-linear-gradient(to right, transparent 0 4px, #a3866a 4px 12px),
-    repeating-linear-gradient(to right, transparent 0 4px, #a3866a 4px 12px);
+    repeating-linear-gradient(to right, transparent 0 4px, #b79c85 4px 12px),
+    repeating-linear-gradient(to right, transparent 0 4px, #b79c85 4px 12px);
   background-size: 100% 2px;
   background-repeat: repeat-x;
   background-position: 0 0, 8px 100%;
@@ -223,12 +278,10 @@ body { text-rendering: optimizeLegibility; }
 }
 
 /* Zadelsteek: een streepjeslijn nét binnen de rand, zoals bij ingenaaid leer.
-   Op een kader dat zelf al een streepjesrand heeft, wordt dat een dubbele
-   stiklijn — daarom krijgt elke derde kaart in een raster hem erbij. */
-.saddle-stitch,
-.kaart-tilt:nth-child(3n) { position: relative; }
-.saddle-stitch::after,
-.kaart-tilt:nth-child(3n)::after {
+   Op beelden met een huidvorm, niet op de kaarten: die hadden zo twee
+   stiklijnen naast elkaar staan, en één lijntje is genoeg. */
+.saddle-stitch { position: relative; }
+.saddle-stitch::after {
   content: "";
   position: absolute;
   inset: 8px;
@@ -239,9 +292,6 @@ body { text-rendering: optimizeLegibility; }
   z-index: 20;
 }
 .saddle-stitch-dark::after { border-color: rgba(114, 89, 70, .8); inset: 6px; }
-/* Op een kaart mag de tweede naad lichter: hij ligt er náást de bestaande
-   rand, niet in plaats van. */
-.kaart-tilt:nth-child(3n)::after { border-color: rgba(114, 89, 70, .45); inset: 6px; }
 
 @media (prefers-reduced-motion: no-preference) {
   .saddle-stitch::after { transition: inset .3s ease; }
@@ -328,8 +378,8 @@ input.input-underline, textarea.input-underline, select.input-underline {
   width: 100%;
   padding: 8px 0;
   font-family: 'EB Garamond', serif;
-  font-size: 17px;
-  color: #1c1c17;
+  font-size: 19px;
+  color: #182519;
   transition: border-color .3s ease;
 }
 input.input-underline::placeholder, textarea.input-underline::placeholder { color: #747872; }

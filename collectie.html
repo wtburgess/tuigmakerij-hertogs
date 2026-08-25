@@ -10,127 +10,131 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 <script src="assets/site.js"></script>
 </head>
-<body data-page="collectie" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<body data-page="collectie" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-primary">
 
 <header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main>
 
   <!-- 1. Intro: de drie wegen — de kaarten staan bewust niet op één lijn. -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-24">
-    <!-- De intro gebruikt de volle breedte: tekst links, citaat ernaast in
-         plaats van eronder. Dat scheelt zo'n twee schermregels hoogte, en
-         daardoor piepen de drie kaarten hieronder al net in beeld bij het
-         openen van de pagina. -->
-    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 -rotate-1">Vind jouw tuigtas</h1>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-8 mb-14">
-      <div class="lg:col-span-7 font-body-lg text-body-lg text-on-surface-variant space-y-5">
-        <p>
-          Elke handtas ontstaat uit een paardenzadel dat ooit van grote waarde was voor de ruiter en
-          zijn paard. Het leder draagt de sporen van alles wat ze onderweg samen hebben meegemaakt.
-          Precies die gebruikssporen en authentieke zadeldetails maken iedere tas uniek. Ik bewaar ze
-          dan ook zoveel als mogelijk. Daarvoor worden verschillende zadelstukken zorgvuldig uitgekozen
-          en op een doordachte manier opnieuw samengebracht. Zo ontstaat een stevige, duurzame tas,
-          volledig met de hand vervaardigd en grotendeels met de hand genaaid.
-        </p>
-        <p>
-          Een karaktervolle tas, klaar om nog jarenlang mee op pad te gaan.
-          Op naar nieuwe avonturen.
-        </p>
-      </div>
-      <blockquote class="lg:col-span-5 self-start font-display-lg leading-tight text-secondary pl-6 border-l-2 border-dashed border-secondary">
-        The art is finding beauty in the old and forgotten.
-        The reward is that vintage never goes out of fashion.
-      </blockquote>
-    </div>
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw">
+    <!-- Kop, dan meteen de drie wegen: dat is waar de bezoeker voor komt, en
+         het staat nu boven de vouw. De uitleg en het citaat volgen eronder,
+         voor wie na het kiezen nog wil doorlezen. -->
+    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-8 -rotate-1">Drie wegen naar jouw tuigtas</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left
-                [&>*:nth-child(2)]:lg:translate-y-8 [&>*:nth-child(3)]:lg:translate-y-16">
-      <a href="#voorraad" class="bg-surface-container-lowest p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+      <a href="#voorraad" class="bg-surface-container-lowest p-8 flex flex-col border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
+        <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="waegemans1" alt="Een afgewerkte tuigtas uit de collectie" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg 1</span>
-        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Uit bestaande collectie</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Uit bestaande collectie</h2>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Een tas die al af is. Die zijn eigen leven heeft geleefd. En klaar is om samen een nieuw
           verhaal te schrijven. Je ziet precies wat je krijgt en hij komt binnen enkele dagen jouw
           richting uit.
         </p>
-        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           Naar de tassen <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
       </a>
-      <a href="#werkwijze" class="bg-secondary-fixed/40 p-8 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <a href="#werkwijze" class="bg-secondary-fixed/40 p-8 flex flex-col border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
+        <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelWerkbank" alt="Een zadel dat zijn ruiterjaren achter zich heeft, op de werkbank" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg 2</span>
-        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Op maat gemaakt uit een zadel op voorraad</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Op maat gemaakt uit een zadel op voorraad</h2>
         <p class="font-body-md text-body-md text-on-surface-variant">
-          Er liggen steeds zadels op voorraad waaruit ik exclusieve tuigtassen ontwerp. Laat me weten
-          waar je belang aan hecht, en ik maak er eentje volledig naar jouw idee.
+          Er liggen steeds zadels op voorraad waaruit ik nieuwe ontwerpen maak. Laat me weten waar je
+          belang aan hecht, en ik maak er ééntje volledig naar jouw idee.
         </p>
-        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
       </a>
-      <a href="#werkwijze" class="bg-khaki/60 p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <a href="#werkwijze" class="bg-khaki/60 p-8 flex flex-col border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
+        <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelDemonteren" alt="Handen die een oud zadel uit elkaar halen" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Weg 3</span>
-        <h2 class="font-headline-md text-[24px] text-primary mt-3 mb-3">Op maat gemaakt uit je eigen zadel</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Op maat gemaakt uit je eigen zadel</h2>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Het zadel van jouw paard, met alle herinneringen die eraan vast hangen, wordt een tas om
           levenslang te koesteren.
         </p>
-        <span class="inline-flex items-center gap-2 mt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
       </a>
     </div>
+
+    <!-- De uitleg staat onder de kaarten, in twee kolommen over de volle
+         breedte. Marge alleen ónder elke alinea, anders krijgt de alinea die
+         bovenaan de tweede kolom belandt een marge boven zich. -->
+    <div class="mt-12 md:mt-16 font-body-lg text-body-lg text-on-surface-variant
+                lg:columns-2 lg:gap-16 [&>p]:mb-6 [&>p:last-child]:mb-0">
+      <p>
+        Elke handtas ontstaat uit een paardenzadel dat ooit van grote waarde was voor de ruiter en
+        zijn paard. Het leder draagt de sporen van alles wat ze samen meemaakten. Precies die
+        gebruikssporen en authentieke details maken iedere tas uniek. Ik bewaar ze dan ook zoveel
+        als mogelijk.
+      </p>
+    </div>
+
   </section>
 
   <!-- 2. Productgrid — de kaarten verschuiven verticaal, dus onderaan moet
        extra ruimte staan: die verschuiving telt niet mee in de hoogte. -->
-  <section id="voorraad" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-8 scroll-mt-24">
+  <section id="voorraad" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw scroll-mt-24">
     <div class="flex justify-between items-end gap-6 mb-12 pb-4 border-b-2 border-dashed border-secondary">
       <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary rotate-1">Uit voorraad</h2>
-      <span class="font-label-mono text-label-mono text-tertiary uppercase whitespace-nowrap">Direct leverbaar</span>
+      <span class="font-label-mono text-label-mono text-secondary uppercase whitespace-nowrap">Direct leverbaar</span>
     </div>
     <div id="collectie-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"></div>
   </section>
 
-  <!-- De onderste kaarten schuiven met een transform naar beneden; die
-       verschuiving telt niet mee in de hoogte, dus zonder marge zou dit blok
-       eroverheen komen. De marge is precies die verschuiving plus een kleine
-       tussenruimte.
-       De scheurrand zit hier, aan het begin van het beige deel: dit blok en de
-       banner eronder raken elkaar zonder kleurwissel, dus dáártussen valt
-       niets te scheiden. -->
-  <section id="drop" data-drop="Nieuwe tassen als eerste zien" class="w-full mt-12 md:mt-28 pt-stack-raw pb-20 md:pb-24 bg-surface-container-low golfrand-boven relative scroll-mt-24"></section>
+  <!-- De marge bovenaan vangt de verschuiving van de onderste productkaarten
+       op: die telt niet mee in de hoogte van het raster, dus zonder marge zou
+       dit blok eroverheen komen. -->
+  <section id="drop" data-drop="Nieuwe tassen als eerste zien" class="w-full mt-12 md:mt-28 py-stack-raw bg-surface-container-lowest golfrand-boven relative scroll-mt-24"></section>
+
+  <!-- Het citaat als eigen band over de volle breedte, op een macro van
+       gedragen leder: hetzelfde recept als de hero — beeld, donkere doek voor
+       de leesbaarheid, tekst eroverheen. Het stond hier eerder in een klein
+       ballonnetje, en dat maakte van een uitspraak een voetnoot.
+       Schuift 32px over het beige blok erboven — precies de hoogte van de
+       scheur — zodat de uitsparing op dat beige valt en niet op de
+       paginakleur. -->
+  <section class="relative w-full parallax-kader golfrand-boven overflow-hidden
+                  -mt-8 py-stack-raw md:py-section-xl">
+    <img data-img="patina" alt="" aria-hidden="true"
+         class="parallax-beeld absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-inverse-surface/80"></div>
+    <blockquote class="relative max-w-3xl mx-auto px-margin-mobile text-center
+                       font-display-lg leading-snug text-inverse-on-surface">
+      “The art is finding beauty in the old and forgotten.
+      The reward is that vintage never goes out of fashion.”
+    </blockquote>
+  </section>
 
   <!-- 3. Custom-banner. Hier draait de pagina: alles hierboven gaat over wat
        er ligt, alles hieronder over wat er gemaakt wordt. Vandaar de warme
        tint — dezelfde als het op-maat-blok op de home — met een scheurrand
        boven én onder. Kleur en vorm zeggen samen: nieuw hoofdstuk. -->
   <!-- Het blok schuift 32px omhoog, precies de hoogte van de scheur: zo valt
-       de uitsparing van de golf óp het beige blok erboven in plaats van op de
+       de uitsparing van de golf óp de citaatband erboven in plaats van op de
        paginakleur. Zonder die overlap zie je eerst een streepje achtergrond
        terugkomen en pas daarna het bruin. -->
   <section class="bg-secondary-fixed-dim texture-linen golfrand -mt-8 relative">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 flex flex-col lg:flex-row items-center justify-between gap-12">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw md:py-section-xl flex flex-col lg:flex-row items-center justify-between gap-12">
       <div class="max-w-xl">
         <span class="font-label-mono text-label-mono text-secondary uppercase block mb-4">Op maat</span>
-        <h2 class="font-display-lg leading-tight text-on-secondary-fixed mb-4 -rotate-1">Geen exacte match?</h2>
-        <p class="font-body-lg text-body-lg text-on-secondary-fixed-variant mb-8">
+        <h2 class="font-display-lg leading-tight text-primary mb-4 -rotate-1">Geen exacte match?</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
           Vind je niet volledig wat je zoekt, maar heb je ook geen eigen zadel? Laat een tas maken uit
           een zadel dat hier op voorraad ligt. Stuur me een berichtje of bel me even op en vertel me
           wat je zoekt. Samen bekijken we wat er mogelijk is. Verder verlopen de stappen gelijkaardig
@@ -147,15 +151,15 @@
         </div>
       </div>
       <div class="w-full lg:w-1/2 aspect-video relative">
-        <div class="absolute inset-0 hide-mask-2 border-2 border-dashed border-secondary/50 translate-x-4 translate-y-4"></div>
         <div data-img-bg="handenStikken" role="img" aria-label="Handen die met priem en gewaxt garen door dik zadelleder werken"
-             class="absolute inset-0 hide-mask-2 soft-edge-mask saddle-stitch bg-cover bg-center"></div>
+             class="absolute inset-0 hide-mask-2 soft-edge-mask saddle-stitch bg-cover bg-center
+                    grayscale hover:grayscale-0 transition-all duration-700"></div>
       </div>
     </div>
   </section>
 
   <!-- 4. Werkwijze -->
-  <section id="werkwijze" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-10 scroll-mt-24">
+  <section id="werkwijze" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-stack-raw md:pt-section-xl pb-stack-raw scroll-mt-24">
     <!-- Ook hier de volle breedte: kop bovenaan, tekst eronder in twee
          kolommen. De browser verdeelt de drie alinea's zelf over die kolommen;
          de leesvolgorde blijft van boven naar beneden en dan naar rechts.
@@ -185,29 +189,22 @@
       </div>
     </div>
 
-    <!-- Personalisatie: het doorklik-stuk uit de losse maatwerkpagina. -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 p-8 md:p-10 bg-surface-container-low
+    <!-- Personalisatie: het doorklik-stuk uit de losse maatwerkpagina. Stond
+         hier in twee kolommen naast "Voor wie?"; nu dat blok weg is, leest
+         het beter over twee tekstkolommen dan over de volle regelbreedte. -->
+    <div class="mb-16 p-8 md:p-10 bg-surface-container-low
                 border-2 border-dashed border-secondary/40 rounded-lg">
-      <div>
-        <h3 class="font-headline-md text-headline-md text-primary mb-4">Personalisatie en afwerking</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant mb-4">
+      <h3 class="font-headline-md text-headline-md text-primary mb-4">Personalisatie en afwerking</h3>
+      <div class="font-body-md text-body-md text-on-surface-variant md:columns-2 md:gap-12 [&>p]:mb-4 [&>p:last-child]:mb-0">
+        <p>
           Elke tas kan worden afgestemd op jouw stijl en voorkeuren. Van de kleur van de stiksels en
           de afwerking van de randen tot de keuze van gespen en sluitingen. Samen bekijken we welke
           details het beste bij jou passen.
         </p>
-        <p class="font-body-md text-body-md text-on-surface-variant">
+        <p>
           Omdat elk zadel anders is, leent niet ieder exemplaar zich voor elk model. Soms is aanvullend
           leder nodig om jouw gekozen ontwerp te kunnen realiseren. We bespreken de mogelijkheden en
           zoeken samen naar de mooiste oplossing!
-        </p>
-      </div>
-      <div>
-        <h3 class="font-headline-md text-headline-md text-primary mb-4">Voor wie?</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant">
-          Deze tuigtassen zijn perfect voor paardenliefhebbers die de herinneringen aan hun paard
-          tastbaar en dichtbij willen houden. Ook mensen die op zoek zijn naar een unieke tas die
-          mooier wordt doorheen de jaren en een duurzaam verhaal vertelt, zullen de waarde van deze
-          collectie inzien.
         </p>
       </div>
     </div>
@@ -216,54 +213,54 @@
          zodat je aan de tint ziet hoe ver in het traject je staat. -->
     <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter">
       <li class="bg-surface-container-lowest p-6 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+        <div class="-mx-6 -mt-6 mb-4 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelSchaduw" alt="Een oud zadel, klaar om gefotografeerd te worden" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[52px] text-secondary/70 leading-none block mb-2">1</span>
-        <h3 class="font-body-lg text-body-lg text-primary mb-2">Contact</h3>
+        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">1</span>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Contact</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Je stuurt me een berichtje met een paar foto's en vertelt me waar je naar op zoek bent.
         </p>
       </li>
       <li class="bg-secondary-fixed/40 p-6 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+        <div class="-mx-6 -mt-6 mb-4 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="atelier" alt="De werkbank in het atelier waar we samen zitten" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[52px] text-secondary/70 leading-none block mb-2">2</span>
-        <h3 class="font-body-lg text-body-lg text-primary mb-2">Gesprek</h3>
+        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">2</span>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Gesprek</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Als de afstand het toelaat, nodig ik je graag uit in het atelier. We kijken samen naar wat
           er mogelijk is.
         </p>
       </li>
       <li class="bg-secondary-fixed-dim/50 p-6 border-2 border-dashed border-secondary/50 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+        <div class="-mx-6 -mt-6 mb-4 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="schetsPaard" alt="Een ontwerpschets op papier" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[52px] text-secondary/70 leading-none block mb-2">3</span>
-        <h3 class="font-body-lg text-body-lg text-primary mb-2">Ontwerp</h3>
+        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">3</span>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Ontwerp</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Ik maak een ontwerp op basis van het leder dat er voorhanden is en spreek met jou een
           prijsrange af.
         </p>
       </li>
       <li class="bg-khaki/50 p-6 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+        <div class="-mx-6 -mt-6 mb-4 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="handenStikken" alt="Handen die het leder met de hand doorstikken" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[52px] text-secondary/70 leading-none block mb-2">4</span>
-        <h3 class="font-body-lg text-body-lg text-primary mb-2">Handwerk</h3>
+        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">4</span>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Handwerk</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">
-          Het zadel gaat uit elkaar, het leder wordt voorbereid en ik ga voor jou aan de slag. Via
-          WhatsApp houd ik je op de hoogte van het proces en stem ik bepaalde keuzes met jou af.
+          Het zadel gaat uit elkaar en ik ga aan de slag. Via WhatsApp volg je mee en stemmen we
+          keuzes af.
         </p>
       </li>
       <li class="bg-khaki/80 p-6 border-2 border-dashed border-secondary/70 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-6 -mt-6 mb-4 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+        <div class="-mx-6 -mt-6 mb-4 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="bagRuitertas" alt="De afgewerkte tas, klaar om mee te geven" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[52px] text-secondary/70 leading-none block mb-2">5</span>
-        <h3 class="font-body-lg text-body-lg text-primary mb-2">Aflevering</h3>
+        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">5</span>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Aflevering</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">
           Je haalt je tas op in het atelier, of ik stuur hem verzekerd naar je toe.
         </p>
@@ -275,7 +272,7 @@
   <!-- 5. Voor / na. Hoort bij het stappenplan hierboven — zelfde achtergrond,
        weinig ruimte ertussen — en staat vóór de oproep onderaan: eerst laten
        zien wat het oplevert, dan pas vragen om een berichtje. -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-4 pb-8">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-0 pb-stack-raw">
     <div>
       <div class="text-center mb-12">
         <h2 class="font-display-lg leading-tight -rotate-1 text-primary mb-4">Enkele voorbeelden</h2>
@@ -286,7 +283,7 @@
         <figure>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
-              <img data-img="zadelWerkbank" alt="Het oorspronkelijke zadel op de werkbank" loading="lazy" class="w-full h-full object-cover grayscale">
+              <img data-img="zadelWerkbank" alt="Het oorspronkelijke zadel op de werkbank" loading="lazy" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
             </div>
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
               <img data-img="bagRuitertas" alt="De tas die eruit gemaakt werd" loading="lazy" class="w-full h-full object-cover">
@@ -301,7 +298,7 @@
         <figure>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
-              <img data-img="zadelSchaduw" alt="Een oud dressuurzadel voor de bewerking" loading="lazy" class="w-full h-full object-cover grayscale">
+              <img data-img="zadelSchaduw" alt="Een oud dressuurzadel voor de bewerking" loading="lazy" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
             </div>
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
               <img data-img="bagBoswachter" alt="De Boswachter Tote" loading="lazy" class="w-full h-full object-cover">
@@ -316,7 +313,7 @@
         <figure>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
-              <img data-img="zadelSnijden" alt="Het zadel wordt op maat gesneden" loading="lazy" class="w-full h-full object-cover grayscale">
+              <img data-img="zadelSnijden" alt="Het zadel wordt op maat gesneden" loading="lazy" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
             </div>
             <div class="aspect-square bg-surface-container-lowest p-2 border border-dashed border-secondary/40">
               <img data-img="bagVeldtas" alt="De Veldtas" loading="lazy" class="w-full h-full object-cover">
@@ -334,14 +331,14 @@
   <!-- 6. Stap 1 van de werkwijze hierboven is "contact", en dat contact begint
        hier. Het blok staat er daarom als een eigen vertrekpunt bij, niet als
        een losse knop onder het stappenplan. -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw md:py-section-xl">
     <div class="bg-deep-forest texture-linen texture-linen-dark rounded-lg p-8 md:p-12
                 border-2 border-dashed border-secondary-fixed/50 text-center">
-      <span class="font-label-mono text-label-mono text-primary-fixed-dim/70 uppercase block mb-4">Stap 1 van 5</span>
-      <h2 class="font-display-lg leading-tight text-primary-fixed-dim mb-4 -rotate-1">
+      <span class="font-label-mono text-label-mono text-primary-fixed-dim uppercase block mb-4">Stap 1 van 5</span>
+      <h2 class="font-display-lg leading-tight text-primary-fixed mb-4 -rotate-1">
         Alles begint met jouw berichtje
       </h2>
-      <p class="font-body-md text-body-md text-primary-fixed-dim/85 max-w-xl mx-auto mb-8">
+      <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-xl mx-auto mb-8">
         Heb je een specifiek zadel of type tas in gedachten? Stuur me gerust even een foto via
         WhatsApp. Vertel me er iets meer over, en dan bekijken we samen wat er mogelijk is!
       </p>
@@ -357,7 +354,7 @@
 
 </main>
 
-<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 
 <script>
   paginaKlaar.then(() => {

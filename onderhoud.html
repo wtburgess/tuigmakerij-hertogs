@@ -10,20 +10,20 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 <script src="assets/site.js"></script>
 </head>
-<body data-page="onderhoud" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<body data-page="onderhoud" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased selection:bg-secondary-fixed selection:text-primary">
 
 <header id="site-header" class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b-2 border-dashed border-secondary/30"></header>
 
 <main>
 
   <!-- 1. Intro -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-20 md:pb-28">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw md:py-section-xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
       <!-- Begint in kolom 1, net als de hero op de andere pagina's: alle
            paginakoppen horen op dezelfde linkermarge te starten. -->
@@ -52,11 +52,12 @@
 
   <!-- Deel één: reparaties. Alles in dit deel deelt dezelfde koele tint,
        zodat je aan de achtergrond ziet dat je nog bij de herstellingen zit. -->
-  <!-- Onderaan geen streepjesrand: daar begint het volgende vlak met zijn
-       scheurrand, en twee randen op elkaar is één te veel. -->
-  <div class="bg-surface-container-low border-t-2 border-dashed border-secondary/40">
+  <!-- Bovenaan een scheurrand in plaats van een streepjesrand: elke andere
+       kleurwissel op de site gebeurt met een golf, deze stond nog op een naad.
+       Onderaan niets: daar begint het warme blok met zijn eigen scheur. -->
+  <div class="bg-surface-container-lowest golfrand-boven relative">
   <!-- 2. Wat ik herstel -->
-  <section class="py-12 md:py-16">
+  <section class="py-stack-raw">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="max-w-2xl mb-16">
         <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Wat ik herstel</h2>
@@ -73,54 +74,54 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="zadelPoetsen" alt="Handen die een leren zadel poetsen op de werkbank" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Zadels</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Zadels</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Losgekomen stiksels, versleten zadelflappen, vervangen van singelstoten, herstel van scheuren.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="gereedschap" alt="Zadelmakersgereedschap op de werkbank" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Hoofdstellen &amp; teugels</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Hoofdstellen &amp; teugels</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Doorgesleten riemen, verlengen of inkorten, passanten plaatsen, gespen vervangen, …
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="atelier" alt="Leder en gereedschap in het atelier" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Tuig &amp; menwerk</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Tuig &amp; menwerk</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Aanpassingen aan alle borsttuig, leidsels, strengen enzovoort nodig in de mensport.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="naaldDraad" alt="Een zadelmakersnaald met gewaxt garen" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Riemen &amp; singels</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Riemen &amp; singels</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             O.a. inkorten of verlengen, stijgbeugelriemen, halsters en longeermateriaal.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="waegemans2" alt="Een handgenaaide tas uit oud zadelleder" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Tassen &amp; overige lederwaren</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Tassen &amp; overige lederwaren</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Ook voor herstelling van overige lederwaren help ik je graag uit de nood. Schouderriemen
             verlengen of inkorten, gespen aan broeksriemen herbevestigen, naden herstellen, …
           </p>
         </div>
         <div class="bg-surface-container p-8 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt">
-          <span class="material-symbols-outlined text-outline text-3xl mb-4">info</span>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-3">Wat ik niet doe</h3>
+          <span class="material-symbols-outlined text-secondary text-3xl mb-4">info</span>
+          <h3 class="font-headline-md text-headline-md text-primary mb-3">Wat ik niet doe</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Geen zadelpassingen of aanpassingen aan de boom, en geen kunststof of synthetisch materiaal.
             Daarvoor verwijs ik je graag door naar iemand die dat wél doet.
@@ -131,7 +132,7 @@
   </section>
 
   <!-- 3. Hoe het werkt -->
-  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-20 md:pb-28">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-0 pb-stack-raw md:pb-section-xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
       <div class="lg:col-span-6">
         <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight -rotate-1 text-primary mb-4">Hoe het werkt</h2>
@@ -139,9 +140,9 @@
 
         <ol class="space-y-8">
           <li class="flex gap-6">
-            <span class="font-display-lg text-[44px] text-secondary/70 leading-none shrink-0 w-10">1</span>
+            <span class="font-display-lg text-[44px] text-secondary leading-none shrink-0 w-10">1</span>
             <div>
-              <h3 class="font-body-lg text-body-lg text-primary mb-2">Stuur een foto</h3>
+              <h3 class="font-headline-md text-headline-md text-primary mb-2">Stuur een foto</h3>
               <p class="font-body-md text-body-md text-on-surface-variant">
                 Via WhatsApp of mail. Vertel er kort bij wat er gebeurd is. Meestal kan ik meteen zeggen
                 of het te herstellen valt en wat het ongeveer gaat kosten.
@@ -149,9 +150,9 @@
             </div>
           </li>
           <li class="flex gap-6">
-            <span class="font-display-lg text-[44px] text-secondary/70 leading-none shrink-0 w-10">2</span>
+            <span class="font-display-lg text-[44px] text-secondary leading-none shrink-0 w-10">2</span>
             <div>
-              <h3 class="font-body-lg text-body-lg text-primary mb-2">Breng het langs</h3>
+              <h3 class="font-headline-md text-headline-md text-primary mb-2">Breng het langs</h3>
               <p class="font-body-md text-body-md text-on-surface-variant">
                 Op afspraak, zodat ik er tijd voor heb en we het samen kunnen bekijken. Opsturen kan ook,
                 maar langskomen werkt vaak beter.
@@ -159,9 +160,9 @@
             </div>
           </li>
           <li class="flex gap-6">
-            <span class="font-display-lg text-[44px] text-secondary/70 leading-none shrink-0 w-10">3</span>
+            <span class="font-display-lg text-[44px] text-secondary leading-none shrink-0 w-10">3</span>
             <div>
-              <h3 class="font-body-lg text-body-lg text-primary mb-2">Prijs en termijn vooraf</h3>
+              <h3 class="font-headline-md text-headline-md text-primary mb-2">Prijs en termijn vooraf</h3>
               <p class="font-body-md text-body-md text-on-surface-variant">
                 Je krijgt een vaste prijs en een realistische termijn voor ik begin. Blijkt onderweg dat er
                 meer aan de hand is, dan bel ik je eerst even op.
@@ -169,9 +170,9 @@
             </div>
           </li>
           <li class="flex gap-6">
-            <span class="font-display-lg text-[44px] text-secondary/70 leading-none shrink-0 w-10">4</span>
+            <span class="font-display-lg text-[44px] text-secondary leading-none shrink-0 w-10">4</span>
             <div>
-              <h3 class="font-body-lg text-body-lg text-primary mb-2">Ophalen</h3>
+              <h3 class="font-headline-md text-headline-md text-primary mb-2">Ophalen</h3>
               <p class="font-body-md text-body-md text-on-surface-variant">
                 Ik laat iets weten zodra ik met je materiaal klaar ben. Kleine herstellingen zijn er
                 vaak binnen de week.
@@ -193,14 +194,14 @@
          pagina, niet alleen voor de foto waar het toevallig naast stond. -->
     <div class="max-w-3xl mx-auto mt-16 bg-surface-container-lowest p-8 border-2 border-dashed border-secondary/40 rounded-lg">
       <h3 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4">Langskomen</h3>
-      <p class="font-body-md text-body-md text-on-surface mb-2" data-contact="adres"></p>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-2" data-contact="adres"></p>
       <p class="font-body-md text-body-md text-on-surface-variant mb-6">Enkel op afspraak</p>
       <div class="flex flex-col sm:flex-row sm:flex-wrap gap-x-10 gap-y-2">
         <a data-wa="Dag Karolien, ik zou graag iets binnenbrengen. " target="_blank" rel="noopener"
-           class="flex items-center gap-3 font-body-md text-body-md text-primary hover:text-primary-container transition-colors">
+           class="flex items-center gap-3 font-body-md text-body-md text-secondary hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-base">chat</span> WhatsApp
         </a>
-        <a data-mail="Herstelling" class="flex items-center gap-3 font-body-md text-body-md text-primary hover:text-primary-container transition-colors">
+        <a data-mail="Herstelling" class="flex items-center gap-3 font-body-md text-body-md text-secondary hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-base">mail</span>
           <span data-contact="email"></span>
         </a>
@@ -220,7 +221,7 @@
        en daarom ook geen streepjesrand meer nodig heeft. -->
 
   <!-- 4. Onderhoudstips -->
-  <section class="bg-secondary-fixed/50 texture-linen golfrand-boven py-20 md:py-28">
+  <section class="bg-secondary-fixed-dim texture-linen golfrand-boven py-stack-raw md:py-section-xl">
     <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="text-center mb-16 max-w-2xl mx-auto">
         <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Voor je tuigtas</span>
@@ -233,39 +234,39 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg text-center overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="patina" alt="Gedragen leder met diepe patina" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Voeden</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-2">Voeden</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Geef je tas regelmatig een dun laagje ledervet. Je kan hiervoor dezelfde producten
             gebruiken als voor het invetten van zadels en tuigage.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg text-center overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="zadelSchaduw" alt="Een leren zadel in het halfduister" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Nat geworden?</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-2">Nat geworden?</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Laten drogen op kamertemperatuur. Plaats je tas niet naast een directe warmtebron zoals
             een radiator of kachel. Dat geeft risico op scheuren in het leder.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg text-center overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="heideTractor" alt="Een tuigtas buiten in de zon" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Beschermen</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-2">Beschermen</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Vermijd te lange tijd in de vlakke zon om verkleuring en uitdroging te voorkomen.
           </p>
         </div>
         <div class="bg-surface p-8 border-2 border-dashed border-secondary/30 rounded-lg text-center overflow-hidden kaart-tilt">
-          <div class="-mx-8 -mt-8 mb-6 aspect-[3/2] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+          <div class="-mx-8 -mt-8 mb-6 shrink-0 aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
             <img data-img="zadelPoetsen" alt="Leder dat met een zachte doek wordt schoongemaakt" loading="lazy" class="w-full h-full object-cover">
           </div>
-          <h3 class="font-body-lg text-body-lg text-primary font-semibold mb-2">Reinigen</h3>
+          <h3 class="font-headline-md text-headline-md text-primary mb-2">Reinigen</h3>
           <p class="font-body-md text-body-md text-on-surface-variant">
             Een licht vochtige doek volstaat. Zijn er vlekken op je tas gekomen? Gebruik dan een
             milde zadelzeep. Na het wassen met zadelzeep is het belangrijk om je tas opnieuw te voeden.
@@ -287,6 +288,11 @@
 
 </main>
 
-<footer id="site-footer" class="relative z-10 bg-surface-container-lowest"></footer>
+<!-- De scheur blijft, maar de voettekst schuift er 32px overheen — precies de
+     hoogte van de scheur. Zo valt de uitsparing óp het warme blok erboven en
+     ga je in één keer van de ene kleur naar de andere. Zonder die overlap zie
+     je in de uitsparing de paginakleur terug, en dat leest als een streepje
+     wit tussen de twee vlakken. -->
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 </body>
 </html>

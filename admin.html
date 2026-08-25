@@ -7,7 +7,7 @@
 <title>Beheer — Tuigtassen Hertogs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -21,7 +21,7 @@
   <div class="flex justify-between items-center gap-6 mb-10 pb-4 border-b-2 border-dashed border-secondary">
     <h1 class="font-display-lg text-[40px] text-primary">Beheer</h1>
     <div class="flex items-center gap-4">
-      <a href="collectie.html" class="font-label-mono text-label-mono uppercase text-tertiary border-b border-dashed border-current">Naar de site</a>
+      <a href="collectie.html" class="font-label-mono text-label-mono uppercase text-secondary border-b border-dashed border-current">Naar de site</a>
       <button type="button" id="uitloggen" hidden
               class="font-label-mono text-label-mono uppercase text-secondary border-b border-dashed border-current">Uitloggen</button>
     </div>
@@ -301,7 +301,7 @@ async function laadBestellingen() {
       </p>
       ${b.klant.bericht ? `<p class="font-body-md text-body-md text-secondary mt-2">"${b.klant.bericht}"</p>` : ''}
       <div class="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-secondary/40">
-        <span class="font-label-mono text-label-mono uppercase text-outline">
+        <span class="font-label-mono text-label-mono uppercase text-secondary">
           ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
         </span>
         <span class="flex gap-1">
@@ -365,7 +365,7 @@ async function laadBestellingen() {
                   <select data-afhandeling="${b.id}"
                           class="font-body-md text-body-md border border-secondary rounded pl-3 pr-9 py-1 min-w-[8.5rem] bg-surface-container-lowest">
                     ${KOLOMMEN.map((k) => `<option value="${k.sleutel}" ${k.sleutel === stand(b) ? 'selected' : ''}>${k.titel.toLowerCase()}</option>`).join('')}
-                  </select>` : '<span class="text-outline">—</span>'}
+                  </select>` : '<span class="text-secondary">—</span>'}
                 </td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-primary whitespace-nowrap">${b.referentie}</td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant whitespace-nowrap">
@@ -409,10 +409,10 @@ async function laadBestellingen() {
         <section data-kolom="${k.sleutel}"
                  class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-4 min-h-[8rem] transition-colors">
           <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-1">
-            ${k.titel} <span class="text-outline">(${inKolom.length})</span>
+            ${k.titel} <span class="text-secondary">(${inKolom.length})</span>
           </h3>
-          <p class="font-body-md text-body-md text-outline mb-4">${k.hint}</p>
-          ${inKolom.map(kaart).join('') || '<p class="font-body-md text-body-md text-outline">Leeg.</p>'}
+          <p class="font-body-md text-body-md text-secondary mb-4">${k.hint}</p>
+          ${inKolom.map(kaart).join('') || '<p class="font-body-md text-body-md text-secondary">Leeg.</p>'}
         </section>`;
       }).join('')}
     </div>
@@ -426,7 +426,7 @@ async function laadBestellingen() {
           <span class="text-primary">${b.referentie}</span>
           <span>${euro.format(b.totaal)}</span>
           <span>${b.klant.naam}</span>
-          <span class="ml-auto font-label-mono text-label-mono uppercase text-outline">
+          <span class="ml-auto font-label-mono text-label-mono uppercase text-secondary">
             ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
           </span>
         </li>`).join('')}
@@ -496,7 +496,7 @@ async function laadInschrijvingen() {
       ${data.map((i) => `
         <li class="py-3 flex flex-wrap items-center gap-x-4 gap-y-2 font-body-md text-body-md text-on-surface">
           <span>${i.telefoon}</span>
-          <span class="font-label-mono text-label-mono uppercase text-outline">
+          <span class="font-label-mono text-label-mono uppercase text-secondary">
             ${new Date(i.aangemaakt).toLocaleDateString('nl-BE')}
           </span>
           <a href="https://wa.me/${waNummer(i.telefoon)}" target="_blank" rel="noopener"

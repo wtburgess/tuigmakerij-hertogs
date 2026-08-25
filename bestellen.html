@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -93,7 +93,7 @@
             <span class="material-symbols-outlined text-base">account_balance</span> Betaling
           </h2>
           <div class="bg-surface-container-low p-6 border border-surface-variant space-y-4">
-            <p class="font-body-md text-body-md text-on-surface">Betaling via overschrijving</p>
+            <p class="font-body-md text-body-md text-primary">Betaling via overschrijving</p>
             <p class="font-body-md text-body-md text-on-surface-variant">
               Na het plaatsen van je bestelling krijg je meteen het rekeningnummer en een bestelnummer te zien —
               ook per mail. Zodra de betaling binnen is, gaat je tas op de post. Ik reserveer je tas 5 dagen.
@@ -124,14 +124,14 @@
     <!-- Overzicht -->
     <div class="lg:col-span-5">
       <div class="lg:sticky lg:top-12 bg-secondary-fixed p-8 md:p-10 border-2 border-dashed border-secondary/50 rounded-lg">
-        <h2 class="font-headline-md text-headline-md text-on-secondary-fixed-variant text-center mb-8">Jouw mandje</h2>
+        <h2 class="font-headline-md text-headline-md text-on-surface-variant text-center mb-8">Jouw mandje</h2>
         <div class="stitch-divider"></div>
 
         <div id="regels" class="my-8 space-y-8"></div>
 
         <div class="stitch-divider"></div>
 
-        <div class="space-y-3 my-8 font-body-md text-body-md text-on-secondary-fixed-variant">
+        <div class="space-y-3 my-8 font-body-md text-body-md text-on-surface-variant">
           <div class="flex justify-between"><span>Subtotaal</span><span id="subtotaal"></span></div>
           <div class="flex justify-between"><span id="verzendlabel">Verzending</span><span id="verzending"></span></div>
         </div>
@@ -139,12 +139,12 @@
         <div class="stitch-divider"></div>
 
         <div class="flex justify-between items-center my-8">
-          <span class="font-headline-md text-[24px] text-on-secondary-fixed-variant">Totaal</span>
-          <span id="totaal" class="font-headline-md text-[24px] text-on-secondary-fixed-variant"></span>
+          <span class="font-headline-md text-headline-md text-on-surface-variant">Totaal</span>
+          <span id="totaal" class="font-headline-md text-headline-md text-on-surface-variant"></span>
         </div>
 
         <div class="bg-surface-container-lowest/60 p-5 text-center border border-dashed border-secondary/50">
-          <p class="font-body-md text-body-md text-on-secondary-fixed-variant flex items-center justify-center gap-2">
+          <p class="font-body-md text-body-md text-on-surface-variant flex items-center justify-center gap-2">
             <span class="material-symbols-outlined text-secondary text-base">handshake</span>
             Met de hand vervaardigd voor jou door Karolien.
           </p>
@@ -158,7 +158,7 @@
   </div>
 </main>
 
-<footer class="w-full bg-surface-container-lowest border-t-2 border-dashed border-secondary/40 mt-auto py-10">
+<footer class="w-full bg-surface-container-lowest golfrand-boven mt-auto py-10">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center font-body-md text-body-md text-on-surface-variant">
     Vragen over je bestelling?
     <a data-wa="Dag Karolien, ik heb een vraag over mijn bestelling: " target="_blank" rel="noopener"
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${fotoUrl(l.product.fotos[0])}" alt="${l.product.naam}" class="w-full h-full object-cover">
         </a>
         <div class="flex-grow min-w-0">
-          <h3 class="font-body-lg text-body-lg text-on-secondary-fixed-variant">${l.product.naam}</h3>
+          <h3 class="font-headline-md text-headline-md text-on-surface-variant">${l.product.naam}</h3>
           <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mt-1">${l.product.herkomst}</p>
           <div class="flex items-center gap-3 mt-3">
             <div class="flex items-center border border-secondary-fixed-dim bg-surface-container-lowest">
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       class="w-8 h-8 flex items-center justify-center text-secondary hover:text-primary transition-colors">
                 <span class="material-symbols-outlined text-base">remove</span>
               </button>
-              <span class="w-8 text-center font-body-md text-body-md text-on-surface">${l.aantal}</span>
+              <span class="w-8 text-center font-body-md text-body-md text-primary">${l.aantal}</span>
               <button type="button" data-plus="${l.product.id}" aria-label="Eén meer"
                       ${l.aantal >= l.product.voorraad ? 'disabled' : ''}
                       class="w-8 h-8 flex items-center justify-center text-secondary hover:text-primary transition-colors disabled:opacity-30 disabled:hover:text-secondary">
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
         </div>
-        <div class="font-body-lg text-body-lg text-on-secondary-fixed-variant whitespace-nowrap">${euro.format(l.subtotaal)}</div>
+        <div class="font-body-lg text-body-lg text-on-surface-variant whitespace-nowrap">${euro.format(l.subtotaal)}</div>
       </div>`).join('');
 
     const sub = cartTotal();

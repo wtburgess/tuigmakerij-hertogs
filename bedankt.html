@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -41,7 +41,7 @@
   </div>
 </main>
 
-<footer id="site-footer" class="relative z-10 bg-surface-container-lowest border-t-2 border-dashed border-secondary/40"></footer>
+<footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="bg-secondary-fixed p-8 md:p-10 border-2 border-dashed border-secondary/50 rounded-lg mb-8">
       <div class="text-center mb-8">
         <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Bestelnummer</span>
-        <p class="font-headline-md text-headline-md text-on-secondary-fixed-variant mt-1">${mededeling}</p>
+        <p class="font-headline-md text-headline-md text-on-surface-variant mt-1">${mededeling}</p>
       </div>
       <div class="stitch-divider"></div>
       <div class="my-8 space-y-4">
         ${bestelling.regels.map((r) => `
-          <div class="flex justify-between gap-6 font-body-md text-body-md text-on-secondary-fixed-variant">
+          <div class="flex justify-between gap-6 font-body-md text-body-md text-on-surface-variant">
             <span>${r.aantal} × ${r.tas}</span><span class="whitespace-nowrap">${euro.format(r.bedrag)}</span>
           </div>`).join('')}
         <div class="flex justify-between gap-6 font-body-md text-body-md text-secondary">
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
       <div class="stitch-divider"></div>
-      <div class="flex justify-between items-center mt-8 font-headline-md text-[24px] text-on-secondary-fixed-variant">
+      <div class="flex justify-between items-center mt-8 font-headline-md text-headline-md text-on-surface-variant">
         <span>Te betalen</span><span>${euro.format(bestelling.totaal)}</span>
       </div>
     </div>
@@ -111,19 +111,19 @@ document.addEventListener('DOMContentLoaded', () => {
       <dl class="space-y-4 font-body-md text-body-md">
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
           <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Begunstigde</dt>
-          <dd class="text-on-surface">${CONTACT.atelier}</dd>
+          <dd class="text-primary">${CONTACT.atelier}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
           <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">IBAN</dt>
-          <dd class="text-on-surface font-medium">${CONTACT.iban}</dd>
+          <dd class="text-primary font-semibold">${CONTACT.iban}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
           <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Bedrag</dt>
-          <dd class="text-on-surface font-medium">${euro.format(bestelling.totaal)}</dd>
+          <dd class="text-primary font-semibold">${euro.format(bestelling.totaal)}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
           <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Mededeling</dt>
-          <dd class="text-on-surface font-medium">${mededeling}</dd>
+          <dd class="text-primary font-semibold">${mededeling}</dd>
         </div>
       </dl>
       <p class="font-body-md text-body-md text-on-surface-variant mt-8">
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="bg-surface-container-low p-8 border-l-[3px] border-secondary">
-      <h2 class="font-body-lg text-body-lg text-primary mb-3">Stuur je bestelling even door</h2>
+      <h2 class="font-headline-md text-headline-md text-primary mb-3">Stuur je bestelling even door</h2>
       <p class="font-body-md text-body-md text-on-surface-variant mb-6">
         Zo weet ik meteen dat ze binnen is. Eén klik en de mail staat al klaar — jij hoeft enkel te verzenden.
       </p>
