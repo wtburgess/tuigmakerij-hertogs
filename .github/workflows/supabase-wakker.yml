@@ -1,0 +1,36 @@
+# Houdt het Supabase-project wakker.
+#
+# Een gratis project gaat slapen na een week zonder activiteit. Slaapt het,
+# dan blijft de site werken — de collectie valt terug op de ingebouwde lijst
+# in assets/site.js — maar bestellen en het beheerscherm liggen plat.
+#
+# Eén keer per dag één rij opvragen is genoeg. De sleutel hieronder is dezelfde
+# publiceerbare sleutel die al in assets/site.js staat en dus in elke browser
+# meekomt; hier staat niets dat niet al openbaar is.
+#
+# Let op: GitHub zet geplande workflows stil in een repo waar 60 dagen niets
+# gebeurt. Je krijgt daar een mail over en kan hem met één klik weer aanzetten.
+# Wordt de site lang niet aangeraakt, zet de ping dan bij een externe dienst
+# (cron-job.org) die daar geen last van heeft.
+
+name: Supabase wakker houden
+
+on:
+  schedule:
+    # 6:17 UTC — een oneven tijdstip, want op het hele uur staat GitHub in de
+    # file en kan het tot een uur later worden.
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Eén rij opvragen
+        run: |
+          curl --silent --show-error --fail-with-body \
+            --max-time 30 \
+            --write-out 'HTTP %{http_code} in %{time_total}s\n' \
+            --output /dev/null \
+            -H 'apikey: sb_publishable_KcNCsgogsA1vEI4Z299YJQ_KwH2G7p2' \
+            'https://vpyuagltoqdnvyuwiumo.supabase.co/rest/v1/producten?select=id&limit=1'

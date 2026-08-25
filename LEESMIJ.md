@@ -81,9 +81,17 @@ Het domein staat bij EasyHost, met de nameservers naar Cloudflare. Daar loopt
 ook Email Routing: `karolien@tuigtassenhertogs.be` stuurt door naar Gmail.
 
 Let op: een gratis Supabase-project gaat slapen na een week zonder activiteit.
-Een dagelijkse ping (cron-job.org) op de REST-URL houdt het wakker. Slaapt het
-toch, dan blijft de site werken — de collectie valt terug op de ingebouwde
-lijst in `site.js` — maar bestellen en het beheer liggen plat.
+Een dagelijkse ping op de REST-URL houdt het wakker; die staat in de repo als
+`.github/workflows/supabase-wakker.yml` en draait op GitHub Actions. Je kan hem
+ook met de hand starten via het tabblad Actions op GitHub.
+
+GitHub zet geplande workflows stil in een repo waar 60 dagen niets gebeurt. Je
+krijgt daar een mail over en kan hem met één klik weer aanzetten. Wordt de site
+lang niet aangeraakt, zet de ping dan bij een externe dienst (cron-job.org) die
+daar geen last van heeft.
+
+Slaapt het project toch, dan blijft de site werken — de collectie valt terug op
+de ingebouwde lijst in `site.js` — maar bestellen en het beheer liggen plat.
 
 ## Beheerpagina
 
