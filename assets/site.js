@@ -30,7 +30,7 @@ tailwind.config = {
       borderRadius: { sm: '0.125rem', DEFAULT: '0.25rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
       /* Verticale ruimte tussen secties kent twee maten, en meer niet:
 
-           py-stack-raw md:py-section-xl   48 → 120px   de gewone sectie
+           py-stack-raw md:py-section-xl   48 → 96px    de gewone sectie
            py-stack-raw                    48px         blokken die als paar
                                                         horen te lezen: een
                                                         intro onder een beeld,
@@ -45,7 +45,7 @@ tailwind.config = {
       spacing: {
         unit: '8px', gutter: '24px', 'gutter-stitch': '24px', 'stack-raw': '48px',
         'margin-mobile': '20px', 'margin-desktop': '5vw',
-        'container-max': '1440px', 'section-padding': '96px', 'section-xl': '120px'
+        'container-max': '1440px', 'section-xl': '96px'
       },
       maxWidth: { 'container-max': '1440px' },
       /* Twee stemmen, meer niet:
@@ -74,8 +74,8 @@ tailwind.config = {
            inleidende alinea van 20px gevolgd door 18px las als twee maten
            door elkaar. Wil je de site ruimer of compacter, dan verander je
            deze twee waarden samen — nergens anders staat een broodtekstmaat. */
-        'body-lg': ['19px', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-md': ['19px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-lg': ['21px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-md': ['21px', { lineHeight: '1.6', fontWeight: '400' }],
         /* Eén labelstijl. Er stonden er twee — 13px/0.14em en 15px/0.12em —
            die hetzelfde deden: kapitalen met ruime spatiëring. Naast elkaar
            op één pagina las dat als slordigheid, niet als verschil. Net als

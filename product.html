@@ -57,7 +57,7 @@ paginaKlaar.then(() => {
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
           Mogelijk is ze intussen verkocht — elk stuk bestaat maar één keer.
         </p>
-        <a href="collectie.html" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
+        <a href="collectie.html#voorraad" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
           Bekijk de collectie
         </a>
       </div>`;
@@ -89,7 +89,8 @@ paginaKlaar.then(() => {
 
       <div class="lg:col-span-7">
         <div class="relative aspect-[4/5] mb-8">
-          <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low">
+          ${badge(p)}
+          <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low ${uitverkocht ? 'grayscale' : ''}">
             <!-- De huidvorm snijdt de foto aan; klikken toont ze volledig. -->
             <button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
                     aria-label="Bekijk de volledige foto van ${p.naam}">
@@ -112,6 +113,9 @@ paginaKlaar.then(() => {
       </div>
 
       <div class="lg:col-span-5 lg:sticky lg:top-28">
+        ${uitverkocht ? `
+        <span class="inline-block bg-inverse-surface text-inverse-on-surface
+                     font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 mb-4">Verkocht</span><br>` : ''}
         <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
         <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
         <p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
@@ -137,7 +141,7 @@ paginaKlaar.then(() => {
         ${uitverkocht ? `
           <div class="bg-surface-container p-6 mb-6">
             <p class="font-body-md text-body-md text-on-surface-variant">
-              Deze tas is verkocht. Er was er maar één van — maar er ligt altijd ander leder klaar.
+              Deze tas is verkocht en bestaat maar één keer. Een gelijkaardig ontwerp is wel mogelijk.
             </p>
           </div>
           <a data-wa="Dag Karolien, ${p.naam} is verkocht. Kan je iets vergelijkbaars maken? " target="_blank" rel="noopener"
@@ -158,10 +162,10 @@ paginaKlaar.then(() => {
         <div class="bg-surface-container-low p-6 mt-8 flex gap-4 items-start border-l-[3px] border-secondary">
           <span class="material-symbols-outlined symbol-filled text-secondary shrink-0">verified</span>
           <div>
-            <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Eén exemplaar</h4>
+            <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Eén exemplaar. Volledig handgemaakt.</h4>
             <p class="font-body-md text-body-md text-on-surface-variant">
-              Volledig met de hand genaaid in het atelier van Karolien. Elk stuk komt uit een ander zadel,
-              dus deze tas bestaat exact één keer. Gratis en verzekerd verzonden binnen België.
+              Elk stuk komt uit een ander zadel, dus deze tas bestaat exact één keer. Gratis en
+              verzekerd verzonden binnen België.
             </p>
           </div>
         </div>
