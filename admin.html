@@ -713,18 +713,56 @@ async function openKiezer(naam) {
     voorraadEl.innerHTML = '<p class="font-body-md text-body-md text-on-surface-variant col-span-full">Hier staat nog geen enkele foto. Voeg er eentje toe met de knop hierboven.</p>';
     return;
   }
-  voorraadEl.innerHTML = fotos.map((f) => `
-    <button type="button" data-kies="sfeer/${f.name}" class="block group">
-      <img src="${opslagUrl('sfeer/' + f.name)}" alt="" loading="lazy"
-           class="w-full aspect-square object-cover bg-surface-container group-hover:opacity-75 transition-opacity">
-    </button>`).join('');
+  // In gebruik? Dan zeggen we bij het wissen wélke plek erdoor terugvalt.
+  const inGebruik = (pad) => sfeerRijen.filter((r) => r.pad === pad)
+    .map((r) => (BEELDEN.find((b) => b.naam === r.naam) || {}).label || r.naam);
+
+  voorraadEl.innerHTML = fotos.map((f) => {
+    const pad = 'sfeer/' + f.name;
+    const gebruikt = inGebruik(pad);
+    return `
+      <figure class="relative">
+        <button type="button" data-kies="${pad}" class="block w-full group">
+          <img src="${opslagUrl(pad)}" alt="" loading="lazy"
+               class="w-full aspect-square object-cover bg-surface-container group-hover:opacity-75 transition-opacity">
+        </button>
+        ${gebruikt.length ? '<figcaption class="absolute top-1 left-1 bg-primary text-on-primary font-label-sm text-[10px] uppercase px-2 py-0.5">In gebruik</figcaption>' : ''}
+        <button type="button" data-verwijder="${pad}"
+                class="font-label-sm text-[11px] uppercase tracking-widest text-error mt-1">Weg</button>
+      </figure>`;
+  }).join('');
 }
 
 voorraadEl.addEventListener('click', async (e) => {
+  const weg = e.target.closest('[data-verwijder]');
+  if (weg) return wisFoto(weg.dataset.verwijder);
   const knop = e.target.closest('[data-kies]');
-  if (!knop) return;
-  await bewaarSfeer(knop.dataset.kies);
+  if (knop) await bewaarSfeer(knop.dataset.kies);
 });
+
+async function wisFoto(pad) {
+  // Staat ze ergens op de site, dan valt die plek terug op haar oorspronkelijke
+  // beeld. Dat zeggen we vooraf, want anders verandert de site zonder dat je
+  // begrijpt waarom.
+  const plekken = sfeerRijen.filter((r) => r.pad === pad)
+    .map((r) => (BEELDEN.find((b) => b.naam === r.naam) || {}).label || r.naam);
+  const vraag = plekken.length
+    ? `Deze foto staat op: ${plekken.join(', ')}.\n\nWissen? Die plek(ken) tonen dan weer de oorspronkelijke foto.`
+    : 'Deze foto definitief wissen?';
+  if (!confirm(vraag)) return;
+
+  // Eerst de koppeling weg, dan het bestand: mislukt het tweede, dan wijst er
+  // tenminste niets meer naar een foto die er niet meer is.
+  if (plekken.length) {
+    const { error } = await db.from('sitefotos').delete().eq('pad', pad);
+    if (error) return toast('Loskoppelen lukte niet: ' + error.message);
+  }
+  const { error: opslagFout } = await db.storage.from('productfotos').remove([pad]);
+  if (opslagFout) return toast('Wissen lukte niet: ' + opslagFout.message);
+  toast('Foto gewist');
+  await laadSfeer();
+  openKiezer(sfeerNaam);
+}
 
 document.getElementById('sfeer-sluit').addEventListener('click', () => kiezer.close());
 document.getElementById('sfeer-nieuw').addEventListener('click', () => {
