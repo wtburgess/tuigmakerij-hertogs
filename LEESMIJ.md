@@ -10,7 +10,7 @@ Bijna alles wat Karolien zelf wil wijzigen staat bovenaan in **`assets/site.js`*
 | Wat | Waar |
 |---|---|
 | Telefoon, mail, WhatsApp, adres, IBAN, BTW, socials | `CONTACT` |
-| Foto's (alle, één plek) | `IMG` — vervang de URL door bv. `'foto/ruitertas-1.jpg'` |
+| Foto's op de pagina's | Beheerpagina > Sfeerbeelden. `IMG` is enkel nog de terugval |
 | Tassen: naam, prijs, maten, verhaal, voorraad | `PRODUCTS` |
 | Verzendkosten per land | `LEVERING` |
 
@@ -22,6 +22,34 @@ weg zodra hij niet meer nieuw is. Verkocht wint altijd van nieuw.
 
 Een tas toevoegen? Kopieer een blok in `PRODUCTS`, geef het een uniek `id`.
 Hij verschijnt vanzelf op de collectiepagina.
+
+## Sfeerbeelden
+
+De foto's op de pagina's zelf staan in de tabel `sitefotos`: één rij per plek,
+met het pad in de opslagmap `productfotos/sfeer/`. Staat er voor een naam geen
+rij, dan geldt `IMG` in `assets/site.js`.
+
+Die volgorde is met opzet. De pagina tekent eerst uit `IMG` en vervangt daarna
+wat gewisseld is, zodat een trage of onbereikbare databank nooit een lege
+pagina oplevert — hooguit even de oude foto.
+
+Karolien wisselt ze zelf op de beheerpagina onder **Sfeerbeelden**. Ze ziet
+daar de 21 plekken die echt in gebruik zijn, elk met de pagina en de sectiekop
+waar het beeld hangt. Staat hetzelfde beeld op meer plekken, dan staat dat
+erbij: één wissel raakt soms drie pagina's.
+
+De lijst met die plekken is `BEELDEN` in `assets/site.js`. Voeg je een
+`data-img` toe in de HTML, zet hem daar dan ook bij, anders kan ze hem niet
+bereiken. De labels komen uit de sectiekoppen; hernoem je een kop, werk ze dan
+mee bij.
+
+Nieuwe foto's zet je het snelst in bulk klaar via Supabase > Storage >
+`productfotos` > map `sfeer`. Alles wat daar staat, verschijnt in het
+keuzevenster achter de knop Vervang. Verklein ze eerst tot zo'n 2000 pixels
+breed: het gratis plan geeft 1 GB, en onbewerkte toestelfoto's lopen daar snel
+tegenaan.
+
+De foto's van de tassen staan hier los van — die horen bij het product zelf.
 
 ## Bestellingen en betaling
 
@@ -48,7 +76,8 @@ in de database en op de beheerpagina.
 
 ### Opzetten
 
-1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`.
+1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
+   `05-sfeerbeelden.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
    `SITE_URL` (de basis-URL van de site, zonder schuine streep achteraan).
 3. Functions deployen:
@@ -114,16 +143,17 @@ de ingebouwde lijst in `site.js` — maar bestellen en het beheer liggen plat.
 er niets: de database weigert elke wijziging van wie niet aangemeld is.
 Gebruikers beheer je in Supabase onder Authentication.
 
-Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's) en
-zie je de laatste vijftig bestellingen met adres en status.
+Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's),
+wissel je de sfeerbeelden op de pagina's, en zie je de laatste vijftig
+bestellingen met adres en status.
 
 ## Nog te doen voor livegang
 
 - [ ] Rest van `CONTACT`: mailadres, btw-nummer, IBAN, socials — telefoon en
       gemeente staan er wel al in
 - [ ] Eigen foto's voor de hero, het atelier en het portret — die staan nog
-      op de AI-beelden uit de ontwerpen. De tassenfoto's zijn wel echt en
-      staan in `assets/foto/`.
+      op de AI-beelden uit de ontwerpen. Dat gaat nu via de beheerpagina onder
+      Sfeerbeelden, niet meer via de code. De tassenfoto's zijn wel echt.
 - [ ] "Van zadel naar tas" op `collectie.html` toont nog drie voor-en-na-
       paren van tassen die niet meer in de collectie staan. Vervangen door
       echte voor-en-na-foto's, of het blok weglaten.
