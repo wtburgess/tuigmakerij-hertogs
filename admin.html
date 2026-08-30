@@ -659,10 +659,7 @@ function toonSfeer() {
       <figure>
         <img src="${pad ? opslagUrl(pad) : IMG[b.naam]}" alt=""
              class="w-full aspect-[4/3] object-cover bg-surface-container">
-        <figcaption class="mt-2">
-          <span class="block font-body-md text-body-md text-on-surface-variant">${b.label}</span>
-          <span class="block font-label-sm text-[11px] uppercase tracking-widest text-secondary mt-0.5">${b.waar}</span>
-        </figcaption>
+        <figcaption class="mt-2 font-body-md text-body-md text-on-surface-variant">${b.label}</figcaption>
         <div class="flex justify-between items-center mt-2">
           <button type="button" data-sfeer="${b.naam}"
                   class="font-label-sm text-[11px] uppercase tracking-widest text-primary">Vervang</button>

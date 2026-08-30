@@ -34,14 +34,19 @@ wat gewisseld is, zodat een trage of onbereikbare databank nooit een lege
 pagina oplevert — hooguit even de oude foto.
 
 Karolien wisselt ze zelf op de beheerpagina onder **Sfeerbeelden**. Ze ziet
-daar de 21 plekken die echt in gebruik zijn, elk met de pagina en de sectiekop
-waar het beeld hangt. Staat hetzelfde beeld op meer plekken, dan staat dat
-erbij: één wissel raakt soms drie pagina's.
+daar de 39 plekken op de site, elk met de pagina en de sectiekop waar het beeld
+hangt.
+
+Elke plek heeft een eigen naam, ook waar twee plekken dezelfde foto tonen.
+Eerder deelden ze er één — `zadelSchaduw` hing op vier plaatsen — en dan wissel
+je er vier tegelijk. De doublures dragen nu een letter achteraan
+(`zadelSchaduwB`, `zadelSchaduwC`) en starten met dezelfde bron, zodat de site
+er hetzelfde uitziet tot je er één vervangt.
 
 De lijst met die plekken is `BEELDEN` in `assets/site.js`. Voeg je een
-`data-img` toe in de HTML, zet hem daar dan ook bij, anders kan ze hem niet
-bereiken. De labels komen uit de sectiekoppen; hernoem je een kop, werk ze dan
-mee bij.
+`data-img` toe in de HTML, geef hem dan een naam die nog niet bestaat en zet
+hem daar ook bij, anders kan ze hem niet bereiken. De labels komen uit de
+sectiekoppen; hernoem je een kop, werk ze dan mee bij.
 
 Nieuwe foto's zet je het snelst in bulk klaar via Supabase > Storage >
 `productfotos` > map `sfeer`. Alles wat daar staat, verschijnt in het

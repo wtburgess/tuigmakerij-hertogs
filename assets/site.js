@@ -184,7 +184,29 @@ const IMG = {
   bagTote2:         B + 'AB6AXuAsn_6eQFGxblJdqHz9PwY-1FxdjFikLdGqDSrW0gSh2IHQRQ6-NxJGV48uThq1k-1-zFUI7uNvKcLOy9OHOIKWsS7nhG1qNdv1UVaybYZqYlpWxrks3J3tRu1Cib4pYtKyOW6gGPOFZZ1PQMgPfuLtMKt890wSq2mMjIWdNud4Kd6zRXgJg8ajsuyRH6oHtucZIcT5ChrkBaCLFlT93WLhA8mRnb-gs-rJ2Dr5TAMuMb1waRIB98H4NQ',
   bagSatchel:       B + 'AB6AXuDSgGspfpPMo2ZYbdAR9AjdHCCdDqajhkzPyEWXIDDNtwAQtegtygaWqsinLLC6eOvHfhnZxVMD-1ttuyRSJ_hSwqwDwLro2VI6nEBJVEPs0hEgPd2Tb46EMjh0I3F5r29P81IHUDXlQxo5e46VCCjnTSgJMH17fHTZgY95hkc8gffcXr6H5lkqz0ls19RpJCx044myYWYqUmw0LonjW2rp21s5Bf3OZDxf4RkykR5eM5wRxkvkb37wjA',
   bagCrossbody:     B + 'AB6AXuBROhRZqnmcSz17zlLfJMjAZo-69SN-duhXiIYKvxJX5xd52NqUUYQohiK-DMV_lTqJcSqN3XIr7915zCK9M0eNTM6BudYSVp7l7VII6Sri303ebMc6bEvDm7soOrY7iiyxoJ9CuNtdSgEcHFBNd7_BBrP8forTcb40dkzAjkDdiPbHo7IlsexeilaTJEyykDHDwY6yqBLIwVqG8Ifsg1544uVEImOhYCp58jtidYxLta2jlPr_mL83CQ',
-  bagToteGroen:     B + 'AB6AXuBUwnP0camHvxprG2Ulm2xNEtwcE4BOxX5zCj2YTYjwmiag9HgSy_8MAnR_NiyGGgHW4cstEMetWx5kPpaluXjvQEoWxS3Gum8P869LOOnyxtLTmHFb-X947bFxnBvEjvdNPNmyoo3tV24PEniBxqWsaB7YlsfmLEjb4hDZaaT0fdEAWS7AsqoywRomjkpljTWB8tRZuTr-mUBcVcPYuh5dWhDh7Pfn_0l3x7vJ3m1tvuTuJW43i6JWLw'
+  bagToteGroen:     B + 'AB6AXuBUwnP0camHvxprG2Ulm2xNEtwcE4BOxX5zCj2YTYjwmiag9HgSy_8MAnR_NiyGGgHW4cstEMetWx5kPpaluXjvQEoWxS3Gum8P869LOOnyxtLTmHFb-X947bFxnBvEjvdNPNmyoo3tV24PEniBxqWsaB7YlsfmLEjb4hDZaaT0fdEAWS7AsqoywRomjkpljTWB8tRZuTr-mUBcVcPYuh5dWhDh7Pfn_0l3x7vJ3m1tvuTuJW43i6JWLw',
+
+  /* Elke plek op de site heeft haar eigen naam, ook waar hetzelfde beeld
+     tweemaal hing: zo pas je ze los van elkaar aan. Ze starten met dezelfde
+     bron als het origineel; wissel je er één, dan blijft de andere staan. */
+  zadelDemonterenB:  B + 'AB6AXuBlhmvz6h49f0Oh0MgFB9UIioGAWcV51Fd51TVGbO__7Iddkva1Co-B6-9t6WnNYZvPmDLCK8dPG_h87jI2VCnGTKvqee53kh3wYO88fGWuHoO0-e0IHuVzjYVeJ7hQqqFSWIB9rHHEkYeFwYn608I4NcpzuuvszuTgGQLQ9Afn3rzVy3z5ctRFnHEHSPnhntSGEM55-NSal87cXUfccb7ty_MCq8RHtetTjND9_LOdwtL4zXmEIzknAg',
+  handenStikkenB:    B + 'AB6AXuBOp1FaluIz62qpyl_eC-nSBeAwV0m2bdDwUqwTatcfIxTKSQtSJXUw8_e9ZRRGatd3NwA3zLJaCJjbGQ9Dm1DgG477MPAQ9l3JKvoSv6t8126sATzLRFJ2d6StMx9WhvcQItKgGaPJRK-HfhGboAZIfWSBh6ZnjDjZ9yL6lWeZdMhyrAH54-F797DHc6RDoqMDFCxN8yzq0yLlML-5ZuDF4JYC6NmvrAycUIdldtjAzwwrMhftdQ1NxA',
+  handenStikkenC:    B + 'AB6AXuBOp1FaluIz62qpyl_eC-nSBeAwV0m2bdDwUqwTatcfIxTKSQtSJXUw8_e9ZRRGatd3NwA3zLJaCJjbGQ9Dm1DgG477MPAQ9l3JKvoSv6t8126sATzLRFJ2d6StMx9WhvcQItKgGaPJRK-HfhGboAZIfWSBh6ZnjDjZ9yL6lWeZdMhyrAH54-F797DHc6RDoqMDFCxN8yzq0yLlML-5ZuDF4JYC6NmvrAycUIdldtjAzwwrMhftdQ1NxA',
+  zadelWerkbankB:    B + 'AB6AXuDKi737cqDhwflJWa3ygV92QLHrBgboi3CYoKfPpGf9BPDLhQZgI7AS-AI0la5VOI5zlxD-3VQD32mThR9YBEEWFCm8FxVh6E4DLWipt83AkoO_fPJ936PrgWLAhc5z4IKjZXvsbFv_R3uk8cVlFnSake7edvCowWAB0fakv6OPCWUemQO4oQWDvwUeE2WX4TyZS-5X0x2Xz7-21Y3f-vCydpmu-WfN_yg7m5rMJpIPDxUQ_4yjq2r1PQ',
+  bagRuitertasB:     B + 'AB6AXuBw_oS3ENuI_x2T0QyytlqjVCUkE-8AfhPrz5I_c868O_yj8kgdXfox_7-ZyRpMLBFTYZDx96l7btrOy0vv2WccRkp2fjkCWis3DCcQBjCNOhB_5_3bX31Z0n42gz5SlxDkFOYjq2PceoB13yjI31BvMDh4emd1mOq16lb3nPV2rsKUjlt1uE5AYxVzzRXc2B0bPJ28aQTCocOtxO_CMZDMOc9K-JdC_yaRtbQ1muswTidxgacLnbvoAA',
+  zadelSchaduwB:     B + 'AB6AXuCgN3SyoLlPh4Z9__9YlT9FnMdPbc_GpwKwFK8MM36LN5osZto7sLgVRBU4IDoRzJC6ozH8c0itfQFxr2X_S2ui21j_p34Na5GrdsX7slWRimgja23owaYpYCAEbdWgLrjnTdEzMDW3KoLl5NllYT5Iyd9XidVnyOUGwO32iXR3eX76UxEG5lOvK8NSnmJo0lFb7n0ckS1OSNPYvPGPgeraaTVbdxwld0a9wSjdOwxjGd_fR-nSfh0BRg',
+  atelierKarolienB:  'assets/foto/atelier-karolien.jpg',
+  zadelSchaduwC:     B + 'AB6AXuCgN3SyoLlPh4Z9__9YlT9FnMdPbc_GpwKwFK8MM36LN5osZto7sLgVRBU4IDoRzJC6ozH8c0itfQFxr2X_S2ui21j_p34Na5GrdsX7slWRimgja23owaYpYCAEbdWgLrjnTdEzMDW3KoLl5NllYT5Iyd9XidVnyOUGwO32iXR3eX76UxEG5lOvK8NSnmJo0lFb7n0ckS1OSNPYvPGPgeraaTVbdxwld0a9wSjdOwxjGd_fR-nSfh0BRg',
+  patinaB:           B + 'AB6AXuBzigbYEeRiseQPnot0nL_cuBY11Ck35KyAHUoRhV3FoMCqA5NfefXziRSoqx4aGc-P9TJbwgxF1LJr5jELbRXPJHfHzKQYhFyBgApxYbq36_w3wAMrKUwgEsTQ_JJuUyE2zFJ33f3zSE7Ule7T43Jq490rhBod9QdxBw--y9_mk5iwQq6XkVSHuTPEtehQ5IPcflVrhaDLNJwPoNDcnnaffbfuIURtCrTWHnOD4Xj-Uue46lS_K0y55g',
+  zadelPoetsenB:     B + 'AB6AXuDYPp7Sj7V0jPhmWJy5ktWQ2pmhzgBW1a9V-rHQ_gChku4_z33cjr3I2gTnr8a-ewuoRyKZmJXYPI_drt9VsA7Wxn6pBRZe4_sKZXAZ4wORXRH4UGhzNznsZJbJ-zE18FIxYj5SBwzRywmQhbPQRXo0PeLOj55uzd4MFMfXBEyD1g_UpU0P4zhkPP3pNaMBNXL6Qi5Gg6s4-yFdqjRxHV4tuuZZqh97T_iHYuBM4qgUln9wV980hdDiQA',
+  atelierB:          B + 'AB6AXuDGCKqL7W9-Qmq63tETSjJX5gLIMqmcuXeWN_4uEB6VoV8C-ThXHGbvmwaRzZoeVxBjUS4Y-7JLmhYC4Oautr59GeBGtCczF7nkfCNI-NZFUhj0jCiN1iZRIotwXtkPNfjbFkbHrDiPr5tm0ohXpzoiftrI2uHXUGGLbAv3TqPPMf1_DNL-Mqr2nXDaAK37fXNcXeArPCBqsyjMRG8Xwi_xw_3_wagOV9WrXHMHW6jystNIHc2OVYP21g',
+  naaldDraadB:       B + 'AB6AXuAYFDuthYtu59xL9-yV1Q9J_IVEsQCr_AGwWl3-gjxgVjnSYGbtLJvgNY8NXWWUlUK5yiTF1Ry8z1RD-Z8gAEVMd2J6HLLuEJ5lFDa2SziubMiahSwx3NblL5xHn9YdKJudfCmgxhKPGkvppUQ2-rOq5UVYOx61EglxgMENX6k9I6DseXq-pa7AkeytQnEB8kcJS9eWaXxp8UyR53d16qnFf147l-qTjO0ks9XQfECXwIbQz5ghW5IaOQ',
+  waegemans2B:       'assets/foto/waegemans-2.jpg',
+  naaldDraadC:       B + 'AB6AXuAYFDuthYtu59xL9-yV1Q9J_IVEsQCr_AGwWl3-gjxgVjnSYGbtLJvgNY8NXWWUlUK5yiTF1Ry8z1RD-Z8gAEVMd2J6HLLuEJ5lFDa2SziubMiahSwx3NblL5xHn9YdKJudfCmgxhKPGkvppUQ2-rOq5UVYOx61EglxgMENX6k9I6DseXq-pa7AkeytQnEB8kcJS9eWaXxp8UyR53d16qnFf147l-qTjO0ks9XQfECXwIbQz5ghW5IaOQ',
+  patinaC:           B + 'AB6AXuBzigbYEeRiseQPnot0nL_cuBY11Ck35KyAHUoRhV3FoMCqA5NfefXziRSoqx4aGc-P9TJbwgxF1LJr5jELbRXPJHfHzKQYhFyBgApxYbq36_w3wAMrKUwgEsTQ_JJuUyE2zFJ33f3zSE7Ule7T43Jq490rhBod9QdxBw--y9_mk5iwQq6XkVSHuTPEtehQ5IPcflVrhaDLNJwPoNDcnnaffbfuIURtCrTWHnOD4Xj-Uue46lS_K0y55g',
+  zadelSchaduwD:     B + 'AB6AXuCgN3SyoLlPh4Z9__9YlT9FnMdPbc_GpwKwFK8MM36LN5osZto7sLgVRBU4IDoRzJC6ozH8c0itfQFxr2X_S2ui21j_p34Na5GrdsX7slWRimgja23owaYpYCAEbdWgLrjnTdEzMDW3KoLl5NllYT5Iyd9XidVnyOUGwO32iXR3eX76UxEG5lOvK8NSnmJo0lFb7n0ckS1OSNPYvPGPgeraaTVbdxwld0a9wSjdOwxjGd_fR-nSfh0BRg',
+  heideTractorB:     'assets/foto/heide-tractor.jpg',
+  zadelPoetsenC:     B + 'AB6AXuDYPp7Sj7V0jPhmWJy5ktWQ2pmhzgBW1a9V-rHQ_gChku4_z33cjr3I2gTnr8a-ewuoRyKZmJXYPI_drt9VsA7Wxn6pBRZe4_sKZXAZ4wORXRH4UGhzNznsZJbJ-zE18FIxYj5SBwzRywmQhbPQRXo0PeLOj55uzd4MFMfXBEyD1g_UpU0P4zhkPP3pNaMBNXL6Qi5Gg6s4-yFdqjRxHV4tuuZZqh97T_iHYuBM4qgUln9wV980hdDiQA',
 };
 
 /* ------------------------------------------------------------- producten
@@ -245,31 +267,49 @@ for (const sleutel in IMG) {
 /* De plekken die Karolien op de beheerpagina zelf kan vervangen. `naam` is
    hetzelfde als data-img in de HTML; `label` zegt wáár het beeld staat — de
    pagina en de kop van de sectie — en niet wat erop te zien is, want dat
-   verandert net wel. `waar` noemt de andere plekken waar hetzelfde beeld
-   opduikt. Alleen wat hier staat komt op de beheerpagina — de rest van IMG is
+   verandert net wel. Eén rij per plek op de site, ook waar twee plekken nu
+   nog dezelfde foto tonen: ze zijn los van elkaar aan te passen. Alleen wat hier staat komt op de beheerpagina — de rest van IMG is
    ongebruikt en zou de lijst enkel langer maken. */
 const BEELDEN = [
-  { naam: 'heroSaddle'     , label: 'Startpagina · helemaal bovenaan'                                       , waar: '' },
-  { naam: 'handenStikken'  , label: 'Startpagina · Tijd is steeds schaarser. Wat als we tijd konden vangen?', waar: 'Ook: Collectie · Geen exacte match? / Collectie · Ontwerp' },
-  { naam: 'zadelDemonteren', label: 'Startpagina · Een glimp van de collectie'                              , waar: 'Ook: Collectie · Op maat gemaakt uit een zadel op voorraad' },
-  { naam: 'atelierKarolien', label: 'Startpagina · Jouw dierbare zadel, een unieke tuigtas'                 , waar: 'Ook: Verhaal · Een kleine éénvrouwszaak' },
-  { naam: 'waegemans1'     , label: 'Collectie · Drie wegen naar jouw tuigtas'                              , waar: '' },
-  { naam: 'zadelWerkbank'  , label: 'Collectie · Uit bestaande collectie'                                   , waar: 'Ook: Collectie · Enkele voorbeelden' },
-  { naam: 'patina'         , label: 'Collectie · Uit voorraad'                                              , waar: 'Ook: Verhaal · Leven volgens je eigen waarden / Onderhoud · Zo gaat hij een leven mee' },
-  { naam: 'zadelSchaduw'   , label: 'Collectie · Geen exacte match?'                                        , waar: 'Ook: Collectie · Enkele voorbeelden / Verhaal · Wanneer dromen opdringerig komen aankloppen / Onderhoud · Voeden' },
-  { naam: 'atelier'        , label: 'Collectie · Contact'                                                   , waar: 'Ook: Onderhoud · Hoofdstellen & teugels' },
-  { naam: 'schetsPaard'    , label: 'Collectie · Gesprek'                                                   , waar: '' },
-  { naam: 'bagRuitertas'   , label: 'Collectie · Handwerk'                                                  , waar: 'Ook: Collectie · Enkele voorbeelden' },
-  { naam: 'bagBoswachter'  , label: 'Collectie · Enkele voorbeelden (1e foto)'                              , waar: '' },
-  { naam: 'zadelSnijden'   , label: 'Collectie · Enkele voorbeelden (2e foto)'                              , waar: '' },
-  { naam: 'bagVeldtas'     , label: 'Collectie · Enkele voorbeelden (3e foto)'                              , waar: '' },
-  { naam: 'heideTractor'   , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (1e foto)'       , waar: 'Ook: Onderhoud · Nat geworden?' },
-  { naam: 'handenStiksel'  , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (2e foto)'       , waar: '' },
-  { naam: 'maudPonyzadel'  , label: 'Verhaal · Leven volgens je eigen waarden (1e foto)'                    , waar: '' },
-  { naam: 'naaldDraad'     , label: 'Verhaal · Leven volgens je eigen waarden (2e foto)'                    , waar: 'Ook: Onderhoud · Tuig & menwerk / Onderhoud · Ophalen' },
-  { naam: 'waegemans2'     , label: 'Verhaal · Draagbare kunst'                                             , waar: 'Ook: Onderhoud · Riemen & singels' },
-  { naam: 'zadelPoetsen'   , label: 'Onderhoud · Herstel & zorg'                                            , waar: 'Ook: Onderhoud · Wat ik herstel / Onderhoud · Beschermen' },
-  { naam: 'gereedschap'    , label: 'Onderhoud · Zadels'                                                    , waar: '' }
+  { naam: 'heroSaddle'      , label: 'Startpagina · helemaal bovenaan' },
+  { naam: 'handenStikken'   , label: 'Startpagina · Tijd is steeds schaarser. Wat als we tijd konden vangen?' },
+  { naam: 'zadelDemonteren' , label: 'Startpagina · Een glimp van de collectie' },
+  { naam: 'atelierKarolien' , label: 'Startpagina · Jouw dierbare zadel, een unieke tuigtas' },
+  { naam: 'waegemans1'      , label: 'Collectie · Drie wegen naar jouw tuigtas' },
+  { naam: 'zadelWerkbank'   , label: 'Collectie · Uit bestaande collectie' },
+  { naam: 'zadelDemonterenB', label: 'Collectie · Op maat gemaakt uit een zadel op voorraad' },
+  { naam: 'patina'          , label: 'Collectie · Uit voorraad' },
+  { naam: 'handenStikkenB'  , label: 'Collectie · Geen exacte match? (1e foto)' },
+  { naam: 'zadelSchaduw'    , label: 'Collectie · Geen exacte match? (2e foto)' },
+  { naam: 'atelier'         , label: 'Collectie · Contact' },
+  { naam: 'schetsPaard'     , label: 'Collectie · Gesprek' },
+  { naam: 'handenStikkenC'  , label: 'Collectie · Ontwerp' },
+  { naam: 'bagRuitertas'    , label: 'Collectie · Handwerk' },
+  { naam: 'zadelWerkbankB'  , label: 'Collectie · Enkele voorbeelden (1e foto)' },
+  { naam: 'bagRuitertasB'   , label: 'Collectie · Enkele voorbeelden (2e foto)' },
+  { naam: 'zadelSchaduwB'   , label: 'Collectie · Enkele voorbeelden (3e foto)' },
+  { naam: 'bagBoswachter'   , label: 'Collectie · Enkele voorbeelden (4e foto)' },
+  { naam: 'zadelSnijden'    , label: 'Collectie · Enkele voorbeelden (5e foto)' },
+  { naam: 'bagVeldtas'      , label: 'Collectie · Enkele voorbeelden (6e foto)' },
+  { naam: 'atelierKarolienB', label: 'Verhaal · Een kleine éénvrouwszaak' },
+  { naam: 'heideTractor'    , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (1e foto)' },
+  { naam: 'handenStiksel'   , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (2e foto)' },
+  { naam: 'zadelSchaduwC'   , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (3e foto)' },
+  { naam: 'maudPonyzadel'   , label: 'Verhaal · Leven volgens je eigen waarden (1e foto)' },
+  { naam: 'patinaB'         , label: 'Verhaal · Leven volgens je eigen waarden (2e foto)' },
+  { naam: 'naaldDraad'      , label: 'Verhaal · Leven volgens je eigen waarden (3e foto)' },
+  { naam: 'waegemans2'      , label: 'Verhaal · Draagbare kunst' },
+  { naam: 'zadelPoetsen'    , label: 'Onderhoud · Herstel & zorg' },
+  { naam: 'zadelPoetsenB'   , label: 'Onderhoud · Wat ik herstel' },
+  { naam: 'gereedschap'     , label: 'Onderhoud · Zadels' },
+  { naam: 'atelierB'        , label: 'Onderhoud · Hoofdstellen & teugels' },
+  { naam: 'naaldDraadB'     , label: 'Onderhoud · Tuig & menwerk' },
+  { naam: 'waegemans2B'     , label: 'Onderhoud · Riemen & singels' },
+  { naam: 'naaldDraadC'     , label: 'Onderhoud · Ophalen' },
+  { naam: 'patinaC'         , label: 'Onderhoud · Zo gaat hij een leven mee' },
+  { naam: 'zadelSchaduwD'   , label: 'Onderhoud · Voeden' },
+  { naam: 'heideTractorB'   , label: 'Onderhoud · Nat geworden?' },
+  { naam: 'zadelPoetsenC'   , label: 'Onderhoud · Beschermen' }
 ];
 
 const fotoUrl = (f) => IMG[f] || f;
