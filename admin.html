@@ -726,9 +726,14 @@ async function openKiezer(naam) {
           <img src="${opslagUrl(pad)}" alt="" loading="lazy"
                class="w-full aspect-square object-cover bg-surface-container group-hover:opacity-75 transition-opacity">
         </button>
-        ${gebruikt.length ? '<figcaption class="absolute top-1 left-1 bg-primary text-on-primary font-label-sm text-[10px] uppercase px-2 py-0.5">In gebruik</figcaption>' : ''}
-        <button type="button" data-verwijder="${pad}"
-                class="font-label-sm text-[11px] uppercase tracking-widest text-error mt-1">Weg</button>
+        ${gebruikt.length ? '<figcaption class="absolute bottom-1 left-1 bg-primary text-on-primary font-label-sm text-[10px] uppercase px-2 py-0.5">In gebruik</figcaption>' : ''}
+        <button type="button" data-verwijder="${pad}" aria-label="Deze foto wissen"
+                title="Deze foto wissen"
+                class="absolute top-1 right-1 w-7 h-7 flex items-center justify-center rounded-full
+                       bg-surface-container-lowest/90 text-error border border-secondary/40
+                       hover:bg-error hover:text-on-error transition-colors">
+          <span class="material-symbols-outlined text-[18px] leading-none">close</span>
+        </button>
       </figure>`;
   }).join('');
 }
