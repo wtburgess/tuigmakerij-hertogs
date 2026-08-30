@@ -243,31 +243,33 @@ for (const sleutel in IMG) {
 /* Een foto is óf een sleutel uit IMG (de ingebouwde lijst) óf een kant-en-
    klare URL (uit de database). Eén functie die allebei aankan. */
 /* De plekken die Karolien op de beheerpagina zelf kan vervangen. `naam` is
-   hetzelfde als data-img in de HTML; `label` en `waar` zijn wat zij te zien
-   krijgt. Alleen wat hier staat komt op de beheerpagina — de rest van IMG is
+   hetzelfde als data-img in de HTML; `label` zegt wáár het beeld staat — de
+   pagina en de kop van de sectie — en niet wat erop te zien is, want dat
+   verandert net wel. `waar` noemt de andere plekken waar hetzelfde beeld
+   opduikt. Alleen wat hier staat komt op de beheerpagina — de rest van IMG is
    ongebruikt en zou de lijst enkel langer maken. */
 const BEELDEN = [
-  { naam: 'heroSaddle',      label: 'De grote foto bovenaan',            waar: 'Startpagina' },
-  { naam: 'zadelDemonteren', label: 'Een zadel uit elkaar halen',        waar: 'Startpagina · Collectie' },
-  { naam: 'handenStikken',   label: 'Met de hand doorstikken',           waar: 'Startpagina · Collectie' },
-  { naam: 'atelierKarolien', label: 'Karolien aan het werk',             waar: 'Startpagina · Verhaal' },
-  { naam: 'waegemans1',      label: 'De tas bovenaan de collectie',      waar: 'Collectie' },
-  { naam: 'zadelWerkbank',   label: 'Een zadel op de werkbank',          waar: 'Collectie' },
-  { naam: 'atelier',         label: 'De werkbank in het atelier',        waar: 'Collectie · Onderhoud' },
-  { naam: 'schetsPaard',     label: 'Een ontwerpschets op papier',       waar: 'Collectie' },
-  { naam: 'zadelSnijden',    label: 'Het zadel op maat snijden',         waar: 'Collectie' },
-  { naam: 'bagRuitertas',    label: 'De afgewerkte tas, klaar om mee te geven', waar: 'Collectie' },
-  { naam: 'bagBoswachter',   label: 'De Boswachter Tote',                waar: 'Collectie' },
-  { naam: 'bagVeldtas',      label: 'De Veldtas',                        waar: 'Collectie' },
-  { naam: 'zadelSchaduw',    label: 'Een oud zadel in het halfduister',  waar: 'Collectie · Verhaal · Onderhoud' },
-  { naam: 'patina',          label: 'Close-up van gedragen leder',       waar: 'Collectie · Verhaal · Onderhoud' },
-  { naam: 'handenStiksel',   label: 'Handen die leder doorstikken',      waar: 'Verhaal' },
-  { naam: 'maudPonyzadel',   label: 'Maud bij het ponyzadel',            waar: 'Verhaal' },
-  { naam: 'naaldDraad',      label: 'Naald en garen op de werkbank',     waar: 'Verhaal · Onderhoud' },
-  { naam: 'waegemans2',      label: 'Een afgewerkte tuigtas',            waar: 'Verhaal · Onderhoud' },
-  { naam: 'heideTractor',    label: 'In de heide bij het paard',         waar: 'Verhaal · Onderhoud' },
-  { naam: 'zadelPoetsen',    label: 'Een zadel poetsen',                 waar: 'Onderhoud' },
-  { naam: 'gereedschap',     label: 'Zadelmakersgereedschap',            waar: 'Onderhoud' }
+  { naam: 'heroSaddle'     , label: 'Startpagina · helemaal bovenaan'                                       , waar: '' },
+  { naam: 'handenStikken'  , label: 'Startpagina · Tijd is steeds schaarser. Wat als we tijd konden vangen?', waar: 'Ook: Collectie · Geen exacte match? / Collectie · Ontwerp' },
+  { naam: 'zadelDemonteren', label: 'Startpagina · Een glimp van de collectie'                              , waar: 'Ook: Collectie · Op maat gemaakt uit een zadel op voorraad' },
+  { naam: 'atelierKarolien', label: 'Startpagina · Jouw dierbare zadel, een unieke tuigtas'                 , waar: 'Ook: Verhaal · Een kleine éénvrouwszaak' },
+  { naam: 'waegemans1'     , label: 'Collectie · Drie wegen naar jouw tuigtas'                              , waar: '' },
+  { naam: 'zadelWerkbank'  , label: 'Collectie · Uit bestaande collectie'                                   , waar: 'Ook: Collectie · Enkele voorbeelden' },
+  { naam: 'patina'         , label: 'Collectie · Uit voorraad'                                              , waar: 'Ook: Verhaal · Leven volgens je eigen waarden / Onderhoud · Zo gaat hij een leven mee' },
+  { naam: 'zadelSchaduw'   , label: 'Collectie · Geen exacte match?'                                        , waar: 'Ook: Collectie · Enkele voorbeelden / Verhaal · Wanneer dromen opdringerig komen aankloppen / Onderhoud · Voeden' },
+  { naam: 'atelier'        , label: 'Collectie · Contact'                                                   , waar: 'Ook: Onderhoud · Hoofdstellen & teugels' },
+  { naam: 'schetsPaard'    , label: 'Collectie · Gesprek'                                                   , waar: '' },
+  { naam: 'bagRuitertas'   , label: 'Collectie · Handwerk'                                                  , waar: 'Ook: Collectie · Enkele voorbeelden' },
+  { naam: 'bagBoswachter'  , label: 'Collectie · Enkele voorbeelden (1e foto)'                              , waar: '' },
+  { naam: 'zadelSnijden'   , label: 'Collectie · Enkele voorbeelden (2e foto)'                              , waar: '' },
+  { naam: 'bagVeldtas'     , label: 'Collectie · Enkele voorbeelden (3e foto)'                              , waar: '' },
+  { naam: 'heideTractor'   , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (1e foto)'       , waar: 'Ook: Onderhoud · Nat geworden?' },
+  { naam: 'handenStiksel'  , label: 'Verhaal · Wanneer dromen opdringerig komen aankloppen (2e foto)'       , waar: '' },
+  { naam: 'maudPonyzadel'  , label: 'Verhaal · Leven volgens je eigen waarden (1e foto)'                    , waar: '' },
+  { naam: 'naaldDraad'     , label: 'Verhaal · Leven volgens je eigen waarden (2e foto)'                    , waar: 'Ook: Onderhoud · Tuig & menwerk / Onderhoud · Ophalen' },
+  { naam: 'waegemans2'     , label: 'Verhaal · Draagbare kunst'                                             , waar: 'Ook: Onderhoud · Riemen & singels' },
+  { naam: 'zadelPoetsen'   , label: 'Onderhoud · Herstel & zorg'                                            , waar: 'Ook: Onderhoud · Wat ik herstel / Onderhoud · Beschermen' },
+  { naam: 'gereedschap'    , label: 'Onderhoud · Zadels'                                                    , waar: '' }
 ];
 
 const fotoUrl = (f) => IMG[f] || f;
