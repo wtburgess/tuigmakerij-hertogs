@@ -74,6 +74,14 @@
     <h2 class="font-headline-md text-headline-md text-primary mb-6">Op de hoogte blijven</h2>
     <div id="inschrijvingen" class="mb-12"></div>
 
+    <h2 class="font-headline-md text-headline-md text-primary mb-2">Sfeerbeelden</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-prose">
+      De foto's op de pagina's zelf. Kies een plek en zet er je eigen foto op —
+      ze staat meteen op de webstek.
+    </p>
+    <div id="sfeerbeelden" class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12"></div>
+    <input type="file" id="sfeer-bestand" accept="image/*" class="hidden">
+
     <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
       <h2 id="bewerk-titel" class="font-headline-md text-headline-md text-primary"></h2>
 
@@ -180,7 +188,7 @@ async function toonJuistePagina() {
   login.hidden = aan;
   beheer.hidden = !aan;
   document.getElementById('uitloggen').hidden = !aan;
-  if (aan) { laadLijst(); laadBestellingen(); laadInschrijvingen(); }
+  if (aan) { laadLijst(); laadBestellingen(); laadInschrijvingen(); laadSfeer(); }
 }
 
 login.addEventListener('submit', async (e) => {
@@ -610,6 +618,78 @@ document.getElementById('verwijder').addEventListener('click', async () => {
   huidig = null;
   laadLijst();
 });
+
+/* ----------------------------------------------------------- sfeerbeelden */
+const sfeerEl = document.getElementById('sfeerbeelden');
+const sfeerBestand = document.getElementById('sfeer-bestand');
+let sfeerNaam = null;      // welke plek op een bestand staat te wachten
+let sfeerRijen = [];
+
+async function laadSfeer() {
+  const { data, error } = await db.from('sitefotos').select('naam, pad');
+  // Ook zonder tabel of bij een fout tonen we de plekken met hun huidige foto.
+  // Een lege sectie leest als "stuk"; zo zie je wat er staat en faalt hoogstens
+  // het bewaren, met een boodschap die zegt wat eraan scheelt.
+  if (error) toast('Vervangen foto\'s ophalen lukte niet: ' + error.message);
+  sfeerRijen = data || [];
+  toonSfeer();
+}
+
+function toonSfeer() {
+  const vervangen = Object.fromEntries(sfeerRijen.map((r) => [r.naam, r.pad]));
+  sfeerEl.innerHTML = BEELDEN.map((b) => {
+    const pad = vervangen[b.naam];
+    return `
+      <figure>
+        <img src="${pad ? opslagUrl(pad) : IMG[b.naam]}" alt=""
+             class="w-full aspect-[4/3] object-cover bg-surface-container">
+        <figcaption class="mt-2">
+          <span class="block font-body-md text-body-md text-on-surface-variant">${b.label}</span>
+          <span class="block font-label-sm text-[11px] uppercase tracking-widest text-secondary mt-0.5">${b.waar}</span>
+        </figcaption>
+        <div class="flex justify-between items-center mt-2">
+          <button type="button" data-sfeer="${b.naam}"
+                  class="font-label-sm text-[11px] uppercase tracking-widest text-primary">Vervang</button>
+          ${pad ? `<button type="button" data-sfeer-terug="${b.naam}"
+                  class="font-label-sm text-[11px] uppercase tracking-widest text-secondary">Terugzetten</button>` : ''}
+        </div>
+      </figure>`;
+  }).join('');
+}
+
+sfeerEl.addEventListener('click', (e) => {
+  const vervang = e.target.closest('[data-sfeer]');
+  const terug = e.target.closest('[data-sfeer-terug]');
+  if (vervang) {
+    sfeerNaam = vervang.dataset.sfeer;
+    sfeerBestand.value = '';   // anders vuurt 'change' niet bij dezelfde foto
+    sfeerBestand.click();
+  }
+  if (terug) zetSfeerTerug(terug.dataset.sfeerTerug);
+});
+
+sfeerBestand.addEventListener('change', async () => {
+  const bestand = sfeerBestand.files[0];
+  if (!bestand || !sfeerNaam) return;
+  // Tijdstempel ervoor: zo overschrijf je nooit een foto die er al staat, en
+  // blijft de oude bereikbaar zolang een browser ze in het geheugen houdt.
+  const pad = `sfeer/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
+  const { error: opslagFout } = await db.storage.from('productfotos').upload(pad, bestand);
+  if (opslagFout) return toast('Uploaden lukte niet: ' + opslagFout.message);
+  const { error } = await db.from('sitefotos').upsert({ naam: sfeerNaam, pad, bijgewerkt: new Date().toISOString() });
+  if (error) return toast('Bewaren lukte niet: ' + error.message);
+  toast('De foto staat op de webstek');
+  sfeerNaam = null;
+  laadSfeer();
+});
+
+async function zetSfeerTerug(naam) {
+  if (!confirm('De oorspronkelijke foto terugzetten?')) return;
+  const { error } = await db.from('sitefotos').delete().eq('naam', naam);
+  if (error) return toast('Terugzetten lukte niet: ' + error.message);
+  toast('Teruggezet');
+  laadSfeer();
+}
 
 /* ----------------------------------------------------------------- foto's */
 async function toonFotos() {

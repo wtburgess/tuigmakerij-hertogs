@@ -242,6 +242,34 @@ for (const sleutel in IMG) {
 
 /* Een foto is óf een sleutel uit IMG (de ingebouwde lijst) óf een kant-en-
    klare URL (uit de database). Eén functie die allebei aankan. */
+/* De plekken die Karolien op de beheerpagina zelf kan vervangen. `naam` is
+   hetzelfde als data-img in de HTML; `label` en `waar` zijn wat zij te zien
+   krijgt. Alleen wat hier staat komt op de beheerpagina — de rest van IMG is
+   ongebruikt en zou de lijst enkel langer maken. */
+const BEELDEN = [
+  { naam: 'heroSaddle',      label: 'De grote foto bovenaan',            waar: 'Startpagina' },
+  { naam: 'zadelDemonteren', label: 'Een zadel uit elkaar halen',        waar: 'Startpagina · Collectie' },
+  { naam: 'handenStikken',   label: 'Met de hand doorstikken',           waar: 'Startpagina · Collectie' },
+  { naam: 'atelierKarolien', label: 'Karolien aan het werk',             waar: 'Startpagina · Verhaal' },
+  { naam: 'waegemans1',      label: 'De tas bovenaan de collectie',      waar: 'Collectie' },
+  { naam: 'zadelWerkbank',   label: 'Een zadel op de werkbank',          waar: 'Collectie' },
+  { naam: 'atelier',         label: 'De werkbank in het atelier',        waar: 'Collectie · Onderhoud' },
+  { naam: 'schetsPaard',     label: 'Een ontwerpschets op papier',       waar: 'Collectie' },
+  { naam: 'zadelSnijden',    label: 'Het zadel op maat snijden',         waar: 'Collectie' },
+  { naam: 'bagRuitertas',    label: 'De afgewerkte tas, klaar om mee te geven', waar: 'Collectie' },
+  { naam: 'bagBoswachter',   label: 'De Boswachter Tote',                waar: 'Collectie' },
+  { naam: 'bagVeldtas',      label: 'De Veldtas',                        waar: 'Collectie' },
+  { naam: 'zadelSchaduw',    label: 'Een oud zadel in het halfduister',  waar: 'Collectie · Verhaal · Onderhoud' },
+  { naam: 'patina',          label: 'Close-up van gedragen leder',       waar: 'Collectie · Verhaal · Onderhoud' },
+  { naam: 'handenStiksel',   label: 'Handen die leder doorstikken',      waar: 'Verhaal' },
+  { naam: 'maudPonyzadel',   label: 'Maud bij het ponyzadel',            waar: 'Verhaal' },
+  { naam: 'naaldDraad',      label: 'Naald en garen op de werkbank',     waar: 'Verhaal · Onderhoud' },
+  { naam: 'waegemans2',      label: 'Een afgewerkte tuigtas',            waar: 'Verhaal · Onderhoud' },
+  { naam: 'heideTractor',    label: 'In de heide bij het paard',         waar: 'Verhaal · Onderhoud' },
+  { naam: 'zadelPoetsen',    label: 'Een zadel poetsen',                 waar: 'Onderhoud' },
+  { naam: 'gereedschap',     label: 'Zadelmakersgereedschap',            waar: 'Onderhoud' }
+];
+
 const fotoUrl = (f) => IMG[f] || f;
 
 /* ------------------------------------------------------------- database
@@ -253,6 +281,21 @@ const SUPABASE_URL = 'https://vpyuagltoqdnvyuwiumo.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KcNCsgogsA1vEI4Z299YJQ_KwH2G7p2';
 
 const opslagUrl = (pad) => `${SUPABASE_URL}/storage/v1/object/public/productfotos/${pad}`;
+
+/* Beelden die op de beheerpagina vervangen zijn. Mislukt dit, dan blijft de
+   lijst leeg en toont de site gewoon wat er in IMG staat — een pagina zonder
+   foto's is erger dan een pagina met de oude foto. */
+const sfeerGeladen = (async () => {
+  try {
+    const antwoord = await fetch(`${SUPABASE_URL}/rest/v1/sitefotos?select=naam,pad`,
+      { headers: { apikey: SUPABASE_KEY } });
+    if (!antwoord.ok) throw new Error(`HTTP ${antwoord.status}`);
+    return await antwoord.json();
+  } catch (e) {
+    console.warn('Sfeerbeelden niet opgehaald:', e.message);
+    return [];
+  }
+})();
 
 const productsGeladen = (async () => {
   if (!SUPABASE_URL) return PRODUCTS;
@@ -575,6 +618,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-img-bg]').forEach((el) => {
     el.style.backgroundImage = `url('${IMG[el.dataset.imgBg]}')`;
   });
+
+  // De vervangen beelden komen even later binnen. Ze overschrijven alleen wat
+  // Karolien echt gewisseld heeft; de pagina staat ondertussen niet leeg te
+  // wachten op de databank.
+  sfeerGeladen.then((rijen) => rijen.forEach(({ naam, pad }) => {
+    const url = opslagUrl(pad);
+    document.querySelectorAll(`[data-img="${naam}"]`).forEach((el) => { el.src = url; });
+    document.querySelectorAll(`[data-img-bg="${naam}"]`).forEach((el) => {
+      el.style.backgroundImage = `url('${url}')`;
+    });
+  }));
 
   // header + footer
   const header = document.getElementById('site-header');
