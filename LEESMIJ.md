@@ -64,12 +64,27 @@ tunnel.
 
 ## Online zetten
 
-De site staat op **Cloudflare Pages**, gekoppeld aan de GitHub-repo: elke push
-naar `main` gaat vanzelf live. Vercel kan niet — hun gratis plan verbiedt
-commercieel gebruik, en dit is een webshop.
+Er zijn twee omgevingen, elk op een eigen branch en een eigen host:
+
+| branch | host | adres | wat het is |
+| --- | --- | --- | --- |
+| `main` | Cloudflare Pages | tuigtassenhertogs.be | de echte site |
+| `preview` | Vercel | tuigtassen-karolien.vercel.app | proefversie |
+
+Elke push naar `main` gaat vanzelf live op het domein. Karolien werkt op
+`preview` en ziet haar wijzigingen op de Vercel-link; is het goed, dan gaat
+`preview` naar `main` en staat het op de site.
+
+Houd `preview` na elke merge gelijk met `main`. Groeien ze uit elkaar en
+wijzigt elke kant dezelfde regel, dan geeft de volgende merge een conflict.
+
+De webshop zelf hoort op Cloudflare te blijven: het gratis plan van Vercel
+verbiedt commercieel gebruik. Vandaar dat het domein daar niet naar wijst.
 
 Instellingen in Cloudflare Pages:
 
+- Production branch: `main` — staat dit per ongeluk op `preview`, dan zet elke
+  proefwijziging zichzelf rechtstreeks op de echte site
 - Build command: `mkdir -p dist && cp -r *.html assets dist/`
 - Build output directory: `dist`
 
