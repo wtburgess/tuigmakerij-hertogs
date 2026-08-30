@@ -64,8 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const mailBody =
     `Bestelling ${mededeling}\n\n` +
     bestelling.regels.map((r) => `${r.aantal}x ${r.tas} — ${euro.format(r.bedrag)}`).join('\n') +
-    `\n${bestelling.levering} — ${bestelling.verzendkost ? euro.format(bestelling.verzendkost) : 'gratis'}` +
-    `\nTotaal: ${euro.format(bestelling.totaal)}\n\n` +
+    `\n${bestelling.levering} — ${bestelling.opAanvraag ? 'verzendkost nog te bepalen'
+      : bestelling.verzendkost ? euro.format(bestelling.verzendkost) : 'gratis'}` +
+    `\nTotaal: ${euro.format(bestelling.totaal)}${bestelling.opAanvraag ? ' + verzending' : ''}\n\n` +
     `${bestelling.klant.naam}\n${bestelling.klant.adres}\n${bestelling.klant.email}` +
     (bestelling.klant.telefoon ? `\n${bestelling.klant.telefoon}` : '') +
     (bestelling.klant.bericht ? `\n\nBericht: ${bestelling.klant.bericht}` : '');
@@ -84,12 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>`).join('')}
         <div class="flex justify-between gap-6 font-body-md text-body-md text-secondary">
           <span>${bestelling.levering}</span>
-          <span class="whitespace-nowrap">${bestelling.verzendkost ? euro.format(bestelling.verzendkost) : 'Gratis'}</span>
+          <span class="whitespace-nowrap">${bestelling.opAanvraag ? 'Op aanvraag'
+            : bestelling.verzendkost ? euro.format(bestelling.verzendkost) : 'Gratis'}</span>
         </div>
       </div>
       <div class="stitch-divider"></div>
       <div class="flex justify-between items-center mt-8 font-headline-md text-headline-md text-on-surface-variant">
-        <span>Te betalen</span><span>${euro.format(bestelling.totaal)}</span>
+        <span>${bestelling.opAanvraag ? 'Voorlopig' : 'Te betalen'}</span>
+        <span>${euro.format(bestelling.totaal)}${bestelling.opAanvraag ? ' + verzending' : ''}</span>
       </div>
     </div>
 
@@ -104,6 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
         Ging er iets mis met het betalen? Dan is er nog niets afgerekend en blijft je tas gewoon beschikbaar —
         <a data-wa="Dag Karolien, mijn betaling voor ${mededeling} lukte niet. " target="_blank" rel="noopener"
            class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">laat het me even weten</a>.
+      </p>
+    </div>` : `
+    ${bestelling.opAanvraag ? `
+    <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
+      <h2 class="font-headline-md text-headline-md text-primary mb-4">Ik zoek je verzendkost op</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-4">
+        Er is nog niets afgerekend. Voor ${bestelling.klant.land || 'jouw land'} moet ik de verzending eerst
+        navragen — je krijgt binnen twee werkdagen het bedrag van me, met de gegevens om te betalen.
+      </p>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Zolang hou ik je tas voor je vrij. Klopt er iets niet, laat het gerust weten.
       </p>
     </div>` : `
     <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
@@ -130,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Ik hou je tas 5 dagen voor je vrij. Zodra de betaling binnen is, pak ik hem in en gaat hij op de post —
         je krijgt dan een berichtje met het volgnummer.
       </p>
-    </div>
+    </div>`}
 
     <div class="bg-surface-container-low p-8 border-l-[3px] border-secondary">
       <h2 class="font-headline-md text-headline-md text-primary mb-3">Stuur je bestelling even door</h2>

@@ -53,7 +53,7 @@
           </h2>
           <div class="space-y-6">
             <input class="input-underline" name="email" type="email" required placeholder="E-mailadres *">
-            <input class="input-underline" name="telefoon" type="tel" placeholder="Telefoon (optioneel)">
+            <input class="input-underline" name="telefoon" type="tel" required placeholder="Telefoon *">
           </div>
         </section>
 
@@ -76,6 +76,10 @@
               </div>
               <input class="input-underline" name="postcode" required placeholder="Postcode *">
               <input class="input-underline" name="stad" required placeholder="Gemeente *">
+              <div class="md:col-span-2">
+                <label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-2" for="land">Land</label>
+                <input id="land" class="input-underline text-on-surface-variant" name="land" readonly tabindex="-1">
+              </div>
             </div>
           </div>
         </section>
@@ -177,7 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('[data-contact-mail]').textContent = CONTACT.email;
 
   leveringSelect.innerHTML = Object.entries(LEVERING)
-    .map(([k, v]) => `<option value="${k}">${v.label}${v.kost ? ' — ' + euro.format(v.kost) : ' — gratis'}</option>`)
+    .map(([k, v]) => `<option value="${k}">${v.label}${
+      v.opAanvraag ? ' — verzendkost op aanvraag' : v.kost ? ' — ' + euro.format(v.kost) : ' — gratis'}</option>`)
     .join('');
 
   const teken = () => {
@@ -220,12 +225,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const lev = LEVERING[leveringSelect.value];
     document.getElementById('subtotaal').textContent = euro.format(sub);
     document.getElementById('verzendlabel').textContent = lev.adres ? 'Verzending' : 'Afhalen';
-    document.getElementById('verzending').textContent = lev.kost ? euro.format(lev.kost) : 'Gratis';
-    document.getElementById('totaal').textContent = euro.format(sub + lev.kost);
+    document.getElementById('verzending').textContent =
+      lev.opAanvraag ? 'Op aanvraag' : lev.kost ? euro.format(lev.kost) : 'Gratis';
+    document.getElementById('totaal').textContent =
+      euro.format(sub + lev.kost) + (lev.opAanvraag ? ' + verzending' : '');
 
     // Adres is enkel verplicht wanneer er verzonden wordt.
     adresvelden.hidden = !lev.adres;
-    adresvelden.querySelectorAll('input').forEach((i) => { i.required = lev.adres; });
+    adresvelden.querySelectorAll('input:not(#land)').forEach((i) => { i.required = lev.adres; });
+
+    const landVeld = document.getElementById('land');
+    if (!lev.opAanvraag) landVeld.value = lev.land;
+    else if (landVeld.readOnly) landVeld.value = '';   // net overgeschakeld
+    landVeld.readOnly = !lev.opAanvraag;
+    landVeld.required = lev.adres && lev.opAanvraag;
+    landVeld.placeholder = lev.opAanvraag ? 'Naar welk land? *' : '';
   };
 
   document.addEventListener('cart:changed', teken);
@@ -264,10 +278,12 @@ document.addEventListener('DOMContentLoaded', () => {
       klant: {
         email: data.email, telefoon: data.telefoon || '',
         naam: `${data.voornaam} ${data.achternaam}`,
-        adres: lev.adres ? `${data.adres}, ${data.postcode} ${data.stad}` : '(afhalen in het atelier)',
+        adres: lev.adres ? `${data.adres}, ${data.postcode} ${data.stad}, ${data.land}` : '(afhalen in het atelier)',
+        land: data.land || '',
         bericht: data.bericht || ''
       },
       levering: lev.label,
+      opAanvraag: lev.opAanvraag === true,
       regels: regels.map((l) => ({ tas: l.product.naam, aantal: l.aantal, bedrag: l.subtotaal })),
       subtotaal: cartTotal(),
       verzendkost: lev.kost,
@@ -277,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Online betalen: de server rekent zelf na wat het kost en stuurt ons
     // door naar Bancontact. Lukt dat niet, dan blijft de klant hier staan met
     // een leesbare reden — niet met een leeg mandje en geen tas.
-    if (BETAAL_ENDPOINT) {
+    if (BETAAL_ENDPOINT && !lev.opAanvraag) {
       const knop = form.querySelector('button[type=submit]');
       knop.disabled = true;
       try {

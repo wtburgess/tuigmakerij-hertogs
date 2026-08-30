@@ -17,6 +17,8 @@ const LEVERING: Record<string, { label: string; kost: number; adres: boolean }> 
   be:     { label: 'Verzenden naar België',    kost: 0,  adres: true },
   nl:     { label: 'Verzenden naar Nederland', kost: 15, adres: true },
   de:     { label: 'Verzenden naar Duitsland', kost: 15, adres: true },
+  fr:     { label: 'Verzenden naar Frankrijk', kost: 15, adres: true },
+  lu:     { label: 'Verzenden naar Luxemburg', kost: 15, adres: true },
   afhaal: { label: 'Afhalen in het atelier',   kost: 0,  adres: false }
 };
 

@@ -107,10 +107,17 @@ const CONTACT = {
 
 /* Verzendopties. Sleutel = waarde in het keuzemenu bij het afrekenen. */
 const LEVERING = {
-  be:     { label: 'Verzenden naar België',            kost: 0,  adres: true },
-  nl:     { label: 'Verzenden naar Nederland',         kost: 15, adres: true },
-  de:     { label: 'Verzenden naar Duitsland',         kost: 15, adres: true },
-  afhaal: { label: 'Afhalen in het atelier',           kost: 0,  adres: false }
+  be:     { label: 'Verzenden naar België',            kost: 0,  adres: true, land: 'België' },
+  nl:     { label: 'Verzenden naar Nederland',         kost: 15, adres: true, land: 'Nederland' },
+  de:     { label: 'Verzenden naar Duitsland',         kost: 15, adres: true, land: 'Duitsland' },
+  fr:     { label: 'Verzenden naar Frankrijk',         kost: 15, adres: true, land: 'Frankrijk' },
+  lu:     { label: 'Verzenden naar Luxemburg',         kost: 15, adres: true, land: 'Luxemburg' },
+  /* Buiten die vier weten we de verzendkost niet vooraf. Zo'n bestelling komt
+     binnen als aanvraag: de klant vult zelf het land in, betaalt nog niet, en
+     krijgt het bedrag per mail. Staat daarom met opzet niet in de tabel van de
+     edge function — anders zou ze wél afgerekend kunnen worden aan 0 euro. */
+  ander:  { label: 'Verzenden naar een ander land',    kost: 0,  adres: true, land: '', opAanvraag: true },
+  afhaal: { label: 'Afhalen in het atelier',           kost: 0,  adres: false, land: '' }
 };
 
 /* Bestellingen worden per mail bevestigd en per overschrijving betaald.
