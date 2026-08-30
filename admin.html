@@ -82,6 +82,22 @@
     <div id="sfeerbeelden" class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12"></div>
     <input type="file" id="sfeer-bestand" accept="image/*" class="hidden">
 
+    <dialog id="sfeer-kiezer" class="bg-surface-container-lowest border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 w-[min(92vw,860px)] backdrop:bg-primary/40">
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
+        <h2 id="sfeer-kiezer-titel" class="font-headline-md text-headline-md text-primary"></h2>
+        <button type="button" id="sfeer-sluit"
+                class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Sluiten</button>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+        Kies een foto die er al staat, of voeg er een nieuwe toe.
+      </p>
+      <button type="button" id="sfeer-nieuw"
+              class="inline-flex items-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded hover:bg-tertiary transition-colors mb-6">
+        <span class="material-symbols-outlined text-base">upload</span> Nieuwe foto van mijn computer
+      </button>
+      <div id="sfeer-voorraad" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-h-[52vh] overflow-y-auto"></div>
+    </dialog>
+
     <form id="bewerk" hidden class="bg-surface-container-low border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 space-y-5">
       <h2 id="bewerk-titel" class="font-headline-md text-headline-md text-primary"></h2>
 
@@ -660,11 +676,7 @@ function toonSfeer() {
 sfeerEl.addEventListener('click', (e) => {
   const vervang = e.target.closest('[data-sfeer]');
   const terug = e.target.closest('[data-sfeer-terug]');
-  if (vervang) {
-    sfeerNaam = vervang.dataset.sfeer;
-    sfeerBestand.value = '';   // anders vuurt 'change' niet bij dezelfde foto
-    sfeerBestand.click();
-  }
+  if (vervang) openKiezer(vervang.dataset.sfeer);
   if (terug) zetSfeerTerug(terug.dataset.sfeerTerug);
 });
 
@@ -676,12 +688,59 @@ sfeerBestand.addEventListener('change', async () => {
   const pad = `sfeer/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
   const { error: opslagFout } = await db.storage.from('productfotos').upload(pad, bestand);
   if (opslagFout) return toast('Uploaden lukte niet: ' + opslagFout.message);
-  const { error } = await db.from('sitefotos').upsert({ naam: sfeerNaam, pad, bijgewerkt: new Date().toISOString() });
+  await bewaarSfeer(pad);
+});
+
+const kiezer = document.getElementById('sfeer-kiezer');
+const voorraadEl = document.getElementById('sfeer-voorraad');
+
+async function openKiezer(naam) {
+  sfeerNaam = naam;
+  const plek = BEELDEN.find((b) => b.naam === naam);
+  document.getElementById('sfeer-kiezer-titel').textContent = plek ? plek.label : 'Foto kiezen';
+  voorraadEl.innerHTML = '<p class="font-body-md text-body-md text-on-surface-variant col-span-full">Even zoeken…</p>';
+  kiezer.showModal();
+
+  // Alles wat ooit als sfeerbeeld geüpload is, staat in dezelfde map.
+  const { data, error } = await db.storage.from('productfotos')
+    .list('sfeer', { limit: 500, sortBy: { column: 'created_at', order: 'desc' } });
+  if (error) {
+    voorraadEl.innerHTML = '<p class="font-body-md text-body-md text-error col-span-full">De foto\'s konden niet opgehaald worden.</p>';
+    return;
+  }
+  const fotos = (data || []).filter((f) => f.id);   // mappen hebben geen id
+  if (!fotos.length) {
+    voorraadEl.innerHTML = '<p class="font-body-md text-body-md text-on-surface-variant col-span-full">Hier staat nog geen enkele foto. Voeg er eentje toe met de knop hierboven.</p>';
+    return;
+  }
+  voorraadEl.innerHTML = fotos.map((f) => `
+    <button type="button" data-kies="sfeer/${f.name}" class="block group">
+      <img src="${opslagUrl('sfeer/' + f.name)}" alt="" loading="lazy"
+           class="w-full aspect-square object-cover bg-surface-container group-hover:opacity-75 transition-opacity">
+    </button>`).join('');
+}
+
+voorraadEl.addEventListener('click', async (e) => {
+  const knop = e.target.closest('[data-kies]');
+  if (!knop) return;
+  await bewaarSfeer(knop.dataset.kies);
+});
+
+document.getElementById('sfeer-sluit').addEventListener('click', () => kiezer.close());
+document.getElementById('sfeer-nieuw').addEventListener('click', () => {
+  sfeerBestand.value = '';   // anders vuurt 'change' niet bij dezelfde foto
+  sfeerBestand.click();
+});
+
+async function bewaarSfeer(pad) {
+  const { error } = await db.from('sitefotos')
+    .upsert({ naam: sfeerNaam, pad, bijgewerkt: new Date().toISOString() });
   if (error) return toast('Bewaren lukte niet: ' + error.message);
   toast('De foto staat op de webstek');
+  kiezer.close();
   sfeerNaam = null;
   laadSfeer();
-});
+}
 
 async function zetSfeerTerug(naam) {
   if (!confirm('De oorspronkelijke foto terugzetten?')) return;
