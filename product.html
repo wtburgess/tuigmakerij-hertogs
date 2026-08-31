@@ -36,7 +36,7 @@
 <dialog id="lightbox" class="w-screen max-w-none h-screen max-h-none bg-transparent p-0">
   <div class="w-full h-full flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-12 cursor-zoom-out">
     <span aria-hidden="true" class="material-symbols-outlined absolute top-4 right-4 md:top-8 md:right-8 p-3 text-[32px] text-white">close</span>
-    <img id="lightbox-foto" alt="" class="min-h-0 max-w-full max-h-full object-contain">
+    <div id="lightbox-media" class="min-h-0 max-w-full max-h-full flex items-center justify-center"></div>
     <!-- De andere foto's van deze tas: onder het beeld op een smal scherm,
          ernaast zodra er plaats is. -->
     <div id="lightbox-strip" class="flex flex-row md:flex-col gap-3 shrink-0 overflow-auto max-w-full md:max-h-full cursor-default"></div>
@@ -90,24 +90,18 @@ paginaKlaar.then(() => {
       <div class="lg:col-span-7">
         <div class="relative aspect-[4/5] mb-8">
           ${badge(p)}
-          <div class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low ${uitverkocht ? 'grayscale' : ''}">
-            <!-- De huidvorm snijdt de foto aan; klikken toont ze volledig. -->
-            <button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
-                    aria-label="Bekijk de volledige foto van ${p.naam}">
-              <img id="hoofdfoto" src="${fotoUrl(p.fotos[0])}" alt="${p.naam}" class="w-full h-full object-cover">
-            </button>
-          </div>
+          <!-- De huidvorm snijdt het beeld aan; kies() vult het in: een foto
+               klikt open in het grote venster, een filmpje speelt ter plaatse. -->
+          <div id="hoofdbeeld" class="absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden bg-surface-container-low ${uitverkocht ? 'grayscale' : ''}"></div>
         </div>
-        <p class="font-label-mono text-label-mono uppercase text-secondary mb-8 -mt-4">
-          Klik op de foto voor het volledige beeld
-        </p>
+        <p id="beeld-uitleg" class="font-label-mono text-label-mono uppercase text-secondary mb-8 -mt-4"></p>
         ${p.fotos.length > 1 ? `
         <div class="flex gap-4">
           ${p.fotos.map((f, i) => `
             <button type="button" data-foto="${fotoUrl(f)}"
                     class="w-20 h-24 bg-surface-container-lowest p-1 border border-dashed border-secondary/50 ${i === 0 ? 'border-solid border-primary' : ''}"
                     aria-label="Foto ${i + 1} van ${p.naam}">
-              <img src="${fotoUrl(f)}" alt="" class="w-full h-full object-cover">
+              ${mediaTag(fotoUrl(f), 'w-full h-full object-cover')}
             </button>`).join('')}
         </div>` : ''}
       </div>
@@ -118,7 +112,7 @@ paginaKlaar.then(() => {
                      font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 mb-4">Verkocht</span><br>` : ''}
         <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
         <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
-        <p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${euro.format(p.prijs)}</p>
+        <p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${prijsHtml(p)}</p>
 
         <div class="w-16 stitch-divider-dubbel mb-8"></div>
 
@@ -185,11 +179,26 @@ paginaKlaar.then(() => {
   const strook = document.getElementById('lightbox-strip');
   let actief = 0;
 
+  const hoofd = document.getElementById('hoofdbeeld');
+  const uitleg = document.getElementById('beeld-uitleg');
+
   const kies = (i) => {
     actief = i;
     const url = fotoUrl(p.fotos[i]);
-    document.getElementById('hoofdfoto').src = url;
-    document.getElementById('lightbox-foto').src = url;
+    const film = isFilm(url);
+    // Een filmpje speelt ter plaatse af, dus het zit niet in een zoomknop:
+    // anders opent het grote venster bij elke druk op play.
+    hoofd.innerHTML = film
+      ? mediaTag(url, 'w-full h-full object-cover', { bedien: true })
+      : `<button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
+                 aria-label="Bekijk de volledige foto van ${p.naam}">
+           ${mediaTag(url, 'w-full h-full object-cover', { alt: p.naam })}
+         </button>`;
+    uitleg.textContent = film
+      ? 'Klik op het filmpje om het af te spelen'
+      : 'Klik op de foto voor het volledige beeld';
+    document.getElementById('lightbox-media').innerHTML =
+      mediaTag(url, 'min-h-0 max-w-full max-h-full object-contain', { alt: p.naam, bedien: true });
     root.querySelectorAll('[data-foto]').forEach((k, n) => {
       k.classList.toggle('ring-2', n === i);
       k.classList.toggle('ring-primary', n === i);
@@ -205,7 +214,7 @@ paginaKlaar.then(() => {
     <button type="button" data-groot="${i}"
             class="w-16 h-16 md:w-20 md:h-20 shrink-0 overflow-hidden rounded border-2 ${i === 0 ? 'border-white' : 'border-white/30'} hover:border-white/70 transition-colors"
             aria-label="Foto ${i + 1} van ${p.naam}">
-      <img src="${fotoUrl(f)}" alt="" class="w-full h-full object-cover">
+      ${mediaTag(fotoUrl(f), 'w-full h-full object-cover')}
     </button>`).join('');
 
   strook.addEventListener('click', (e) => {
@@ -218,13 +227,21 @@ paginaKlaar.then(() => {
     knop.addEventListener('click', () => kies(i));
   });
 
-  root.querySelector('[data-vergroot]').addEventListener('click', () => {
-    kies(actief);
-    document.getElementById('lightbox-foto').alt = p.naam;
-    lightbox.showModal();
+  hoofd.addEventListener('click', (e) => {
+    if (e.target.closest('[data-vergroot]')) lightbox.showModal();
   });
   // Klik naast de foto sluit weer — Escape doet <dialog> zelf al.
   lightbox.addEventListener('click', () => lightbox.close());
+  // Op een filmpje niet: daar zit de knop om af te spelen.
+  document.getElementById('lightbox-media').addEventListener('click', (e) => {
+    if (e.target.tagName === 'VIDEO') e.stopPropagation();
+  });
+  // Anders speelt het geluid vrolijk door nadat het venster dicht is.
+  lightbox.addEventListener('close', () => {
+    lightbox.querySelectorAll('video').forEach((v) => v.pause());
+  });
+
+  kies(0);
 
   // WhatsApp-links binnen de zojuist gerenderde HTML alsnog invullen.
   root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });

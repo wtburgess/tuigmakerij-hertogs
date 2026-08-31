@@ -40,10 +40,7 @@
 
     <!-- Formulier -->
     <div class="lg:col-span-7">
-      <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-4 -rotate-1">Afrekenen</h1>
-      <p class="font-body-md text-body-md text-on-surface-variant mb-12">
-        Je bestelling wordt met de hand ingepakt en verstuurd door Karolien zelf.
-      </p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-12 -rotate-1">Afrekenen</h1>
 
       <form id="bestelform" class="space-y-12" novalidate>
 
@@ -97,16 +94,17 @@
             <span class="material-symbols-outlined text-base">account_balance</span> Betaling
           </h2>
           <div class="bg-surface-container-low p-6 border border-surface-variant space-y-4">
-            <p class="font-body-md text-body-md text-primary">Betaling via overschrijving</p>
+            <p class="font-body-md text-body-md text-primary">Betaling via Bancontact</p>
             <p class="font-body-md text-body-md text-on-surface-variant">
-              Na het plaatsen van je bestelling krijg je meteen het rekeningnummer en een bestelnummer te zien —
-              ook per mail. Zodra de betaling binnen is, gaat je tas op de post. Ik reserveer je tas 5 dagen.
+              Je rekent meteen af via Bancontact. Na het plaatsen van je bestelling krijg je je bestelnummer
+              en het overzicht te zien. Lukt het betalen niet ineens, dan blijft je bestelling 24u
+              gereserveerd. Zodra de betaling binnen is, maak ik je pakketje klaar en gaat je tas op de post!
             </p>
             <label class="flex items-start gap-3 pt-2">
               <input type="checkbox" name="akkoord" required
                      class="form-checkbox mt-1 h-4 w-4 text-primary border-outline rounded-sm bg-transparent focus:ring-primary">
               <span class="font-body-md text-body-md text-on-surface-variant">
-                Ik ga akkoord met betaling via overschrijving en met de verkoopsvoorwaarden. *
+                Ik ga akkoord met de verkoopsvoorwaarden. *
               </span>
             </label>
           </div>
@@ -116,11 +114,11 @@
 
         <button type="submit"
                 class="w-full bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest py-5 rounded-lg hover:bg-tertiary transition-colors duration-300">
-          Bestelling plaatsen
+          Bestellen en betalen
         </button>
         <p class="font-body-md text-body-md text-on-surface-variant text-center">
           <span class="material-symbols-outlined align-middle text-base mr-1">lock</span>
-          Je gegevens gaan enkel naar het atelier. Geen kaartgegevens nodig.
+          Je gegevens gaan enkel naar het atelier. Betalen doe je veilig via Mollie.
         </p>
       </form>
     </div>
@@ -149,8 +147,9 @@
 
         <div class="bg-surface-container-lowest/60 p-5 text-center border border-dashed border-secondary/50">
           <p class="font-body-md text-body-md text-on-surface-variant flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-secondary text-base">handshake</span>
-            Met de hand vervaardigd voor jou door Karolien.
+            <span class="material-symbols-outlined text-secondary text-base shrink-0">handshake</span>
+            Met jouw aankoop maak je de wereld een beetje mooier: je steunt lokaal vakmanschap en kiest
+            bewust voor duurzame mode. Bedankt!
           </p>
         </div>
 
@@ -307,6 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
           })
         });
         const uitslag = await antwoord.json();
+        // De reden staat enkel in de console: leesbaar voor wie de site beheert,
+        // niet in het gezicht van de klant.
+        if (uitslag.reden) console.error('Bestelling geweigerd —', uitslag.reden);
         if (!antwoord.ok) throw new Error(uitslag.fout || 'Er ging iets mis.');
         bestelling.referentie = uitslag.referentie;
         bestelling.viaMollie = true;

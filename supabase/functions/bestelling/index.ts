@@ -22,12 +22,18 @@ const LEVERING: Record<string, { label: string; kost: number; adres: boolean }> 
   afhaal: { label: 'Afhalen in het atelier',   kost: 0,  adres: false }
 };
 
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
-const SERVICE_KEY  = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const MOLLIE_KEY   = Deno.env.get('MOLLIE_API_KEY')!;
+// Secrets worden geplakt, en dan sluipt er al eens een spatie, een regeleinde
+// of een aanhalingsteken mee. Mollie weigert dan met "Invalid Authorization
+// header", wat nergens naar de oorzaak wijst. Dus: eerst schoonvegen.
+const secret = (naam: string) =>
+  (Deno.env.get(naam) ?? '').trim().replace(/^["']|["']$/g, '');
+
+const SUPABASE_URL = secret('SUPABASE_URL');
+const SERVICE_KEY  = secret('SUPABASE_SERVICE_ROLE_KEY');
+const MOLLIE_KEY   = secret('MOLLIE_API_KEY');
 // De pagina waar de klant na het betalen terechtkomt, bv.
 // https://tuigtassenhertogs.be/bedankt.html
-const SITE_URL     = Deno.env.get('SITE_URL')!;
+const SITE_URL     = secret('SITE_URL');
 
 const db = (pad: string, opties: RequestInit = {}) =>
   fetch(`${SUPABASE_URL}/rest/v1/${pad}`, {
@@ -40,8 +46,8 @@ const db = (pad: string, opties: RequestInit = {}) =>
     }
   });
 
-const fout = (bericht: string, code = 400) =>
-  new Response(JSON.stringify({ fout: bericht }), {
+const fout = (bericht: string, code = 400, reden = '') =>
+  new Response(JSON.stringify({ fout: bericht, reden }), {
     status: code,
     headers: { ...CORS, 'Content-Type': 'application/json' }
   });
@@ -52,6 +58,12 @@ const tekst = (waarde: unknown, max: number) =>
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
   if (req.method !== 'POST') return fout('Alleen POST', 405);
+
+  // Zonder deze twee weigert Mollie met een reden die niemand ooit ziet.
+  if (!MOLLIE_KEY || !SITE_URL) {
+    console.error(`Secret ontbreekt: MOLLIE_API_KEY=${MOLLIE_KEY ? 'ok' : 'LEEG'}, SITE_URL=${SITE_URL ? 'ok' : 'LEEG'}`);
+    return fout('Betalen is nog niet ingesteld. Stuur me gerust een berichtje.', 503);
+  }
 
   let body: any;
   try { body = await req.json(); } catch { return fout('Ongeldig verzoek'); }
@@ -140,8 +152,9 @@ Deno.serve(async (req) => {
     await db(`bestellingen?id=eq.${bestelling.id}`, {
       method: 'PATCH', body: JSON.stringify({ status: 'mislukt' })
     });
-    console.error('Mollie weigerde de betaling:', await betaling.text());
-    return fout('De betaling kon niet gestart worden', 502);
+    const reden = await betaling.text();
+    console.error('Mollie weigerde de betaling:', betaling.status, reden);
+    return fout('De betaling kon niet gestart worden.', 502, `Mollie ${betaling.status}: ${reden}`);
   }
 
   const mollie = await betaling.json();
