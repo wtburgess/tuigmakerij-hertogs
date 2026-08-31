@@ -100,7 +100,7 @@ const CONTACT = {
   adres: 'Kriekestraat 131, 8480 Eernegem, België',
   btw: 'BE 1039.887.807',
   instagram: 'https://www.instagram.com/tuigmakerij.hertogs/',
-  facebook: 'https://www.facebook.com/karolien.hertogs/',
+  facebook: 'https://www.facebook.com/profile.php?id=61591953651508',
   iban: 'BE00 0000 0000 0000',        // TODO: echt rekeningnummer
   bic: 'GEBABEBB'
 };
