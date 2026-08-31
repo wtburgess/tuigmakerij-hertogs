@@ -422,6 +422,12 @@ function cartSet(id, aantal) {
 }
 const cartClear = () => cartWrite([]);
 
+/* De collectie komt pas na de DOM binnen. Tot dan kent productById alleen de
+   ingebouwde terugvallijst, dus vallen tassen uit de databank uit cartLines
+   weg: de teller staat op 0 en het mandje leest als leeg. Eén seintje zodra
+   de tassen er zijn, en iedereen die het mandje toont tekent opnieuw. */
+paginaKlaar.then(() => document.dispatchEvent(new CustomEvent('cart:changed')));
+
 /* --------------------------------------------------------------- toast */
 function toast(tekst) {
   let el = document.getElementById('th-toast');
