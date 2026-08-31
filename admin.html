@@ -119,6 +119,11 @@
           <input name="prijs" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
         </label>
         <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Oude prijs (€) — leeg = geen promo</span>
+          <input name="oude_prijs" type="number" min="0" step="1" class="input-underline font-body-md text-body-md">
+          <span class="block mt-1 font-body-md text-body-md text-on-surface-variant">Vul je die in, dan staat ze doorstreept naast de prijs hierboven. De klant betaalt altijd wat bij "Prijs" staat.</span>
+        </label>
+        <label class="block">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Voorraad (0 = verkocht)</span>
           <input name="voorraad" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
         </label>
@@ -159,12 +164,16 @@
            geüpload bij het bewaren, want ze hangen aan een id dat dan
            pas bestaat. -->
       <div id="fotos-blok" class="pt-5 border-t-2 border-dashed border-secondary/40">
-        <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-4">Foto's</h3>
+        <h3 class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-2">Foto's en filmpjes</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-4">
+          Een filmpje (mp4) mag hier tussen de foto's staan. Het speelt af op de productpagina.
+          Hooguit 50&nbsp;MB per bestand.
+        </p>
         <div id="fotos" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4"></div>
         <label class="inline-flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-primary cursor-pointer">
           <span class="material-symbols-outlined text-base">upload</span>
-          <span>Foto's toevoegen</span>
-          <input type="file" id="upload" accept="image/*" multiple class="hidden">
+          <span>Foto of filmpje toevoegen</span>
+          <input type="file" id="upload" accept="image/*,video/*" multiple class="hidden">
         </label>
       </div>
 
@@ -234,8 +243,8 @@ async function laadLijst() {
 
   lijst.innerHTML = data.map((p) => `
     <li class="flex items-center gap-4 py-4">
-      <img src="${p.productfotos.length ? opslagUrl(p.productfotos.sort((a,b)=>a.volgorde-b.volgorde)[0].pad) : ''}"
-           alt="" class="w-16 h-16 object-cover bg-surface-container shrink-0">
+      ${mediaTag(p.productfotos.length ? opslagUrl(p.productfotos.sort((a,b)=>a.volgorde-b.volgorde)[0].pad) : '',
+                 'w-16 h-16 object-cover bg-surface-container shrink-0')}
       <div class="min-w-0 flex-1">
         <p class="font-body-lg text-body-lg text-primary truncate">${p.naam}</p>
         <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
@@ -553,6 +562,7 @@ function openTas(p) {
   bewerk.elements.id.value = p ? p.id : '';
   bewerk.naam.value       = p ? p.naam : '';
   bewerk.prijs.value      = p ? p.prijs : '';
+  bewerk.oude_prijs.value = p && p.oude_prijs ? p.oude_prijs : '';
   bewerk.voorraad.value   = p ? p.voorraad : 1;
   bewerk.herkomst.value   = p ? p.herkomst : '';
   bewerk.kleur.value      = p ? p.kleur : '';
@@ -587,6 +597,8 @@ bewerk.addEventListener('submit', async (e) => {
     id: bewerk.elements.id.value.trim(),
     naam: bewerk.naam.value.trim(),
     prijs: Number(bewerk.prijs.value),
+    // Leeg veld = geen promo; null in plaats van 0, anders staat er straks € 0,00 doorstreept.
+    oude_prijs: bewerk.oude_prijs.value === '' ? null : Number(bewerk.oude_prijs.value),
     voorraad: Number(bewerk.voorraad.value),
     nieuw: bewerk.nieuw.checked,
     herkomst: bewerk.herkomst.value.trim(),
@@ -797,7 +809,7 @@ async function toonFotos() {
   if (!huidig) {
     fotosEl.innerHTML = wachtrij.map((b) => `
       <figure class="relative">
-        <img src="${URL.createObjectURL(b)}" alt="" class="w-full aspect-square object-cover bg-surface-container opacity-70">
+        ${mediaTag(URL.createObjectURL(b), 'w-full aspect-square object-cover bg-surface-container opacity-70', { film: isFilm(b.name) })}
         <figcaption class="font-label-sm text-[11px] uppercase text-secondary mt-1">Klaar om te bewaren</figcaption>
       </figure>`).join('');
     return;
@@ -810,7 +822,7 @@ async function toonFotos() {
 
   fotosEl.innerHTML = data.map((f) => `
     <figure class="relative">
-      <img src="${opslagUrl(f.pad)}" alt="" class="w-full aspect-square object-cover bg-surface-container">
+      ${mediaTag(opslagUrl(f.pad), 'w-full aspect-square object-cover bg-surface-container')}
       ${f.volgorde === 0 ? '<figcaption class="absolute top-1 left-1 bg-primary text-on-primary font-label-sm text-[10px] uppercase px-2 py-0.5">Hoofdfoto</figcaption>' : ''}
       <div class="flex justify-between mt-1">
         ${f.volgorde === 0 ? '<span></span>' : `<button type="button" data-hoofd="${f.id}" class="font-label-sm text-[11px] uppercase text-primary">Vooraan</button>`}
@@ -844,9 +856,14 @@ async function toonFotos() {
   });
 }
 
+const MAX_MB = 50;                  // grens van de opslag bij Supabase
+
 document.getElementById('upload').addEventListener('change', (e) => {
-  const bestanden = [...e.target.files];
+  let bestanden = [...e.target.files];
   e.target.value = '';
+  const teGroot = bestanden.filter((b) => b.size > MAX_MB * 1024 * 1024);
+  if (teGroot.length) toast(`${teGroot[0].name} is groter dan ${MAX_MB} MB en gaat er niet op`);
+  bestanden = bestanden.filter((b) => b.size <= MAX_MB * 1024 * 1024);
   if (!bestanden.length) return;
   if (!huidig) {                      // tas bestaat nog niet: even parkeren
     wachtrij = wachtrij.concat(bestanden);

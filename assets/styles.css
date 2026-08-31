@@ -504,15 +504,18 @@ details.faq[open] > summary .faq-icon { transform: rotate(45deg); }
 /* Warm donkergrijs in plaats van hard zwart — past bij de rest van de site. */
 #lightbox::backdrop { background: rgba(43, 42, 38, .9); }
 
-#lightbox img {
+#lightbox img,
+#lightbox video {
   border-radius: 10px;
   transform: scale(.985);
   transition: transform .35s ease;
 }
-#lightbox[open] img { transform: scale(1); }
+#lightbox[open] img,
+#lightbox[open] video { transform: scale(1); }
 
 @starting-style {
-  #lightbox[open] img { transform: scale(.985); }
+  #lightbox[open] img,
+  #lightbox[open] video { transform: scale(.985); }
 }
 
 @media (prefers-reduced-motion: reduce) {

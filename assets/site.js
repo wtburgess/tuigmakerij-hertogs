@@ -100,7 +100,7 @@ const CONTACT = {
   adres: 'Kriekestraat 131, 8480 Eernegem, België',
   btw: 'BE 1039.887.807',
   instagram: 'https://www.instagram.com/tuigmakerij.hertogs/',
-  facebook: 'https://www.facebook.com/tuigtassenhertogs',     // TODO: echte link
+  facebook: 'https://www.facebook.com/karolien.hertogs/',
   iban: 'BE00 0000 0000 0000',        // TODO: echt rekeningnummer
   bic: 'GEBABEBB'
 };
@@ -314,6 +314,19 @@ const BEELDEN = [
 
 const fotoUrl = (f) => IMG[f] || f;
 
+/* Een filmpje herken je aan de bestandsnaam. Verder loopt het net als een foto:
+   zelfde tabel, zelfde opslagmap, zelfde volgorde. */
+const isFilm = (naam) => /\.(mp4|webm|ogv|mov|m4v)(\?|#|$)/i.test(naam);
+
+/* Geeft een <img> of een <video> terug, met dezelfde klassen. Zonder `bedien`
+   toont een filmpje enkel zijn eerste beeld — dat is wat je wil op een kaart of
+   een duimnagel. Die `#t=0.1` dwingt dat beeld af; anders blijft het vak zwart. */
+function mediaTag(url, klassen, { alt = '', bedien = false, extra = '', film = isFilm(url) } = {}) {
+  if (!film) return `<img src="${url}" alt="${alt}" loading="lazy" class="${klassen}" ${extra}>`;
+  return `<video src="${url}${bedien ? '' : '#t=0.1'}" class="${klassen}" preload="metadata"
+                 muted playsinline ${bedien ? 'controls' : ''} ${extra}></video>`;
+}
+
 /* ------------------------------------------------------------- database
    De collectie komt uit Supabase. De publishable key hoort thuis in een
    publieke site: hij mag alleen lezen, schrijven vraagt een login.
@@ -362,6 +375,7 @@ const productsGeladen = (async () => {
         return {
           ...r,
           prijs: Number(r.prijs),
+          oude_prijs: r.oude_prijs == null ? null : Number(r.oude_prijs),
           fotos: uitDb.length ? uitDb : (ingebouwd ? ingebouwd.fotos : [])
         };
       });
@@ -385,6 +399,16 @@ const paginaKlaar = Promise.all([
    Opslag: localStorage. Vorm: [{id, aantal}] */
 const CART_KEY = 'th-cart';
 const euro = new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' });
+
+/* Staat er een oude prijs bij die hoger ligt, dan is het promo: die gaat
+   doorstreept vóór het bedrag dat de klant nu betaalt. `prijs` blijft altijd
+   wat er afgerekend wordt — de server rekent daar ook mee. */
+function prijsHtml(p) {
+  const nu = euro.format(p.prijs);
+  return p.oude_prijs > p.prijs
+    ? `<s class="opacity-60 mr-1.5">${euro.format(p.oude_prijs)}</s>${nu}`
+    : nu;
+}
 
 const cartRead = () => {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -634,14 +658,12 @@ function productCard(p, klasse = '') {
          streepjesrand die bij hover wegschoof; samen met de zadelsteek in het
          beeld bewogen er dan twee stiksels tegelijk. De binnenste blijft. -->
     <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
-      <img src="${fotoUrl(p.fotos[0])}" alt="${p.naam}" loading="lazy"
-           class="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
+      ${mediaTag(fotoUrl(p.fotos[0]), `absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
                   group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
-                  ${uitverkocht ? 'grayscale opacity-70' : ''}">
-      ${tweede ? `
-      <img src="${tweede}" alt="" aria-hidden="true" loading="lazy"
-           class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
-                  group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}">` : ''}
+                  ${uitverkocht ? 'grayscale opacity-70' : ''}`, { alt: p.naam })}
+      ${tweede ? mediaTag(tweede, `absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
+                  group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}`,
+                  { extra: 'aria-hidden="true"' }) : ''}
     </div>
 
     <span class="absolute top-2 left-2 z-20 font-label-mono text-label-mono text-secondary">Nr. ${nr}</span>
@@ -654,7 +676,7 @@ function productCard(p, klasse = '') {
       <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${p.herkomst}</p>
     </div>
     <span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
-                 text-on-surface-variant px-2 py-1 whitespace-nowrap">${euro.format(p.prijs)}</span>
+                 text-on-surface-variant px-2 py-1 whitespace-nowrap">${prijsHtml(p)}</span>
   </div>
 </a>`;
 }

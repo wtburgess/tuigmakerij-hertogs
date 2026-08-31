@@ -17,6 +17,10 @@ Bijna alles wat Karolien zelf wil wijzigen staat bovenaan in **`assets/site.js`*
 Een tas verkocht? Zet `voorraad: 0` — hij blijft zichtbaar met "Verkocht" erop,
 in grijstinten, en de knop wordt "Vraag naar iets gelijkaardigs".
 
+Promo? Vul op de beheerpagina de **oude prijs** in; die komt doorstreept naast
+de gewone prijs te staan. `prijs` blijft altijd wat de klant betaalt, dus zet
+daar de promoprijs in. Veld leeg = geen promo.
+
 Net af? Zet `nieuw: true` en hij krijgt een groen "Nieuw"-label. Haal die regel
 weg zodra hij niet meer nieuw is. Verkocht wint altijd van nieuw.
 
@@ -56,6 +60,15 @@ tegenaan.
 
 De foto's van de tassen staan hier los van — die horen bij het product zelf.
 
+## Filmpjes
+
+Bij een tas mag tussen de foto's ook een filmpje staan: op de beheerpagina kies
+je gewoon een mp4 in plaats van een foto. Het komt in dezelfde rij duimnagels
+terecht en speelt af op de productpagina; op de collectiekaart en de duimnagels
+staat het eerste beeld stil. Hooguit 50 MB per bestand — dat is de grens van de
+opslag bij Supabase. Verklein een filmpje eerst; een minuut in 720p volstaat
+ruimschoots en houdt de pagina snel.
+
 ## Bestellingen en betaling
 
 Online betalen loopt via **Mollie**, met Bancontact als voornaamste knop (vaste
@@ -75,6 +88,29 @@ op **overschrijving**: de klant krijgt bestelnummer, IBAN en bedrag te zien en
 kan met één klik een bevestigingsmail sturen. Handig zolang het Mollie-account
 nog niet goedgekeurd is.
 
+### Bevestigingsmail — ligt klaar, staat nog uit
+
+De mail zelf staat geschreven in `supabase/functions/bestelling/mail.ts`, maar
+is bewust nog niet aangesloten: bovenaan dat bestand staat in drie stappen hoe
+je hem aanzet. Zolang dat niet gebeurd is, verstuurt de site niets automatisch
+en gaat er ook niets mis.
+
+Hij vertrekt via de gewone mailbox, met Gmail als postbode — geen aparte
+maildienst. Nodig zijn twee secrets: `MAIL_GEBRUIKER` (het Gmail-adres) en
+`MAIL_WACHTWOORD` (een **app-wachtwoord**, niet je gewone wachtwoord). Zo'n
+app-wachtwoord maak je bij Google > Beveiliging > App-wachtwoorden; daarvoor
+moet tweestapsverificatie aanstaan.
+
+Wil je dat er `karolien@tuigtassenhertogs.be` als afzender staat in plaats van
+het Gmail-adres, voeg dat adres dan in Gmail toe bij Instellingen > Accounts >
+"E-mail versturen als". Google stuurt een bevestigingscode naar dat adres, en
+die komt via de Email Routing in je Gmail terecht. Daarna zet je het adres in
+de secret `MAIL_VAN`.
+
+Gmail laat een paar honderd mails per dag toe — ruim voldoende. Loopt het ooit
+vast in spamfilters, dan is een echte maildienst (Resend, Postmark) het
+alternatief; dan verandert enkel `stuurBevestiging` in de edge function.
+
 `ORDER_ENDPOINT` (bv. een Formspree-URL) stuurt elke bestelling ook nog eens als
 JSON naar je door. Bij een Mollie-betaling heb je dat niet nodig — die staat al
 in de database en op de beheerpagina.
@@ -82,15 +118,26 @@ in de database en op de beheerpagina.
 ### Opzetten
 
 1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
-   `05-sfeerbeelden.sql`.
+   `05-sfeerbeelden.sql`, `07-promo.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
-   `SITE_URL` (de basis-URL van de site, zonder schuine streep achteraan).
+   `SITE_URL` = `https://tuigtassenhertogs.be` — de basis-URL van de site,
+   zonder pad en zonder schuine streep achteraan. Mollie plakt daar zelf
+   `/bedankt.html?ref=…` achter; klopt die URL niet, dan weigert Mollie de
+   betaling. (Voor de bevestigingsmail komen daar later `MAIL_GEBRUIKER` en
+   `MAIL_WACHTWOORD` bij.)
 3. Functions deployen:
    `npx supabase functions deploy bestelling --no-verify-jwt`
    `npx supabase functions deploy mollie-webhook --no-verify-jwt`
    Die `--no-verify-jwt` moet erbij: bezoekers zijn niet aangemeld, en Mollie
    al helemaal niet.
 4. `BETAAL_ENDPOINT` in `assets/site.js` invullen.
+
+Ziet de klant "De betaling kon niet gestart worden", dan heeft Mollie zelf
+geweigerd. De reden staat in de console van de browser, en voluit in Supabase >
+Edge Functions > `bestelling` > Logs. Meestal is het één van drie: het
+Mollie-account is nog niet goedgekeurd, de secret `SITE_URL` of
+`MOLLIE_API_KEY` ontbreekt, of het bedrag ligt onder het minimum van de
+betaalmethode.
 
 De webhook moet van buitenaf bereikbaar zijn, dus testen met Mollie werkt niet
 tegen een server op je eigen machine. Zet de site eerst online, of test met een
