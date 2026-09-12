@@ -8,6 +8,8 @@
 // zonder de voorraad twee keer af te trekken. Vandaar de controle op de
 // bestaande status voor er iets verandert.
 
+import { stuurBevestiging } from './mail.ts';
+
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_KEY  = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const MOLLIE_KEY   = Deno.env.get('MOLLIE_API_KEY')!;
@@ -88,6 +90,19 @@ Deno.serve(async (req) => {
         body: JSON.stringify({ voorraad: Math.max(0, tas.voorraad - regel.aantal) })
       });
     }
+
+    // Pas hier de bevestigingsmail: de betaling staat vast en de tas is
+    // afgeboekt. Bij een herhaalde oproep van Mollie komen we hier niet
+    // meer, want die stopt hierboven al op status 'betaald' — de klant
+    // krijgt de mail dus één keer.
+    await stuurBevestiging({
+      referentie:  bestelling.referentie,
+      klant:       bestelling.klant,
+      regels:      bestelling.regels,
+      levering:    bestelling.levering,
+      verzendkost: bestelling.verzendkost,
+      totaal:      bestelling.totaal
+    });
   } catch (e) {
     console.error('Webhook liep vast:', e);
   }

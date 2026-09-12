@@ -88,12 +88,19 @@ op **overschrijving**: de klant krijgt bestelnummer, IBAN en bedrag te zien en
 kan met één klik een bevestigingsmail sturen. Handig zolang het Mollie-account
 nog niet goedgekeurd is.
 
-### Bevestigingsmail — ligt klaar, staat nog uit
+### Bevestigingsmail — aangesloten, wacht op twee secrets
 
-De mail zelf staat geschreven in `supabase/functions/bestelling/mail.ts`, maar
-is bewust nog niet aangesloten: bovenaan dat bestand staat in drie stappen hoe
-je hem aanzet. Zolang dat niet gebeurd is, verstuurt de site niets automatisch
-en gaat er ook niets mis.
+De mail staat in `supabase/functions/mollie-webhook/mail.ts` en wordt verstuurd
+door de webhook, dus pas wanneer Mollie bevestigt dat er betaald is. Daarom mag
+hij "bedankt voor je aankoop" zeggen — bij het bestellen alleen is er nog niets
+afgerekend. Mollie herhaalt zijn oproep bij een fout, maar de webhook stopt dan
+al op status `betaald`: de klant krijgt de mail één keer.
+
+Zolang de secret `MAIL_WACHTWOORD` leeg is, vertrekt er niets en loopt een
+bestelling gewoon door. Vul je hem in, dan staat de mail meteen aan.
+
+Afhalen in het atelier krijgt een andere zin dan verzenden — beide staan
+bovenaan in `mail.ts`, bij `bericht`.
 
 Hij vertrekt via de gewone mailbox, met Gmail als postbode — geen aparte
 maildienst. Nodig zijn twee secrets: `MAIL_GEBRUIKER` (het Gmail-adres) en
