@@ -36,7 +36,7 @@
 <dialog id="lightbox" class="w-screen max-w-none h-screen max-h-none bg-transparent p-0">
   <div class="w-full h-full flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-12 cursor-zoom-out">
     <span aria-hidden="true" class="material-symbols-outlined absolute top-4 right-4 md:top-8 md:right-8 p-3 text-[32px] text-white">close</span>
-    <div id="lightbox-media" class="min-h-0 max-w-full max-h-full flex items-center justify-center"></div>
+    <div id="lightbox-media" class="min-w-0 min-h-0 flex-1 max-w-full max-h-full flex items-center justify-center"></div>
     <!-- De andere foto's van deze tas: onder het beeld op een smal scherm,
          ernaast zodra er plaats is. -->
     <div id="lightbox-strip" class="flex flex-row md:flex-col gap-3 shrink-0 overflow-auto max-w-full md:max-h-full cursor-default"></div>
@@ -88,7 +88,13 @@ paginaKlaar.then(() => {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
       <div class="lg:col-span-7">
-        <div class="relative aspect-[4/5] mb-8">
+        <!-- Vierkant kader in plaats van staand 4:5. De tassen zijn deels
+             liggend (4:3), deels staand (3:4) gefotografeerd; in een staand
+             kader verloor een liggende foto zowat veertig procent van haar
+             breedte aan de uitsnede. Vierkant halveert dat voor beide vormen.
+             De maximumbreedte houdt de foto op een breed scherm binnen de
+             perken: hij haalde anders meer dan de volle vensterhoogte. -->
+        <div class="relative aspect-square max-w-[34rem] mb-8">
           ${badge(p)}
           <!-- De huidvorm snijdt het beeld aan; kies() vult het in: een foto
                klikt open in het grote venster, een filmpje speelt ter plaatse. -->
@@ -198,7 +204,7 @@ paginaKlaar.then(() => {
       ? 'Klik op het filmpje om het af te spelen'
       : 'Klik op de foto voor het volledige beeld';
     document.getElementById('lightbox-media').innerHTML =
-      mediaTag(url, 'min-h-0 max-w-full max-h-full object-contain', { alt: p.naam, bedien: true });
+      mediaTag(url, 'min-h-0 max-w-full max-h-[78vh] object-contain', { alt: p.naam, bedien: true });
     root.querySelectorAll('[data-foto]').forEach((k, n) => {
       k.classList.toggle('ring-2', n === i);
       k.classList.toggle('ring-primary', n === i);
