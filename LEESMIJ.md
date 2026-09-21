@@ -302,6 +302,23 @@ Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's),
 wissel je de sfeerbeelden op de pagina's, en zie je de laatste vijftig
 bestellingen met adres en status.
 
+## Zoekmachines
+
+De zes gewone pagina's mogen gevonden worden. Het beheerscherm, het mandje en
+de bevestiging na een bestelling niet: die dragen elk een `noindex` in hun
+`<head>`, en staan ook in `robots.txt`. Allebei, want `robots.txt` vraagt een
+zoekmachine enkel om niet te kijken — `noindex` houdt de pagina echt uit de
+resultaten.
+
+De proefversie op Vercel is een tweede, publiek bereikbare kopie van dezelfde
+site. Zonder maatregel zou die mee in de zoekresultaten komen en met het echte
+adres concurreren. `vercel.json` stuurt daarom bij elk antwoord een
+`X-Robots-Tag: noindex` mee. Dat bestand doet niets bij Cloudflare, dus de
+echte site heeft er geen last van.
+
+Wil je later een sitemap, dan hoort die op `tuigtassenhertogs.be/sitemap.xml`
+en mag hij enkel die zes pagina's bevatten plus de productpagina's.
+
 ## Nog te doen voor livegang
 
 - [ ] Rest van `CONTACT`: mailadres, btw-nummer, IBAN, socials — telefoon en

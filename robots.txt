@@ -1,12 +1,9 @@
-# Tijdelijk: de site is nog niet officieel open. Zolang dit bestand er staat,
-# houden zoekmachines zich afzijdig.
-#
-# TODO bij livegang: dit bestand vervangen door de regels hieronder, zodat de
-# site wél gevonden wordt.
-#
-#   User-agent: *
-#   Disallow: /admin.html
-#   Disallow: /bedankt.html
-#
+# De site mag gevonden worden. Drie pagina's horen niet in de zoekresultaten:
+# het beheerscherm, het mandje en de bevestiging na een bestelling. Die dragen
+# daarnaast ook zelf een noindex in hun <head>, want een regel hier houdt een
+# zoekmachine niet tegen — ze vraagt er enkel niet meer naar.
+
 User-agent: *
-Disallow: /
+Disallow: /admin.html
+Disallow: /bestellen.html
+Disallow: /bedankt.html
