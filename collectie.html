@@ -30,45 +30,69 @@
     <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-8 -rotate-1" data-t="col.titel">Drie wegen naar jouw tuigtas</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 text-left">
-      <a href="#voorraad" class="bg-surface-container-lowest p-5 sm:p-8 flex flex-col border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-5 -mt-5 sm:-mx-8 sm:-mt-8 mb-4 sm:mb-6 shrink-0 aspect-[5/2] sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <a href="#voorraad" class="bg-surface-container-lowest p-4 sm:p-8 flex flex-row sm:flex-col items-center sm:items-stretch gap-3 sm:gap-0 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
+        <!-- Op een telefoon staat hier een icoontje in plaats van de fotoband:
+             drie kaarten met een band eronder werden samen bijna vijf schermen
+             hoog, en dan zie je de keuze nooit in één blik. -->
+        <span class="sm:!hidden material-symbols-outlined text-[22px] text-secondary shrink-0" aria-hidden="true">shopping_bag</span>
+        <div class="hidden sm:block sm:-mx-8 sm:-mt-8 sm:mb-6 shrink-0 sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="waegemans1" alt="Een afgewerkte tuigtas uit de collectie" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <h2 class="font-headline-md text-headline-md text-primary mb-3" data-t="col.weg1.titel">Uit bestaande collectie</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.weg1.tekst">
+        <div class="min-w-0 sm:flex sm:flex-col sm:flex-1">
+        <h2 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-3" data-t="col.weg1.titel">Uit bestaande collectie</h2>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.weg1.tekst">
           Een tas die al af is. Uit een zadel dat zijn eigen leven heeft geleefd. En klaar is om samen
           een nieuw verhaal te starten. Je ziet precies wat je krijgt en hij komt binnen enkele dagen
           jouw richting uit.
         </p>
-        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.weg1.kort">Klaar, en binnen enkele dagen bij jou.</p>
+        <span class="hidden sm:inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           <span data-t="col.weg1.link">Naar de tassen</span> <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
+        </div>
+        <span class="sm:!hidden material-symbols-outlined text-secondary shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true">chevron_right</span>
       </a>
-      <a href="#werkwijze" class="bg-secondary-fixed/40 p-5 sm:p-8 flex flex-col border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-5 -mt-5 sm:-mx-8 sm:-mt-8 mb-4 sm:mb-6 shrink-0 aspect-[5/2] sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <a href="#werkwijze" class="bg-secondary-fixed/40 p-4 sm:p-8 flex flex-row sm:flex-col items-center sm:items-stretch gap-3 sm:gap-0 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt group">
+        <!-- Op een telefoon staat hier een icoontje in plaats van de fotoband:
+             drie kaarten met een band eronder werden samen bijna vijf schermen
+             hoog, en dan zie je de keuze nooit in één blik. -->
+        <span class="sm:!hidden material-symbols-outlined text-[22px] text-secondary shrink-0" aria-hidden="true">design_services</span>
+        <div class="hidden sm:block sm:-mx-8 sm:-mt-8 sm:mb-6 shrink-0 sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelWerkbank" alt="Een zadel dat zijn ruiterjaren achter zich heeft, op de werkbank" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <h2 class="font-headline-md text-headline-md text-primary mb-3" data-t="col.weg2.titel">Op maat gemaakt uit een zadel op voorraad</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.weg2.tekst">
+        <div class="min-w-0 sm:flex sm:flex-col sm:flex-1">
+        <h2 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-3" data-t="col.weg2.titel">Op maat gemaakt uit een zadel op voorraad</h2>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.weg2.tekst">
           Er liggen steeds zadels op voorraad waaruit ik nieuwe ontwerpen maak. Laat me weten waar je
           belang aan hecht, en ik maak er ééntje volledig naar jouw idee.
         </p>
-        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.weg2.kort">Een zadel uit mijn voorraad, naar jouw idee.</p>
+        <span class="hidden sm:inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
+        </div>
+        <span class="sm:!hidden material-symbols-outlined text-secondary shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true">chevron_right</span>
       </a>
-      <a href="#werkwijze" class="bg-khaki/60 p-5 sm:p-8 flex flex-col border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
-        <div class="-mx-5 -mt-5 sm:-mx-8 sm:-mt-8 mb-4 sm:mb-6 shrink-0 aspect-[5/2] sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <a href="#werkwijze" class="bg-khaki/60 p-4 sm:p-8 flex flex-row sm:flex-col items-center sm:items-stretch gap-3 sm:gap-0 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt group">
+        <!-- Op een telefoon staat hier een icoontje in plaats van de fotoband:
+             drie kaarten met een band eronder werden samen bijna vijf schermen
+             hoog, en dan zie je de keuze nooit in één blik. -->
+        <span class="sm:!hidden material-symbols-outlined text-[22px] text-secondary shrink-0" aria-hidden="true">favorite</span>
+        <div class="hidden sm:block sm:-mx-8 sm:-mt-8 sm:mb-6 shrink-0 sm:aspect-[16/9] lg:aspect-auto lg:h-[min(19vh,220px)] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelDemonterenB" alt="Handen die een oud zadel uit elkaar halen" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <h2 class="font-headline-md text-headline-md text-primary mb-3" data-t="col.weg3.titel">Op maat gemaakt uit je eigen zadel</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.weg3.tekst">
+        <div class="min-w-0 sm:flex sm:flex-col sm:flex-1">
+        <h2 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-3" data-t="col.weg3.titel">Op maat gemaakt uit je eigen zadel</h2>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.weg3.tekst">
           Het zadel van jouw paard, met alle herinneringen die eraan vast hangen, wordt een tas om
           levenslang te koesteren.
         </p>
-        <span class="inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.weg3.kort">Jouw zadel, met al zijn herinneringen.</p>
+        <span class="hidden sm:inline-flex items-center gap-2 mt-auto pt-6 font-label-sm text-label-sm uppercase tracking-widest text-primary">
           Zo werkt het <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
         </span>
+        </div>
+        <span class="sm:!hidden material-symbols-outlined text-secondary shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true">chevron_right</span>
       </a>
     </div>
 
@@ -150,58 +174,73 @@
     <!-- De vijf stappen lopen in kleur op: van bijna wit papier naar khaki,
          zodat je aan de tint ziet hoe ver in het traject je staat. -->
     <ol class="mb-10 sm:mb-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-gutter">
-      <li class="bg-surface-container-lowest p-5 sm:p-6 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-5 -mt-5 sm:-mx-6 sm:-mt-6 mb-3 sm:mb-4 shrink-0 aspect-[5/2] sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <li class="bg-surface-container-lowest p-4 sm:p-6 flex flex-row sm:block items-center gap-3 sm:gap-0 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
+        <div class="hidden sm:block sm:-mx-6 sm:-mt-6 sm:mb-4 shrink-0 sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="zadelSchaduw" alt="Een oud zadel, klaar om gefotografeerd te worden" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">1</span>
-        <h3 class="font-headline-md text-headline-md text-primary mb-2" data-t="col.stap1.titel">Contact</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.stap1.tekst">
+        <span class="font-display-lg text-[34px] sm:text-[44px] text-secondary leading-none shrink-0 w-7 sm:w-auto sm:block sm:mb-2">1</span>
+        <div class="min-w-0">
+        <h3 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-2" data-t="col.stap1.titel">Contact</h3>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.stap1.tekst">
           Je stuurt me een berichtje, eventueel met een paar foto's, en vertelt me waar je naar op
           zoek bent.
         </p>
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.stap1.kort">Stuur een berichtje, eventueel met een foto.</p>
+        </div>
       </li>
-      <li class="bg-secondary-fixed/40 p-5 sm:p-6 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-5 -mt-5 sm:-mx-6 sm:-mt-6 mb-3 sm:mb-4 shrink-0 aspect-[5/2] sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <li class="bg-secondary-fixed/40 p-4 sm:p-6 flex flex-row sm:block items-center gap-3 sm:gap-0 border-2 border-dashed border-secondary/40 rounded-lg overflow-hidden kaart-tilt">
+        <div class="hidden sm:block sm:-mx-6 sm:-mt-6 sm:mb-4 shrink-0 sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="atelier" alt="De werkbank in het atelier waar we samen zitten" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">2</span>
-        <h3 class="font-headline-md text-headline-md text-primary mb-2" data-t="col.stap2.titel">Gesprek</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.stap2.tekst">
+        <span class="font-display-lg text-[34px] sm:text-[44px] text-secondary leading-none shrink-0 w-7 sm:w-auto sm:block sm:mb-2">2</span>
+        <div class="min-w-0">
+        <h3 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-2" data-t="col.stap2.titel">Gesprek</h3>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.stap2.tekst">
           Als de afstand het toelaat, nodig ik je graag uit in het atelier. We kijken samen naar wat
           er mogelijk is.
         </p>
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.stap2.kort">We kijken samen wat er mogelijk is.</p>
+        </div>
       </li>
-      <li class="bg-secondary-fixed-dim/50 p-5 sm:p-6 border-2 border-dashed border-secondary/50 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-5 -mt-5 sm:-mx-6 sm:-mt-6 mb-3 sm:mb-4 shrink-0 aspect-[5/2] sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <li class="bg-secondary-fixed-dim/50 p-4 sm:p-6 flex flex-row sm:block items-center gap-3 sm:gap-0 border-2 border-dashed border-secondary/50 rounded-lg overflow-hidden kaart-tilt">
+        <div class="hidden sm:block sm:-mx-6 sm:-mt-6 sm:mb-4 shrink-0 sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="schetsPaard" alt="Een ontwerpschets op papier" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">3</span>
-        <h3 class="font-headline-md text-headline-md text-primary mb-2" data-t="col.stap3.titel">Ontwerp</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.stap3.tekst">
+        <span class="font-display-lg text-[34px] sm:text-[44px] text-secondary leading-none shrink-0 w-7 sm:w-auto sm:block sm:mb-2">3</span>
+        <div class="min-w-0">
+        <h3 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-2" data-t="col.stap3.titel">Ontwerp</h3>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.stap3.tekst">
           Ik maak een ontwerp op basis van jouw ideeën en spreek met jou een prijsrange af.
         </p>
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.stap3.kort">Een ontwerp, en een prijsrange.</p>
+        </div>
       </li>
-      <li class="bg-khaki/50 p-5 sm:p-6 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-5 -mt-5 sm:-mx-6 sm:-mt-6 mb-3 sm:mb-4 shrink-0 aspect-[5/2] sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <li class="bg-khaki/50 p-4 sm:p-6 flex flex-row sm:block items-center gap-3 sm:gap-0 border-2 border-dashed border-secondary/60 rounded-lg overflow-hidden kaart-tilt">
+        <div class="hidden sm:block sm:-mx-6 sm:-mt-6 sm:mb-4 shrink-0 sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="handenStikkenC" alt="Handen die het leder met de hand doorstikken" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">4</span>
-        <h3 class="font-headline-md text-headline-md text-primary mb-2" data-t="col.stap4.titel">Handwerk</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.stap4.tekst">
+        <span class="font-display-lg text-[34px] sm:text-[44px] text-secondary leading-none shrink-0 w-7 sm:w-auto sm:block sm:mb-2">4</span>
+        <div class="min-w-0">
+        <h3 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-2" data-t="col.stap4.titel">Handwerk</h3>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.stap4.tekst">
           Het zadel gaat uit elkaar en het leder wordt voorbereid. Via WhatsApp houd ik je op de
           hoogte en stem ik keuzes met je af.
         </p>
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.stap4.kort">Het zadel gaat uit elkaar; ik hou je op de hoogte.</p>
+        </div>
       </li>
-      <li class="bg-khaki/80 p-5 sm:p-6 border-2 border-dashed border-secondary/70 rounded-lg overflow-hidden kaart-tilt">
-        <div class="-mx-5 -mt-5 sm:-mx-6 sm:-mt-6 mb-3 sm:mb-4 shrink-0 aspect-[5/2] sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
+      <li class="bg-khaki/80 p-4 sm:p-6 flex flex-row sm:block items-center gap-3 sm:gap-0 border-2 border-dashed border-secondary/70 rounded-lg overflow-hidden kaart-tilt">
+        <div class="hidden sm:block sm:-mx-6 sm:-mt-6 sm:mb-4 shrink-0 sm:aspect-[16/9] overflow-hidden border-b-2 border-dashed border-secondary/50 bg-surface-container">
           <img data-img="bagRuitertas" alt="De afgewerkte tas, klaar om mee te geven" loading="lazy" class="w-full h-full object-cover">
         </div>
-        <span class="font-display-lg text-[44px] text-secondary leading-none block mb-2">5</span>
-        <h3 class="font-headline-md text-headline-md text-primary mb-2" data-t="col.stap5.titel">Aflevering</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant" data-t="col.stap5.tekst">
+        <span class="font-display-lg text-[34px] sm:text-[44px] text-secondary leading-none shrink-0 w-7 sm:w-auto sm:block sm:mb-2">5</span>
+        <div class="min-w-0">
+        <h3 class="font-headline-md text-[19px] leading-tight sm:text-headline-md text-primary sm:mb-2" data-t="col.stap5.titel">Aflevering</h3>
+        <p class="hidden sm:block font-body-md text-body-md text-on-surface-variant" data-t="col.stap5.tekst">
           Je haalt je tas op in het atelier, of ik stuur hem verzekerd naar je toe.
         </p>
+          <p class="sm:hidden font-body-md text-[15px] leading-snug text-on-surface-variant mt-1" data-t="col.stap5.kort">Ophalen in het atelier, of verzekerd verzonden.</p>
+        </div>
       </li>
     </ol>
 

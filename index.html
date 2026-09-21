@@ -159,13 +159,15 @@
         <!-- Het beeld staat een kolom smaller dan de tekst ernaast: de
              opsomming heeft regellengte nodig, anders valt elk punt uiteen
              over drie regels. -->
-        <div class="order-2 lg:order-1 lg:col-span-4 relative h-80 md:h-[30rem]">
+        <!-- De foto stond op een telefoon helemaal onderaan, na de hele
+             opsomming. Nu opent het blok ermee. -->
+        <div class="order-1 lg:order-1 lg:col-span-4 relative h-80 md:h-[30rem]">
           <div class="parallax-kader absolute inset-0 hide-mask-3 soft-edge-mask saddle-stitch overflow-hidden">
             <img data-img="zadelDemonteren"  alt="Handen die een oud zadel uit elkaar halen op de werkbank"
                  class="parallax-beeld object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700">
           </div>
         </div>
-        <div class="order-1 lg:order-2 lg:col-span-7 lg:col-start-6">
+        <div class="order-2 lg:order-2 lg:col-span-7 lg:col-start-6">
           <span class="font-label-mono text-label-mono text-secondary uppercase block mb-6" data-t="home.maat.boventitel">Op maat</span>
           <h2 class="font-display-lg text-[40px] md:text-[56px] text-primary mb-8 leading-tight -rotate-1" data-t="home.maat.titel">
             Jouw dierbare zadel, een unieke tuigtas
@@ -199,7 +201,11 @@
   <section class="w-full py-stack-raw md:py-section-xl bg-surface-container-lowest golfrand-boven -mt-8 relative">
    <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-      <div class="lg:col-span-6 lg:col-start-1">
+      <!-- Op een telefoon komt het portret eerst en het citaat eronder: een
+           citaat van vier regels als opening van een blok leest als een lap
+           tekst, terwijl de foto meteen zegt over wie het gaat. Op een breed
+           scherm staan ze naast elkaar en verandert er niets. -->
+      <div class="order-2 lg:order-1 lg:col-span-6 lg:col-start-1">
         <blockquote class="font-display-lg text-[32px] md:text-[44px] leading-tight text-primary mb-8 pl-6 border-l-2 border-dashed border-secondary" data-t="home.citaat">
           “Met het maken van die eerste tas viel plots ook mijn eigen puzzel in elkaar.
           Daar kwamen alle stukjes samen: mijn liefde voor ambacht en vakmanschap, mijn band
@@ -213,7 +219,7 @@
           <span data-t="home.karolien.link">Lees mijn verhaal</span> <span class="material-symbols-outlined text-base">arrow_forward</span>
         </a>
       </div>
-      <div class="lg:col-span-5 lg:col-start-8 relative h-96 md:h-[34rem]">
+      <div class="order-1 lg:order-2 lg:col-span-5 lg:col-start-8 relative h-96 md:h-[34rem]">
         <div class="parallax-kader absolute inset-0 hide-mask soft-edge-mask saddle-stitch overflow-hidden">
           <img data-img="atelierKarolien"  alt="Karolien Hertogs aan het werk in haar atelier"
                class="parallax-beeld object-cover w-full h-full">
