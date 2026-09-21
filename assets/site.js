@@ -589,17 +589,27 @@ function vertaal(wortel = document) {
   markeerTaal();
 }
 
-/* De knop van de taal waarin je staat, is aangeduid. We hertekenen de balk
-   niet: daar hangen de teller van het mandje en het uitklapmenu aan. */
+/* Eén knop in plaats van NL / EN naast elkaar: ze toont waar je naartoe gaat.
+   Sta je op het Nederlands, dan staat er EN. Half zo breed, en de schuine
+   streep ertussen is weg — die maakte de rechterkant van de balk druk.
+
+   In het uitklapmenu is er plaats voor de naam voluit; daar staat "English" in
+   plaats van "EN". Dat zegt `data-taal-vorm="lang"`.
+
+   We hertekenen de balk niet om dit bij te werken: daar hangen de teller van
+   het mandje en het uitklapmenu aan. */
+const ANDERE_TAAL = { nl: 'en', en: 'nl' };
+const TAALNAAM = { nl: 'Nederlands', en: 'English' };
+const TAALUITLEG = { nl: 'Schakel over naar het Nederlands', en: 'Switch to English' };
+
+const taalKnopTekst = (lang, vorm) => vorm === 'lang' ? TAALNAAM[lang] : lang.toUpperCase();
+
 function markeerTaal() {
+  const doel = ANDERE_TAAL[TAAL];
   document.querySelectorAll('[data-taal]').forEach((knop) => {
-    const actief = knop.dataset.taal === TAAL;
-    knop.classList.toggle('text-primary', actief);
-    knop.classList.toggle('border-primary', actief);
-    knop.classList.toggle('text-secondary', !actief);
-    knop.classList.toggle('border-transparent', !actief);
-    if (actief) knop.setAttribute('aria-current', 'true');
-    else knop.removeAttribute('aria-current');
+    knop.dataset.taal = doel;
+    knop.textContent = taalKnopTekst(doel, knop.dataset.taalVorm);
+    knop.setAttribute('aria-label', TAALUITLEG[doel]);
   });
 }
 
@@ -648,10 +658,12 @@ function renderHeader(actief) {
        class="hidden xl:inline-block whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
               hover:bg-tertiary transition-colors duration-300" data-t="header.instagram">Achter de schermen</a>
-    <!-- Op smallere schermen past de knop hierboven niet; dan blijft de
-         Instagram-link als icoon staan. -->
+    <!-- Tussenin past de knop hierboven niet; daar blijft de Instagram-link als
+         icoon staan. Op een telefoon valt ze helemaal weg: daar stond ze als
+         naamloos icoontje te concurreren met het mandje en het menu, terwijl
+         Instagram ook gewoon onderaan in de voet staat. -->
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="Instagram — een kijkje achter de schermen"
-       class="xl:hidden inline-flex p-2 text-on-surface hover:text-primary transition-colors duration-300">
+       class="hidden lg:inline-flex xl:hidden p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">photo_camera</span>
     </a>
     <a href="bestellen.html" aria-label="Winkelmandje"
@@ -665,20 +677,26 @@ function renderHeader(actief) {
             class="lg:hidden p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">menu</span>
     </button>
-    <!-- De taalknop sluit de rij af, helemaal rechts. Ze staat in de balk zelf
-         en niet in het uitklapmenu: op een telefoon is ze zo even goed
-         bereikbaar als op een groot scherm, zonder eerst het menu te moeten
-         openen. De aanduiding van de taal waarin je staat, zet markeerTaal(). -->
-    <div class="flex items-center ml-1 font-label-mono text-label-mono uppercase" role="group" aria-label="Taal / Language">
-      ${TALEN.map((t) => `<button type="button" data-taal="${t}"
-              class="px-1.5 py-2 border-b transition-colors duration-300 hover:text-primary">${t.toUpperCase()}</button>`)
-        .join('<span class="text-outline-variant" aria-hidden="true">/</span>')}
-    </div>
+    <!-- De taalknop sluit de rij af, helemaal rechts. Op een telefoon staat ze
+         niet hier maar onderaan het uitklapmenu: naast het mandje en het menu
+         werd het daar te vol. -->
+    <button type="button" data-taal="${ANDERE_TAAL[TAAL]}" aria-label="${TAALUITLEG[ANDERE_TAAL[TAAL]]}"
+            class="hidden lg:inline-block ml-2 px-2 py-2 font-label-mono text-label-mono uppercase
+                   text-secondary hover:text-primary border-b border-transparent hover:border-primary
+                   transition-colors duration-300">${taalKnopTekst(ANDERE_TAAL[TAAL])}</button>
   </div>
 </div>
 <div data-menu hidden class="lg:hidden border-t border-surface-container bg-surface">
   <nav class="px-margin-mobile py-4 flex flex-col gap-1">
     ${NAV.map((n) => link(n, 'border-l-2 pl-4 py-2')).join('')}
+    <!-- Hier is plaats voor de naam voluit; in de balk staat enkel EN. De
+         streepjeslijn zet ze los van de navigatie: het is geen zesde pagina. -->
+    <span class="block mt-2 mb-1 border-t border-dashed border-secondary/40"></span>
+    <button type="button" data-taal="${ANDERE_TAAL[TAAL]}" data-taal-vorm="lang"
+            aria-label="${TAALUITLEG[ANDERE_TAAL[TAAL]]}"
+            class="font-label-mono text-label-mono uppercase text-secondary hover:text-primary
+                   text-left border-l-2 border-transparent pl-4 py-2
+                   transition-colors duration-300">${taalKnopTekst(ANDERE_TAAL[TAAL], 'lang')}</button>
   </nav>
 </div>`;
 }
