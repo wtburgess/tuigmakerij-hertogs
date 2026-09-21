@@ -540,6 +540,8 @@ const EN = {
   'drop.tekst': 'This collection is exclusive, and small in number. Would you like to be the first to hear when new pieces become available? Leave your phone number here and I will send you a message.',
   'drop.telefoon': 'Your phone number *',
   'drop.knop': 'Sign up',
+  'drop.gelukt': 'Noted. You will get a message as soon as new bags are ready.',
+  'drop.mislukt': 'That did not work. Please try again later, or send me a message on WhatsApp.',
 
   /* --- startpagina --- */
   'home.paginatitel': 'Tuigtassen Hertogs — hand-stitched bags from old horse saddles',
@@ -1063,10 +1065,10 @@ function inschrijvingKlaarzetten(form) {
       });
       if (!antwoord.ok) throw new Error(`HTTP ${antwoord.status}`);
       form.remove();
-      melding.textContent = 'Genoteerd. Je krijgt een bericht zodra er nieuwe tassen klaar zijn.';
+      melding.textContent = t('drop.gelukt', 'Genoteerd. Je krijgt een bericht zodra er nieuwe tassen klaar zijn.');
     } catch (fout) {
       console.warn('Inschrijven lukte niet.', fout);
-      melding.textContent = 'Dat lukte niet. Probeer het later opnieuw, of stuur me een berichtje op WhatsApp.';
+      melding.textContent = t('drop.mislukt', 'Dat lukte niet. Probeer het later opnieuw, of stuur me een berichtje op WhatsApp.');
       knop.disabled = false;
     }
     melding.classList.remove('hidden');
