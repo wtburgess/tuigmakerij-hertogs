@@ -24,7 +24,7 @@
 
 <section id="ook-interessant" class="bg-surface-container-lowest golfrand-boven -mt-8 relative">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-raw md:py-section-xl">
-    <h2 class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary rotate-1 mb-12 pb-4 border-b-2 border-dashed border-secondary">Andere tassen in het atelier</h2>
+    <h2 data-t="product.andere" class="font-display-lg text-[40px] md:text-[52px] leading-tight text-primary rotate-1 mb-12 pb-4 border-b-2 border-dashed border-secondary">Andere tassen in het atelier</h2>
     <div id="ander-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-6 md:mb-8"></div>
   </div>
 </section>
@@ -53,36 +53,85 @@ paginaKlaar.then(() => {
     document.getElementById('ook-interessant').hidden = true;
     root.innerHTML = `
       <div class="py-24 text-center max-w-lg mx-auto">
-        <h1 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Deze tas vonden we niet</h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+        <h1 data-t="product.weg.titel" class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Deze tas vonden we niet</h1>
+        <p data-t="product.weg.tekst" class="font-body-lg text-body-lg text-on-surface-variant mb-8">
           Mogelijk is ze intussen verkocht — elk stuk bestaat maar één keer.
         </p>
-        <a href="collectie.html#voorraad" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
+        <a href="collectie.html#voorraad" data-t="product.weg.knop" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
           Bekijk de collectie
         </a>
       </div>`;
+    vertaal(root);
+    document.addEventListener('taal:gewisseld', () => vertaal(root));
     return;
   }
 
-  document.title = `${p.naam} — Tuigtassen Hertogs`;
   const uitverkocht = p.voorraad < 1;
 
   // Nog niet ingevulde specificaties laten we gewoon weg: liever een korter
   // lijstje dan een regel met niets erachter.
-  const spec = (icoon, label, waarde) => !waarde ? '' : `
+  const spec = (icoon, sleutel, label, waarde) => !waarde ? '' : `
     <div class="flex items-start gap-4">
       <span class="material-symbols-outlined text-secondary mt-1">${icoon}</span>
       <div>
-        <h3 class="font-label-mono text-label-mono uppercase text-secondary mb-1">${label}</h3>
+        <h3 data-t="${sleutel}" class="font-label-mono text-label-mono uppercase text-secondary mb-1">${label}</h3>
         <p class="font-body-md text-body-md text-primary">${waarde}</p>
       </div>
     </div>`;
 
-  root.innerHTML = `
+  /* Eén plek die bijhoudt welke foto in beeld staat. De strook onder de foto
+     en die in het vergrote venster wijzen naar dezelfde teller, dus je verliest
+     je plaats niet wanneer je in- of uitzoomt. Ze staat buiten het tekenen,
+     want bij een taalwissel wordt de pagina opnieuw opgebouwd en blijf je
+     liefst op dezelfde foto kijken. */
+  const lightbox = document.getElementById('lightbox');
+  const strook = document.getElementById('lightbox-strip');
+  let actief = 0;
+
+  const kies = (i) => {
+    actief = i;
+    const naam = veld(p, 'naam');
+    const hoofd = document.getElementById('hoofdbeeld');
+    const uitleg = document.getElementById('beeld-uitleg');
+    const url = fotoUrl(p.fotos[i]);
+    const film = isFilm(url);
+    // Een filmpje speelt ter plaatse af, dus het zit niet in een zoomknop:
+    // anders opent het grote venster bij elke druk op play.
+    hoofd.innerHTML = film
+      ? mediaTag(url, 'w-full h-full object-cover', { bedien: true })
+      : `<button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
+                 aria-label="${t('product.vergroot', 'Bekijk de volledige foto van {naam}', { naam })}">
+           ${mediaTag(url, 'w-full h-full object-cover', { alt: naam })}
+         </button>`;
+    uitleg.textContent = film
+      ? t('product.filmuitleg', 'Klik op het filmpje om het af te spelen')
+      : t('product.fotouitleg', 'Klik op de foto voor het volledige beeld');
+    document.getElementById('lightbox-media').innerHTML =
+      mediaTag(url, 'min-h-0 max-w-full max-h-[78vh] object-contain', { alt: naam, bedien: true });
+    root.querySelectorAll('[data-foto]').forEach((k, n) => {
+      k.classList.toggle('ring-2', n === i);
+      k.classList.toggle('ring-primary', n === i);
+    });
+    strook.querySelectorAll('[data-groot]').forEach((k, n) => {
+      k.classList.toggle('border-white', n === i);
+      k.classList.toggle('border-white/30', n !== i);
+    });
+  };
+
+  /* De pagina wordt in haar geheel opnieuw opgebouwd bij een taalwissel: naam,
+     verhaal en kenmerken komen uit de databank en hebben daar hun eigen
+     Engelse veld, dus vertalen alleen volstaat niet. Wat aan blijvende
+     elementen hangt — het vergrote venster, de strook erin — staat hierbuiten,
+     anders komt er bij elke wissel een luisteraar bij. */
+  const tekenProduct = () => {
+    const naam = veld(p, 'naam');
+    document.title = `${naam} — Tuigtassen Hertogs`;
+
+    root.innerHTML = `
     <nav class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-10">
-      <a href="collectie.html" class="hover:text-primary transition-colors">Collectie</a>
+      <a href="collectie.html" data-t="nav.collectie" class="hover:text-primary transition-colors">Collectie</a>
       <span class="mx-2 text-outline-variant">/</span>
-      <span class="text-on-surface-variant">${p.naam}</span>
+      <span class="text-on-surface-variant">${naam}</span>
     </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -106,7 +155,7 @@ paginaKlaar.then(() => {
           ${p.fotos.map((f, i) => `
             <button type="button" data-foto="${fotoUrl(f)}"
                     class="w-20 h-24 bg-surface-container-lowest p-1 border border-dashed border-secondary/50 ${i === 0 ? 'border-solid border-primary' : ''}"
-                    aria-label="Foto ${i + 1} van ${p.naam}">
+                    aria-label="${t('product.fotonr', 'Foto {n} van {naam}', { n: i + 1, naam })}">
               ${mediaTag(fotoUrl(f), 'w-full h-full object-cover')}
             </button>`).join('')}
         </div>` : ''}
@@ -114,48 +163,48 @@ paginaKlaar.then(() => {
 
       <div class="lg:col-span-5 lg:sticky lg:top-28">
         ${uitverkocht ? `
-        <span class="inline-block bg-inverse-surface text-inverse-on-surface
+        <span data-t="kaart.verkocht" class="inline-block bg-inverse-surface text-inverse-on-surface
                      font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 mb-4">Verkocht</span><br>` : ''}
-        <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
-        <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${veld(p, 'herkomst')}</span>
+        <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${naam}</h1>
         ${toonPrijs(p) ? `<p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${prijsHtml(p)}</p>` : ''}
 
         <div class="w-16 stitch-divider-dubbel mb-8"></div>
 
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${p.verhaal}</p>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">${veld(p, 'verhaal')}</p>
 
-        ${p.kenmerken?.length ? `
+        ${veld(p, 'kenmerken')?.length ? `
         <ul class="mb-8 space-y-2">
-          ${p.kenmerken.map((k) => `
+          ${veld(p, 'kenmerken').map((k) => `
             <li class="flex gap-3 font-body-md text-body-md text-on-surface-variant">
               <span class="text-secondary" aria-hidden="true">—</span>${k}
             </li>`).join('')}
         </ul>` : ''}
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y-2 border-dashed border-secondary/40 mb-8">
-          ${spec('sell', 'Referentie', p.code)}
-          ${spec('layers', 'Herkomst leder', p.herkomst)}
-          ${spec('palette', 'Kleur', p.kleur)}
-          ${spec('straighten', 'Afmetingen', p.afmetingen)}
+          ${spec('sell', 'product.spec.referentie', 'Referentie', p.code)}
+          ${spec('layers', 'product.spec.herkomst', 'Herkomst leder', veld(p, 'herkomst'))}
+          ${spec('palette', 'product.spec.kleur', 'Kleur', veld(p, 'kleur'))}
+          ${spec('straighten', 'product.spec.afmetingen', 'Afmetingen', veld(p, 'afmetingen'))}
         </div>
 
         ${uitverkocht ? `
           <div class="bg-surface-container p-6 mb-6">
-            <p class="font-body-md text-body-md text-on-surface-variant">
+            <p data-t="product.verkocht.tekst" class="font-body-md text-body-md text-on-surface-variant">
               Deze tas is verkocht en bestaat maar één keer. Een gelijkaardig ontwerp is wel mogelijk.
             </p>
           </div>
-          <a data-wa="Dag Karolien, ${p.naam} is verkocht. Kan je iets vergelijkbaars maken? " target="_blank" rel="noopener"
+          <a data-wa="${t('product.wa.verkocht', 'Dag Karolien, {naam} is verkocht. Kan je iets vergelijkbaars maken? ', { naam })}" target="_blank" rel="noopener"
              class="w-full py-5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg">
-            <span class="material-symbols-outlined text-base">chat</span> Vraag naar iets gelijkaardigs
+            <span class="material-symbols-outlined text-base">chat</span> <span data-t="product.verkocht.knop">Vraag naar iets gelijkaardigs</span>
           </a>
         ` : `
           <button type="button" data-add="${p.id}"
                   class="w-full py-5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors duration-300 flex items-center justify-center gap-3 rounded-lg group">
-            <span>In mijn mandje</span>
+            <span data-t="product.mandje">In mijn mandje</span>
             <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">arrow_right_alt</span>
           </button>
-          <a href="bestellen.html" class="w-full mt-3 py-4 stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors duration-300 flex items-center justify-center rounded-lg">
+          <a href="bestellen.html" data-t="product.naarmandje" class="w-full mt-3 py-4 stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors duration-300 flex items-center justify-center rounded-lg">
             Naar het mandje
           </a>
         `}
@@ -163,8 +212,8 @@ paginaKlaar.then(() => {
         <div class="bg-surface-container-low p-6 mt-8 flex gap-4 items-start border-l-[3px] border-secondary">
           <span class="material-symbols-outlined symbol-filled text-secondary shrink-0">verified</span>
           <div>
-            <h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Eén exemplaar. Volledig handgemaakt.</h4>
-            <p class="font-body-md text-body-md text-on-surface-variant">
+            <h4 data-t="product.uniek.titel" class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-1">Eén exemplaar. Volledig handgemaakt.</h4>
+            <p data-t="product.uniek.tekst" class="font-body-md text-body-md text-on-surface-variant">
               Elk stuk komt uit een ander zadel, dus deze tas bestaat exact één keer. Gratis en
               verzekerd verzonden binnen België.
             </p>
@@ -172,55 +221,33 @@ paginaKlaar.then(() => {
         </div>
 
         <p class="font-body-md text-body-md text-on-surface-variant mt-6">
-          Een vraag over deze tas?
-          <a data-wa="Dag Karolien, ik heb een vraag over ${p.naam}: " target="_blank" rel="noopener"
-             class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me een berichtje.</a>
+          <span data-t="product.vraag">Een vraag over deze tas?</span>
+          <a data-wa="${t('product.wa.vraag', 'Dag Karolien, ik heb een vraag over {naam}: ', { naam })}" target="_blank" rel="noopener"
+             data-t="product.vraag.link" class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me een berichtje.</a>
         </p>
       </div>
     </div>`;
 
-  /* Eén plek die bijhoudt welke foto in beeld staat. De strook onder de foto
-     en die in het vergrote venster wijzen naar dezelfde teller, dus je verliest
-     je plaats niet wanneer je in- of uitzoomt. */
-  const lightbox = document.getElementById('lightbox');
-  const strook = document.getElementById('lightbox-strip');
-  let actief = 0;
-
-  const hoofd = document.getElementById('hoofdbeeld');
-  const uitleg = document.getElementById('beeld-uitleg');
-
-  const kies = (i) => {
-    actief = i;
-    const url = fotoUrl(p.fotos[i]);
-    const film = isFilm(url);
-    // Een filmpje speelt ter plaatse af, dus het zit niet in een zoomknop:
-    // anders opent het grote venster bij elke druk op play.
-    hoofd.innerHTML = film
-      ? mediaTag(url, 'w-full h-full object-cover', { bedien: true })
-      : `<button type="button" data-vergroot class="block w-full h-full cursor-zoom-in"
-                 aria-label="Bekijk de volledige foto van ${p.naam}">
-           ${mediaTag(url, 'w-full h-full object-cover', { alt: p.naam })}
-         </button>`;
-    uitleg.textContent = film
-      ? 'Klik op het filmpje om het af te spelen'
-      : 'Klik op de foto voor het volledige beeld';
-    document.getElementById('lightbox-media').innerHTML =
-      mediaTag(url, 'min-h-0 max-w-full max-h-[78vh] object-contain', { alt: p.naam, bedien: true });
-    root.querySelectorAll('[data-foto]').forEach((k, n) => {
-      k.classList.toggle('ring-2', n === i);
-      k.classList.toggle('ring-primary', n === i);
+    // WhatsApp-links binnen de zojuist gerenderde HTML alsnog invullen.
+    root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+    root.querySelectorAll('[data-foto]').forEach((knop, i) => {
+      knop.addEventListener('click', () => kies(i));
     });
-    strook.querySelectorAll('[data-groot]').forEach((k, n) => {
-      k.classList.toggle('border-white', n === i);
-      k.classList.toggle('border-white/30', n !== i);
-    });
+    vertaal(root);
+    kies(actief);
   };
+
+  // De zoomknop wordt bij elke beurt opnieuw getekend, maar root blijft staan:
+  // daar koppelen we één keer aan, anders komt er telkens een luisteraar bij.
+  root.addEventListener('click', (e) => {
+    if (e.target.closest('[data-vergroot]')) lightbox.showModal();
+  });
 
   // Strook in het vergrote venster. Bij één foto heeft ze geen nut.
   strook.innerHTML = p.fotos.length < 2 ? '' : p.fotos.map((f, i) => `
     <button type="button" data-groot="${i}"
             class="w-16 h-16 md:w-20 md:h-20 shrink-0 overflow-hidden rounded border-2 ${i === 0 ? 'border-white' : 'border-white/30'} hover:border-white/70 transition-colors"
-            aria-label="Foto ${i + 1} van ${p.naam}">
+            aria-label="${t('product.fotokort', 'Foto {n}', { n: i + 1 })}">
       ${mediaTag(fotoUrl(f), 'w-full h-full object-cover')}
     </button>`).join('');
 
@@ -230,13 +257,6 @@ paginaKlaar.then(() => {
     if (knop) kies(Number(knop.dataset.groot));
   });
 
-  root.querySelectorAll('[data-foto]').forEach((knop, i) => {
-    knop.addEventListener('click', () => kies(i));
-  });
-
-  hoofd.addEventListener('click', (e) => {
-    if (e.target.closest('[data-vergroot]')) lightbox.showModal();
-  });
   // Klik naast de foto sluit weer — Escape doet <dialog> zelf al.
   lightbox.addEventListener('click', () => lightbox.close());
   // Op een filmpje niet: daar zit de knop om af te spelen.
@@ -248,13 +268,17 @@ paginaKlaar.then(() => {
     lightbox.querySelectorAll('video').forEach((v) => v.pause());
   });
 
-  kies(0);
+  tekenProduct();
 
-  // WhatsApp-links binnen de zojuist gerenderde HTML alsnog invullen.
-  root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+  const tekenAnderen = () => {
+    const anderen = PRODUCTS.filter((x) => x.id !== p.id).slice(0, 3);
+    const raster = document.getElementById('ander-grid');
+    raster.innerHTML = anderen.map((x) => productCard(x)).join('');
+    vertaal(raster);
+  };
+  tekenAnderen();
 
-  const anderen = PRODUCTS.filter((x) => x.id !== p.id).slice(0, 3);
-  document.getElementById('ander-grid').innerHTML = anderen.map((x) => productCard(x)).join('');
+  document.addEventListener('taal:gewisseld', () => { tekenProduct(); tekenAnderen(); });
 });
 </script>
 </body>

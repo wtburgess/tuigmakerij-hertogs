@@ -564,13 +564,48 @@ const EN = {
   'home.maat.knop': 'How it works',
   'home.citaat': '&ldquo;Making that first bag was the moment my own puzzle fell into place. That is where all the pieces came together: my love of craft and workmanship, my bond with the horse world, and my longing for a creative and free life.&rdquo;',
   'home.karolien.rol': 'Saddler &amp; founder',
-  'home.karolien.link': 'Read my story'
+  'home.karolien.link': 'Read my story',
+
+  /* --- productpagina --- */
+  'product.weg.titel': 'We could not find this bag',
+  'product.weg.tekst': 'It may have been sold in the meantime — every piece exists only once.',
+  'product.weg.knop': 'View the collection',
+  'product.spec.referentie': 'Reference',
+  'product.spec.herkomst': 'Leather origin',
+  'product.spec.kleur': 'Colour',
+  'product.spec.afmetingen': 'Dimensions',
+  'product.verkocht.tekst': 'This bag is sold, and it exists only once. Something similar is certainly possible.',
+  'product.verkocht.knop': 'Ask for something similar',
+  'product.mandje': 'Add to my basket',
+  'product.naarmandje': 'To my basket',
+  'product.uniek.titel': 'One piece. Entirely handmade.',
+  'product.uniek.tekst': 'Every piece comes from a different saddle, so this bag exists exactly once. Shipped free and insured within Belgium.',
+  'product.vraag': 'A question about this bag?',
+  'product.vraag.link': 'Send me a message.',
+  'product.vergroot': 'View the full photo of {naam}',
+  'product.fotonr': 'Photo {n} of {naam}',
+  'product.fotokort': 'Photo {n}',
+  'product.filmuitleg': 'Click the video to play it',
+  'product.fotouitleg': 'Click the photo for the full image',
+  'product.wa.verkocht': 'Hi Karolien, {naam} has been sold. Could you make something similar? ',
+  'product.wa.vraag': 'Hi Karolien, I have a question about {naam}: ',
+  'product.andere': 'Other bags in the workshop'
 };
 
 /* Voor tekst die niet in de HTML staat maar in JavaScript opgebouwd wordt: een
    melding, een aria-label, het onderwerp van een mailtje. Het Nederlands geef
-   je mee als terugval, zo blijft de code leesbaar zonder de lijst erbij. */
-const t = (sleutel, nederlands) => (TAAL === 'en' && EN[sleutel]) || nederlands;
+   je mee als terugval, zo blijft de code leesbaar zonder de lijst erbij.
+
+   Moet er iets in de zin ingevuld worden, zet dat dan tussen accolades en geef
+   de waarden mee: t('product.foto', 'Foto {n} van {naam}', { n: 2, naam }).
+   Zo staat de Engelse zin gewoon in de lijst, met de accolades op de plaats
+   waar het Engels ze wil — niet noodzakelijk waar het Nederlands ze had. */
+const t = (sleutel, nederlands, waarden) => {
+  const tekst = (TAAL === 'en' && EN[sleutel]) || nederlands;
+  return waarden
+    ? tekst.replace(/\{(\w+)\}/g, (heel, naam) => naam in waarden ? waarden[naam] : heel)
+    : tekst;
+};
 
 /* Wat Karolien per tas invult, staat twee keer in de databank: `verhaal` en
    `verhaal_en`. Is het Engelse veld leeg, dan blijft het Nederlands staan —
