@@ -107,18 +107,22 @@ const CONTACT = {
 
 /* Verzendopties. Sleutel = waarde in het keuzemenu bij het afrekenen. */
 const LEVERING = {
-  be:     { label: 'Verzenden naar België',            kost: 0,  adres: true, land: 'België' },
-  nl:     { label: 'Verzenden naar Nederland',         kost: 15, adres: true, land: 'Nederland' },
-  de:     { label: 'Verzenden naar Duitsland',         kost: 15, adres: true, land: 'Duitsland' },
-  fr:     { label: 'Verzenden naar Frankrijk',         kost: 15, adres: true, land: 'Frankrijk' },
-  lu:     { label: 'Verzenden naar Luxemburg',         kost: 15, adres: true, land: 'Luxemburg' },
+  be:     { label: 'Verzenden naar België',            en: 'Shipping to Belgium',       kost: 0,  adres: true, land: 'België' },
+  nl:     { label: 'Verzenden naar Nederland',         en: 'Shipping to the Netherlands', kost: 15, adres: true, land: 'Nederland' },
+  de:     { label: 'Verzenden naar Duitsland',         en: 'Shipping to Germany',       kost: 15, adres: true, land: 'Duitsland' },
+  fr:     { label: 'Verzenden naar Frankrijk',         en: 'Shipping to France',        kost: 15, adres: true, land: 'Frankrijk' },
+  lu:     { label: 'Verzenden naar Luxemburg',         en: 'Shipping to Luxembourg',    kost: 15, adres: true, land: 'Luxemburg' },
   /* Buiten die vier weten we de verzendkost niet vooraf. Zo'n bestelling komt
      binnen als aanvraag: de klant vult zelf het land in, betaalt nog niet, en
      krijgt het bedrag per mail. Staat daarom met opzet niet in de tabel van de
      edge function — anders zou ze wél afgerekend kunnen worden aan 0 euro. */
-  ander:  { label: 'Verzenden naar een ander land',    kost: 0,  adres: true, land: '', opAanvraag: true },
-  afhaal: { label: 'Afhalen in het atelier',           kost: 0,  adres: false, land: '' }
+  ander:  { label: 'Verzenden naar een ander land',    en: 'Shipping to another country', kost: 0,  adres: true, land: '', opAanvraag: true },
+  afhaal: { label: 'Afhalen in het atelier',           en: 'Collection from the workshop', kost: 0,  adres: false, land: '' }
 };
+
+/* De keuzelijst en de bedanktpagina tonen deze labels; wat er naar de server
+   gaat is de sleutel (be, nl, …), dus daar verandert de taal niets aan. */
+const leveringLabel = (lev) => (TAAL === 'en' && lev.en) || lev.label;
 
 /* Bestellingen worden per mail bevestigd en per overschrijving betaald.
    Zet hier een formulier-endpoint (bv. Formspree of een eigen script) en
@@ -589,7 +593,98 @@ const EN = {
   'product.fotouitleg': 'Click the photo for the full image',
   'product.wa.verkocht': 'Hi Karolien, {naam} has been sold. Could you make something similar? ',
   'product.wa.vraag': 'Hi Karolien, I have a question about {naam}: ',
-  'product.andere': 'Other bags in the workshop'
+  'product.andere': 'Other bags in the workshop',
+
+  /* --- veelgestelde vragen --- */
+  'faq.paginatitel': 'Frequently asked questions — Tuigtassen Hertogs',
+  'faq.titel': 'Frequently asked questions',
+  'faq.v1': 'How do I care for my bag?',
+  'faq.a1': 'These bags ask for exactly the same care as a horse saddle. You will find suggestions on the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page.',
+  'faq.v2': 'Do you work by appointment only, or can I drop by?',
+  'faq.a2': 'For now I work by appointment only. But I would love to see you — send me a message beforehand and come on over.',
+  'faq.v3': 'Do you do repairs as well?',
+  'faq.a3a': 'Yes, you can come to me for any repair to horse tack. Have a look at the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page.',
+  'faq.a3b': 'For the bags: should premature wear appear within the one-year warranty — a loose seam, say — I repair it free of charge. It should not happen, and I am glad to put it right. Where it is damage rather than wear, the cost is charged. Best to get in touch first.',
+  'faq.v4': 'How long do these bags last?',
+  'faq.a4': 'Provided they are looked after, and given the care they need in good time, these bags can last several generations. Age only gives them more charm. Have a look at the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page for tips.',
+  'faq.v5': 'Can I order a gift voucher?',
+  'faq.a5': 'Yes, you can. Get in touch on WhatsApp and we will sort it out.',
+  'faq.slot': 'Is your question not here?',
+  'faq.slot.link': 'Send me a message.',
+  'faq.slot.wa': 'Hi Karolien, I have a question: ',
+
+  /* --- afrekenen --- */
+  'levering.opaanvraag': ' — shipping cost on request',
+  'levering.gratis': ' — free',
+  'bestel.paginatitel': 'Checkout — Tuigtassen Hertogs',
+  'bestel.leeg.titel': 'Your basket is still empty',
+  'bestel.leeg.tekst': 'Take all the time you need to look around',
+  'bestel.leeg.knop': 'View the collection',
+  'bestel.titel': 'Checkout',
+  'bestel.contact': 'Contact',
+  'bestel.email': 'Email address *',
+  'bestel.telefoon': 'Phone *',
+  'bestel.levering': 'Delivery',
+  'bestel.hoe': 'How would you like to receive your bag?',
+  'bestel.voornaam': 'First name *',
+  'bestel.achternaam': 'Surname *',
+  'bestel.adres': 'Street and number *',
+  'bestel.postcode': 'Postcode *',
+  'bestel.stad': 'Town *',
+  'bestel.land': 'Country',
+  'bestel.landvraag': 'To which country? *',
+  'bestel.bericht': 'Message',
+  'bestel.berichtvb': 'Anything I should know? Gift wrapping, a delivery wish…',
+  'bestel.betaling': 'Payment',
+  'bestel.bancontact': 'Payment by Bancontact',
+  'bestel.betaaluitleg': 'You pay straight away by Bancontact. Once your order is placed you will see your order number and a summary. If the payment does not go through at once, your order stays reserved for 24 hours. As soon as the payment arrives I get your parcel ready and your bag goes in the post!',
+  'bestel.akkoord': 'I agree to the terms of sale. *',
+  'bestel.knop': 'Order and pay',
+  'bestel.veilig': 'Your details go to the workshop only. Payment is handled securely by Mollie.',
+  'bestel.mandje': 'Your basket',
+  'bestel.subtotaal': 'Subtotal',
+  'bestel.verzending': 'Shipping',
+  'bestel.afhalen': 'Collection',
+  'bestel.gratis': 'Free',
+  'bestel.opaanvraag': 'On request',
+  'bestel.plusverzending': ' + shipping',
+  'bestel.totaal': 'Total',
+  'bestel.dank': 'With your purchase you make the world a little lovelier: you support local craftsmanship and choose something made to last. Thank you!',
+  'bestel.verder': 'Keep looking',
+  'bestel.voet': 'Questions about your order?',
+  'bestel.voet.link': 'Send me a message',
+  'bestel.voet.of': 'or email',
+  'bestel.voet.wa': 'Hi Karolien, I have a question about my order: ',
+  'bestel.verwijder': 'Remove',
+  'bestel.min': 'One fewer',
+  'bestel.plus': 'One more',
+  'bestel.afhaaladres': '(collection from the workshop)',
+  'bestel.fout.velden': 'Please fill in the fields marked with a * .',
+  'bestel.fout.opnieuw': ' Please try again, or send me a message.',
+
+  /* --- bedankt --- */
+  'bedankt.paginatitel': 'Thank you for your order — Tuigtassen Hertogs',
+  'bedankt.titel': 'Thank you for your order',
+  'bedankt.tekst': 'The piece you chose has been reserved. You will receive a confirmation by email.',
+  'bedankt.terug': 'Back to the collection',
+  'bedankt.geen': 'We found no recent order here. Did you order and see nothing?',
+  'bedankt.geen.link': 'Let me know.',
+  'bedankt.geen.wa': 'Hi Karolien, I placed an order but see no confirmation. ',
+  'bedankt.verzendkost.titel': 'I am looking up your shipping cost',
+  'bedankt.verzendkost.tekst': 'Nothing has been charged yet. For {land} I first have to ask after the shipping — you will have the amount from me within two working days, with the details to pay.',
+  'bedankt.jouwland': 'your country',
+  'bedankt.verzendkost.slot': 'Until then I keep your bag aside for you. If anything is not right, do let me know.',
+  'bedankt.overschrijven': 'Bank transfer',
+  'bedankt.begunstigde': 'Beneficiary',
+  'bedankt.bedrag': 'Amount',
+  'bedankt.mededeling': 'Reference',
+  'bedankt.vrijhouden': 'I keep your bag aside for 24 hours. As soon as the payment arrives I pack it up and it goes in the post — you will get a message with the tracking number.',
+  'bedankt.doorsturen.titel': 'Send your order through',
+  'bedankt.doorsturen.tekst': 'Then I know straight away that it has arrived. One click and the email is ready — all you have to do is send it.',
+  'bedankt.mailknop': 'Confirm by email',
+  'bedankt.waknop': 'Or by WhatsApp',
+  'bedankt.wa': 'Hi Karolien, I have just placed order {ref}. ',
+  'bedankt.mailonderwerp': 'Order'
 };
 
 /* Voor tekst die niet in de HTML staat maar in JavaScript opgebouwd wordt: een
@@ -636,6 +731,10 @@ function vertaal(wortel = document) {
       el.setAttribute(attr, (TAAL === 'en' && EN[sleutel]) || bewaard[attr]);
     });
   });
+
+  // Een vertaalde WhatsApp-tekst moet ook in de link zelf terechtkomen; die
+  // werd bij het laden één keer uit data-wa opgebouwd.
+  wortel.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
 
   markeerTaal();
 }
