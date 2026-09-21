@@ -644,15 +644,6 @@ function renderHeader(actief) {
     ${NAV.map((n) => link(n, 'border-b pb-1')).join('')}
   </nav>
   <div class="flex items-center gap-1">
-    <!-- De taalknop staat in de balk zelf en niet in het uitklapmenu: op een
-         telefoon is ze zo even goed bereikbaar als op een groot scherm,
-         zonder eerst het menu te moeten openen. De aanduiding van de taal
-         waarin je staat, zet markeerTaal() erop. -->
-    <div class="flex items-center mr-1 font-label-mono text-label-mono uppercase" role="group" aria-label="Taal / Language">
-      ${TALEN.map((t) => `<button type="button" data-taal="${t}"
-              class="px-1.5 py-2 border-b transition-colors duration-300 hover:text-primary">${t.toUpperCase()}</button>`)
-        .join('<span class="text-outline-variant" aria-hidden="true">/</span>')}
-    </div>
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
        class="hidden xl:inline-block whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
@@ -674,6 +665,15 @@ function renderHeader(actief) {
             class="lg:hidden p-2 text-on-surface hover:text-primary transition-colors duration-300">
       <span class="material-symbols-outlined">menu</span>
     </button>
+    <!-- De taalknop sluit de rij af, helemaal rechts. Ze staat in de balk zelf
+         en niet in het uitklapmenu: op een telefoon is ze zo even goed
+         bereikbaar als op een groot scherm, zonder eerst het menu te moeten
+         openen. De aanduiding van de taal waarin je staat, zet markeerTaal(). -->
+    <div class="flex items-center ml-1 font-label-mono text-label-mono uppercase" role="group" aria-label="Taal / Language">
+      ${TALEN.map((t) => `<button type="button" data-taal="${t}"
+              class="px-1.5 py-2 border-b transition-colors duration-300 hover:text-primary">${t.toUpperCase()}</button>`)
+        .join('<span class="text-outline-variant" aria-hidden="true">/</span>')}
+    </div>
   </div>
 </div>
 <div data-menu hidden class="lg:hidden border-t border-surface-container bg-surface">
