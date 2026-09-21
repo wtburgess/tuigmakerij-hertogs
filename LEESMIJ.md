@@ -101,6 +101,33 @@ Een nieuwe tas krijgt het eerstvolgende vrije nummer voorgesteld. Je mag dat
 overschrijven met wat je wil; enkel twee tassen met dezelfde code gaat niet.
 Laat je het veld leeg, dan toont de kaart gewoon haar plaats in de collectie.
 
+## Engels (proef)
+
+Rechtsboven, naast het winkelmandje, staat NL / EN. Die knop staat in de balk
+zelf en niet in het uitklapmenu, zodat ze op een telefoon even goed bereikbaar
+is als op een groot scherm. De keuze blijft bewaard terwijl je door de site
+klikt. Wil je iemand rechtstreeks de Engelse versie sturen, zet dan `?taal=en`
+achter de link.
+
+Voorlopig zijn enkel de **startpagina**, de balk bovenaan, de voet en het
+inschrijfblok vertaald. Klik je op EN op een andere pagina, dan wisselt het
+raamwerk mee en blijft de tekst van die pagina in het Nederlands. Dat is de
+bedoeling van een proef: zo zie je hoe het werkt voor we alles omgooien.
+
+Alle Engelse tekst staat op één plek: `EN` in `assets/site.js`. In de HTML
+draagt elke tekst die mee moet een sleutel:
+
+    <h1 data-t="home.hero.titel">Een zadel dat verder leeft</h1>
+
+Staat die sleutel in `EN`, dan wordt de tekst vervangen; staat hij er niet, dan
+blijft het Nederlands staan. Een halve vertaling laat dus nooit een leeg vak
+achter. Tekst die in een attribuut zit, gaat via `data-t-attr`, bijvoorbeeld
+`data-t-attr="placeholder:drop.telefoon"`.
+
+Wat de tassen zelf betreft — verhaal, kenmerken, kleur, herkomst — die staan in
+de databank en blijven in het Nederlands. Daar zijn Engelse velden op de
+beheerpagina voor nodig; dat zit nog niet in deze proef.
+
 ## Bestellingen en betaling
 
 Online betalen loopt via **Mollie**, met Bancontact als voornaamste knop (vaste

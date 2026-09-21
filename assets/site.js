@@ -484,12 +484,146 @@ function toast(tekst) {
 }
 
 /* ------------------------------------------------------- header & footer */
+/* ------------------------------------------------------------------ taal
+   De site staat in het Nederlands; Engels ligt daar als een tweede laag over.
+   Elke tekst die mee moet, krijgt in de HTML een sleutel:
+
+     <h1 data-t="home.hero.titel">Een zadel dat verder leeft</h1>
+
+   Staat die sleutel hieronder in EN, dan wordt de tekst vervangen zodra er op
+   EN geklikt wordt. Staat hij er niet, dan blijft het Nederlands gewoon staan.
+   Een vertaling die nog niet af is, laat dus nooit een leeg vak achter — ze
+   loopt enkel voor een stuk in het Nederlands door.
+
+   Voorlopig is enkel de startpagina vertaald, samen met de balk bovenaan, de
+   voet en het inschrijfblok. De andere pagina's blijven in het Nederlands tot
+   ook hun teksten hier staan.
+
+   Teksten die in een attribuut zitten — een placeholder, een alt — gaan via
+   data-t-attr: <input data-t-attr="placeholder:drop.telefoon"> . Meerdere
+   attributen scheid je met een puntkomma. */
+const TALEN = ['nl', 'en'];
+const TAAL_SLEUTEL = 'th-taal';
+
+let TAAL = (() => {
+  // ?taal=en in een link wint: zo kan je iemand rechtstreeks de Engelse versie
+  // doorsturen. Daarna onthoudt de browser de keuze voor de volgende pagina.
+  const uitLink = new URLSearchParams(location.search).get('taal');
+  if (TALEN.includes(uitLink)) return uitLink;
+  try {
+    const bewaard = localStorage.getItem(TAAL_SLEUTEL);
+    if (TALEN.includes(bewaard)) return bewaard;
+  } catch { /* privémodus: dan blijft het gewoon Nederlands */ }
+  return 'nl';
+})();
+
+const EN = {
+  /* --- balk bovenaan, voet, inschrijfblok --- */
+  'nav.home': 'Home',
+  'nav.collectie': 'Collection',
+  'nav.bio': 'Story',
+  'nav.onderhoud': 'Repair &amp; care',
+  'nav.faq': 'FAQ',
+  'header.instagram': 'Behind the scenes',
+  'footer.navigatie': 'Navigation',
+  'footer.contact': 'Contact',
+  'footer.volg': 'Follow along',
+  'footer.gemaakt': 'Handcrafted in Belgium',
+  'drop.titel.home': 'Stay in the loop',
+  'drop.titel.collectie': 'Be the first to see new bags',
+  'drop.tekst': 'This collection is exclusive, and small in number. Would you like to be the first to hear when new pieces become available? Leave your phone number here and I will send you a message.',
+  'drop.telefoon': 'Your phone number *',
+  'drop.knop': 'Sign up',
+
+  /* --- startpagina --- */
+  'home.paginatitel': 'Tuigtassen Hertogs — hand-stitched bags from old horse saddles',
+  'home.hero.titel': 'A saddle that lives on',
+  'home.hero.zin': 'Handmade bags from old horse saddles<br>Repairs of saddles and other horse tack.',
+  'home.hero.knop': 'View the bags',
+  'home.hero.herstel': 'or have something repaired',
+  'home.intro.1': 'In my workshop I give horse saddles and tack a longer life: expertly repaired, or reworked into a unique hand-stitched bag.',
+  'home.intro.2': 'I choose deliberately for the more attentive, the more lasting, the more solid and the more honest. For repairing what still holds value, and reworking what already carries a life behind it.',
+  'home.ambacht.boventitel': 'The saddler&rsquo;s craft',
+  'home.ambacht.titel': 'Handmade.<br>Stitch by stitch.',
+  'home.ambacht.1': 'Every harness bag is made by hand from the leather of old horse saddles.',
+  'home.ambacht.2': 'Most of the bag is stitched by hand. For that I use the traditional saddle stitch, just as it was taught to me during my training as a saddler.',
+  'home.ambacht.maatwerk': 'Alongside building my own collection, I also work to order.',
+  'home.ambacht.link': 'Discover what is possible',
+  'home.glimp.titel': 'A glimpse of the collection',
+  'home.glimp.link': 'Full collection',
+  'home.maat.boventitel': 'Made to order',
+  'home.maat.titel': 'Your treasured saddle, a one-off harness bag',
+  'home.maat.1': 'Your very first pony saddle, or the saddle of a horse you sadly had to say goodbye to. It still carries so many memories.',
+  'home.maat.li1': 'The scratches from that heavy fall the two of you took together;',
+  'home.maat.li2': 'the marks of all those dusty competitions where close friendships were built;',
+  'home.maat.li3': 'the patina from the cross-country course where you landed in the water jump with all your gear;',
+  'home.maat.2': 'They are stories etched deep into the leather.',
+  'home.maat.3': 'I do not try to hide that history — I give it a place in a new design.',
+  'home.maat.knop': 'How it works',
+  'home.citaat': '&ldquo;Making that first bag was the moment my own puzzle fell into place. That is where all the pieces came together: my love of craft and workmanship, my bond with the horse world, and my longing for a creative and free life.&rdquo;',
+  'home.karolien.rol': 'Saddler &amp; founder',
+  'home.karolien.link': 'Read my story'
+};
+
+/* De Nederlandse tekst staat in de HTML zelf; die bewaren we bij de eerste
+   beurt, anders kan je niet meer terug naar het Nederlands. */
+const NEDERLANDS = new WeakMap();
+
+function vertaal(wortel = document) {
+  wortel.querySelectorAll('[data-t]').forEach((el) => {
+    if (!NEDERLANDS.has(el)) NEDERLANDS.set(el, { html: el.innerHTML, attr: {} });
+    el.innerHTML = (TAAL === 'en' && EN[el.dataset.t]) || NEDERLANDS.get(el).html;
+  });
+
+  wortel.querySelectorAll('[data-t-attr]').forEach((el) => {
+    if (!NEDERLANDS.has(el)) NEDERLANDS.set(el, { html: null, attr: {} });
+    const bewaard = NEDERLANDS.get(el).attr;
+    el.dataset.tAttr.split(';').forEach((paar) => {
+      const [attr, sleutel] = paar.split(':').map((stuk) => stuk.trim());
+      if (!attr || !sleutel) return;
+      if (bewaard[attr] === undefined) bewaard[attr] = el.getAttribute(attr) || '';
+      el.setAttribute(attr, (TAAL === 'en' && EN[sleutel]) || bewaard[attr]);
+    });
+  });
+
+  markeerTaal();
+}
+
+/* De knop van de taal waarin je staat, is aangeduid. We hertekenen de balk
+   niet: daar hangen de teller van het mandje en het uitklapmenu aan. */
+function markeerTaal() {
+  document.querySelectorAll('[data-taal]').forEach((knop) => {
+    const actief = knop.dataset.taal === TAAL;
+    knop.classList.toggle('text-primary', actief);
+    knop.classList.toggle('border-primary', actief);
+    knop.classList.toggle('text-secondary', !actief);
+    knop.classList.toggle('border-transparent', !actief);
+    if (actief) knop.setAttribute('aria-current', 'true');
+    else knop.removeAttribute('aria-current');
+  });
+}
+
+function zetTaal(nieuw) {
+  if (!TALEN.includes(nieuw) || nieuw === TAAL) return;
+  TAAL = nieuw;
+  try { localStorage.setItem(TAAL_SLEUTEL, TAAL); } catch { /* privémodus */ }
+  document.documentElement.lang = TAAL;
+  vertaal();
+  // Pagina's die hun eigen stukken tekenen, kunnen hierop wachten.
+  document.dispatchEvent(new CustomEvent('taal:gewisseld'));
+}
+
+document.addEventListener('click', (e) => {
+  const knop = e.target.closest('[data-taal]');
+  if (knop) zetTaal(knop.dataset.taal);
+});
+
 const NAV = [
-  { href: 'index.html', label: 'Home', page: 'home' },
-  { href: 'collectie.html', label: 'Collectie', page: 'collectie' },
-  { href: 'bio.html', label: 'Verhaal', page: 'bio' },
-  { href: 'onderhoud.html', label: 'Herstel & zorg', page: 'onderhoud' },
-  { href: 'faq.html', label: 'FAQ', page: 'faq' }
+  { href: 'index.html', label: 'Home', page: 'home', t: 'nav.home' },
+  { href: 'collectie.html', label: 'Collectie', page: 'collectie', t: 'nav.collectie' },
+  { href: 'bio.html', label: 'Verhaal', page: 'bio', t: 'nav.bio' },
+  { href: 'onderhoud.html', label: 'Herstel & zorg', page: 'onderhoud', t: 'nav.onderhoud' },
+  { href: 'faq.html', label: 'FAQ', page: 'faq', t: 'nav.faq' }
 ];
 
 function renderHeader(actief) {
@@ -498,7 +632,7 @@ function renderHeader(actief) {
       n.page === actief
         ? 'text-primary border-primary'
         : 'text-secondary border-transparent hover:text-primary'
-    }">${n.label}</a>`;
+    }" data-t="${n.t}">${n.label}</a>`;
 
   return `
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center gap-6 py-5">
@@ -510,10 +644,19 @@ function renderHeader(actief) {
     ${NAV.map((n) => link(n, 'border-b pb-1')).join('')}
   </nav>
   <div class="flex items-center gap-1">
+    <!-- De taalknop staat in de balk zelf en niet in het uitklapmenu: op een
+         telefoon is ze zo even goed bereikbaar als op een groot scherm,
+         zonder eerst het menu te moeten openen. De aanduiding van de taal
+         waarin je staat, zet markeerTaal() erop. -->
+    <div class="flex items-center mr-1 font-label-mono text-label-mono uppercase" role="group" aria-label="Taal / Language">
+      ${TALEN.map((t) => `<button type="button" data-taal="${t}"
+              class="px-1.5 py-2 border-b transition-colors duration-300 hover:text-primary">${t.toUpperCase()}</button>`)
+        .join('<span class="text-outline-variant" aria-hidden="true">/</span>')}
+    </div>
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
        class="hidden xl:inline-block whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
-              hover:bg-tertiary transition-colors duration-300">Achter de schermen</a>
+              hover:bg-tertiary transition-colors duration-300" data-t="header.instagram">Achter de schermen</a>
     <!-- Op smallere schermen past de knop hierboven niet; dan blijft de
          Instagram-link als icoon staan. -->
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="Instagram — een kijkje achter de schermen"
@@ -541,13 +684,13 @@ function renderHeader(actief) {
 }
 
 function renderFooter() {
-  const kolom = (titel, items) => `
+  const kolom = (titel, sleutel, items) => `
     <div class="space-y-3">
-      <h4 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4">${titel}</h4>
+      <h4 class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-4" data-t="${sleutel}">${titel}</h4>
       ${items.join('')}
     </div>`;
-  const a = (href, tekst, attr = '') =>
-    `<a href="${href}" ${attr} class="block font-body-md text-body-md text-secondary hover:text-primary transition-colors duration-300">${tekst}</a>`;
+  const a = (href, tekst, attr = '', sleutel = '') =>
+    `<a href="${href}" ${attr} ${sleutel ? `data-t="${sleutel}"` : ''} class="block font-body-md text-body-md text-secondary hover:text-primary transition-colors duration-300">${tekst}</a>`;
 
   return `
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-12
@@ -557,13 +700,13 @@ function renderFooter() {
     <img src="assets/logo-woordmerk.png" alt="Tuigtassen Hertogs" width="600" height="270" loading="lazy"
          class="h-36 w-auto -ml-1">
   </div>
-  ${kolom('Navigatie', NAV.map((n) => a(n.href, n.label)))}
-  ${kolom('Contact', [
+  ${kolom('Navigatie', 'footer.navigatie', NAV.map((n) => a(n.href, n.label, '', n.t)))}
+  ${kolom('Contact', 'footer.contact', [
     a(wa(), 'WhatsApp', 'target="_blank" rel="noopener"'),
     a('mailto:' + CONTACT.email, CONTACT.email),
     `<p class="font-body-md text-body-md text-on-surface-variant">${CONTACT.adres}</p>`
   ])}
-  ${kolom('Volg mee', [
+  ${kolom('Volg mee', 'footer.volg', [
     a(CONTACT.instagram, 'Instagram', 'target="_blank" rel="noopener"'),
     a(CONTACT.facebook, 'Facebook', 'target="_blank" rel="noopener"')
   ])}
@@ -571,7 +714,7 @@ function renderFooter() {
 <div class="border-t-2 border-dashed border-secondary/40">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col sm:flex-row justify-between gap-2">
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
-    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ambachtelijk vervaardigd in België</p>
+    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="footer.gemaakt">Ambachtelijk vervaardigd in België</p>
   </div>
 </div>`;
 }
@@ -581,26 +724,26 @@ function renderFooter() {
    tekst op de twee pagina's vroeg of laat uit elkaar.
    De kop verschilt per pagina; die staat in het data-drop-attribuut zelf.
    In de HTML: <section data-drop="Blijf op de hoogte"></section> */
-function renderDrop(titel) {
+function renderDrop(titel, sleutel) {
   /* Geen streepjesrails boven en onder: het blok heeft zijn eigen kleur en een
      scheurrand (zie .golfrand in styles.css), en dat is één scheiding genoeg.
      Op de collectiepagina loopt het bovendien door in het blok eronder — daar
      zou een rail dwars door één doorlopend vlak lopen. */
   return `
 <div class="max-w-xl mx-auto px-margin-mobile text-center">
-  <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1">${titel}</h2>
-  <p class="font-body-md text-body-md text-on-surface-variant mb-10">
+  <h2 class="font-display-lg text-[36px] md:text-[48px] text-primary mb-4 rotate-1" ${sleutel ? `data-t="${sleutel}"` : ''}>${titel}</h2>
+  <p class="font-body-md text-body-md text-on-surface-variant mb-10" data-t="drop.tekst">
     Deze collectie is exclusief, en beperkt in omvang. Wil je als eerste verwittigd worden
     wanneer er nieuwe collectiestukken beschikbaar zijn? Laat hier je telefoonnummer achter
     en ik stuur je een berichtje!
   </p>
   <form data-inschrijving class="flex flex-col sm:flex-row items-stretch gap-4 text-left">
     <input class="input-underline flex-1" name="telefoon" type="tel" required
-           autocomplete="tel" placeholder="Jouw telefoonnummer *">
+           autocomplete="tel" placeholder="Jouw telefoonnummer *" data-t-attr="placeholder:drop.telefoon">
     <button type="submit"
             class="shrink-0 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest
                    px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300
-                   disabled:opacity-60 disabled:cursor-not-allowed">
+                   disabled:opacity-60 disabled:cursor-not-allowed" data-t="drop.knop">
       Inschrijven
     </button>
   </form>
@@ -740,9 +883,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const footer = document.getElementById('site-footer');
   if (footer) footer.innerHTML = renderFooter();
   document.querySelectorAll('[data-drop]').forEach((el) => {
-    el.innerHTML = renderDrop(el.dataset.drop || 'Blijf op de hoogte');
+    el.innerHTML = renderDrop(el.dataset.drop || 'Blijf op de hoogte', el.dataset.dropT);
     inschrijvingKlaarzetten(el.querySelector('[data-inschrijving]'));
   });
+
+  // Pas nadat de balk, de voet en het inschrijfblok er staan: die dragen zelf
+  // ook sleutels, en anders worden ze overgeslagen.
+  document.documentElement.lang = TAAL;
+  vertaal();
 
   // mobiel menu
   const toggle = document.querySelector('[data-menu-toggle]');
