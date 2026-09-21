@@ -726,8 +726,9 @@ sfeerEl.addEventListener('click', (e) => {
 });
 
 sfeerBestand.addEventListener('change', async () => {
-  const bestand = sfeerBestand.files[0];
-  if (!bestand || !sfeerNaam) return;
+  const gekozen = sfeerBestand.files[0];
+  if (!gekozen || !sfeerNaam) return;
+  const bestand = await verklein(gekozen);
   // Tijdstempel ervoor: zo overschrijf je nooit een foto die er al staat, en
   // blijft de oude bereikbaar zolang een browser ze in het geheugen houdt.
   const pad = `sfeer/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
@@ -894,6 +895,41 @@ async function toonFotos() {
 
 const MAX_MB = 50;                  // grens van de opslag bij Supabase
 
+/* ----------------------------------------------------- foto's verkleinen
+   Een foto rechtstreeks van een toestel weegt al gauw vier tot acht megabyte.
+   Die ging vroeger in volle grootte naar elke bezoeker, en daar loopt het
+   gratis plan van Supabase op stuk: vijf gigabyte verkeer per maand is met
+   zulke bestanden zo op. Op een scherm valt er boven de 2000 pixels toch
+   niets meer te winnen, dus verkleinen we hier, in de browser, vóór het
+   uploaden. Een foto van zes megabyte wordt zo een bestand van pakweg drie
+   ruwweg tweehonderd kilobyte.
+
+   Lukt het verkleinen niet — een filmpje, of een formaat dat de browser niet
+   uit elkaar krijgt — dan gaat het bestand gewoon ongewijzigd mee. */
+const MAX_ZIJDE = 2000;
+const KWALITEIT = 0.82;
+
+async function verklein(bestand) {
+  if (!bestand.type.startsWith('image/') || /svg|gif/.test(bestand.type)) return bestand;
+  try {
+    const beeld = await createImageBitmap(bestand);
+    const schaal = Math.min(1, MAX_ZIJDE / Math.max(beeld.width, beeld.height));
+    const doek = document.createElement('canvas');
+    doek.width  = Math.round(beeld.width * schaal);
+    doek.height = Math.round(beeld.height * schaal);
+    doek.getContext('2d').drawImage(beeld, 0, 0, doek.width, doek.height);
+    beeld.close();
+    const klein = await new Promise((klaar) => doek.toBlob(klaar, 'image/jpeg', KWALITEIT));
+    // Een foto die al klein en goed samengeperst was, wordt hier soms zwaarder.
+    // Dan houden we gewoon het origineel.
+    if (!klein || klein.size >= bestand.size) return bestand;
+    return new File([klein], bestand.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+  } catch (e) {
+    console.warn('Verkleinen lukte niet; het origineel gaat mee.', e);
+    return bestand;
+  }
+}
+
 document.getElementById('upload').addEventListener('change', (e) => {
   let bestanden = [...e.target.files];
   e.target.value = '';
@@ -914,7 +950,8 @@ async function uploadFotos(bestanden) {
     .select('volgorde').eq('product_id', huidig.id).order('volgorde', { ascending: false }).limit(1);
   let volgende = bestaand && bestaand.length ? bestaand[0].volgorde + 1 : 0;
 
-  for (const bestand of bestanden) {
+  for (const gekozen of bestanden) {
+    const bestand = await verklein(gekozen);
     // Naam in een eigen map per tas, met een tijdstempel ervoor: zo overschrijf
     // je nooit per ongeluk een foto die er al staat.
     const pad = `${huidig.id}/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;

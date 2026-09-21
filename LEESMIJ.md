@@ -54,11 +54,28 @@ sectiekoppen; hernoem je een kop, werk ze dan mee bij.
 
 Nieuwe foto's zet je het snelst in bulk klaar via Supabase > Storage >
 `productfotos` > map `sfeer`. Alles wat daar staat, verschijnt in het
-keuzevenster achter de knop Vervang. Verklein ze eerst tot zo'n 2000 pixels
-breed: het gratis plan geeft 1 GB, en onbewerkte toestelfoto's lopen daar snel
-tegenaan.
+keuzevenster achter de knop Vervang.
 
 De foto's van de tassen staan hier los van — die horen bij het product zelf.
+
+## Foto's worden vanzelf verkleind
+
+Kies je op de beheerpagina een foto, dan verkleint de browser ze eerst tot
+hoogstens 2000 pixels aan de langste zijde en perst ze als jpeg, vóór er iets
+vertrekt. Een foto van zes megabyte rechtstreeks van een toestel wordt zo
+ongeveer tweehonderd kilobyte, zonder dat je er op het scherm iets van ziet.
+
+Dat is geen luxe. Het gratis plan van Supabase geeft 5 GB verkeer per maand, en
+elke bezoeker haalt die foto's op. Met onbewerkte toestelfoto's is die vijf
+gigabyte in enkele honderden bezoeken op.
+
+Zet je foto's rechtstreeks in Supabase > Storage — dus buiten de beheerpagina
+om — dan gebeurt dat verkleinen níét. Doe het daar dan zelf, tot zo'n 2000
+pixels breed.
+
+Foto's die er vóór deze wijziging al op stonden, zijn nog de onverkleinde. Wil
+je die lichter maken, dan moet je ze één keer opnieuw kiezen op de
+beheerpagina; ze gaan dan verkleind mee.
 
 ## Filmpjes
 
