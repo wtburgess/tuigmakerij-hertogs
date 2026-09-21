@@ -114,6 +114,14 @@
           <input name="id" required readonly pattern="[a-z0-9\-]+"
                  class="input-underline font-body-md text-body-md text-on-surface-variant">
         </label>
+        <!-- Blijft altijd dezelfde, ook als de volgorde in de collectie
+             verschuift. Daar zit net het nut in: op een rekeninguittreksel
+             zie je zo meteen om welke tas het gaat. -->
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Code</span>
+          <input name="code" pattern="[A-Za-z0-9\-]*" class="input-underline font-body-md text-body-md">
+          <span class="block mt-1 font-body-md text-body-md text-on-surface-variant">Staat op de kaart in de collectie, op de productpagina en in de omschrijving van de betaling. Twee tassen met dezelfde code kan niet.</span>
+        </label>
         <label class="block">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Prijs (€)</span>
           <input name="prijs" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
@@ -257,7 +265,7 @@ async function laadLijst() {
       <div class="min-w-0 flex-1">
         <p class="font-body-lg text-body-lg text-primary truncate">${p.naam}</p>
         <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
-          ${p.prijs_verbergen && p.voorraad < 1 ? 'prijs verborgen' : euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
+          ${p.code ? p.code + ' — ' : ''}${p.prijs_verbergen && p.voorraad < 1 ? 'prijs verborgen' : euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
         </p>
       </div>
       <button type="button" data-bewerk="${p.id}"
@@ -332,7 +340,7 @@ async function laadBestellingen() {
         <span class="font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</span>
       </div>
       <p class="font-body-md text-body-md text-on-surface-variant">
-        ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+        ${b.regels.map((r) => `${r.aantal} × ${r.naam}${r.code ? ` (${r.code})` : ''}`).join('<br>')}
       </p>
       <p class="font-label-mono text-label-mono uppercase text-secondary mt-2">${b.levering}</p>
       <p class="font-body-md text-body-md text-on-surface-variant mt-3">
@@ -415,7 +423,7 @@ async function laadBestellingen() {
                 </td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant min-w-[14rem]">
-                  ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+                  ${b.regels.map((r) => `${r.aantal} × ${r.naam}${r.code ? ` (${r.code})` : ''}`).join('<br>')}
                   <span class="block text-secondary">${b.levering}</span>
                 </td>
                 <td class="py-4 font-body-md text-body-md text-on-surface-variant min-w-[16rem]">
@@ -564,12 +572,27 @@ async function laadInschrijvingen() {
 }
 
 /* --------------------------------------------------------------- bewerken */
+/* Het eerstvolgende vrije nummer in de reeks TH-001, TH-002, ... Codes die je
+   zelf een andere vorm gaf, tellen gewoon niet mee bij het zoeken. */
+async function volgendeCode() {
+  const { data } = await db.from('producten').select('code');
+  const hoogste = (data || []).reduce((max, r) => {
+    const m = /^TH-(\d+)$/.exec(r.code || '');
+    return m ? Math.max(max, Number(m[1])) : max;
+  }, 0);
+  return 'TH-' + String(hoogste + 1).padStart(3, '0');
+}
+
 function openTas(p) {
   huidig = p;
   bewerk.hidden = false;
   document.getElementById('bewerk-titel').textContent = p ? p.naam : 'Nieuwe tas';
   bewerk.elements.id.value = p ? p.id : '';
   bewerk.naam.value       = p ? p.naam : '';
+  bewerk.code.value       = p ? (p.code || '') : '';
+  // Bij een nieuwe tas komt het eerstvolgende vrije nummer er vanzelf in
+  // staan. Je mag het overschrijven; dubbel mag niet, daar waakt de databank over.
+  if (!p) volgendeCode().then((c) => { if (!huidig && !bewerk.code.value) bewerk.code.value = c; });
   bewerk.prijs.value      = p ? p.prijs : '';
   bewerk.oude_prijs.value = p && p.oude_prijs ? p.oude_prijs : '';
   bewerk.voorraad.value   = p ? p.voorraad : 1;
@@ -606,6 +629,8 @@ bewerk.addEventListener('submit', async (e) => {
   const rij = {
     id: bewerk.elements.id.value.trim(),
     naam: bewerk.naam.value.trim(),
+    // Leeg mag: dan valt de tas op de kaart terug op haar plaats in de collectie.
+    code: bewerk.code.value.trim() || null,
     prijs: Number(bewerk.prijs.value),
     // Leeg veld = geen promo; null in plaats van 0, anders staat er straks € 0,00 doorstreept.
     oude_prijs: bewerk.oude_prijs.value === '' ? null : Number(bewerk.oude_prijs.value),

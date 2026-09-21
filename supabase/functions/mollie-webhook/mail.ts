@@ -34,7 +34,7 @@ const veilig = (t: string) =>
 export async function stuurBevestiging(bestelling: {
   referentie: string;
   klant: { naam: string; email: string; adres: string };
-  regels: { naam: string; aantal: number; bedrag: number }[];
+  regels: { naam: string; code?: string | null; aantal: number; bedrag: number }[];
   levering: string;
   verzendkost: number;
   totaal: number;
@@ -54,7 +54,8 @@ export async function stuurBevestiging(bestelling: {
 
   const regels = (bestelling.regels ?? [])
     .map((r) => `<tr>
-      <td style="padding:6px 0">${veilig(r.naam)}${r.aantal > 1 ? ` &times;&nbsp;${r.aantal}` : ''}</td>
+      <td style="padding:6px 0">${veilig(r.naam)}${r.aantal > 1 ? ` &times;&nbsp;${r.aantal}` : ''}${
+        r.code ? `<br><span style="font-size:13px;color:#6b5c4c">${veilig(r.code)}</span>` : ''}</td>
       <td style="padding:6px 0;text-align:right;white-space:nowrap">${euro(r.bedrag)}</td>
     </tr>`)
     .join('');

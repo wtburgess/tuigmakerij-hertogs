@@ -681,7 +681,10 @@ function productCard(p, klasse = '') {
                   { extra: 'aria-hidden="true"' }) : ''}
     </div>
 
-    <span class="absolute top-2 left-2 z-20 font-label-mono text-label-mono text-secondary">Nr. ${nr}</span>
+    <!-- De vaste code van de tas als ze er een heeft. Die blijft dezelfde,
+         ook als er iets verkocht wordt en de volgorde verschuift; zonder code
+         valt de kaart terug op haar plaats in de collectie. -->
+    <span class="absolute top-2 left-2 z-20 font-label-mono text-label-mono text-secondary">${p.code || 'Nr. ' + nr}</span>
     ${badge(p)}
   </div>
 

@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       levering: lev.label,
       opAanvraag: lev.opAanvraag === true,
-      regels: regels.map((l) => ({ tas: l.product.naam, aantal: l.aantal, bedrag: l.subtotaal })),
+      regels: regels.map((l) => ({ tas: l.product.naam, code: l.product.code || '', aantal: l.aantal, bedrag: l.subtotaal })),
       subtotaal: cartTotal(),
       verzendkost: lev.kost,
       totaal: cartTotal() + lev.kost

@@ -69,6 +69,21 @@ staat het eerste beeld stil. Hooguit 50 MB per bestand — dat is de grens van d
 opslag bij Supabase. Verklein een filmpje eerst; een minuut in 720p volstaat
 ruimschoots en houdt de pagina snel.
 
+## De code van een tas
+
+Elke tas heeft een eigen code — TH-001, TH-002, en zo verder. Die hangt aan de
+tas zelf en blijft altijd dezelfde, ook als de volgorde in de collectie
+verschuift. Je ziet ze op de kaart in de collectie, bij de gegevens op de
+productpagina en in het overzicht van de bestellingen.
+
+Ze gaat ook mee in de omschrijving die Mollie op je rekeninguittreksel zet:
+daar staat dan `Tuigtassen Hertogs TH-2026-A3F9 - TH-014`. Het eerste nummer is
+de bestelling, het tweede de tas.
+
+Een nieuwe tas krijgt het eerstvolgende vrije nummer voorgesteld. Je mag dat
+overschrijven met wat je wil; enkel twee tassen met dezelfde code gaat niet.
+Laat je het veld leeg, dan toont de kaart gewoon haar plaats in de collectie.
+
 ## Bestellingen en betaling
 
 Online betalen loopt via **Mollie**, met Bancontact als voornaamste knop (vaste
@@ -125,7 +140,8 @@ in de database en op de beheerpagina.
 ### Opzetten
 
 1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
-   `05-sfeerbeelden.sql`, `07-promo.sql`, `08-prijs-verbergen.sql`.
+   `05-sfeerbeelden.sql`, `07-promo.sql`, `08-prijs-verbergen.sql`,
+   `09-tascode.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
    `SITE_URL` = `https://tuigtassenhertogs.be` — de basis-URL van de site,
    zonder pad en zonder schuine streep achteraan. Mollie plakt daar zelf
