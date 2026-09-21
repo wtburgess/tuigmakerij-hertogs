@@ -183,7 +183,7 @@ op **overschrijving**: de klant krijgt bestelnummer, IBAN en bedrag te zien en
 kan met één klik een bevestigingsmail sturen. Handig zolang het Mollie-account
 nog niet goedgekeurd is.
 
-### Bevestigingsmail — aangesloten, wacht op twee secrets
+### Bevestigingsmail — aangesloten, wacht op één secret
 
 De mail staat in `supabase/functions/mollie-webhook/mail.ts` en wordt verstuurd
 door de webhook, dus pas wanneer Mollie bevestigt dat er betaald is. Daarom mag
@@ -191,27 +191,35 @@ hij "bedankt voor je aankoop" zeggen — bij het bestellen alleen is er nog niet
 afgerekend. Mollie herhaalt zijn oproep bij een fout, maar de webhook stopt dan
 al op status `betaald`: de klant krijgt de mail één keer.
 
-Zolang de secret `MAIL_WACHTWOORD` leeg is, vertrekt er niets en loopt een
-bestelling gewoon door. Vul je hem in, dan staat de mail meteen aan.
-
 Afhalen in het atelier krijgt een andere zin dan verzenden — beide staan
 bovenaan in `mail.ts`, bij `bericht`.
 
-Hij vertrekt via de gewone mailbox, met Gmail als postbode — geen aparte
-maildienst. Nodig zijn twee secrets: `MAIL_GEBRUIKER` (het Gmail-adres) en
-`MAIL_WACHTWOORD` (een **app-wachtwoord**, niet je gewone wachtwoord). Zo'n
-app-wachtwoord maak je bij Google > Beveiliging > App-wachtwoorden; daarvoor
-moet tweestapsverificatie aanstaan.
+Hij vertrekt via **Resend**, een verzenddienst. Dat is geen luxe: versturen
+vanaf `karolien@tuigtassenhertogs.be` kan alleen wanneer je op dat domein een
+échte mailbox hebt, en er staat enkel een doorstuur naar Hotmail. Met een
+verzenddienst zet je twee regels in de DNS en staat het domein er officieel
+voor in — de mail vertrekt dan van je eigen adres en belandt niet in de spam.
 
-Wil je dat er `karolien@tuigtassenhertogs.be` als afzender staat in plaats van
-het Gmail-adres, voeg dat adres dan in Gmail toe bij Instellingen > Accounts >
-"E-mail versturen als". Google stuurt een bevestigingscode naar dat adres, en
-die komt via de Email Routing in je Gmail terecht. Daarna zet je het adres in
-de secret `MAIL_VAN`.
+Aanzetten in vier stappen:
 
-Gmail laat een paar honderd mails per dag toe — ruim voldoende. Loopt het ooit
-vast in spamfilters, dan is een echte maildienst (Resend, Postmark) het
-alternatief; dan verandert enkel `stuurBevestiging` in de edge function.
+1. Maak een account op [resend.com](https://resend.com). Gratis tot 3000 mails
+   per maand; jij zit daar ver onder.
+2. Voeg daar `tuigtassenhertogs.be` toe als domein. Resend toont een handvol
+   DNS-regels; die plak je in Cloudflare bij je domein, onder DNS. Na een paar
+   minuten staat het domein bij Resend op geverifieerd.
+3. Maak in Resend een API-sleutel. Die begint met `re_`.
+4. Zet die sleutel bij Supabase > Edge Functions > Secrets als
+   `RESEND_API_KEY`, en deploy de webhook opnieuw:
+   `npx supabase functions deploy mollie-webhook --no-verify-jwt`
+
+Zolang `RESEND_API_KEY` leeg is, vertrekt er niets en loopt een bestelling
+gewoon door.
+
+Twee secrets zijn optioneel. `MAIL_ATELIER` is waar de kopie naartoe gaat en
+waarnaar de klant antwoordt; standaard `karolien@tuigtassenhertogs.be`.
+`MAIL_VAN` is de afzender zoals de klant hem ziet. Het adres daarin moet op het
+domein staan dat je bij Resend goedgekeurd hebt — anders weigert Resend de mail,
+en dan zie je dat in Supabase > Edge Functions > `mollie-webhook` > Logs.
 
 `ORDER_ENDPOINT` (bv. een Formspree-URL) stuurt elke bestelling ook nog eens als
 JSON naar je door. Bij een Mollie-betaling heb je dat niet nodig — die staat al
@@ -397,10 +405,10 @@ en mag hij enkel die zes pagina's bevatten plus de productpagina's.
 - [ ] `voorwaarden.html` en `privacy.html` laten nakijken door iemand met
       juridische kennis. Ze staan er en ze dekken wat de wet vraagt, maar ze
       zijn geschreven door een programma, niet door een jurist.
-- [ ] Een manier om mail te versturen vanaf `karolien@tuigtassenhertogs.be`.
-      Er staat nu enkel een doorstuur naar Hotmail, en daarmee kan er niets
-      buiten. Zonder dat vertrekt de bevestigingsmail na een bestelling niet,
-      terwijl de wet vraagt dat de klant zijn bestelling bevestigd krijgt.
+- [ ] Resend aanzetten zodat de bevestigingsmail vertrekt — de code staat
+      klaar, er moet enkel een account, twee DNS-regels en de secret
+      `RESEND_API_KEY` bij. Zie "Bevestigingsmail" hierboven. Zonder dat krijgt
+      de klant geen bevestiging, terwijl de wet dat wel vraagt.
 - [ ] Het echte rekeningnummer in `CONTACT.iban` — daar staat nu
       `BE00 0000 0000 0000`, en dat nummer krijgt een klant te zien zodra een
       bestelling met een overschrijving betaald wordt
