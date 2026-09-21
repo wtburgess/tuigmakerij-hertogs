@@ -15,10 +15,17 @@
 </head>
 <body data-page="bestellen" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased min-h-screen flex flex-col">
 
-<header class="w-full flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
+<header class="w-full relative flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
   <a href="index.html">
     <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" class="h-14 w-auto">
   </a>
+  <!-- Deze pagina draagt een eigen, kale balk zonder navigatie. De taalknop
+       hoort er wel bij: anders kan wie in het Engels afrekent niet meer terug.
+       markeerTaal() vult het opschrift in. -->
+  <button type="button" data-taal="nl"
+          class="absolute right-margin-mobile md:right-margin-desktop px-2 py-2 font-label-mono text-label-mono
+                 uppercase text-secondary hover:text-primary border-b border-transparent hover:border-primary
+                 transition-colors duration-300"></button>
 </header>
 
 <main class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-16 md:py-24">

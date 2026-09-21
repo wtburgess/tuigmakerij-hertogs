@@ -111,32 +111,36 @@ Een nieuwe tas krijgt het eerstvolgende vrije nummer voorgesteld. Je mag dat
 overschrijven met wat je wil; enkel twee tassen met dezelfde code gaat niet.
 Laat je het veld leeg, dan toont de kaart gewoon haar plaats in de collectie.
 
-## Engels (proef)
+## Engels
 
-Rechtsboven, naast het winkelmandje, staat NL / EN. Die knop staat in de balk
-zelf en niet in het uitklapmenu, zodat ze op een telefoon even goed bereikbaar
-is als op een groot scherm. De keuze blijft bewaard terwijl je door de site
-klikt. Wil je iemand rechtstreeks de Engelse versie sturen, zet dan `?taal=en`
-achter de link.
+Uiterst rechts in de balk staat een knop die toont waar je naartoe gaat: sta je
+op het Nederlands, dan staat er EN. Op een telefoon zit ze onderaan het
+uitklapmenu, met de taal voluit. Het afrekenen en de bedanktpagina dragen een
+eigen, kale balk; daar staat de knop rechts naast het logo. De keuze blijft
+bewaard terwijl je doorklikt. Wil je iemand rechtstreeks de Engelse versie
+sturen, zet dan `?taal=en` achter de link.
 
-Voorlopig zijn enkel de **startpagina**, de balk bovenaan, de voet en het
-inschrijfblok vertaald. Klik je op EN op een andere pagina, dan wisselt het
-raamwerk mee en blijft de tekst van die pagina in het Nederlands. Dat is de
-bedoeling van een proef: zo zie je hoe het werkt voor we alles omgooien.
-
-Alle Engelse tekst staat op één plek: `EN` in `assets/site.js`. In de HTML
-draagt elke tekst die mee moet een sleutel:
+Alle pagina's zijn vertaald. Alle Engelse tekst staat op één plek: `EN` in
+`assets/site.js`. In de HTML draagt elke tekst die mee moet een sleutel:
 
     <h1 data-t="home.hero.titel">Een zadel dat verder leeft</h1>
 
 Staat die sleutel in `EN`, dan wordt de tekst vervangen; staat hij er niet, dan
 blijft het Nederlands staan. Een halve vertaling laat dus nooit een leeg vak
 achter. Tekst die in een attribuut zit, gaat via `data-t-attr`, bijvoorbeeld
-`data-t-attr="placeholder:drop.telefoon"`.
+`data-t-attr="placeholder:drop.telefoon"`. Tekst die in JavaScript opgebouwd
+wordt gaat via `t('sleutel', 'het Nederlands')`; moet er iets in de zin
+ingevuld worden, dan mag dat met accolades: `t('product.fotonr', 'Foto {n} van
+{naam}', { n: 2, naam })`.
 
-Wat de tassen zelf betreft — verhaal, kenmerken, kleur, herkomst — die staan in
-de databank en blijven in het Nederlands. Daar zijn Engelse velden op de
-beheerpagina voor nodig; dat zit nog niet in deze proef.
+Wat per tas ingevuld wordt — naam, herkomst, kleur, afmetingen, verhaal,
+kenmerken — staat in de databank en heeft daar een tweede veld. Dat vul je in
+op de beheerpagina, in het dichtgeklapte blok "Engelse versie". Laat je een
+veld leeg, dan toont de Engelse site het Nederlands.
+
+Pagina's die hun tekst uit de databank halen — de collectie, de startpagina,
+de productpagina, het mandje — worden bij een taalwissel opnieuw getekend. Dat
+gebeurt op het signaal `taal:gewisseld`.
 
 ## Bestellingen en betaling
 
