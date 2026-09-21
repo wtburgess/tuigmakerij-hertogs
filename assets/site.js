@@ -519,6 +519,8 @@ let TAAL = (() => {
 
 const EN = {
   /* --- balk bovenaan, voet, inschrijfblok --- */
+  'kaart.verkocht': 'Sold',
+  'kaart.nieuw': 'New',
   'nav.home': 'Home',
   'nav.collectie': 'Collection',
   'nav.bio': 'Story',
@@ -563,6 +565,20 @@ const EN = {
   'home.citaat': '&ldquo;Making that first bag was the moment my own puzzle fell into place. That is where all the pieces came together: my love of craft and workmanship, my bond with the horse world, and my longing for a creative and free life.&rdquo;',
   'home.karolien.rol': 'Saddler &amp; founder',
   'home.karolien.link': 'Read my story'
+};
+
+/* Voor tekst die niet in de HTML staat maar in JavaScript opgebouwd wordt: een
+   melding, een aria-label, het onderwerp van een mailtje. Het Nederlands geef
+   je mee als terugval, zo blijft de code leesbaar zonder de lijst erbij. */
+const t = (sleutel, nederlands) => (TAAL === 'en' && EN[sleutel]) || nederlands;
+
+/* Wat Karolien per tas invult, staat twee keer in de databank: `verhaal` en
+   `verhaal_en`. Is het Engelse veld leeg, dan blijft het Nederlands staan —
+   zo kan die vertaling stuk voor stuk groeien zonder lege vakken. Werkt zowel
+   voor tekst als voor de lijst met kenmerken; allebei hebben ze een length. */
+const veld = (rij, naam) => {
+  const en = rij[naam + '_en'];
+  return TAAL === 'en' && en && en.length ? en : rij[naam];
 };
 
 /* De Nederlandse tekst staat in de HTML zelf; die bewaren we bij de eerste
@@ -801,12 +817,13 @@ function inschrijvingKlaarzetten(form) {
    "Nieuw": een verkochte tas is geen nieuwtje meer.
    Een tas is nieuw zolang `nieuw: true` in PRODUCTS staat. */
 function badge(p) {
-  const label = p.voorraad < 1 ? 'Verkocht' : p.nieuw ? 'Nieuw' : null;
+  const verkocht = p.voorraad < 1;
+  const label = verkocht ? 'Verkocht' : p.nieuw ? 'Nieuw' : null;
   if (!label) return '';
-  const kleur = label === 'Verkocht'
+  const kleur = verkocht
     ? 'bg-inverse-surface text-inverse-on-surface'
     : 'bg-primary text-on-primary';
-  return `<span class="absolute top-2 right-2 z-20 ${kleur}
+  return `<span data-t="kaart.${verkocht ? 'verkocht' : 'nieuw'}" class="absolute top-2 right-2 z-20 ${kleur}
                  font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">${label}</span>`;
 }
 
@@ -836,7 +853,7 @@ function productCard(p, klasse = '') {
     <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
       ${mediaTag(fotoUrl(p.fotos[0]), `absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
                   group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
-                  ${uitverkocht ? 'grayscale opacity-70' : ''}`, { alt: p.naam })}
+                  ${uitverkocht ? 'grayscale opacity-70' : ''}`, { alt: veld(p, 'naam') })}
       ${tweede ? mediaTag(tweede, `absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
                   group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}`,
                   { extra: 'aria-hidden="true"' }) : ''}
@@ -851,8 +868,8 @@ function productCard(p, klasse = '') {
 
   <div class="flex justify-between items-start gap-4 mt-6">
     <div>
-      <h3 class="font-headline-md text-headline-md text-primary leading-tight">${p.naam}</h3>
-      <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${p.herkomst}</p>
+      <h3 class="font-headline-md text-headline-md text-primary leading-tight">${veld(p, 'naam')}</h3>
+      <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${veld(p, 'herkomst')}</p>
     </div>
     ${toonPrijs(p) ? `<span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
                  text-on-surface-variant px-2 py-1 whitespace-nowrap">${prijsHtml(p)}</span>` : ''}

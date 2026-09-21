@@ -325,12 +325,17 @@
 <footer id="site-footer" class="relative z-10 bg-surface-container-lowest golfrand-boven -mt-8"></footer>
 
 <script>
-  paginaKlaar.then(() => {
+  // Bij een taalwissel tekenen we opnieuw: naam en herkomst komen uit de
+  // databank en hebben daar hun eigen Engelse veld.
+  const tekenCollectie = () => {
     // Verspringend raster, zoals in een gedrukte catalogus.
     const offsets = ['', 'md:mt-12', 'lg:-mt-6', 'md:-mt-6 lg:mt-6', 'md:mt-6', 'lg:mt-12'];
-    document.getElementById('collectie-grid').innerHTML =
-      PRODUCTS.map((p, i) => productCard(p, offsets[i % offsets.length])).join('');
-  });
+    const raster = document.getElementById('collectie-grid');
+    raster.innerHTML = PRODUCTS.map((p, i) => productCard(p, offsets[i % offsets.length])).join('');
+    vertaal(raster);
+  };
+  paginaKlaar.then(tekenCollectie);
+  document.addEventListener('taal:gewisseld', tekenCollectie);
 </script>
 </body>
 </html>
