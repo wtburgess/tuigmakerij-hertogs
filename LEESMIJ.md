@@ -33,9 +33,11 @@ De foto's op de pagina's zelf staan in de tabel `sitefotos`: één rij per plek,
 met het pad in de opslagmap `productfotos/sfeer/`. Staat er voor een naam geen
 rij, dan geldt `IMG` in `assets/site.js`.
 
-Die volgorde is met opzet. De pagina tekent eerst uit `IMG` en vervangt daarna
-wat gewisseld is, zodat een trage of onbereikbare databank nooit een lege
-pagina oplevert — hooguit even de oude foto.
+De pagina wacht eerst het lijstje met vervangen beelden af — een paar honderd
+bytes — en vult dan elke plek in één keer juist in. Zo laadt de browser er nooit
+twee na elkaar. Blijft dat lijstje uit, dan komen na twee tellen alsnog de
+beelden uit `IMG`: een trage of onbereikbare databank levert dus nooit een lege
+pagina op.
 
 Karolien wisselt ze zelf op de beheerpagina onder **Sfeerbeelden**. Ze ziet
 daar de 39 plekken op de site, elk met de pagina en de sectiekop waar het beeld
@@ -54,11 +56,36 @@ sectiekoppen; hernoem je een kop, werk ze dan mee bij.
 
 Nieuwe foto's zet je het snelst in bulk klaar via Supabase > Storage >
 `productfotos` > map `sfeer`. Alles wat daar staat, verschijnt in het
-keuzevenster achter de knop Vervang. Verklein ze eerst tot zo'n 2000 pixels
-breed: het gratis plan geeft 1 GB, en onbewerkte toestelfoto's lopen daar snel
-tegenaan.
+keuzevenster achter de knop Vervang.
 
 De foto's van de tassen staan hier los van — die horen bij het product zelf.
+
+## Foto's worden vanzelf verkleind
+
+Kies je op de beheerpagina een foto, dan verkleint de browser ze eerst tot
+hoogstens 2000 pixels aan de langste zijde en perst ze als jpeg, vóór er iets
+vertrekt. Een foto van zes megabyte rechtstreeks van een toestel wordt zo
+ongeveer tweehonderd kilobyte, zonder dat je er op het scherm iets van ziet.
+
+Dat is geen luxe. Het gratis plan van Supabase geeft 5 GB verkeer per maand, en
+elke bezoeker haalt die foto's op. Met onbewerkte toestelfoto's is die vijf
+gigabyte in enkele honderden bezoeken op.
+
+Zet je foto's rechtstreeks in Supabase > Storage — dus buiten de beheerpagina
+om — dan gebeurt dat verkleinen níét. Doe het daar dan zelf, tot zo'n 2000
+pixels breed.
+
+Foto's die er vóór deze wijziging al op stonden, zijn nog de onverkleinde. Voor
+die ene keer staat er onderaan de beheerpagina een knop **Alle foto's
+verkleinen**. Die haalt elke foto uit de opslag, verkleint ze en zet ze op
+dezelfde plaats terug — de tassen en de sfeerbeelden wijzen naar een pad, en dat
+pad blijft kloppen, dus aan de databank verandert er niets.
+
+Het ophalen kost zelf één keer verkeer, ongeveer zoveel als er in de opslag
+staat. Doe het dus één keer en niet elke week. Filmpjes blijven ongemoeid, en
+een foto die al klein genoeg is wordt overgeslagen. Omdat de foto's hun adres
+houden, kan een browser nog een uurtje de oude versie tonen; aan de opslag en
+het verkeer is dan al wel geraakt.
 
 ## Filmpjes
 
@@ -68,6 +95,48 @@ terecht en speelt af op de productpagina; op de collectiekaart en de duimnagels
 staat het eerste beeld stil. Hooguit 50 MB per bestand — dat is de grens van de
 opslag bij Supabase. Verklein een filmpje eerst; een minuut in 720p volstaat
 ruimschoots en houdt de pagina snel.
+
+## De code van een tas
+
+Elke tas heeft een eigen code — TH-001, TH-002, en zo verder. Die hangt aan de
+tas zelf en blijft altijd dezelfde, ook als de volgorde in de collectie
+verschuift. Je ziet ze op de kaart in de collectie, bij de gegevens op de
+productpagina en in het overzicht van de bestellingen.
+
+Ze gaat ook mee in de omschrijving die Mollie op je rekeninguittreksel zet:
+daar staat dan `Tuigtassen Hertogs TH-2026-A3F9 - TH-014`. Het eerste nummer is
+de bestelling, het tweede de tas.
+
+Een nieuwe tas krijgt het eerstvolgende vrije nummer voorgesteld. Je mag dat
+overschrijven met wat je wil; enkel twee tassen met dezelfde code gaat niet.
+Laat je het veld leeg, dan toont de kaart gewoon haar plaats in de collectie.
+
+## Engels (proef)
+
+Rechtsboven, naast het winkelmandje, staat NL / EN. Die knop staat in de balk
+zelf en niet in het uitklapmenu, zodat ze op een telefoon even goed bereikbaar
+is als op een groot scherm. De keuze blijft bewaard terwijl je door de site
+klikt. Wil je iemand rechtstreeks de Engelse versie sturen, zet dan `?taal=en`
+achter de link.
+
+Voorlopig zijn enkel de **startpagina**, de balk bovenaan, de voet en het
+inschrijfblok vertaald. Klik je op EN op een andere pagina, dan wisselt het
+raamwerk mee en blijft de tekst van die pagina in het Nederlands. Dat is de
+bedoeling van een proef: zo zie je hoe het werkt voor we alles omgooien.
+
+Alle Engelse tekst staat op één plek: `EN` in `assets/site.js`. In de HTML
+draagt elke tekst die mee moet een sleutel:
+
+    <h1 data-t="home.hero.titel">Een zadel dat verder leeft</h1>
+
+Staat die sleutel in `EN`, dan wordt de tekst vervangen; staat hij er niet, dan
+blijft het Nederlands staan. Een halve vertaling laat dus nooit een leeg vak
+achter. Tekst die in een attribuut zit, gaat via `data-t-attr`, bijvoorbeeld
+`data-t-attr="placeholder:drop.telefoon"`.
+
+Wat de tassen zelf betreft — verhaal, kenmerken, kleur, herkomst — die staan in
+de databank en blijven in het Nederlands. Daar zijn Engelse velden op de
+beheerpagina voor nodig; dat zit nog niet in deze proef.
 
 ## Bestellingen en betaling
 
@@ -125,7 +194,8 @@ in de database en op de beheerpagina.
 ### Opzetten
 
 1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
-   `05-sfeerbeelden.sql`, `07-promo.sql`.
+   `05-sfeerbeelden.sql`, `07-promo.sql`, `08-prijs-verbergen.sql`,
+   `09-tascode.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
    `SITE_URL` = `https://tuigtassenhertogs.be` — de basis-URL van de site,
    zonder pad en zonder schuine streep achteraan. Mollie plakt daar zelf

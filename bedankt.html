@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mededeling = bestelling.referentie;
   const mailBody =
     `Bestelling ${mededeling}\n\n` +
-    bestelling.regels.map((r) => `${r.aantal}x ${r.tas} — ${euro.format(r.bedrag)}`).join('\n') +
+    bestelling.regels.map((r) => `${r.aantal}x ${r.tas}${r.code ? ` (${r.code})` : ''} — ${euro.format(r.bedrag)}`).join('\n') +
     `\n${bestelling.levering} — ${bestelling.opAanvraag ? 'verzendkost nog te bepalen'
       : bestelling.verzendkost ? euro.format(bestelling.verzendkost) : 'gratis'}` +
     `\nTotaal: ${euro.format(bestelling.totaal)}${bestelling.opAanvraag ? ' + verzending' : ''}\n\n` +

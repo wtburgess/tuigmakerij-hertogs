@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
 
   // --------------------------------------------------- prijzen en voorraad
   const ids = [...new Set(gevraagd.map((r) => String(r.id)))];
-  const antwoord = await db(`producten?select=id,naam,prijs,voorraad&id=in.(${ids.map(encodeURIComponent).join(',')})`);
+  const antwoord = await db(`producten?select=id,naam,code,prijs,voorraad&id=in.(${ids.map(encodeURIComponent).join(',')})`);
   if (!antwoord.ok) return fout('De collectie kon niet gelezen worden', 500);
   const tassen: any[] = await antwoord.json();
 
@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
         : `Van ${tas.naam} is er nog maar ${tas.voorraad} beschikbaar.`, 409);
     }
     regels.push({
-      id: tas.id, naam: tas.naam, aantal,
+      id: tas.id, naam: tas.naam, code: tas.code ?? null, aantal,
       stukprijs: Number(tas.prijs), bedrag: Number(tas.prijs) * aantal
     });
   }
@@ -133,12 +133,19 @@ Deno.serve(async (req) => {
   const [bestelling] = await bewaard.json();
 
   // ------------------------------------------------------------- Mollie
+  const codes = regels.map((r) => r.code).filter(Boolean);
+  const omschrijving =
+    `Tuigtassen Hertogs ${referentie}${codes.length ? ' - ' + codes.join(', ') : ''}`.slice(0, 255);
+
   const betaling = await fetch('https://api.mollie.com/v2/payments', {
     method: 'POST',
     headers: { Authorization: `Bearer ${MOLLIE_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       amount: { currency: 'EUR', value: totaal.toFixed(2) },
-      description: `Tuigtassen Hertogs ${referentie}`,
+      // De codes van de tassen gaan mee: op het rekeninguittreksel staat dan
+      // niet enkel welke bestelling betaald is, maar ook welke tas het was.
+      // Mollie houdt het op 255 tekens, vandaar de afkapping.
+      description: omschrijving,
       redirectUrl: `${SITE_URL}/bedankt.html?ref=${referentie}`,
       webhookUrl: `${SUPABASE_URL}/functions/v1/mollie-webhook`,
       metadata: { referentie },

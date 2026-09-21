@@ -28,7 +28,7 @@
     <span class="material-symbols-outlined text-5xl text-secondary-fixed-dim mb-6">shopping_bag</span>
     <h1 class="font-display-lg text-[40px] md:text-[52px] leading-tight rotate-1 text-primary mb-4">Je mandje is nog leeg</h1>
     <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
-      Elke tas is uniek, neem gerust je tijd om rond te kijken.
+      Neem gerust je tijd om rond te kijken
     </p>
     <a href="collectie.html#voorraad" class="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
       Bekijk de collectie
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       levering: lev.label,
       opAanvraag: lev.opAanvraag === true,
-      regels: regels.map((l) => ({ tas: l.product.naam, aantal: l.aantal, bedrag: l.subtotaal })),
+      regels: regels.map((l) => ({ tas: l.product.naam, code: l.product.code || '', aantal: l.aantal, bedrag: l.subtotaal })),
       subtotaal: cartTotal(),
       verzendkost: lev.kost,
       totaal: cartTotal() + lev.kost

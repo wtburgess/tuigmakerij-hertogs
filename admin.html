@@ -82,6 +82,29 @@
     <div id="sfeerbeelden" class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12"></div>
     <input type="file" id="sfeer-bestand" accept="image/*" class="hidden">
 
+    <!-- Eenmalige opkuis. Foto's die geüpload zijn vóór het verkleinen
+         ingebouwd werd, staan er nog in volle grootte. Deze knop haalt ze
+         één voor één op, verkleint ze en zet ze op dezelfde plaats terug. -->
+    <h2 class="font-headline-md text-headline-md text-primary mb-2">Alle foto's verkleinen</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant mb-4 max-w-prose">
+      Foto's die je vanaf nu kiest, worden vanzelf verkleind. Maar wat er al
+      stond is nog van volle grootte, en dat verkeer telt mee voor de limiet van
+      Supabase. Deze knop haalt elke foto op, verkleint ze tot hoogstens 2000
+      pixels en zet ze op dezelfde plaats terug. Je hoeft verder niets aan te
+      passen — de tassen en de sfeerbeelden blijven naar dezelfde foto's wijzen.
+    </p>
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-prose">
+      Het ophalen van al die foto's telt zelf één keer mee voor je verkeer, dus
+      doe dit liefst één keer en niet elke week. Filmpjes blijven ongemoeid, en
+      een foto die al klein genoeg is wordt overgeslagen. Laat het venster
+      openstaan tot het klaar is.
+    </p>
+    <button type="button" id="verklein-alles"
+            class="inline-flex items-center gap-2 stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded hover:bg-surface-container-low transition-colors">
+      <span class="material-symbols-outlined text-base">compress</span> Alle foto's verkleinen
+    </button>
+    <p id="verklein-stand" class="font-body-md text-body-md text-on-surface-variant mt-4 mb-12" hidden></p>
+
     <dialog id="sfeer-kiezer" class="bg-surface-container-lowest border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 w-[min(92vw,860px)] backdrop:bg-primary/40">
       <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
         <h2 id="sfeer-kiezer-titel" class="font-headline-md text-headline-md text-primary"></h2>
@@ -114,6 +137,14 @@
           <input name="id" required readonly pattern="[a-z0-9\-]+"
                  class="input-underline font-body-md text-body-md text-on-surface-variant">
         </label>
+        <!-- Blijft altijd dezelfde, ook als de volgorde in de collectie
+             verschuift. Daar zit net het nut in: op een rekeninguittreksel
+             zie je zo meteen om welke tas het gaat. -->
+        <label class="block">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Code</span>
+          <input name="code" pattern="[A-Za-z0-9\-]*" class="input-underline font-body-md text-body-md">
+          <span class="block mt-1 font-body-md text-body-md text-on-surface-variant">Staat op de kaart in de collectie, op de productpagina en in de omschrijving van de betaling. Twee tassen met dezelfde code kan niet.</span>
+        </label>
         <label class="block">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Prijs (€)</span>
           <input name="prijs" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
@@ -126,6 +157,15 @@
         <label class="block">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Voorraad (0 = verkocht)</span>
           <input name="voorraad" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
+        </label>
+        <!-- De prijs zelf blijft bewaard; dit zegt enkel of ze getoond wordt.
+             Zet je de voorraad weer op 1, dan staat ze er vanzelf opnieuw. -->
+        <label class="block sm:col-span-2">
+          <span class="flex items-center gap-3">
+            <input type="checkbox" name="prijs_verbergen" class="w-5 h-5 rounded border-secondary text-primary">
+            <span class="font-body-md text-body-md text-on-surface">Verberg de prijs zodra de tas verkocht is</span>
+          </span>
+          <span class="block mt-1 font-body-md text-body-md text-on-surface-variant">Werkt alleen bij voorraad 0. Een tas die nog te koop is, houdt altijd haar prijs.</span>
         </label>
         <label class="block sm:col-span-2">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Herkomst leder</span>
@@ -248,7 +288,7 @@ async function laadLijst() {
       <div class="min-w-0 flex-1">
         <p class="font-body-lg text-body-lg text-primary truncate">${p.naam}</p>
         <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
-          ${euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
+          ${p.code ? p.code + ' — ' : ''}${p.prijs_verbergen && p.voorraad < 1 ? 'prijs verborgen' : euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
         </p>
       </div>
       <button type="button" data-bewerk="${p.id}"
@@ -323,7 +363,7 @@ async function laadBestellingen() {
         <span class="font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</span>
       </div>
       <p class="font-body-md text-body-md text-on-surface-variant">
-        ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+        ${b.regels.map((r) => `${r.aantal} × ${r.naam}${r.code ? ` (${r.code})` : ''}`).join('<br>')}
       </p>
       <p class="font-label-mono text-label-mono uppercase text-secondary mt-2">${b.levering}</p>
       <p class="font-body-md text-body-md text-on-surface-variant mt-3">
@@ -406,7 +446,7 @@ async function laadBestellingen() {
                 </td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-on-surface whitespace-nowrap">${euro.format(b.totaal)}</td>
                 <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant min-w-[14rem]">
-                  ${b.regels.map((r) => `${r.aantal} × ${r.naam}`).join('<br>')}
+                  ${b.regels.map((r) => `${r.aantal} × ${r.naam}${r.code ? ` (${r.code})` : ''}`).join('<br>')}
                   <span class="block text-secondary">${b.levering}</span>
                 </td>
                 <td class="py-4 font-body-md text-body-md text-on-surface-variant min-w-[16rem]">
@@ -555,15 +595,31 @@ async function laadInschrijvingen() {
 }
 
 /* --------------------------------------------------------------- bewerken */
+/* Het eerstvolgende vrije nummer in de reeks TH-001, TH-002, ... Codes die je
+   zelf een andere vorm gaf, tellen gewoon niet mee bij het zoeken. */
+async function volgendeCode() {
+  const { data } = await db.from('producten').select('code');
+  const hoogste = (data || []).reduce((max, r) => {
+    const m = /^TH-(\d+)$/.exec(r.code || '');
+    return m ? Math.max(max, Number(m[1])) : max;
+  }, 0);
+  return 'TH-' + String(hoogste + 1).padStart(3, '0');
+}
+
 function openTas(p) {
   huidig = p;
   bewerk.hidden = false;
   document.getElementById('bewerk-titel').textContent = p ? p.naam : 'Nieuwe tas';
   bewerk.elements.id.value = p ? p.id : '';
   bewerk.naam.value       = p ? p.naam : '';
+  bewerk.code.value       = p ? (p.code || '') : '';
+  // Bij een nieuwe tas komt het eerstvolgende vrije nummer er vanzelf in
+  // staan. Je mag het overschrijven; dubbel mag niet, daar waakt de databank over.
+  if (!p) volgendeCode().then((c) => { if (!huidig && !bewerk.code.value) bewerk.code.value = c; });
   bewerk.prijs.value      = p ? p.prijs : '';
   bewerk.oude_prijs.value = p && p.oude_prijs ? p.oude_prijs : '';
   bewerk.voorraad.value   = p ? p.voorraad : 1;
+  bewerk.prijs_verbergen.checked = p ? !!p.prijs_verbergen : false;
   bewerk.herkomst.value   = p ? p.herkomst : '';
   bewerk.kleur.value      = p ? p.kleur : '';
   bewerk.afmetingen.value = p ? p.afmetingen : '';
@@ -596,10 +652,13 @@ bewerk.addEventListener('submit', async (e) => {
   const rij = {
     id: bewerk.elements.id.value.trim(),
     naam: bewerk.naam.value.trim(),
+    // Leeg mag: dan valt de tas op de kaart terug op haar plaats in de collectie.
+    code: bewerk.code.value.trim() || null,
     prijs: Number(bewerk.prijs.value),
     // Leeg veld = geen promo; null in plaats van 0, anders staat er straks € 0,00 doorstreept.
     oude_prijs: bewerk.oude_prijs.value === '' ? null : Number(bewerk.oude_prijs.value),
     voorraad: Number(bewerk.voorraad.value),
+    prijs_verbergen: bewerk.prijs_verbergen.checked,
     nieuw: bewerk.nieuw.checked,
     herkomst: bewerk.herkomst.value.trim(),
     kleur: bewerk.kleur.value.trim(),
@@ -690,8 +749,9 @@ sfeerEl.addEventListener('click', (e) => {
 });
 
 sfeerBestand.addEventListener('change', async () => {
-  const bestand = sfeerBestand.files[0];
-  if (!bestand || !sfeerNaam) return;
+  const gekozen = sfeerBestand.files[0];
+  if (!gekozen || !sfeerNaam) return;
+  const bestand = await verklein(gekozen);
   // Tijdstempel ervoor: zo overschrijf je nooit een foto die er al staat, en
   // blijft de oude bereikbaar zolang een browser ze in het geheugen houdt.
   const pad = `sfeer/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
@@ -858,6 +918,131 @@ async function toonFotos() {
 
 const MAX_MB = 50;                  // grens van de opslag bij Supabase
 
+/* ----------------------------------------------------- foto's verkleinen
+   Een foto rechtstreeks van een toestel weegt al gauw vier tot acht megabyte.
+   Die ging vroeger in volle grootte naar elke bezoeker, en daar loopt het
+   gratis plan van Supabase op stuk: vijf gigabyte verkeer per maand is met
+   zulke bestanden zo op. Op een scherm valt er boven de 2000 pixels toch
+   niets meer te winnen, dus verkleinen we hier, in de browser, vóór het
+   uploaden. Een foto van zes megabyte wordt zo een bestand van pakweg drie
+   ruwweg tweehonderd kilobyte.
+
+   Lukt het verkleinen niet — een filmpje, of een formaat dat de browser niet
+   uit elkaar krijgt — dan gaat het bestand gewoon ongewijzigd mee. */
+const MAX_ZIJDE = 2000;
+const KWALITEIT = 0.82;
+
+/* Geeft een kleinere versie terug, of null als er niets te winnen valt: geen
+   beeld, een formaat dat de browser niet uit elkaar krijgt, of een foto die al
+   klein en goed samengeperst was en na het herperssen zwaarder zou worden. */
+async function verkleinBlob(blob) {
+  if (!blob.type.startsWith('image/') || /svg|gif/.test(blob.type)) return null;
+  try {
+    const beeld = await createImageBitmap(blob);
+    const schaal = Math.min(1, MAX_ZIJDE / Math.max(beeld.width, beeld.height));
+    const doek = document.createElement('canvas');
+    doek.width  = Math.round(beeld.width * schaal);
+    doek.height = Math.round(beeld.height * schaal);
+    doek.getContext('2d').drawImage(beeld, 0, 0, doek.width, doek.height);
+    beeld.close();
+    const klein = await new Promise((klaar) => doek.toBlob(klaar, 'image/jpeg', KWALITEIT));
+    return klein && klein.size < blob.size ? klein : null;
+  } catch (e) {
+    console.warn('Verkleinen lukte niet.', e);
+    return null;
+  }
+}
+
+async function verklein(bestand) {
+  const klein = await verkleinBlob(bestand);
+  if (!klein) return bestand;
+  return new File([klein], bestand.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+}
+
+/* ------------------------------------------------ alle foto's in één keer
+   Voor wat er al in de opslag stond voor het verkleinen ingebouwd werd. Elke
+   foto wordt opgehaald, verkleind en op dezelfde plaats teruggezet. Dat laatste
+   is belangrijk: de tassen en de sfeerbeelden wijzen naar een pad, en dat pad
+   blijft zo gewoon kloppen. Er verandert dus niets aan de databank.
+
+   Het ophalen kost zelf één keer verkeer — ongeveer zoveel als er nu in de
+   opslag staat. Vandaar dat het een knop is en niet iets dat vanzelf loopt. */
+async function alleBestanden(map = '') {
+  const { data, error } = await db.storage.from('productfotos')
+    .list(map, { limit: 1000, sortBy: { column: 'name', order: 'asc' } });
+  if (error) throw new Error(error.message);
+  let uit = [];
+  for (const item of data || []) {
+    if (item.name.startsWith('.')) continue;      // .emptyFolderPlaceholder en co
+    const pad = map ? `${map}/${item.name}` : item.name;
+    // Een map heeft geen id; wat erin zit halen we apart op.
+    if (item.id) uit.push({ pad, grootte: item.metadata?.size || 0 });
+    else uit = uit.concat(await alleBestanden(pad));
+  }
+  return uit;
+}
+
+const mb = (bytes) => (bytes / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
+
+document.getElementById('verklein-alles').addEventListener('click', async (e) => {
+  const knop = e.currentTarget;
+  const stand = document.getElementById('verklein-stand');
+  const zeg = (tekst) => { stand.hidden = false; stand.textContent = tekst; };
+
+  knop.disabled = true;
+  zeg('Even kijken wat er allemaal staat…');
+
+  let bestanden;
+  try {
+    bestanden = await alleBestanden();
+  } catch (fout) {
+    knop.disabled = false;
+    return zeg('De lijst met foto\'s kon niet opgehaald worden: ' + fout.message);
+  }
+
+  const fotos = bestanden.filter((f) => !isFilm(f.pad));
+  const totaal = fotos.reduce((som, f) => som + f.grootte, 0);
+  if (!fotos.length) { knop.disabled = false; return zeg('Er staat nog geen enkele foto in de opslag.'); }
+  if (!confirm(`${fotos.length} foto's, samen ${mb(totaal)}. Ze worden één voor één opgehaald, `
+             + 'verkleind en teruggezet. Dat kan een paar minuten duren — laat dit venster zolang openstaan.\n\n'
+             + 'Doorgaan?')) {
+    knop.disabled = false;
+    stand.hidden = true;
+    return;
+  }
+
+  let gedaan = 0, overgeslagen = 0, mislukt = 0, gewonnen = 0;
+  for (const [i, foto] of fotos.entries()) {
+    zeg(`${i + 1} van ${fotos.length} — ${foto.pad}`);
+    try {
+      const { data: blob, error: haalFout } = await db.storage.from('productfotos').download(foto.pad);
+      if (haalFout) throw new Error(haalFout.message);
+      const klein = await verkleinBlob(blob);
+      if (!klein) { overgeslagen++; continue; }
+      // upsert: dezelfde plaats, dus de tassen en de sfeerbeelden blijven kloppen.
+      const { error: zetFout } = await db.storage.from('productfotos')
+        .upload(foto.pad, klein, { upsert: true, contentType: 'image/jpeg', cacheControl: '3600' });
+      if (zetFout) throw new Error(zetFout.message);
+      gewonnen += blob.size - klein.size;
+      gedaan++;
+    } catch (fout) {
+      console.warn('Verkleinen van ' + foto.pad + ' lukte niet:', fout);
+      mislukt++;
+    }
+  }
+
+  knop.disabled = false;
+  zeg(`Klaar. ${gedaan} verkleind, ${mb(gewonnen)} lichter.`
+    + (overgeslagen ? ` ${overgeslagen} waren al klein genoeg.` : '')
+    + (mislukt ? ` ${mislukt} lukten niet — die staan in de console van de browser.` : '')
+    // De foto's houden hun adres, dus een browser kan nog een uur de oude
+    // versie tonen. Aan de opslag en het verkeer is al wel geraakt.
+    + ' De foto\'s houden hun adres; een browser kan de oude versie nog wat tonen.');
+  toonFotos();
+  laadLijst();
+  laadSfeer();
+});
+
 document.getElementById('upload').addEventListener('change', (e) => {
   let bestanden = [...e.target.files];
   e.target.value = '';
@@ -878,7 +1063,8 @@ async function uploadFotos(bestanden) {
     .select('volgorde').eq('product_id', huidig.id).order('volgorde', { ascending: false }).limit(1);
   let volgende = bestaand && bestaand.length ? bestaand[0].volgorde + 1 : 0;
 
-  for (const bestand of bestanden) {
+  for (const gekozen of bestanden) {
+    const bestand = await verklein(gekozen);
     // Naam in een eigen map per tas, met een tijdstempel ervoor: zo overschrijf
     // je nooit per ongeluk een foto die er al staat.
     const pad = `${huidig.id}/${Date.now()}-${bestand.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;

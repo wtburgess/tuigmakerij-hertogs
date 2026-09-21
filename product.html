@@ -118,7 +118,7 @@ paginaKlaar.then(() => {
                      font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 mb-4">Verkocht</span><br>` : ''}
         <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">${p.herkomst}</span>
         <h1 class="font-display-lg text-[48px] md:text-[64px] text-primary leading-tight mt-3 mb-4 -rotate-1">${p.naam}</h1>
-        <p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${prijsHtml(p)}</p>
+        ${toonPrijs(p) ? `<p class="inline-block font-label-mono text-label-mono bg-surface-container-high border border-secondary text-on-surface-variant px-3 py-1.5 mb-6">${prijsHtml(p)}</p>` : ''}
 
         <div class="w-16 stitch-divider-dubbel mb-8"></div>
 
@@ -133,6 +133,7 @@ paginaKlaar.then(() => {
         </ul>` : ''}
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 py-8 border-y-2 border-dashed border-secondary/40 mb-8">
+          ${spec('sell', 'Referentie', p.code)}
           ${spec('layers', 'Herkomst leder', p.herkomst)}
           ${spec('palette', 'Kleur', p.kleur)}
           ${spec('straighten', 'Afmetingen', p.afmetingen)}
