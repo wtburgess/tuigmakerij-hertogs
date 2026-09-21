@@ -535,8 +535,8 @@ const EN = {
   'footer.contact': 'Contact',
   'footer.volg': 'Follow along',
   'footer.gemaakt': 'Handcrafted in Belgium',
-  'footer.voorwaarden': 'Terms of sale',
-  'footer.privacy': 'Privacy',
+  'link.voorwaarden': 'Terms of sale',
+  'link.privacy': 'Privacy statement',
   'drop.titel.home': 'Stay in the loop',
   'drop.titel.collectie': 'Be the first to see new bags',
   'drop.tekst': 'This collection is exclusive, and small in number. Would you like to be the first to hear when new pieces become available? Leave your phone number here and I will send you a message.',
@@ -616,6 +616,8 @@ const EN = {
   'faq.slot': 'Is your question not here?',
   'faq.slot.link': 'Send me a message.',
   'faq.slot.wa': 'Hi Karolien, I have a question: ',
+  'faq.juridisch': 'The small print',
+  'faq.juridisch.tekst': 'What applies when you order: your fourteen days to change your mind, the guarantee, and what happens to your details.',
 
   /* --- afrekenen --- */
   'levering.opaanvraag': ' — shipping cost on request',
@@ -1086,11 +1088,7 @@ function renderFooter() {
 <div class="border-t-2 border-dashed border-secondary/40">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col sm:flex-row justify-between gap-2">
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
-    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest flex flex-wrap gap-x-6 gap-y-1">
-      <a href="voorwaarden.html" class="hover:text-primary transition-colors" data-t="footer.voorwaarden">Verkoopsvoorwaarden</a>
-      <a href="privacy.html" class="hover:text-primary transition-colors" data-t="footer.privacy">Privacy</a>
-      <span data-t="footer.gemaakt">Ambachtelijk vervaardigd in België</span>
-    </p>
+    <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="footer.gemaakt">Ambachtelijk vervaardigd in België</p>
   </div>
 </div>`;
 }

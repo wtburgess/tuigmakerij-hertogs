@@ -307,8 +307,12 @@ bestellingen met adres en status.
 `voorwaarden.html` en `privacy.html` staan los van de andere pagina's: ze
 hebben geen eigen ontwerp, enkel lopende tekst. De opmaak zit in één blok
 klassen rond de tekst, zodat er per kop of alinea niets herhaald hoeft te
-worden. Ze staan onderaan in de voet, en het vinkje bij het afrekenen verwijst
-naar de voorwaarden.
+worden.
+
+Je bereikt ze langs twee kanten: onderaan de vragenpagina, onder "De kleine
+lettertjes", en via het vinkje bij het afrekenen. Dat tweede moet blijven — de
+klant hoort de voorwaarden te kunnen lezen vóór hij aanvinkt dat hij akkoord
+gaat. In de voet staan ze bewust niet.
 
 Twee dingen staan er bewust in, en zijn het waard om te weten als je de tekst
 ooit aanpast:
