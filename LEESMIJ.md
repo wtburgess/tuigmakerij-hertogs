@@ -327,6 +327,42 @@ binnen het jaar vroegtijdige slijtage gratis te herstellen. Die twee jaar kan
 je niet inkorten. In de FAQ staat enkel dat ene jaar vermeld; dat leest als een
 beperking terwijl het een extra is.
 
+## Letters en icoontjes
+
+De drie lettertypes staan in `assets/fonts/` en niet meer bij Google. Reden:
+bij elke bezoeker ging zijn IP-adres mee naar een server van Google, en daar is
+geen reden voor. Het scheelt bovendien twee verbindingen naar een vreemde
+server, dus de pagina staat er sneller.
+
+Alles zit in `assets/styles.css`, bovenaan. Per letter staan er twee bestanden
+met een `unicode-range` erbij: de gewone Latijnse tekens, en de uitbreiding met
+zeldzamere accenten. Dat tweede bestand haalt de browser enkel op wanneer er
+zo'n teken op de pagina staat.
+
+### Een icoontje toevoegen
+
+`assets/fonts/material-symbols.woff2` bevat niet alle icoontjes van Google,
+maar precies de vijfendertig die de site gebruikt — het volledige lettertype
+weegt bijna vier megabyte, dit 32 kilobyte. Zet je een nieuwe naam in de HTML,
+dan verschijnt die als gewone tekst tot je het lettertype opnieuw bouwt:
+
+1. Zoek de naam op bij [Material Symbols](https://fonts.google.com/icons)
+   (stijl *Outlined*) en zet ze bij in `gereedschap/iconen.txt`.
+2. Draai het bouwscript. Het haalt het volledige lettertype uit npm, houdt
+   enkel jouw lijst over en bouwt de ligaturen opnieuw op:
+
+       pip install fonttools brotli
+       npm install material-symbols
+       python3 gereedschap/bouw-icoonfont.py \
+         node_modules/material-symbols/material-symbols-outlined.woff2 \
+         gereedschap/iconen.txt \
+         assets/fonts/material-symbols.woff2
+
+Waarom dat bouwscript en niet gewoon uitdunnen: de naam `shopping_bag` wordt
+door het lettertype zelf als ligatuur omgezet naar een tekening, en die regels
+overleven het uitdunnen niet. Het script zet ze er daarna weer in, enkel voor
+de icoontjes die je houdt.
+
 ## Zoekmachines
 
 De zes gewone pagina's mogen gevonden worden. Het beheerscherm, het mandje en
@@ -361,6 +397,10 @@ en mag hij enkel die zes pagina's bevatten plus de productpagina's.
 - [ ] `voorwaarden.html` en `privacy.html` laten nakijken door iemand met
       juridische kennis. Ze staan er en ze dekken wat de wet vraagt, maar ze
       zijn geschreven door een programma, niet door een jurist.
+- [ ] Een manier om mail te versturen vanaf `karolien@tuigtassenhertogs.be`.
+      Er staat nu enkel een doorstuur naar Hotmail, en daarmee kan er niets
+      buiten. Zonder dat vertrekt de bevestigingsmail na een bestelling niet,
+      terwijl de wet vraagt dat de klant zijn bestelling bevestigd krijgt.
 - [ ] Het echte rekeningnummer in `CONTACT.iban` — daar staat nu
       `BE00 0000 0000 0000`, en dat nummer krijgt een klant te zien zodra een
       bestelling met een overschrijving betaald wordt
