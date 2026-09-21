@@ -302,6 +302,27 @@ Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's),
 wissel je de sfeerbeelden op de pagina's, en zie je de laatste vijftig
 bestellingen met adres en status.
 
+## Verkoopsvoorwaarden en privacy
+
+`voorwaarden.html` en `privacy.html` staan los van de andere pagina's: ze
+hebben geen eigen ontwerp, enkel lopende tekst. De opmaak zit in één blok
+klassen rond de tekst, zodat er per kop of alinea niets herhaald hoeft te
+worden. Ze staan onderaan in de voet, en het vinkje bij het afrekenen verwijst
+naar de voorwaarden.
+
+Twee dingen staan er bewust in, en zijn het waard om te weten als je de tekst
+ooit aanpast:
+
+De **bedenktijd van veertien dagen** geldt voor een tas uit de collectie, maar
+níét voor werk op maat. Een stuk dat volgens iemands specificaties gemaakt is,
+valt buiten dat recht — zo voorziet de wet het ook. Haal je die uitzondering
+weg, dan zou je een tas uit iemands eigen zadel moeten terugnemen.
+
+De **wettelijke garantie van twee jaar** staat er apart van je eigen belofte om
+binnen het jaar vroegtijdige slijtage gratis te herstellen. Die twee jaar kan
+je niet inkorten. In de FAQ staat enkel dat ene jaar vermeld; dat leest als een
+beperking terwijl het een extra is.
+
 ## Zoekmachines
 
 De zes gewone pagina's mogen gevonden worden. Het beheerscherm, het mandje en
@@ -333,4 +354,9 @@ en mag hij enkel die zes pagina's bevatten plus de productpagina's.
       worden daarom niet getoond op de productpagina)
 - [ ] Twee open plekken in de FAQ op `collectie.html`: de naam van de winkel
       die de tassen verkoopt, en wat er precies over cadeaubonnen moet staan
-- [ ] Verkoopsvoorwaarden + privacyverklaring (verplicht bij online verkoop in België)
+- [ ] `voorwaarden.html` en `privacy.html` laten nakijken door iemand met
+      juridische kennis. Ze staan er en ze dekken wat de wet vraagt, maar ze
+      zijn geschreven door een programma, niet door een jurist.
+- [ ] Het echte rekeningnummer in `CONTACT.iban` — daar staat nu
+      `BE00 0000 0000 0000`, en dat nummer krijgt een klant te zien zodra een
+      bestelling met een overschrijving betaald wordt
