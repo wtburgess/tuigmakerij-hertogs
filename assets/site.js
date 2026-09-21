@@ -698,22 +698,38 @@ function productCard(p, klasse = '') {
 
 /* ------------------------------------------------------------- opstarten */
 document.addEventListener('DOMContentLoaded', () => {
-  // foto's invullen
-  document.querySelectorAll('[data-img]').forEach((el) => { el.src = IMG[el.dataset.img]; });
-  document.querySelectorAll('[data-img-bg]').forEach((el) => {
-    el.style.backgroundImage = `url('${IMG[el.dataset.imgBg]}')`;
-  });
+  /* Foto's invullen. Hier stond eerst meteen het meegeleverde beeld, en pas
+     daarna het beeld dat Karolien gewisseld had. De browser laadde er dan twee
+     na elkaar: bij een trage verbinding stond de oude foto seconden te kijken
+     voor de nieuwe eroverheen schoof. Daarom wachten we eerst op het lijstje
+     met vervangen beelden — dat is een paar honderd bytes, terwijl een foto
+     al gauw honderden kilobytes weegt. Zo laadt er per plek maar één beeld.
 
-  // De vervangen beelden komen even later binnen. Ze overschrijven alleen wat
-  // Karolien echt gewisseld heeft; de pagina staat ondertussen niet leeg te
-  // wachten op de databank.
-  sfeerGeladen.then((rijen) => rijen.forEach(({ naam, pad }) => {
-    const url = opslagUrl(pad);
-    document.querySelectorAll(`[data-img="${naam}"]`).forEach((el) => { el.src = url; });
-    document.querySelectorAll(`[data-img-bg="${naam}"]`).forEach((el) => {
-      el.style.backgroundImage = `url('${url}')`;
+     Laat dat lijstje op zich wachten, dan vullen we na twee tellen alsnog de
+     meegeleverde beelden in: een pagina zonder foto's is erger dan een foto
+     die nadien nog wisselt. */
+  const vulBeelden = (vervangen) => {
+    const kies = (naam) => vervangen[naam] || IMG[naam];
+    document.querySelectorAll('[data-img]').forEach((el) => {
+      const url = kies(el.dataset.img);
+      if (url && el.getAttribute('src') !== url) el.setAttribute('src', url);
     });
-  }));
+    document.querySelectorAll('[data-img-bg]').forEach((el) => {
+      const url = kies(el.dataset.imgBg);
+      if (url && el.dataset.bgUrl !== url) {
+        el.dataset.bgUrl = url;
+        el.style.backgroundImage = `url('${url}')`;
+      }
+    });
+  };
+
+  const noodrem = setTimeout(() => vulBeelden({}), 2000);
+  sfeerGeladen.then((rijen) => {
+    clearTimeout(noodrem);
+    const vervangen = {};
+    rijen.forEach(({ naam, pad }) => { vervangen[naam] = opslagUrl(pad); });
+    vulBeelden(vervangen);
+  });
 
   // header + footer
   const header = document.getElementById('site-header');
