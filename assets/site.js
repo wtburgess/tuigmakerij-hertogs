@@ -540,6 +540,8 @@ const EN = {
   'drop.tekst': 'This collection is exclusive, and small in number. Would you like to be the first to hear when new pieces become available? Leave your phone number here and I will send you a message.',
   'drop.telefoon': 'Your phone number *',
   'drop.knop': 'Sign up',
+  'drop.gelukt': 'Noted. You will get a message as soon as new bags are ready.',
+  'drop.mislukt': 'That did not work. Please try again later, or send me a message on WhatsApp.',
 
   /* --- startpagina --- */
   'home.paginatitel': 'Tuigtassen Hertogs — hand-stitched bags from old horse saddles',
@@ -692,6 +694,15 @@ const EN = {
   'col.weg1.titel': 'From the existing collection',
   'col.weg1.tekst': 'A bag that is already finished. From a saddle that has lived a life of its own, and is ready to begin a new story with you. You see exactly what you get, and it is on its way to you within a few days.',
   'col.weg1.link': 'To the bags',
+  /* De korte regels staan enkel op een telefoon, in plaats van de hele alinea. */
+  'col.weg1.kort': 'Finished, and with you within a few days.',
+  'col.weg2.kort': 'A saddle from my stock, made to your idea.',
+  'col.weg3.kort': 'Your saddle, with all its memories.',
+  'col.stap1.kort': 'Send a message, with a photo if you like.',
+  'col.stap2.kort': 'We look at what is possible together.',
+  'col.stap3.kort': 'A design, and a price range.',
+  'col.stap4.kort': 'The saddle comes apart; I keep you posted.',
+  'col.stap5.kort': 'Collect at the workshop, or sent insured.',
   'col.weg2.titel': 'Made to order from a saddle in stock',
   'col.weg2.tekst': 'There are always saddles here waiting to become new designs. Tell me what matters to you and I will make one entirely to your idea.',
   'col.weg3.titel': 'Made to order from your own saddle',
@@ -1063,10 +1074,10 @@ function inschrijvingKlaarzetten(form) {
       });
       if (!antwoord.ok) throw new Error(`HTTP ${antwoord.status}`);
       form.remove();
-      melding.textContent = 'Genoteerd. Je krijgt een bericht zodra er nieuwe tassen klaar zijn.';
+      melding.textContent = t('drop.gelukt', 'Genoteerd. Je krijgt een bericht zodra er nieuwe tassen klaar zijn.');
     } catch (fout) {
       console.warn('Inschrijven lukte niet.', fout);
-      melding.textContent = 'Dat lukte niet. Probeer het later opnieuw, of stuur me een berichtje op WhatsApp.';
+      melding.textContent = t('drop.mislukt', 'Dat lukte niet. Probeer het later opnieuw, of stuur me een berichtje op WhatsApp.');
       knop.disabled = false;
     }
     melding.classList.remove('hidden');

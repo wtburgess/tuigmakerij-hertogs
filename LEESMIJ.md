@@ -111,6 +111,28 @@ Een nieuwe tas krijgt het eerstvolgende vrije nummer voorgesteld. Je mag dat
 overschrijven met wat je wil; enkel twee tassen met dezelfde code gaat niet.
 Laat je het veld leeg, dan toont de kaart gewoon haar plaats in de collectie.
 
+## De mobiele versie van de kaders
+
+Drie blokken krijgen op een telefoon een andere vorm dan op een breed scherm:
+"Drie wegen naar jouw tuigtas" en de vijf stappen op de collectiepagina, en de
+kaders op herstel & zorg. Op een breed scherm blijven het kaarten met een foto
+erboven; onder de 640 pixels worden het rijen met een icoontje links, de titel
+en één korte regel.
+
+Dat scheelt veel: de collectiepagina werd zo'n 3000 pixels korter, herstel &
+zorg ongeveer evenveel. Je ziet de drie wegen of de vijf stappen nu samen op
+één scherm in plaats van één per scherm.
+
+In de HTML zie je dat aan twee paar klassen: `hidden sm:block` op de fotoband
+en `sm:!hidden` op het icoontje. Dat uitroepteken hoort erbij — de stylesheet
+van Google zet zelf `display: inline-block` op `.material-symbols-outlined`, en
+zonder het uitroepteken hangt het van de volgorde van de stylesheets af wie
+wint.
+
+De korte regels staan naast de volledige tekst in de HTML, met hun eigen
+sleutel (`col.weg1.kort`, `col.stap1.kort`). Pas je de lange tekst aan, kijk
+dan of de korte nog klopt.
+
 ## Engels
 
 Uiterst rechts in de balk staat een knop die toont waar je naartoe gaat: sta je
