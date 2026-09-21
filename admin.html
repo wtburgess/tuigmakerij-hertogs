@@ -82,6 +82,29 @@
     <div id="sfeerbeelden" class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12"></div>
     <input type="file" id="sfeer-bestand" accept="image/*" class="hidden">
 
+    <!-- Eenmalige opkuis. Foto's die geüpload zijn vóór het verkleinen
+         ingebouwd werd, staan er nog in volle grootte. Deze knop haalt ze
+         één voor één op, verkleint ze en zet ze op dezelfde plaats terug. -->
+    <h2 class="font-headline-md text-headline-md text-primary mb-2">Alle foto's verkleinen</h2>
+    <p class="font-body-md text-body-md text-on-surface-variant mb-4 max-w-prose">
+      Foto's die je vanaf nu kiest, worden vanzelf verkleind. Maar wat er al
+      stond is nog van volle grootte, en dat verkeer telt mee voor de limiet van
+      Supabase. Deze knop haalt elke foto op, verkleint ze tot hoogstens 2000
+      pixels en zet ze op dezelfde plaats terug. Je hoeft verder niets aan te
+      passen — de tassen en de sfeerbeelden blijven naar dezelfde foto's wijzen.
+    </p>
+    <p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-prose">
+      Het ophalen van al die foto's telt zelf één keer mee voor je verkeer, dus
+      doe dit liefst één keer en niet elke week. Filmpjes blijven ongemoeid, en
+      een foto die al klein genoeg is wordt overgeslagen. Laat het venster
+      openstaan tot het klaar is.
+    </p>
+    <button type="button" id="verklein-alles"
+            class="inline-flex items-center gap-2 stitched-border text-primary font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 rounded hover:bg-surface-container-low transition-colors">
+      <span class="material-symbols-outlined text-base">compress</span> Alle foto's verkleinen
+    </button>
+    <p id="verklein-stand" class="font-body-md text-body-md text-on-surface-variant mt-4 mb-12" hidden></p>
+
     <dialog id="sfeer-kiezer" class="bg-surface-container-lowest border-2 border-dashed border-secondary/40 rounded-lg p-6 md:p-8 w-[min(92vw,860px)] backdrop:bg-primary/40">
       <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
         <h2 id="sfeer-kiezer-titel" class="font-headline-md text-headline-md text-primary"></h2>
@@ -909,10 +932,13 @@ const MAX_MB = 50;                  // grens van de opslag bij Supabase
 const MAX_ZIJDE = 2000;
 const KWALITEIT = 0.82;
 
-async function verklein(bestand) {
-  if (!bestand.type.startsWith('image/') || /svg|gif/.test(bestand.type)) return bestand;
+/* Geeft een kleinere versie terug, of null als er niets te winnen valt: geen
+   beeld, een formaat dat de browser niet uit elkaar krijgt, of een foto die al
+   klein en goed samengeperst was en na het herperssen zwaarder zou worden. */
+async function verkleinBlob(blob) {
+  if (!blob.type.startsWith('image/') || /svg|gif/.test(blob.type)) return null;
   try {
-    const beeld = await createImageBitmap(bestand);
+    const beeld = await createImageBitmap(blob);
     const schaal = Math.min(1, MAX_ZIJDE / Math.max(beeld.width, beeld.height));
     const doek = document.createElement('canvas');
     doek.width  = Math.round(beeld.width * schaal);
@@ -920,15 +946,102 @@ async function verklein(bestand) {
     doek.getContext('2d').drawImage(beeld, 0, 0, doek.width, doek.height);
     beeld.close();
     const klein = await new Promise((klaar) => doek.toBlob(klaar, 'image/jpeg', KWALITEIT));
-    // Een foto die al klein en goed samengeperst was, wordt hier soms zwaarder.
-    // Dan houden we gewoon het origineel.
-    if (!klein || klein.size >= bestand.size) return bestand;
-    return new File([klein], bestand.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+    return klein && klein.size < blob.size ? klein : null;
   } catch (e) {
-    console.warn('Verkleinen lukte niet; het origineel gaat mee.', e);
-    return bestand;
+    console.warn('Verkleinen lukte niet.', e);
+    return null;
   }
 }
+
+async function verklein(bestand) {
+  const klein = await verkleinBlob(bestand);
+  if (!klein) return bestand;
+  return new File([klein], bestand.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+}
+
+/* ------------------------------------------------ alle foto's in één keer
+   Voor wat er al in de opslag stond voor het verkleinen ingebouwd werd. Elke
+   foto wordt opgehaald, verkleind en op dezelfde plaats teruggezet. Dat laatste
+   is belangrijk: de tassen en de sfeerbeelden wijzen naar een pad, en dat pad
+   blijft zo gewoon kloppen. Er verandert dus niets aan de databank.
+
+   Het ophalen kost zelf één keer verkeer — ongeveer zoveel als er nu in de
+   opslag staat. Vandaar dat het een knop is en niet iets dat vanzelf loopt. */
+async function alleBestanden(map = '') {
+  const { data, error } = await db.storage.from('productfotos')
+    .list(map, { limit: 1000, sortBy: { column: 'name', order: 'asc' } });
+  if (error) throw new Error(error.message);
+  let uit = [];
+  for (const item of data || []) {
+    if (item.name.startsWith('.')) continue;      // .emptyFolderPlaceholder en co
+    const pad = map ? `${map}/${item.name}` : item.name;
+    // Een map heeft geen id; wat erin zit halen we apart op.
+    if (item.id) uit.push({ pad, grootte: item.metadata?.size || 0 });
+    else uit = uit.concat(await alleBestanden(pad));
+  }
+  return uit;
+}
+
+const mb = (bytes) => (bytes / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB';
+
+document.getElementById('verklein-alles').addEventListener('click', async (e) => {
+  const knop = e.currentTarget;
+  const stand = document.getElementById('verklein-stand');
+  const zeg = (tekst) => { stand.hidden = false; stand.textContent = tekst; };
+
+  knop.disabled = true;
+  zeg('Even kijken wat er allemaal staat…');
+
+  let bestanden;
+  try {
+    bestanden = await alleBestanden();
+  } catch (fout) {
+    knop.disabled = false;
+    return zeg('De lijst met foto\'s kon niet opgehaald worden: ' + fout.message);
+  }
+
+  const fotos = bestanden.filter((f) => !isFilm(f.pad));
+  const totaal = fotos.reduce((som, f) => som + f.grootte, 0);
+  if (!fotos.length) { knop.disabled = false; return zeg('Er staat nog geen enkele foto in de opslag.'); }
+  if (!confirm(`${fotos.length} foto's, samen ${mb(totaal)}. Ze worden één voor één opgehaald, `
+             + 'verkleind en teruggezet. Dat kan een paar minuten duren — laat dit venster zolang openstaan.\n\n'
+             + 'Doorgaan?')) {
+    knop.disabled = false;
+    stand.hidden = true;
+    return;
+  }
+
+  let gedaan = 0, overgeslagen = 0, mislukt = 0, gewonnen = 0;
+  for (const [i, foto] of fotos.entries()) {
+    zeg(`${i + 1} van ${fotos.length} — ${foto.pad}`);
+    try {
+      const { data: blob, error: haalFout } = await db.storage.from('productfotos').download(foto.pad);
+      if (haalFout) throw new Error(haalFout.message);
+      const klein = await verkleinBlob(blob);
+      if (!klein) { overgeslagen++; continue; }
+      // upsert: dezelfde plaats, dus de tassen en de sfeerbeelden blijven kloppen.
+      const { error: zetFout } = await db.storage.from('productfotos')
+        .upload(foto.pad, klein, { upsert: true, contentType: 'image/jpeg', cacheControl: '3600' });
+      if (zetFout) throw new Error(zetFout.message);
+      gewonnen += blob.size - klein.size;
+      gedaan++;
+    } catch (fout) {
+      console.warn('Verkleinen van ' + foto.pad + ' lukte niet:', fout);
+      mislukt++;
+    }
+  }
+
+  knop.disabled = false;
+  zeg(`Klaar. ${gedaan} verkleind, ${mb(gewonnen)} lichter.`
+    + (overgeslagen ? ` ${overgeslagen} waren al klein genoeg.` : '')
+    + (mislukt ? ` ${mislukt} lukten niet — die staan in de console van de browser.` : '')
+    // De foto's houden hun adres, dus een browser kan nog een uur de oude
+    // versie tonen. Aan de opslag en het verkeer is al wel geraakt.
+    + ' De foto\'s houden hun adres; een browser kan de oude versie nog wat tonen.');
+  toonFotos();
+  laadLijst();
+  laadSfeer();
+});
 
 document.getElementById('upload').addEventListener('change', (e) => {
   let bestanden = [...e.target.files];

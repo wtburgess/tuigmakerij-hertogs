@@ -33,9 +33,11 @@ De foto's op de pagina's zelf staan in de tabel `sitefotos`: één rij per plek,
 met het pad in de opslagmap `productfotos/sfeer/`. Staat er voor een naam geen
 rij, dan geldt `IMG` in `assets/site.js`.
 
-Die volgorde is met opzet. De pagina tekent eerst uit `IMG` en vervangt daarna
-wat gewisseld is, zodat een trage of onbereikbare databank nooit een lege
-pagina oplevert — hooguit even de oude foto.
+De pagina wacht eerst het lijstje met vervangen beelden af — een paar honderd
+bytes — en vult dan elke plek in één keer juist in. Zo laadt de browser er nooit
+twee na elkaar. Blijft dat lijstje uit, dan komen na twee tellen alsnog de
+beelden uit `IMG`: een trage of onbereikbare databank levert dus nooit een lege
+pagina op.
 
 Karolien wisselt ze zelf op de beheerpagina onder **Sfeerbeelden**. Ze ziet
 daar de 39 plekken op de site, elk met de pagina en de sectiekop waar het beeld
@@ -73,9 +75,17 @@ Zet je foto's rechtstreeks in Supabase > Storage — dus buiten de beheerpagina
 om — dan gebeurt dat verkleinen níét. Doe het daar dan zelf, tot zo'n 2000
 pixels breed.
 
-Foto's die er vóór deze wijziging al op stonden, zijn nog de onverkleinde. Wil
-je die lichter maken, dan moet je ze één keer opnieuw kiezen op de
-beheerpagina; ze gaan dan verkleind mee.
+Foto's die er vóór deze wijziging al op stonden, zijn nog de onverkleinde. Voor
+die ene keer staat er onderaan de beheerpagina een knop **Alle foto's
+verkleinen**. Die haalt elke foto uit de opslag, verkleint ze en zet ze op
+dezelfde plaats terug — de tassen en de sfeerbeelden wijzen naar een pad, en dat
+pad blijft kloppen, dus aan de databank verandert er niets.
+
+Het ophalen kost zelf één keer verkeer, ongeveer zoveel als er in de opslag
+staat. Doe het dus één keer en niet elke week. Filmpjes blijven ongemoeid, en
+een foto die al klein genoeg is wordt overgeslagen. Omdat de foto's hun adres
+houden, kan een browser nog een uurtje de oude versie tonen; aan de opslag en
+het verkeer is dan al wel geraakt.
 
 ## Filmpjes
 
