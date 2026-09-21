@@ -255,6 +255,13 @@ let PRODUCTS = [
 
 const productById = (id) => PRODUCTS.find((p) => p.id === id);
 
+/* Verkochte tassen zakken naar onderaan. Binnen elke groep blijft de volgorde
+   staan die op de beheerpagina ingesteld is — sorteren in JavaScript houdt
+   gelijke gevallen op hun plaats. Zo toont "Een glimp van de collectie", dat
+   enkel de eerste drie neemt, altijd tassen die nog te koop zijn. */
+const beschikbaarEerst = (lijst) =>
+  lijst.slice().sort((a, b) => (a.voorraad > 0 ? 0 : 1) - (b.voorraad > 0 ? 0 : 1));
+
 /* Google levert deze beelden standaard op 512px breed. Voor een hero of een
    paginabrede foto is dat zichtbaar zacht; met =w1600 komt het origineel
    (1408px) binnen. Geldt niet voor de eigen foto's in assets/foto/. */
@@ -383,6 +390,9 @@ const productsGeladen = (async () => {
   } catch (fout) {
     console.warn('Collectie ophalen uit Supabase lukte niet; de ingebouwde lijst blijft staan.', fout);
   }
+  // Ook wanneer het ophalen misliep: de ingebouwde lijst wordt op dezelfde
+  // manier geschikt, zodat de pagina er in beide gevallen hetzelfde uitziet.
+  PRODUCTS = beschikbaarEerst(PRODUCTS);
   return PRODUCTS;
 })();
 
