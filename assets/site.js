@@ -107,18 +107,22 @@ const CONTACT = {
 
 /* Verzendopties. Sleutel = waarde in het keuzemenu bij het afrekenen. */
 const LEVERING = {
-  be:     { label: 'Verzenden naar België',            kost: 0,  adres: true, land: 'België' },
-  nl:     { label: 'Verzenden naar Nederland',         kost: 15, adres: true, land: 'Nederland' },
-  de:     { label: 'Verzenden naar Duitsland',         kost: 15, adres: true, land: 'Duitsland' },
-  fr:     { label: 'Verzenden naar Frankrijk',         kost: 15, adres: true, land: 'Frankrijk' },
-  lu:     { label: 'Verzenden naar Luxemburg',         kost: 15, adres: true, land: 'Luxemburg' },
+  be:     { label: 'Verzenden naar België',            en: 'Shipping to Belgium',       kost: 0,  adres: true, land: 'België' },
+  nl:     { label: 'Verzenden naar Nederland',         en: 'Shipping to the Netherlands', kost: 15, adres: true, land: 'Nederland' },
+  de:     { label: 'Verzenden naar Duitsland',         en: 'Shipping to Germany',       kost: 15, adres: true, land: 'Duitsland' },
+  fr:     { label: 'Verzenden naar Frankrijk',         en: 'Shipping to France',        kost: 15, adres: true, land: 'Frankrijk' },
+  lu:     { label: 'Verzenden naar Luxemburg',         en: 'Shipping to Luxembourg',    kost: 15, adres: true, land: 'Luxemburg' },
   /* Buiten die vier weten we de verzendkost niet vooraf. Zo'n bestelling komt
      binnen als aanvraag: de klant vult zelf het land in, betaalt nog niet, en
      krijgt het bedrag per mail. Staat daarom met opzet niet in de tabel van de
      edge function — anders zou ze wél afgerekend kunnen worden aan 0 euro. */
-  ander:  { label: 'Verzenden naar een ander land',    kost: 0,  adres: true, land: '', opAanvraag: true },
-  afhaal: { label: 'Afhalen in het atelier',           kost: 0,  adres: false, land: '' }
+  ander:  { label: 'Verzenden naar een ander land',    en: 'Shipping to another country', kost: 0,  adres: true, land: '', opAanvraag: true },
+  afhaal: { label: 'Afhalen in het atelier',           en: 'Collection from the workshop', kost: 0,  adres: false, land: '' }
 };
+
+/* De keuzelijst en de bedanktpagina tonen deze labels; wat er naar de server
+   gaat is de sleutel (be, nl, …), dus daar verandert de taal niets aan. */
+const leveringLabel = (lev) => (TAAL === 'en' && lev.en) || lev.label;
 
 /* Bestellingen worden per mail bevestigd en per overschrijving betaald.
    Zet hier een formulier-endpoint (bv. Formspree of een eigen script) en
@@ -519,6 +523,8 @@ let TAAL = (() => {
 
 const EN = {
   /* --- balk bovenaan, voet, inschrijfblok --- */
+  'kaart.verkocht': 'Sold',
+  'kaart.nieuw': 'New',
   'nav.home': 'Home',
   'nav.collectie': 'Collection',
   'nav.bio': 'Story',
@@ -562,7 +568,274 @@ const EN = {
   'home.maat.knop': 'How it works',
   'home.citaat': '&ldquo;Making that first bag was the moment my own puzzle fell into place. That is where all the pieces came together: my love of craft and workmanship, my bond with the horse world, and my longing for a creative and free life.&rdquo;',
   'home.karolien.rol': 'Saddler &amp; founder',
-  'home.karolien.link': 'Read my story'
+  'home.karolien.link': 'Read my story',
+
+  /* --- productpagina --- */
+  'product.weg.titel': 'We could not find this bag',
+  'product.weg.tekst': 'It may have been sold in the meantime — every piece exists only once.',
+  'product.weg.knop': 'View the collection',
+  'product.spec.referentie': 'Reference',
+  'product.spec.herkomst': 'Leather origin',
+  'product.spec.kleur': 'Colour',
+  'product.spec.afmetingen': 'Dimensions',
+  'product.verkocht.tekst': 'This bag is sold, and it exists only once. Something similar is certainly possible.',
+  'product.verkocht.knop': 'Ask for something similar',
+  'product.mandje': 'Add to my basket',
+  'product.naarmandje': 'To my basket',
+  'product.uniek.titel': 'One piece. Entirely handmade.',
+  'product.uniek.tekst': 'Every piece comes from a different saddle, so this bag exists exactly once. Shipped free and insured within Belgium.',
+  'product.vraag': 'A question about this bag?',
+  'product.vraag.link': 'Send me a message.',
+  'product.vergroot': 'View the full photo of {naam}',
+  'product.fotonr': 'Photo {n} of {naam}',
+  'product.fotokort': 'Photo {n}',
+  'product.filmuitleg': 'Click the video to play it',
+  'product.fotouitleg': 'Click the photo for the full image',
+  'product.wa.verkocht': 'Hi Karolien, {naam} has been sold. Could you make something similar? ',
+  'product.wa.vraag': 'Hi Karolien, I have a question about {naam}: ',
+  'product.andere': 'Other bags in the workshop',
+
+  /* --- veelgestelde vragen --- */
+  'faq.paginatitel': 'Frequently asked questions — Tuigtassen Hertogs',
+  'faq.titel': 'Frequently asked questions',
+  'faq.v1': 'How do I care for my bag?',
+  'faq.a1': 'These bags ask for exactly the same care as a horse saddle. You will find suggestions on the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page.',
+  'faq.v2': 'Do you work by appointment only, or can I drop by?',
+  'faq.a2': 'For now I work by appointment only. But I would love to see you — send me a message beforehand and come on over.',
+  'faq.v3': 'Do you do repairs as well?',
+  'faq.a3a': 'Yes, you can come to me for any repair to horse tack. Have a look at the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page.',
+  'faq.a3b': 'For the bags: should premature wear appear within the one-year warranty — a loose seam, say — I repair it free of charge. It should not happen, and I am glad to put it right. Where it is damage rather than wear, the cost is charged. Best to get in touch first.',
+  'faq.v4': 'How long do these bags last?',
+  'faq.a4': 'Provided they are looked after, and given the care they need in good time, these bags can last several generations. Age only gives them more charm. Have a look at the <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">repair &amp; care</a> page for tips.',
+  'faq.v5': 'Can I order a gift voucher?',
+  'faq.a5': 'Yes, you can. Get in touch on WhatsApp and we will sort it out.',
+  'faq.slot': 'Is your question not here?',
+  'faq.slot.link': 'Send me a message.',
+  'faq.slot.wa': 'Hi Karolien, I have a question: ',
+
+  /* --- afrekenen --- */
+  'levering.opaanvraag': ' — shipping cost on request',
+  'levering.gratis': ' — free',
+  'bestel.paginatitel': 'Checkout — Tuigtassen Hertogs',
+  'bestel.leeg.titel': 'Your basket is still empty',
+  'bestel.leeg.tekst': 'Take all the time you need to look around',
+  'bestel.leeg.knop': 'View the collection',
+  'bestel.titel': 'Checkout',
+  'bestel.contact': 'Contact',
+  'bestel.email': 'Email address *',
+  'bestel.telefoon': 'Phone *',
+  'bestel.levering': 'Delivery',
+  'bestel.hoe': 'How would you like to receive your bag?',
+  'bestel.voornaam': 'First name *',
+  'bestel.achternaam': 'Surname *',
+  'bestel.adres': 'Street and number *',
+  'bestel.postcode': 'Postcode *',
+  'bestel.stad': 'Town *',
+  'bestel.land': 'Country',
+  'bestel.landvraag': 'To which country? *',
+  'bestel.bericht': 'Message',
+  'bestel.berichtvb': 'Anything I should know? Gift wrapping, a delivery wish…',
+  'bestel.betaling': 'Payment',
+  'bestel.bancontact': 'Payment by Bancontact',
+  'bestel.betaaluitleg': 'You pay straight away by Bancontact. Once your order is placed you will see your order number and a summary. If the payment does not go through at once, your order stays reserved for 24 hours. As soon as the payment arrives I get your parcel ready and your bag goes in the post!',
+  'bestel.akkoord': 'I agree to the terms of sale. *',
+  'bestel.knop': 'Order and pay',
+  'bestel.veilig': 'Your details go to the workshop only. Payment is handled securely by Mollie.',
+  'bestel.mandje': 'Your basket',
+  'bestel.subtotaal': 'Subtotal',
+  'bestel.verzending': 'Shipping',
+  'bestel.afhalen': 'Collection',
+  'bestel.gratis': 'Free',
+  'bestel.opaanvraag': 'On request',
+  'bestel.plusverzending': ' + shipping',
+  'bestel.totaal': 'Total',
+  'bestel.dank': 'With your purchase you make the world a little lovelier: you support local craftsmanship and choose something made to last. Thank you!',
+  'bestel.verder': 'Keep looking',
+  'bestel.voet': 'Questions about your order?',
+  'bestel.voet.link': 'Send me a message',
+  'bestel.voet.of': 'or email',
+  'bestel.voet.wa': 'Hi Karolien, I have a question about my order: ',
+  'bestel.verwijder': 'Remove',
+  'bestel.min': 'One fewer',
+  'bestel.plus': 'One more',
+  'bestel.afhaaladres': '(collection from the workshop)',
+  'bestel.fout.velden': 'Please fill in the fields marked with a * .',
+  'bestel.fout.opnieuw': ' Please try again, or send me a message.',
+
+  /* --- bedankt --- */
+  'bedankt.paginatitel': 'Thank you for your order — Tuigtassen Hertogs',
+  'bedankt.titel': 'Thank you for your order',
+  'bedankt.tekst': 'The piece you chose has been reserved. You will receive a confirmation by email.',
+  'bedankt.terug': 'Back to the collection',
+  'bedankt.geen': 'We found no recent order here. Did you order and see nothing?',
+  'bedankt.geen.link': 'Let me know.',
+  'bedankt.geen.wa': 'Hi Karolien, I placed an order but see no confirmation. ',
+  'bedankt.verzendkost.titel': 'I am looking up your shipping cost',
+  'bedankt.verzendkost.tekst': 'Nothing has been charged yet. For {land} I first have to ask after the shipping — you will have the amount from me within two working days, with the details to pay.',
+  'bedankt.jouwland': 'your country',
+  'bedankt.verzendkost.slot': 'Until then I keep your bag aside for you. If anything is not right, do let me know.',
+  'bedankt.overschrijven': 'Bank transfer',
+  'bedankt.begunstigde': 'Beneficiary',
+  'bedankt.bedrag': 'Amount',
+  'bedankt.mededeling': 'Reference',
+  'bedankt.vrijhouden': 'I keep your bag aside for 24 hours. As soon as the payment arrives I pack it up and it goes in the post — you will get a message with the tracking number.',
+  'bedankt.doorsturen.titel': 'Send your order through',
+  'bedankt.doorsturen.tekst': 'Then I know straight away that it has arrived. One click and the email is ready — all you have to do is send it.',
+  'bedankt.mailknop': 'Confirm by email',
+  'bedankt.waknop': 'Or by WhatsApp',
+  'bedankt.wa': 'Hi Karolien, I have just placed order {ref}. ',
+  'bedankt.mailonderwerp': 'Order',
+
+  /* --- collectie --- */
+  'col.paginatitel': 'Collection &amp; made to order — Tuigtassen Hertogs',
+  'col.titel': 'Three ways to your harness bag',
+  'col.weg1.titel': 'From the existing collection',
+  'col.weg1.tekst': 'A bag that is already finished. From a saddle that has lived a life of its own, and is ready to begin a new story with you. You see exactly what you get, and it is on its way to you within a few days.',
+  'col.weg1.link': 'To the bags',
+  'col.weg2.titel': 'Made to order from a saddle in stock',
+  'col.weg2.tekst': 'There are always saddles here waiting to become new designs. Tell me what matters to you and I will make one entirely to your idea.',
+  'col.weg3.titel': 'Made to order from your own saddle',
+  'col.weg3.tekst': 'Your horse\u2019s saddle, with every memory attached to it, becomes a bag to treasure for life.',
+  'col.voorraad': 'In stock',
+  'col.leverbaar': 'Ready to ship',
+  'col.match.titel': 'Not quite the right one?',
+  'col.match.tekst': 'Do you feel a click with my style, but not quite find what you are after? Then I will gladly make the bag you have in mind. You can choose a saddle from my stock, or bring your own. Send me a message or give me a ring and tell me what you picture. We will look at what is possible together.',
+  'col.match.slot': 'Below you can see how an order made to measure goes.',
+  'col.match.wa': 'Hi Karolien, I am thinking about a bag made to order. ',
+  'col.match.knop': 'Send me a WhatsApp message',
+  'col.stap1.titel': 'Contact',
+  'col.stap1.tekst': 'You send me a message, with a few photos if you like, and tell me what you are looking for.',
+  'col.stap2.titel': 'Conversation',
+  'col.stap2.tekst': 'If the distance allows it, I would love to have you over at the workshop. We look at what is possible together.',
+  'col.stap3.titel': 'Design',
+  'col.stap3.tekst': 'I make a design based on your ideas, and we agree on a price range.',
+  'col.stap4.titel': 'Handwork',
+  'col.stap4.tekst': 'The saddle comes apart and the leather is prepared. I keep you posted by WhatsApp and check the choices with you as we go.',
+  'col.stap5.titel': 'Delivery',
+  'col.stap5.tekst': 'You collect your bag at the workshop, or I send it to you insured.',
+  'col.werkwijze': 'How it works',
+  'col.werkwijze.titel': 'From your saddle to your bag',
+  'col.werkwijze.1': 'A harness bag made from your own saddle is something else again. Every mark of wear in the leather comes from a story you lived yourself.',
+  'col.werkwijze.2': 'If you would like a harness bag made from your own saddle, I would love to have you over for a coffee at the workshop. We go back over the memories and so discover which elements you would like to see return in the bag. We also talk about the kind of bag you prefer: a tote, a cross body, or something more classic.',
+  'col.werkwijze.3': 'Bringing the saddle in yourself is best, so that we can talk it through. Too far to travel? The saddle can be sent as well, and we settle the rest by phone.',
+  'col.person.titel': 'Personalisation and finish',
+  'col.person.1': 'Every bag can be tuned to your style and your preferences. From the colour of the stitching and the finish of the edges to the choice of buckles and fastenings. Together we look at which details suit you best.',
+  'col.person.2': 'Because every saddle is different, not every one lends itself to every model. Sometimes extra leather is needed to bring your chosen design about. We talk through the options and look for the loveliest solution together.',
+  'col.voorbeelden': 'A few examples',
+  'col.vb1.titel': 'Polo saddle',
+  'col.vb1.tekst': 'The seat had sagged beyond repair. The flaps gave the leather for this bag of the same name, the \u2018polo\u2019.',
+  'col.vb2.titel': 'Barnsby and Son all-round saddle',
+  'col.vb2.tekst': 'This saddlery once made saddles for the British army. Placing the three saddle knobs at the front gives this bag a sturdy, military look.',
+  'col.stap1van5': 'Step 1 of 5',
+  'col.oproep.titel': 'It all begins with your message',
+  'col.oproep.tekst': 'Do you have a particular saddle or kind of bag in mind? Send me a photo on WhatsApp. Tell me a little more about it, and we will see what is possible together.',
+  'col.oproep.wa': 'Hi Karolien, I have a saddle I would like made into a bag. ',
+  'col.oproep.knop': 'Start on WhatsApp',
+
+  /* --- verhaal --- */
+  'bio.paginatitel': 'Story — Karolien Hertogs, saddler',
+  'bio.boventitel': 'The story',
+  'bio.titel': 'A small one-woman workshop',
+  'bio.intro.1': 'Tuigtassen Hertogs is a small &ldquo;one-woman workshop&rdquo;, started in 2026.',
+  'bio.intro.2': 'On this page I would like to tell you a little about who I am and why I do what I do. Will you read along?',
+  'bio.h1.nr': 'Chapter one',
+  'bio.h1.titel': 'When dreams come knocking insistently',
+  'bio.h1.1': 'As a child I grew up among the animals on a small hobby farm. Bringing in straw in summer, harvesting beet in autumn. I loved it. A master\u2019s in animal science seemed the logical next step.',
+  'bio.h1.2': 'But during my career in agricultural research something kept missing. It gnawed at me, and at first I could not place the feeling. It turned out to be a longing for more simplicity. For working with my hands and making something you can hold.',
+  'bio.h1.3': 'I enrolled in an evening course in saddlery and harness making at Syntra West in Bruges. But before the course had even begun, one moment changed everything.',
+  'bio.h2.nr': 'Chapter two',
+  'bio.h2.titel': 'When life happens to you',
+  'bio.h2.1': 'It was while training my young horse Silhouette. A hard kick to the head left me with a brain injury, memory loss and, to put it mildly, a difficult time. Specialists told my husband gently that I would never be the same again.',
+  'bio.h2.2': 'But a strong will, helped along by a good deal of luck, can sometimes work wonders. And that luck, I had. Something I am still deeply grateful for every day.',
+  'bio.h2.3': 'After a long and intensive rehabilitation, and surrounded by many kind people, I was able to start my training after all a while later.',
+  'bio.citaat': '&ldquo;A strong will, helped along by a good deal of luck, can sometimes work wonders. And that luck, I had.&rdquo;',
+  'bio.h3.nr': 'Chapter three',
+  'bio.h3.titel': 'Living by your own values',
+  'bio.h3.1': 'The whole episode changed how I look at work and at life. It became clear all at once that keeping up in a hectic world was no longer for me. It forced me to stop and think about what really matters.',
+  'bio.h3.2': 'When our second child was born, and our daughter took her first steps at school, the wish to be more present as a mother grew.',
+  'bio.h3.3': 'By then I had also learned the hard way how fragile life is. Too fragile not to spend your time on what makes your heart beat faster.',
+  'bio.h3.bijschrift': '<em>September. The saddlery classes start again. The pony saddle was finished. With her in mind. The greatest motivation of all.</em>',
+  'bio.h4.nr': 'Chapter four',
+  'bio.h4.titel': 'An old soul',
+  'bio.h4.1': 'The love of old materials, old crafts and stories with a past has always been there. So has the creativity. As a child I hung on my grandmother\u2019s every word when she talked about farming as it used to be. About horses harnessed to plough the land. About delivering fresh milk as a teenager with the dog cart.',
+  'bio.h4.2': 'Perhaps I have an old soul that was looking for simplicity. And so in the evening hours, once the children were asleep, I set to work in earnest. With old materials, old techniques and a large helping of creativity. What began as experimenting with an old worn-out horse saddle grew into my first harness bag.',
+  'bio.h4.3': 'Making that first bag was the moment my own puzzle fell into place. That is where all the pieces came together: my love of craft and workmanship, my bond with the horse world, and my longing for a creative and free life with my family at its centre.',
+  'bio.h5.nr': 'Chapter five',
+  'bio.h5.titel': 'Wearable art',
+  'bio.h5.1': 'Today I give &ldquo;retired&rdquo; saddles a second life as a handbag. Every saddle carries traces of its past. I do not try to hide that history — I give it a place in a new design. That is why I like to call my work wearable art.',
+  'bio.h5.2': 'Every piece gets the chance to begin a new story. Just as I did.',
+  'bio.knop.tassen': 'View my bags',
+  'bio.knop.contact': 'Get in touch',
+  'bio.wa': 'Hi Karolien, I read your story. ',
+
+  /* --- herstel & zorg --- */
+  'ond.paginatitel': 'Repairs &amp; care — Tuigmakerij Hertogs',
+  'ond.titel': 'Repair &amp; care',
+  'ond.intro.1': 'Besides making bags I repair horse equipment. I trained as a saddler and work the traditional way. Hand-stitched where it belongs, with waxed thread that stands up to wear.',
+  'ond.intro.2': 'Is your bridle broken, your girth worn through, your saddle damaged? Bring it by. Do you have one of my harness bags? Below is how to look after it for the decades to come.',
+  'ond.wat.titel': 'What I repair',
+  'ond.wat.tekst': 'Most leatherwork around horse and rider passes through here. Not sure whether yours belongs on the list? Send me a photo and I will answer as soon as I can.',
+  'ond.wat.wa': 'Hi Karolien, I have something that needs repairing. ',
+  'ond.wat.knop': 'Send me a photo',
+  'ond.k1.titel': 'Saddles',
+  'ond.k1.tekst': 'Stitching come loose, worn saddle flaps, replacing girth straps, mending tears.',
+  'ond.k2.titel': 'Bridles &amp; reins',
+  'ond.k2.tekst': 'Straps worn through, lengthening or shortening, fitting keepers, replacing buckles, …',
+  'ond.k3.titel': 'Harness &amp; driving tack',
+  'ond.k3.tekst': 'Alterations to any breastplate, driving reins, traces and so on needed in carriage driving.',
+  'ond.k4.titel': 'Straps &amp; girths',
+  'ond.k4.tekst': 'Among others: shortening or lengthening, stirrup leathers, headcollars and lungeing gear.',
+  'ond.k5.titel': 'Bags &amp; other leather goods',
+  'ond.k5.tekst': 'I am glad to help with other leather goods too. Lengthening or shortening shoulder straps, refitting buckles on belts, mending seams, …',
+  'ond.k6.titel': 'What I do not do',
+  'ond.k6.tekst': 'No saddle fitting and no alterations to the tree. For that I will gladly point you to someone who does.',
+  'ond.hoe.titel': 'How it works',
+  'ond.s1.titel': 'Send a photo',
+  'ond.s1.tekst': 'By WhatsApp or email. Say briefly what happened. Usually I can tell you straight away whether it can be mended.',
+  'ond.s2.titel': 'Bring it by',
+  'ond.s2.tekst': 'By appointment, so that I have time for it and we can look at it together. Sending it works too, but coming by is often better.',
+  'ond.s3.titel': 'Price and timing in advance',
+  'ond.s3.tekst': 'You get a realistic timescale before I start, and an estimate of what it will cost.',
+  'ond.s4.titel': 'Collection',
+  'ond.s4.tekst': 'I let you know as soon as I am done with your gear. Small repairs are often ready within the week.',
+  'ond.langskomen': 'Coming by',
+  'ond.afspraak': 'By appointment only',
+  'ond.langs.wa': 'Hi Karolien, I would like to bring something in. ',
+  'ond.tips.boventitel': 'For your harness bag',
+  'ond.tips.titel': 'This is how it lasts a lifetime',
+  'ond.tips.tekst': 'Good leather asks for little. But that little, it really does ask for.',
+  'ond.t1.titel': 'Feeding',
+  'ond.t1.tekst': 'Give your bag a thin coat of leather grease now and then. You can use the same products as for greasing saddles and tack.',
+  'ond.t2.titel': 'Got wet?',
+  'ond.t2.tekst': 'Let it dry at room temperature. Do not put your bag beside a direct source of heat such as a radiator or a stove. That risks cracks in the leather.',
+  'ond.t3.titel': 'Protecting',
+  'ond.t3.tekst': 'Avoid long spells in full sun, to prevent discolouring and drying out.',
+  'ond.t4.titel': 'Cleaning',
+  'ond.t4.tekst': 'A slightly damp cloth is enough. Has your bag picked up a stain? Then use a mild saddle soap. After washing with saddle soap it is important to feed your bag again.'
+};
+
+/* Voor tekst die niet in de HTML staat maar in JavaScript opgebouwd wordt: een
+   melding, een aria-label, het onderwerp van een mailtje. Het Nederlands geef
+   je mee als terugval, zo blijft de code leesbaar zonder de lijst erbij.
+
+   Moet er iets in de zin ingevuld worden, zet dat dan tussen accolades en geef
+   de waarden mee: t('product.fotonr', 'Foto {n} van {naam}', { n: 2, naam }).
+   Zo staat de Engelse zin gewoon in de lijst, met de accolades op de plaats
+   waar het Engels ze wil — niet noodzakelijk waar het Nederlands ze had. */
+const t = (sleutel, nederlands, waarden) => {
+  const tekst = (TAAL === 'en' && EN[sleutel]) || nederlands;
+  return waarden
+    ? tekst.replace(/\{(\w+)\}/g, (heel, naam) => naam in waarden ? waarden[naam] : heel)
+    : tekst;
+};
+
+/* Wat Karolien per tas invult, staat twee keer in de databank: `verhaal` en
+   `verhaal_en`. Is het Engelse veld leeg, dan blijft het Nederlands staan —
+   zo kan die vertaling stuk voor stuk groeien zonder lege vakken. Werkt zowel
+   voor tekst als voor de lijst met kenmerken; allebei hebben ze een length. */
+const veld = (rij, naam) => {
+  const en = rij[naam + '_en'];
+  return TAAL === 'en' && en && en.length ? en : rij[naam];
 };
 
 /* De Nederlandse tekst staat in de HTML zelf; die bewaren we bij de eerste
@@ -585,6 +858,10 @@ function vertaal(wortel = document) {
       el.setAttribute(attr, (TAAL === 'en' && EN[sleutel]) || bewaard[attr]);
     });
   });
+
+  // Een vertaalde WhatsApp-tekst moet ook in de link zelf terechtkomen; die
+  // werd bij het laden één keer uit data-wa opgebouwd.
+  wortel.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
 
   markeerTaal();
 }
@@ -801,12 +1078,13 @@ function inschrijvingKlaarzetten(form) {
    "Nieuw": een verkochte tas is geen nieuwtje meer.
    Een tas is nieuw zolang `nieuw: true` in PRODUCTS staat. */
 function badge(p) {
-  const label = p.voorraad < 1 ? 'Verkocht' : p.nieuw ? 'Nieuw' : null;
+  const verkocht = p.voorraad < 1;
+  const label = verkocht ? 'Verkocht' : p.nieuw ? 'Nieuw' : null;
   if (!label) return '';
-  const kleur = label === 'Verkocht'
+  const kleur = verkocht
     ? 'bg-inverse-surface text-inverse-on-surface'
     : 'bg-primary text-on-primary';
-  return `<span class="absolute top-2 right-2 z-20 ${kleur}
+  return `<span data-t="kaart.${verkocht ? 'verkocht' : 'nieuw'}" class="absolute top-2 right-2 z-20 ${kleur}
                  font-label-sm text-label-sm uppercase tracking-widest px-3 py-1">${label}</span>`;
 }
 
@@ -836,7 +1114,7 @@ function productCard(p, klasse = '') {
     <div class="absolute inset-0 z-10 overflow-hidden bg-surface-container-low ${huid} soft-edge-mask saddle-stitch saddle-stitch-dark">
       ${mediaTag(fotoUrl(p.fotos[0]), `absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out
                   group-hover:scale-105 ${tweede ? 'group-hover:opacity-0' : ''}
-                  ${uitverkocht ? 'grayscale opacity-70' : ''}`, { alt: p.naam })}
+                  ${uitverkocht ? 'grayscale opacity-70' : ''}`, { alt: veld(p, 'naam') })}
       ${tweede ? mediaTag(tweede, `absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-out
                   group-hover:opacity-100 group-hover:scale-105 ${uitverkocht ? 'grayscale' : ''}`,
                   { extra: 'aria-hidden="true"' }) : ''}
@@ -851,8 +1129,8 @@ function productCard(p, klasse = '') {
 
   <div class="flex justify-between items-start gap-4 mt-6">
     <div>
-      <h3 class="font-headline-md text-headline-md text-primary leading-tight">${p.naam}</h3>
-      <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${p.herkomst}</p>
+      <h3 class="font-headline-md text-headline-md text-primary leading-tight">${veld(p, 'naam')}</h3>
+      <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${veld(p, 'herkomst')}</p>
     </div>
     ${toonPrijs(p) ? `<span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
                  text-on-surface-variant px-2 py-1 whitespace-nowrap">${prijsHtml(p)}</span>` : ''}

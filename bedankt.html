@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bedankt voor je bestelling — Tuigtassen Hertogs</title>
+<title data-t="bedankt.paginatitel">Bedankt voor je bestelling — Tuigtassen Hertogs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,18 +15,25 @@
 </head>
 <body data-page="bestellen" class="bg-background text-on-background noise-overlay relative overflow-x-hidden antialiased min-h-screen flex flex-col">
 
-<header class="w-full flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
+<header class="w-full relative flex justify-center items-center py-8 bg-background border-b-2 border-dashed border-secondary/30">
   <a href="index.html">
     <img src="assets/logo.png" alt="Tuigtassen Hertogs" width="600" height="296" class="h-14 w-auto">
   </a>
+  <!-- Deze pagina draagt een eigen, kale balk zonder navigatie. De taalknop
+       hoort er wel bij: anders kan wie in het Engels afrekent niet meer terug.
+       markeerTaal() vult het opschrift in. -->
+  <button type="button" data-taal="nl"
+          class="absolute right-margin-mobile md:right-margin-desktop px-2 py-2 font-label-mono text-label-mono
+                 uppercase text-secondary hover:text-primary border-b border-transparent hover:border-primary
+                 transition-colors duration-300"></button>
 </header>
 
 <main class="flex-grow max-w-3xl mx-auto w-full px-margin-mobile py-16 md:py-24">
 
   <div class="text-center mb-16">
     <span class="material-symbols-outlined symbol-filled text-5xl text-primary mb-6">check_circle</span>
-    <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-6 -rotate-1">Bedankt voor je bestelling</h1>
-    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
+    <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-primary mb-6 -rotate-1" data-t="bedankt.titel">Bedankt voor je bestelling</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto" data-t="bedankt.tekst">
       Jouw gekozen item werd gereserveerd. Via e-mail ontvang je nog een bevestiging.
     </p>
   </div>
@@ -34,7 +41,7 @@
   <div id="overzicht"></div>
 
   <div class="text-center mt-16">
-    <a href="collectie.html#voorraad" class="inline-flex items-center gap-2 stitched-border text-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors">
+    <a href="collectie.html#voorraad" class="inline-flex items-center gap-2 stitched-border text-primary px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface-container-low transition-colors" data-t="bedankt.terug">
       Terug naar de collectie
     </a>
   </div>
@@ -51,15 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!bestelling) {
     root.innerHTML = `
       <p class="font-body-lg text-body-lg text-on-surface-variant text-center">
-        We vonden hier geen recente bestelling. Heb je toch besteld en zie je niets?
-        <a data-wa="Dag Karolien, ik heb besteld maar zie geen bevestiging. " target="_blank" rel="noopener"
+        <span data-t="bedankt.geen">We vonden hier geen recente bestelling. Heb je toch besteld en zie je niets?</span>
+        <a data-wa="Dag Karolien, ik heb besteld maar zie geen bevestiging. " data-t-attr="data-wa:bedankt.geen.wa"
+           target="_blank" rel="noopener" data-t="bedankt.geen.link"
            class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Laat het me weten.</a>
       </p>`;
-    root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+    vertaal(root);
     return;
   }
 
   const mededeling = bestelling.referentie;
+  // De mail is voor Karolien bedoeld, dus die blijft in het Nederlands staan.
   const mailBody =
     `Bestelling ${mededeling}\n\n` +
     bestelling.regels.map((r) => `${r.aantal}x ${r.tas}${r.code ? ` (${r.code})` : ''} — ${euro.format(r.bedrag)}`).join('\n') +
@@ -70,24 +79,24 @@ document.addEventListener('DOMContentLoaded', () => {
     (bestelling.klant.telefoon ? `\n${bestelling.klant.telefoon}` : '') +
     (bestelling.klant.bericht ? `\n\nBericht: ${bestelling.klant.bericht}` : '');
 
+  const tekenOverzicht = () => {
   root.innerHTML = `
     ${bestelling.viaMollie ? '' : `
     ${bestelling.opAanvraag ? `
     <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
-      <h2 class="font-headline-md text-headline-md text-primary mb-4">Ik zoek je verzendkost op</h2>
+      <h2 class="font-headline-md text-headline-md text-primary mb-4" data-t="bedankt.verzendkost.titel">Ik zoek je verzendkost op</h2>
       <p class="font-body-md text-body-md text-on-surface-variant mb-4">
-        Er is nog niets afgerekend. Voor ${bestelling.klant.land || 'jouw land'} moet ik de verzending eerst
-        navragen — je krijgt binnen twee werkdagen het bedrag van me, met de gegevens om te betalen.
+        ${t('bedankt.verzendkost.tekst', 'Er is nog niets afgerekend. Voor {land} moet ik de verzending eerst navragen — je krijgt binnen twee werkdagen het bedrag van me, met de gegevens om te betalen.', { land: bestelling.klant.land || t('bedankt.jouwland', 'jouw land') })}
       </p>
-      <p class="font-body-md text-body-md text-on-surface-variant">
+      <p class="font-body-md text-body-md text-on-surface-variant" data-t="bedankt.verzendkost.slot">
         Zolang hou ik je tas voor je vrij. Klopt er iets niet, laat het gerust weten.
       </p>
     </div>` : `
     <div class="bg-surface-container-lowest p-8 md:p-10 border-2 border-dashed border-secondary/60 rounded-lg mb-8">
-      <h2 class="font-headline-md text-headline-md text-primary mb-6">Overschrijven</h2>
+      <h2 class="font-headline-md text-headline-md text-primary mb-6" data-t="bedankt.overschrijven">Overschrijven</h2>
       <dl class="space-y-4 font-body-md text-body-md">
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
-          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Begunstigde</dt>
+          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="bedankt.begunstigde">Begunstigde</dt>
           <dd class="text-primary">${CONTACT.atelier}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
@@ -95,40 +104,44 @@ document.addEventListener('DOMContentLoaded', () => {
           <dd class="text-primary font-semibold">${CONTACT.iban}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1 pb-4 border-b border-surface-variant">
-          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Bedrag</dt>
+          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="bedankt.bedrag">Bedrag</dt>
           <dd class="text-primary font-semibold">${euro.format(bestelling.totaal)}</dd>
         </div>
         <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
-          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Mededeling</dt>
+          <dt class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="bedankt.mededeling">Mededeling</dt>
           <dd class="text-primary font-semibold">${mededeling}</dd>
         </div>
       </dl>
-      <p class="font-body-md text-body-md text-on-surface-variant mt-8">
+      <p class="font-body-md text-body-md text-on-surface-variant mt-8" data-t="bedankt.vrijhouden">
         Ik hou je tas 24u voor je vrij. Zodra de betaling binnen is, pak ik hem in en gaat hij op de post —
         je krijgt dan een berichtje met het volgnummer.
       </p>
     </div>`}
 
     <div class="bg-surface-container-low p-8 border-l-[3px] border-secondary">
-      <h2 class="font-headline-md text-headline-md text-primary mb-3">Stuur je bestelling even door</h2>
-      <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+      <h2 class="font-headline-md text-headline-md text-primary mb-3" data-t="bedankt.doorsturen.titel">Stuur je bestelling even door</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-6" data-t="bedankt.doorsturen.tekst">
         Zo weet ik meteen dat ze binnen is. Eén klik en de mail staat al klaar — jij hoeft enkel te verzenden.
       </p>
       <div class="flex flex-wrap gap-4">
         <a id="mailknop" class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary transition-colors">
-          <span class="material-symbols-outlined text-base">mail</span> Bevestig per mail
+          <span class="material-symbols-outlined text-base">mail</span> <span data-t="bedankt.mailknop">Bevestig per mail</span>
         </a>
-        <a data-wa="Dag Karolien, ik heb net bestelling ${mededeling} geplaatst. " target="_blank" rel="noopener"
+        <a data-wa="${t('bedankt.wa', 'Dag Karolien, ik heb net bestelling {ref} geplaatst. ', { ref: mededeling })}" target="_blank" rel="noopener"
            class="inline-flex items-center gap-2 stitched-border text-primary px-6 py-3 rounded font-label-sm text-label-sm uppercase tracking-widest hover:bg-surface transition-colors">
-          <span class="material-symbols-outlined text-base">chat</span> Of via WhatsApp
+          <span class="material-symbols-outlined text-base">chat</span> <span data-t="bedankt.waknop">Of via WhatsApp</span>
         </a>
       </div>
     </div>`}`;
 
   const mailknop = document.getElementById('mailknop');
   if (mailknop) mailknop.href =
-    `mailto:${CONTACT.email}?subject=${encodeURIComponent('Bestelling ' + mededeling)}&body=${encodeURIComponent(mailBody)}`;
-  root.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+    `mailto:${CONTACT.email}?subject=${encodeURIComponent(t('bedankt.mailonderwerp', 'Bestelling') + ' ' + mededeling)}&body=${encodeURIComponent(mailBody)}`;
+  vertaal(root);
+  };
+
+  tekenOverzicht();
+  document.addEventListener('taal:gewisseld', tekenOverzicht);
 });
 </script>
 </body>

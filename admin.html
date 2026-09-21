@@ -195,6 +195,44 @@
         <textarea name="kenmerken" rows="5" class="input-underline font-body-md text-body-md"></textarea>
       </label>
 
+      <!-- De Engelse tekst staat apart en dichtgeklapt. Ze is optioneel, en
+           anders wordt dit formulier twee keer zo lang voor wie ze niet invult.
+           Elk veld dat je leeg laat, toont op de Engelse site het Nederlands. -->
+      <details class="border-2 border-dashed border-secondary/40 rounded-lg p-5">
+        <summary class="font-label-sm text-label-sm uppercase tracking-widest text-secondary cursor-pointer">Engelse versie — leeg laten mag</summary>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-3 mb-5 max-w-prose">
+          Wat je hier invult, verschijnt zodra een bezoeker rechtsboven op EN klikt.
+          Wat je leeg laat, blijft daar gewoon in het Nederlands staan — de vertaling
+          mag dus stuk voor stuk groeien.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <label class="block sm:col-span-2">
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Naam</span>
+            <input name="naam_en" class="input-underline font-body-md text-body-md">
+          </label>
+          <label class="block sm:col-span-2">
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Herkomst leder</span>
+            <input name="herkomst_en" class="input-underline font-body-md text-body-md">
+          </label>
+          <label class="block">
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Kleur</span>
+            <input name="kleur_en" class="input-underline font-body-md text-body-md">
+          </label>
+          <label class="block">
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Afmetingen</span>
+            <input name="afmetingen_en" class="input-underline font-body-md text-body-md">
+          </label>
+        </div>
+        <label class="block mt-5">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Verhaal</span>
+          <textarea name="verhaal_en" rows="6" class="input-underline font-body-md text-body-md"></textarea>
+        </label>
+        <label class="block mt-5">
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Kenmerken — één per regel</span>
+          <textarea name="kenmerken_en" rows="5" class="input-underline font-body-md text-body-md"></textarea>
+        </label>
+      </details>
+
       <label class="flex items-center gap-3">
         <input type="checkbox" name="nieuw" class="w-5 h-5 rounded border-secondary text-primary">
         <span class="font-body-md text-body-md text-on-surface">Toon het label "Nieuw"</span>
@@ -626,6 +664,12 @@ function openTas(p) {
   bewerk.volgorde.value   = p ? p.volgorde : 0;
   bewerk.verhaal.value    = p ? p.verhaal : '';
   bewerk.kenmerken.value  = p ? (p.kenmerken || []).join('\n') : '';
+  bewerk.naam_en.value       = p ? (p.naam_en || '') : '';
+  bewerk.herkomst_en.value   = p ? (p.herkomst_en || '') : '';
+  bewerk.kleur_en.value      = p ? (p.kleur_en || '') : '';
+  bewerk.afmetingen_en.value = p ? (p.afmetingen_en || '') : '';
+  bewerk.verhaal_en.value    = p ? (p.verhaal_en || '') : '';
+  bewerk.kenmerken_en.value  = p ? (p.kenmerken_en || []).join('\n') : '';
   bewerk.nieuw.checked    = p ? p.nieuw : false;
   document.getElementById('verwijder').hidden = !p;
   wachtrij = [];
@@ -666,6 +710,13 @@ bewerk.addEventListener('submit', async (e) => {
     verhaal: bewerk.verhaal.value.trim(),
     // Lege regels eruit: anders krijg je een streepje zonder tekst op de site.
     kenmerken: bewerk.kenmerken.value.split('\n').map((r) => r.trim()).filter(Boolean),
+    // Engels mag leeg blijven; de site valt dan terug op het Nederlands.
+    naam_en: bewerk.naam_en.value.trim(),
+    herkomst_en: bewerk.herkomst_en.value.trim(),
+    kleur_en: bewerk.kleur_en.value.trim(),
+    afmetingen_en: bewerk.afmetingen_en.value.trim(),
+    verhaal_en: bewerk.verhaal_en.value.trim(),
+    kenmerken_en: bewerk.kenmerken_en.value.split('\n').map((r) => r.trim()).filter(Boolean),
     volgorde: Number(bewerk.volgorde.value) || 0
   };
   // Twee tassen met dezelfde naam zouden anders dezelfde link krijgen, en de

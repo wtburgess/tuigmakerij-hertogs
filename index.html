@@ -233,10 +233,15 @@
 
 <script>
   // Drie uitgelichte tassen op de home; de rest staat op de collectiepagina.
-  paginaKlaar.then(() => {
-    document.getElementById('home-grid').innerHTML =
-      PRODUCTS.slice(0, 3).map((p) => productCard(p)).join('');
-  });
+  // Bij een taalwissel tekenen we opnieuw: naam en herkomst komen uit de
+  // databank en hebben daar hun eigen Engelse veld.
+  const tekenHome = () => {
+    const raster = document.getElementById('home-grid');
+    raster.innerHTML = PRODUCTS.slice(0, 3).map((p) => productCard(p)).join('');
+    vertaal(raster);
+  };
+  paginaKlaar.then(tekenHome);
+  document.addEventListener('taal:gewisseld', tekenHome);
 </script>
 </body>
 </html>
