@@ -400,6 +400,11 @@ const paginaKlaar = Promise.all([
 const CART_KEY = 'th-cart';
 const euro = new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' });
 
+/* Bij een verkochte tas mag de prijs weg: dat vinkje staat op de beheerpagina.
+   Zolang er voorraad is blijft ze wél staan — een tas die je kan bestellen mag
+   nooit zonder prijs in de collectie hangen. */
+const toonPrijs = (p) => !(p.prijs_verbergen && p.voorraad < 1);
+
 /* Staat er een oude prijs bij die hoger ligt, dan is het promo: die gaat
    doorstreept vóór het bedrag dat de klant nu betaalt. `prijs` blijft altijd
    wat er afgerekend wordt — de server rekent daar ook mee. */
@@ -675,8 +680,8 @@ function productCard(p, klasse = '') {
       <h3 class="font-headline-md text-headline-md text-primary leading-tight">${p.naam}</h3>
       <p class="font-label-mono text-label-mono text-secondary uppercase mt-1">${p.herkomst}</p>
     </div>
-    <span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
-                 text-on-surface-variant px-2 py-1 whitespace-nowrap">${prijsHtml(p)}</span>
+    ${toonPrijs(p) ? `<span class="shrink-0 font-label-mono text-label-mono bg-surface-container-high border border-secondary
+                 text-on-surface-variant px-2 py-1 whitespace-nowrap">${prijsHtml(p)}</span>` : ''}
   </div>
 </a>`;
 }

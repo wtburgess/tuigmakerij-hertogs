@@ -125,7 +125,7 @@ in de database en op de beheerpagina.
 ### Opzetten
 
 1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
-   `05-sfeerbeelden.sql`, `07-promo.sql`.
+   `05-sfeerbeelden.sql`, `07-promo.sql`, `08-prijs-verbergen.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
    `SITE_URL` = `https://tuigtassenhertogs.be` — de basis-URL van de site,
    zonder pad en zonder schuine streep achteraan. Mollie plakt daar zelf

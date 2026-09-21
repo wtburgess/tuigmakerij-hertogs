@@ -127,6 +127,15 @@
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Voorraad (0 = verkocht)</span>
           <input name="voorraad" type="number" min="0" step="1" required class="input-underline font-body-md text-body-md">
         </label>
+        <!-- De prijs zelf blijft bewaard; dit zegt enkel of ze getoond wordt.
+             Zet je de voorraad weer op 1, dan staat ze er vanzelf opnieuw. -->
+        <label class="block sm:col-span-2">
+          <span class="flex items-center gap-3">
+            <input type="checkbox" name="prijs_verbergen" class="w-5 h-5 rounded border-secondary text-primary">
+            <span class="font-body-md text-body-md text-on-surface">Verberg de prijs zodra de tas verkocht is</span>
+          </span>
+          <span class="block mt-1 font-body-md text-body-md text-on-surface-variant">Werkt alleen bij voorraad 0. Een tas die nog te koop is, houdt altijd haar prijs.</span>
+        </label>
         <label class="block sm:col-span-2">
           <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Herkomst leder</span>
           <input name="herkomst" class="input-underline font-body-md text-body-md">
@@ -248,7 +257,7 @@ async function laadLijst() {
       <div class="min-w-0 flex-1">
         <p class="font-body-lg text-body-lg text-primary truncate">${p.naam}</p>
         <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
-          ${euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
+          ${p.prijs_verbergen && p.voorraad < 1 ? 'prijs verborgen' : euro.format(p.prijs)} — ${p.voorraad > 0 ? p.voorraad + ' op voorraad' : 'verkocht'}${p.nieuw ? ' — nieuw' : ''}
         </p>
       </div>
       <button type="button" data-bewerk="${p.id}"
@@ -564,6 +573,7 @@ function openTas(p) {
   bewerk.prijs.value      = p ? p.prijs : '';
   bewerk.oude_prijs.value = p && p.oude_prijs ? p.oude_prijs : '';
   bewerk.voorraad.value   = p ? p.voorraad : 1;
+  bewerk.prijs_verbergen.checked = p ? !!p.prijs_verbergen : false;
   bewerk.herkomst.value   = p ? p.herkomst : '';
   bewerk.kleur.value      = p ? p.kleur : '';
   bewerk.afmetingen.value = p ? p.afmetingen : '';
@@ -600,6 +610,7 @@ bewerk.addEventListener('submit', async (e) => {
     // Leeg veld = geen promo; null in plaats van 0, anders staat er straks € 0,00 doorstreept.
     oude_prijs: bewerk.oude_prijs.value === '' ? null : Number(bewerk.oude_prijs.value),
     voorraad: Number(bewerk.voorraad.value),
+    prijs_verbergen: bewerk.prijs_verbergen.checked,
     nieuw: bewerk.nieuw.checked,
     herkomst: bewerk.herkomst.value.trim(),
     kleur: bewerk.kleur.value.trim(),
