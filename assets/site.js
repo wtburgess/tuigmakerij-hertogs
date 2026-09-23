@@ -535,6 +535,7 @@ const EN = {
   'footer.contact': 'Contact',
   'footer.volg': 'Follow along',
   'footer.gemaakt': 'Handcrafted in Belgium',
+  'footer.studio': 'Made by',
   'link.voorwaarden': 'Terms of sale',
   'link.privacy': 'Privacy statement',
   'drop.titel.home': 'Stay in the loop',
@@ -1100,6 +1101,10 @@ function renderFooter() {
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">© ${new Date().getFullYear()} ${CONTACT.atelier} — ${CONTACT.btw}</p>
     <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest" data-t="footer.gemaakt">Ambachtelijk vervaardigd in België</p>
   </div>
+  <p class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-6 font-label-sm text-label-sm text-secondary/70 text-center sm:text-left">
+    <span data-t="footer.studio">Gemaakt door</span>
+    <a href="mailto:benjamin@studiobenchmarks.be" class="border-b border-secondary-fixed-dim hover:text-primary hover:border-primary transition-colors">Studio Benchmarks</a>
+  </p>
 </div>`;
 }
 
