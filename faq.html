@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-t="faq.paginatitel">Veelgestelde vragen — Tuigtassen Hertogs</title>
 <meta name="description" content="Antwoorden op de vragen die het vaakst gesteld worden over de tuigtassen, het atelier, herstellingen en cadeaubonnen.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 <script src="assets/site.js"></script>
@@ -59,17 +55,6 @@
 
       <details class="faq py-6 group">
         <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
-          <span data-t="faq.v4">Wat is de levensduur van deze tuigtassen?</span>
-          <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
-        </summary>
-        <p class="font-body-md text-body-md text-on-surface-variant mt-4 pr-12" data-t="faq.a4">
-          Op voorwaarde dat de tassen goed worden verzorgd, en tijdig de nodige aandacht krijgen qua onderhoud, kunnen deze tassen meerdere generaties meegaan. Ouderdom geeft hen enkel maar meer charme.
-          Neem een kijkje op de pagina <a href="onderhoud.html" class="text-primary border-b border-dashed border-current">herstel &amp; zorg</a> voor tips.
-        </p>
-      </details>
-
-      <details class="faq py-6 group">
-        <summary class="flex justify-between items-start gap-6 font-body-lg text-body-lg text-primary">
           <span data-t="faq.v5">Kan ik een cadeaubon bestellen?</span>
           <span class="material-symbols-outlined faq-icon text-secondary shrink-0">add</span>
         </summary>
@@ -84,6 +69,20 @@
       <a data-wa="Dag Karolien, ik heb een vraag: " data-t-attr="data-wa:faq.slot.wa" target="_blank" rel="noopener"
          data-t="faq.slot.link" class="text-primary border-b border-secondary-fixed-dim hover:border-primary transition-colors">Stuur me gerust een berichtje.</a>
     </p>
+
+    <!-- De verkoopsvoorwaarden en de privacyverklaring staan hier en niet in de
+         voet. Het vinkje bij het afrekenen verwijst er apart naar, want daar
+         moet de klant ze kunnen lezen voor hij akkoord gaat. -->
+    <div class="mt-12 pt-8">
+      <h2 class="font-headline-md text-headline-md text-primary mb-2" data-t="faq.juridisch">De kleine lettertjes</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant mb-4" data-t="faq.juridisch.tekst">
+        Wat er geldt wanneer je bestelt: je veertien dagen bedenktijd, de garantie, en wat er met je gegevens gebeurt.
+      </p>
+      <p class="flex flex-wrap gap-x-8 gap-y-2 font-label-sm text-label-sm uppercase tracking-widest">
+        <a href="voorwaarden.html" class="text-primary border-b border-dashed border-current hover:border-secondary transition-colors" data-t="link.voorwaarden">Verkoopsvoorwaarden</a>
+        <a href="privacy.html" class="text-primary border-b border-dashed border-current hover:border-secondary transition-colors" data-t="link.privacy">Privacyverklaring</a>
+      </p>
+    </div>
   </section>
 
 </main>

@@ -4,22 +4,32 @@
 // binnen is. Daarom mag hij "bedankt voor je aankoop" zeggen: op het
 // moment van bestellen is er nog niets betaald.
 //
-// Nodig zijn twee secrets bij Supabase > Edge Functions > Secrets:
-//   MAIL_GEBRUIKER   het Gmail-adres dat de post verstuurt
-//   MAIL_WACHTWOORD  een app-wachtwoord (Google > Beveiliging >
-//                    App-wachtwoorden), niet het gewone wachtwoord
-// Ontbreekt MAIL_WACHTWOORD, dan verstuurt deze functie stilzwijgend niets
-// en loopt de bestelling gewoon door.
-
-import { SMTPClient } from 'https://deno.land/x/denomailer@1.6.0/mod.ts';
+// Versturen gebeurt via Resend, een verzenddienst. Vroeger liep dit via
+// Gmail met een app-wachtwoord, maar daarvoor heb je een échte mailbox op
+// het eigen domein nodig, en die is er niet — er staat enkel een doorstuur.
+// Met een verzenddienst mag de mail wél van karolien@tuigtassenhertogs.be
+// komen: je zet twee regels in de DNS bij Cloudflare en het domein staat
+// er dan officieel voor in. Dat scheelt ook spam.
+//
+// Nodig is één secret bij Supabase > Edge Functions > Secrets:
+//   RESEND_API_KEY   de sleutel uit je Resend-account (begint met re_)
+//
+// Optioneel:
+//   MAIL_ATELIER     waar de kopie naartoe gaat, en waarnaar de klant
+//                    antwoordt. Standaard karolien@tuigtassenhertogs.be
+//   MAIL_VAN         de afzender zoals de klant hem ziet. Het adres hierin
+//                    moet op het domein staan dat je bij Resend hebt
+//                    goedgekeurd, anders weigert Resend de mail.
+//
+// Ontbreekt RESEND_API_KEY, dan verstuurt deze functie stilzwijgend niets en
+// loopt de bestelling gewoon door.
 
 const secret = (naam: string) =>
   (Deno.env.get(naam) ?? '').trim().replace(/^["']|["']$/g, '');
 
-const MAIL_GEBRUIKER  = secret('MAIL_GEBRUIKER');
-const MAIL_WACHTWOORD = secret('MAIL_WACHTWOORD');
-const MAIL_ATELIER    = secret('MAIL_ATELIER') || 'karolien@tuigtassenhertogs.be';
-const MAIL_VAN        = secret('MAIL_VAN')     || `Tuigtassen Hertogs <${MAIL_ATELIER}>`;
+const RESEND_API_KEY = secret('RESEND_API_KEY');
+const MAIL_ATELIER   = secret('MAIL_ATELIER') || 'karolien@tuigtassenhertogs.be';
+const MAIL_VAN       = secret('MAIL_VAN')     || `Tuigtassen Hertogs <${MAIL_ATELIER}>`;
 
 const euro = (bedrag: number) => '€ ' + bedrag.toFixed(2).replace('.', ',');
 
@@ -39,7 +49,7 @@ export async function stuurBevestiging(bestelling: {
   verzendkost: number;
   totaal: number;
 }) {
-  if (!MAIL_WACHTWOORD) return;
+  if (!RESEND_API_KEY) return;
 
   // Bij afhalen klopt "wordt verzonden" niet, dus dat geval krijgt zijn
   // eigen zin. De rest van de mail blijft hetzelfde.
@@ -78,28 +88,28 @@ export async function stuurBevestiging(bestelling: {
   <span style="font-size:14px;color:#6b5c4c">Tuigtassen Hertogs &mdash; ${MAIL_ATELIER}</span></p>
 </div>`;
 
-  const post = new SMTPClient({
-    connection: {
-      hostname: 'smtp.gmail.com',
-      port: 465,
-      tls: true,
-      auth: { username: MAIL_GEBRUIKER, password: MAIL_WACHTWOORD }
-    }
-  });
-
   try {
-    await post.send({
-      from: MAIL_VAN,
-      to: bestelling.klant.email,
-      bcc: MAIL_ATELIER,          // zo weet het atelier meteen van de bestelling
-      replyTo: MAIL_ATELIER,
-      subject: 'Jouw bestelling werd bevestigd',
-      html,
-      content: 'auto'             // denomailer maakt zelf een tekstversie
+    const antwoord = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: MAIL_VAN,
+        to: [bestelling.klant.email],
+        bcc: [MAIL_ATELIER],        // zo weet het atelier meteen van de bestelling
+        reply_to: MAIL_ATELIER,
+        subject: 'Jouw bestelling werd bevestigd',
+        html
+      })
     });
+    if (!antwoord.ok) {
+      // De reden staat voluit in het antwoord van Resend; meestal is het een
+      // afzender die niet op een goedgekeurd domein staat.
+      console.error('Bevestigingsmail geweigerd:', antwoord.status, await antwoord.text());
+    }
   } catch (e) {
     console.error('Bevestigingsmail lukte niet:', e);
-  } finally {
-    await post.close();
   }
 }

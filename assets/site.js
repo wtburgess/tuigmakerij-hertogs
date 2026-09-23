@@ -535,6 +535,8 @@ const EN = {
   'footer.contact': 'Contact',
   'footer.volg': 'Follow along',
   'footer.gemaakt': 'Handcrafted in Belgium',
+  'link.voorwaarden': 'Terms of sale',
+  'link.privacy': 'Privacy statement',
   'drop.titel.home': 'Stay in the loop',
   'drop.titel.collectie': 'Be the first to see new bags',
   'drop.tekst': 'This collection is exclusive, and small in number. Would you like to be the first to hear when new pieces become available? Leave your phone number here and I will send you a message.',
@@ -614,6 +616,8 @@ const EN = {
   'faq.slot': 'Is your question not here?',
   'faq.slot.link': 'Send me a message.',
   'faq.slot.wa': 'Hi Karolien, I have a question: ',
+  'faq.juridisch': 'The small print',
+  'faq.juridisch.tekst': 'What applies when you order: your fourteen days to change your mind, the guarantee, and what happens to your details.',
 
   /* --- afrekenen --- */
   'levering.opaanvraag': ' — shipping cost on request',
@@ -640,7 +644,7 @@ const EN = {
   'bestel.betaling': 'Payment',
   'bestel.bancontact': 'Payment by Bancontact',
   'bestel.betaaluitleg': 'You pay straight away by Bancontact. Once your order is placed you will see your order number and a summary. If the payment does not go through at once, your order stays reserved for 24 hours. As soon as the payment arrives I get your parcel ready and your bag goes in the post!',
-  'bestel.akkoord': 'I agree to the terms of sale. *',
+  'bestel.akkoord': 'I agree to the <a href="voorwaarden.html" target="_blank" rel="noopener" class="text-primary border-b border-dashed border-current">terms of sale</a>. *',
   'bestel.knop': 'Order and pay',
   'bestel.veilig': 'Your details go to the workshop only. Payment is handled securely by Mollie.',
   'bestel.mandje': 'Your basket',
@@ -822,7 +826,76 @@ const EN = {
   'ond.t3.titel': 'Protecting',
   'ond.t3.tekst': 'Avoid long spells in full sun, to prevent discolouring and drying out.',
   'ond.t4.titel': 'Cleaning',
-  'ond.t4.tekst': 'A slightly damp cloth is enough. Has your bag picked up a stain? Then use a mild saddle soap. After washing with saddle soap it is important to feed your bag again.'
+  'ond.t4.tekst': 'A slightly damp cloth is enough. Has your bag picked up a stain? Then use a mild saddle soap. After washing with saddle soap it is important to feed your bag again.',
+
+  /* --- verkoopsvoorwaarden --- */
+  'vw.paginatitel': 'Terms of sale — Tuigtassen Hertogs',
+  'vw.titel': 'Terms of sale',
+  'vw.bijgewerkt': 'Last updated 21 September 2026',
+  'vw.1.titel': 'Who you are dealing with',
+  'vw.1.tekst': 'Tuigtassen Hertogs is the trading name of Karolien Hertogs, a sole trader in Eernegem, Belgium. The workshop is at Kriekestraat 131, 8480 Eernegem. The company number is BE 1039.887.807. You can reach me at <a data-mail="" data-contact="email"></a> or on +32 487 49 33 68.',
+  'vw.2.titel': 'What these terms cover',
+  'vw.2.tekst': 'Everything you order through this website. Placing an order means you accept them. Work made to order and repairs are agreed separately; whatever we settle together there takes precedence over what is written here.',
+  'vw.3.titel': 'Prices',
+  'vw.3.tekst': 'All prices are in euro and include VAT. Shipping is charged separately and you see it before you pay. Where a price is struck through, that is the earlier price; you always pay the amount shown without the line.',
+  'vw.4.titel': 'Your order',
+  'vw.4.tekst': 'Every bag in the collection exists only once. As soon as someone buys it, it leaves the website. If a bag has gone in the meantime while you are checking out, you will be told before anything is charged. The contract is formed once your payment is confirmed; you then receive a confirmation by email.',
+  'vw.5.titel': 'Payment',
+  'vw.5.tekst': 'Payment is handled by Mollie, with Bancontact as the main option. Your card details never reach this website — they go straight to Mollie. For countries where the shipping cost is not fixed in advance, we agree the amount by email and you pay by bank transfer.',
+  'vw.6.titel': 'Delivery',
+  'vw.6.tekst': 'Shipping within Belgium is free. To the Netherlands, Germany, France and Luxembourg it is 15 euro. Other countries are quoted on request. Collection from the workshop is possible too, by appointment.',
+  'vw.6.tekst2': 'Your order is prepared and goes in the post within three working days. Once the parcel reaches the post office you receive a code to follow it. If something goes wrong on the way, let me know — I will help sort it out.',
+  'vw.7.titel': 'Changing your mind',
+  'vw.7.tekst': 'If you buy a bag from the collection you have fourteen days to change your mind, counting from the day you receive it. You do not have to say why. Let me know within those fourteen days by email or message, and then send the bag back to the workshop within fourteen days. The cost of returning it is yours.',
+  'vw.7.tekst2': 'Send the bag back as you received it. You may look at it and try it as you would in a shop; if you use it beyond that, I may charge for the loss in value. Once the bag is back, you have your money returned within fourteen days, including the shipping you paid.',
+  'vw.7.tekst3': '<strong>One exception:</strong> a bag made to order — from your own saddle, or entirely to your specification — is not covered by that right. Such a piece exists only for you and I cannot sell it to anyone else. That is what the law provides for as well.',
+  'vw.8.titel': 'Guarantee',
+  'vw.8.tekst': 'As a consumer you have a two-year legal guarantee against defects that were already there on delivery. That guarantee always applies in full, whatever is written below.',
+  'vw.8.tekst2': 'On top of that I do the following: if something comes loose or breaks prematurely within the year — a seam, say — I repair it free of charge. It should not happen and I am glad to put it right. Where it is damage rather than wear, the cost is charged. In both cases, get in touch first.',
+  'vw.8.tekst3': 'Leather is a natural material. Differences in colour, scars and marks from the life of the saddle belong to it and are not a defect — they are exactly why these bags exist.',
+  'vw.9.titel': 'If something is wrong',
+  'vw.9.tekst': 'Just let me know. I am one person and you get me, not a call centre. If we cannot work it out together, you can turn to the Belgian Consumer Ombudsman (<a href=\"https://consumentenombudsdienst.be\" target=\"_blank\" rel=\"noopener\">consumentenombudsdienst.be</a>) or to the European online dispute platform (<a href=\"https://ec.europa.eu/consumers/odr\" target=\"_blank\" rel=\"noopener\">ec.europa.eu/consumers/odr</a>).',
+  'vw.11.titel': 'Model withdrawal form',
+  'vw.11.tekst': 'If you want to withdraw from your purchase, a message is enough. You may also use this form, which the law prescribes. Copying it into an email is fine — you do not have to print it.',
+  'vw.11.formulier.aanhef': '<em>Only complete and return this form if you wish to withdraw from the contract.</em>',
+  'vw.11.formulier.aan': 'To Karolien Hertogs, Tuigtassen Hertogs, Kriekestraat 131, 8480 Eernegem, Belgium — karolien@tuigtassenhertogs.be:',
+  'vw.11.formulier.1': 'I hereby give notice that I withdraw from my contract of sale of the following goods:',
+  'vw.11.formulier.2': 'Ordered on / received on:',
+  'vw.11.formulier.3': 'Name:',
+  'vw.11.formulier.4': 'Address:',
+  'vw.11.formulier.5': 'Date:',
+  'vw.11.formulier.6': 'Signature — only if you submit this form on paper:',
+  'vw.10.titel': 'Applicable law',
+  'vw.10.tekst': 'Belgian law applies to this agreement. Disputes belong before the courts of the judicial district of West Flanders, Bruges division, without prejudice to your right as a consumer to choose your own court.',
+
+  /* --- privacyverklaring --- */
+  'pv.paginatitel': 'Privacy statement — Tuigtassen Hertogs',
+  'pv.titel': 'Privacy statement',
+  'pv.bijgewerkt': 'Last updated 21 September 2026',
+  'pv.1.titel': 'Who processes your data',
+  'pv.1.tekst': 'Karolien Hertogs, trading as Tuigtassen Hertogs, Kriekestraat 131, 8480 Eernegem, Belgium, company number BE 1039.887.807. Questions about your data are welcome at <a data-mail="" data-contact="email"></a>.',
+  'pv.2.titel': 'What I keep, and why',
+  'pv.2.tekst': 'If you order something, I keep your name, address, email address, phone number and what you ordered. I need that to make your order, send it, and be able to account for it — the last of those is required by accounting law. If you sign up to hear about a new collection, I keep only your phone number, and nothing else.',
+  'pv.2.tekst2': 'If you send me a message on WhatsApp or by email, that conversation stays for as long as it is useful in helping you.',
+  'pv.3.titel': 'On what grounds',
+  'pv.3.li1': 'Carrying out your order — that is the contract between us.',
+  'pv.3.li2': 'Keeping your order in the books — that is a legal obligation.',
+  'pv.3.li3': 'Letting you know about a new collection — you give consent for that yourself, and you may withdraw it at any time.',
+  'pv.4.titel': 'Who else sees it',
+  'pv.4.tekst': 'I do not sell your data and I pass it to no one for advertising. I do work with a number of services that necessarily process it:',
+  'pv.4.li1': '<strong>Supabase</strong> — the database holding the collection, the orders and the phone numbers. Servers in the European Union.',
+  'pv.4.li2': '<strong>Mollie</strong> — the payment. Your card details never reach this website and go straight to Mollie.',
+  'pv.4.li3': '<strong>Cloudflare</strong> — the website itself, and the visitor statistics. Those statistics work without cookies and trace nothing back to a person.',
+  'pv.4.li4': '<strong>bpost</strong> — sending your parcel.',
+  'pv.4.li5': '<strong>Google</strong> — the typefaces on this website are fetched from Google, which means your IP address reaches them.',
+  'pv.4.li6': '<strong>Gmail and WhatsApp</strong> — if we are in touch that way.',
+  'pv.5.titel': 'For how long',
+  'pv.5.tekst': 'Order data I keep for seven years; that is the period accounting law requires. Your phone number for the notification stays until you ask me to remove it — one message is enough, and it is gone straight away.',
+  'pv.6.titel': 'Cookies',
+  'pv.6.tekst': 'This website sets no cookies to follow you, so there is no consent banner either. What your browser does remember: what is in your basket, which language you are reading the site in, and briefly the details of your last order so they can be shown on the thank-you page. All of that stays on your own device and never reaches me.',
+  'pv.7.titel': 'Your rights',
+  'pv.7.tekst': 'You may ask what data I hold about you, have it corrected, have it erased, have the processing restricted, or receive it in a readable file. Where you gave consent, you may withdraw it. Just send me a message; I answer within the month.',
+  'pv.7.tekst2': 'If you feel I am not handling it properly, you may complain to the Belgian Data Protection Authority, Drukpersstraat 35, 1000 Brussels (<a href=\"https://www.gegevensbeschermingsautoriteit.be\" target=\"_blank\" rel=\"noopener\">gegevensbeschermingsautoriteit.be</a>).'
 };
 
 /* Voor tekst die niet in de HTML staat maar in JavaScript opgebouwd wordt: een
@@ -870,9 +943,14 @@ function vertaal(wortel = document) {
     });
   });
 
-  // Een vertaalde WhatsApp-tekst moet ook in de link zelf terechtkomen; die
-  // werd bij het laden één keer uit data-wa opgebouwd.
+  /* Een vertaalde alinea kan een link of een contactgegeven bevatten dat bij
+     het laden één keer ingevuld werd. innerHTML heeft dat nu overschreven, dus
+     vullen we het opnieuw in. */
   wortel.querySelectorAll('[data-wa]').forEach((el) => { el.href = wa(el.dataset.wa); });
+  wortel.querySelectorAll('[data-mail]').forEach((el) => {
+    el.href = 'mailto:' + CONTACT.email + (el.dataset.mail ? '?subject=' + encodeURIComponent(el.dataset.mail) : '');
+  });
+  wortel.querySelectorAll('[data-contact]').forEach((el) => { el.textContent = CONTACT[el.dataset.contact]; });
 
   markeerTaal();
 }

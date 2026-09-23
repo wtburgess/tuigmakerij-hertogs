@@ -183,7 +183,7 @@ op **overschrijving**: de klant krijgt bestelnummer, IBAN en bedrag te zien en
 kan met één klik een bevestigingsmail sturen. Handig zolang het Mollie-account
 nog niet goedgekeurd is.
 
-### Bevestigingsmail — aangesloten, wacht op twee secrets
+### Bevestigingsmail — aangesloten, wacht op één secret
 
 De mail staat in `supabase/functions/mollie-webhook/mail.ts` en wordt verstuurd
 door de webhook, dus pas wanneer Mollie bevestigt dat er betaald is. Daarom mag
@@ -191,27 +191,35 @@ hij "bedankt voor je aankoop" zeggen — bij het bestellen alleen is er nog niet
 afgerekend. Mollie herhaalt zijn oproep bij een fout, maar de webhook stopt dan
 al op status `betaald`: de klant krijgt de mail één keer.
 
-Zolang de secret `MAIL_WACHTWOORD` leeg is, vertrekt er niets en loopt een
-bestelling gewoon door. Vul je hem in, dan staat de mail meteen aan.
-
 Afhalen in het atelier krijgt een andere zin dan verzenden — beide staan
 bovenaan in `mail.ts`, bij `bericht`.
 
-Hij vertrekt via de gewone mailbox, met Gmail als postbode — geen aparte
-maildienst. Nodig zijn twee secrets: `MAIL_GEBRUIKER` (het Gmail-adres) en
-`MAIL_WACHTWOORD` (een **app-wachtwoord**, niet je gewone wachtwoord). Zo'n
-app-wachtwoord maak je bij Google > Beveiliging > App-wachtwoorden; daarvoor
-moet tweestapsverificatie aanstaan.
+Hij vertrekt via **Resend**, een verzenddienst. Dat is geen luxe: versturen
+vanaf `karolien@tuigtassenhertogs.be` kan alleen wanneer je op dat domein een
+échte mailbox hebt, en er staat enkel een doorstuur naar Hotmail. Met een
+verzenddienst zet je twee regels in de DNS en staat het domein er officieel
+voor in — de mail vertrekt dan van je eigen adres en belandt niet in de spam.
 
-Wil je dat er `karolien@tuigtassenhertogs.be` als afzender staat in plaats van
-het Gmail-adres, voeg dat adres dan in Gmail toe bij Instellingen > Accounts >
-"E-mail versturen als". Google stuurt een bevestigingscode naar dat adres, en
-die komt via de Email Routing in je Gmail terecht. Daarna zet je het adres in
-de secret `MAIL_VAN`.
+Aanzetten in vier stappen:
 
-Gmail laat een paar honderd mails per dag toe — ruim voldoende. Loopt het ooit
-vast in spamfilters, dan is een echte maildienst (Resend, Postmark) het
-alternatief; dan verandert enkel `stuurBevestiging` in de edge function.
+1. Maak een account op [resend.com](https://resend.com). Gratis tot 3000 mails
+   per maand; jij zit daar ver onder.
+2. Voeg daar `tuigtassenhertogs.be` toe als domein. Resend toont een handvol
+   DNS-regels; die plak je in Cloudflare bij je domein, onder DNS. Na een paar
+   minuten staat het domein bij Resend op geverifieerd.
+3. Maak in Resend een API-sleutel. Die begint met `re_`.
+4. Zet die sleutel bij Supabase > Edge Functions > Secrets als
+   `RESEND_API_KEY`, en deploy de webhook opnieuw:
+   `npx supabase functions deploy mollie-webhook --no-verify-jwt`
+
+Zolang `RESEND_API_KEY` leeg is, vertrekt er niets en loopt een bestelling
+gewoon door.
+
+Twee secrets zijn optioneel. `MAIL_ATELIER` is waar de kopie naartoe gaat en
+waarnaar de klant antwoordt; standaard `karolien@tuigtassenhertogs.be`.
+`MAIL_VAN` is de afzender zoals de klant hem ziet. Het adres daarin moet op het
+domein staan dat je bij Resend goedgekeurd hebt — anders weigert Resend de mail,
+en dan zie je dat in Supabase > Edge Functions > `mollie-webhook` > Logs.
 
 `ORDER_ENDPOINT` (bv. een Formspree-URL) stuurt elke bestelling ook nog eens als
 JSON naar je door. Bij een Mollie-betaling heb je dat niet nodig — die staat al
@@ -302,6 +310,67 @@ Daar bewerk je de tassen (naam, prijs, voorraad, verhaal, kenmerken, foto's),
 wissel je de sfeerbeelden op de pagina's, en zie je de laatste vijftig
 bestellingen met adres en status.
 
+## Verkoopsvoorwaarden en privacy
+
+`voorwaarden.html` en `privacy.html` staan los van de andere pagina's: ze
+hebben geen eigen ontwerp, enkel lopende tekst. De opmaak zit in één blok
+klassen rond de tekst, zodat er per kop of alinea niets herhaald hoeft te
+worden.
+
+Je bereikt ze langs twee kanten: onderaan de vragenpagina, onder "De kleine
+lettertjes", en via het vinkje bij het afrekenen. Dat tweede moet blijven — de
+klant hoort de voorwaarden te kunnen lezen vóór hij aanvinkt dat hij akkoord
+gaat. In de voet staan ze bewust niet.
+
+Twee dingen staan er bewust in, en zijn het waard om te weten als je de tekst
+ooit aanpast:
+
+De **bedenktijd van veertien dagen** geldt voor een tas uit de collectie, maar
+níét voor werk op maat. Een stuk dat volgens iemands specificaties gemaakt is,
+valt buiten dat recht — zo voorziet de wet het ook. Haal je die uitzondering
+weg, dan zou je een tas uit iemands eigen zadel moeten terugnemen.
+
+De **wettelijke garantie van twee jaar** staat er apart van je eigen belofte om
+binnen het jaar vroegtijdige slijtage gratis te herstellen. Die twee jaar kan
+je niet inkorten. In de FAQ staat enkel dat ene jaar vermeld; dat leest als een
+beperking terwijl het een extra is.
+
+## Letters en icoontjes
+
+De drie lettertypes staan in `assets/fonts/` en niet meer bij Google. Reden:
+bij elke bezoeker ging zijn IP-adres mee naar een server van Google, en daar is
+geen reden voor. Het scheelt bovendien twee verbindingen naar een vreemde
+server, dus de pagina staat er sneller.
+
+Alles zit in `assets/styles.css`, bovenaan. Per letter staan er twee bestanden
+met een `unicode-range` erbij: de gewone Latijnse tekens, en de uitbreiding met
+zeldzamere accenten. Dat tweede bestand haalt de browser enkel op wanneer er
+zo'n teken op de pagina staat.
+
+### Een icoontje toevoegen
+
+`assets/fonts/material-symbols.woff2` bevat niet alle icoontjes van Google,
+maar precies de vijfendertig die de site gebruikt — het volledige lettertype
+weegt bijna vier megabyte, dit 32 kilobyte. Zet je een nieuwe naam in de HTML,
+dan verschijnt die als gewone tekst tot je het lettertype opnieuw bouwt:
+
+1. Zoek de naam op bij [Material Symbols](https://fonts.google.com/icons)
+   (stijl *Outlined*) en zet ze bij in `gereedschap/iconen.txt`.
+2. Draai het bouwscript. Het haalt het volledige lettertype uit npm, houdt
+   enkel jouw lijst over en bouwt de ligaturen opnieuw op:
+
+       pip install fonttools brotli
+       npm install material-symbols
+       python3 gereedschap/bouw-icoonfont.py \
+         node_modules/material-symbols/material-symbols-outlined.woff2 \
+         gereedschap/iconen.txt \
+         assets/fonts/material-symbols.woff2
+
+Waarom dat bouwscript en niet gewoon uitdunnen: de naam `shopping_bag` wordt
+door het lettertype zelf als ligatuur omgezet naar een tekening, en die regels
+overleven het uitdunnen niet. Het script zet ze er daarna weer in, enkel voor
+de icoontjes die je houdt.
+
 ## Zoekmachines
 
 De zes gewone pagina's mogen gevonden worden. Het beheerscherm, het mandje en
@@ -333,4 +402,13 @@ en mag hij enkel die zes pagina's bevatten plus de productpagina's.
       worden daarom niet getoond op de productpagina)
 - [ ] Twee open plekken in de FAQ op `collectie.html`: de naam van de winkel
       die de tassen verkoopt, en wat er precies over cadeaubonnen moet staan
-- [ ] Verkoopsvoorwaarden + privacyverklaring (verplicht bij online verkoop in België)
+- [ ] `voorwaarden.html` en `privacy.html` laten nakijken door iemand met
+      juridische kennis. Ze staan er en ze dekken wat de wet vraagt, maar ze
+      zijn geschreven door een programma, niet door een jurist.
+- [ ] Resend aanzetten zodat de bevestigingsmail vertrekt — de code staat
+      klaar, er moet enkel een account, twee DNS-regels en de secret
+      `RESEND_API_KEY` bij. Zie "Bevestigingsmail" hierboven. Zonder dat krijgt
+      de klant geen bevestiging, terwijl de wet dat wel vraagt.
+- [ ] Het echte rekeningnummer in `CONTACT.iban` — daar staat nu
+      `BE00 0000 0000 0000`, en dat nummer krijgt een klant te zien zodra een
+      bestelling met een overschrijving betaald wordt

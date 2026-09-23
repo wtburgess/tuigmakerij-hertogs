@@ -1,5 +1,107 @@
 /* Tuigtassen Hertogs — de handvol dingen die Tailwind niet doet. */
 
+/* ---------------------------------------------------------------- letters
+   De drie lettertypes staan op onze eigen server en niet meer bij Google.
+   Reden: bij elke bezoeker ging zijn IP-adres mee naar Google, en dat is bij
+   ons niet nodig. Het scheelt ook twee verbindingen naar een andere server,
+   dus de pagina staat er sneller.
+
+   Per letter twee bestanden, met een unicode-range erbij: de gewone Latijnse
+   tekens, en de uitbreiding met wat zeldzamere accenten. De browser haalt dat
+   tweede bestand alleen op wanneer er zo'n teken op de pagina staat.
+
+   Vervangen doe je door een nieuw .woff2-bestand in assets/fonts/ te zetten en
+   de naam hieronder aan te passen. Let op: kies dan ook de juiste weight en
+   style, anders maakt de browser zelf een vette of een cursieve na. */
+
+@font-face {
+  font-family: 'Caveat Brush'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/caveat-brush-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+                 U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Caveat Brush'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/caveat-brush-400-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+                 U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'EB Garamond'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/eb-garamond-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+                 U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/eb-garamond-400-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+                 U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'EB Garamond'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('fonts/eb-garamond-400-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+                 U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('fonts/eb-garamond-400-italic-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+                 U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'EB Garamond'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('fonts/eb-garamond-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+                 U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('fonts/eb-garamond-600-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+                 U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+                 U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* De icoontjes. Het volledige Material Symbols weegt bijna vier megabyte —
+   daar zitten zesduizend tekeningen in. Dit bestand bevat er vijfendertig: net
+   die welke op de site staan. Voeg je er een toe in de HTML, dan verschijnt
+   hij niet vanzelf; zie LEESMIJ, "Een icoontje toevoegen".
+
+   De klasse hieronder stond vroeger in de stylesheet van Google. Zonder die
+   regel blijft de naam van het icoontje als gewone tekst staan. */
+@font-face {
+  font-family: 'Material Symbols Outlined'; font-style: normal; font-weight: 100 700;
+  font-display: block;
+  src: url('fonts/material-symbols.woff2') format('woff2');
+}
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Tailwind's display-klassen (flex, grid) winnen het anders van [hidden]. */
 [hidden] { display: none !important; }
 
@@ -88,7 +190,7 @@ body {
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
 }
-.symbol-filled { font-variation-settings: 'FILL' 1; }
+.symbol-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
 /* De achtergronden van de brede banden, en meer zijn er niet:
 
