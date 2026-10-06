@@ -225,11 +225,19 @@ en dan zie je dat in Supabase > Edge Functions > `mollie-webhook` > Logs.
 JSON naar je door. Bij een Mollie-betaling heb je dat niet nodig — die staat al
 in de database en op de beheerpagina.
 
+### Testbestellingen verwijderen
+
+Elke bestelling op de beheerpagina heeft een vuilbakje. Dat is bedoeld voor
+testbestellingen: verwijderen betaalt bij Mollie niets terug en zet de tas niet
+terug in voorraad. Een betaalde test zette de tas op 0 — zet die voorraad zelf
+terug bij Tassen. Werkt het vuilbakje niet ("Verwijderen lukte niet"), draai
+dan eerst `11-bestellingen-verwijderen.sql` in de SQL Editor.
+
 ### Opzetten
 
 1. SQL Editor: `01-schema.sql`, `02-tassen.sql`, `03-fotos.sql`, `04-bestellingen.sql`,
    `05-sfeerbeelden.sql`, `07-promo.sql`, `08-prijs-verbergen.sql`,
-   `09-tascode.sql`.
+   `09-tascode.sql`, `11-bestellingen-verwijderen.sql`.
 2. Supabase > Edge Functions > Secrets: `MOLLIE_API_KEY` (test_ of live_) en
    `SITE_URL` = `https://tuigtassenhertogs.be` — de basis-URL van de site,
    zonder pad en zonder schuine streep achteraan. Mollie plakt daar zelf

@@ -412,6 +412,10 @@ async function laadBestellingen() {
           ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
         </span>
         <span class="flex gap-1">
+          <button type="button" data-wis="${b.id}" aria-label="Bestelling verwijderen"
+                  class="p-1 text-secondary hover:text-error">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
           <button type="button" data-schuif="${b.id}" data-richting="-1" aria-label="Een stap terug"
                   class="p-1 text-secondary hover:text-primary ${stand(b) === 'te doen' ? 'invisible' : ''}">
             <span class="material-symbols-outlined text-[20px]">arrow_back</span>
@@ -431,6 +435,29 @@ async function laadBestellingen() {
     if (error) return toast('Bijwerken lukte niet: ' + error.message);
     laadBestellingen();
   };
+
+  // Voor testbestellingen. De voorraad blijft zoals hij is: een betaalde
+  // test zette de tas op 0, en die zet je zelf terug bij Tassen.
+  const wis = async (b) => {
+    const vraag = `Bestelling ${b.referentie} van ${b.klant.naam} definitief verwijderen?`
+      + (b.status === 'betaald'
+        ? '\n\nDe tas blijft op "Verkocht" staan; zet de voorraad zelf terug bij Tassen. Bij Mollie wordt niets terugbetaald.'
+        : '');
+    if (!confirm(vraag)) return;
+    const { error } = await db.from('bestellingen').delete().eq('id', b.id);
+    if (error) return toast('Verwijderen lukte niet: ' + error.message);
+    laadBestellingen();
+  };
+
+  const knoppenWis = () => el.querySelectorAll('[data-wis]').forEach((knop) => {
+    knop.addEventListener('click', () => wis(data.find((x) => x.id === knop.dataset.wis)));
+  });
+
+  const wisKnop = (b) => `
+    <button type="button" data-wis="${b.id}" aria-label="Bestelling verwijderen"
+            class="p-1 text-secondary hover:text-error">
+      <span class="material-symbols-outlined text-[20px]">delete</span>
+    </button>`;
 
   const teller = `
     <p class="font-body-md text-body-md mb-4 ${teDoen ? 'text-primary' : 'text-on-surface-variant'}">
@@ -456,7 +483,8 @@ async function laadBestellingen() {
               <th class="py-3 pr-4 font-normal">Datum</th>
               <th class="py-3 pr-4 font-normal">Bedrag</th>
               <th class="py-3 pr-4 font-normal">Bestelling</th>
-              <th class="py-3 font-normal">Klant</th>
+              <th class="py-3 pr-4 font-normal">Klant</th>
+              <th class="py-3 font-normal"><span class="sr-only">Verwijderen</span></th>
             </tr>
           </thead>
           <tbody>
@@ -483,13 +511,14 @@ async function laadBestellingen() {
                   ${b.regels.map((r) => `${r.aantal} × ${r.naam}${r.code ? ` (${r.code})` : ''}`).join('<br>')}
                   <span class="block text-secondary">${b.levering}</span>
                 </td>
-                <td class="py-4 font-body-md text-body-md text-on-surface-variant min-w-[16rem]">
+                <td class="py-4 pr-4 font-body-md text-body-md text-on-surface-variant min-w-[16rem]">
                   ${b.klant.naam}<br>
                   <a href="mailto:${b.klant.email}" class="text-primary border-b border-dashed border-current">${b.klant.email}</a>
                   ${b.klant.telefoon ? '<br>' + b.klant.telefoon : ''}
                   ${b.klant.adres ? '<br>' + b.klant.adres : ''}
                   ${b.klant.bericht ? `<br><span class="text-secondary">"${b.klant.bericht}"</span>` : ''}
                 </td>
+                <td class="py-3">${wisKnop(b)}</td>
               </tr>`;
             }).join('')}
           </tbody>
@@ -499,6 +528,7 @@ async function laadBestellingen() {
     el.querySelectorAll('[data-afhandeling]').forEach((keuze) => {
       keuze.addEventListener('change', () => verzet(keuze.dataset.afhandeling, keuze.value));
     });
+    knoppenWis();
     return;
   }
 
@@ -536,8 +566,11 @@ async function laadBestellingen() {
           <span class="ml-auto font-label-mono text-label-mono uppercase text-secondary">
             ${new Date(b.aangemaakt).toLocaleDateString('nl-BE')}
           </span>
+          ${wisKnop(b)}
         </li>`).join('')}
     </ul>` : ''}`;
+
+  knoppenWis();
 
   el.querySelectorAll('[data-schuif]').forEach((knop) => {
     knop.addEventListener('click', () => {
