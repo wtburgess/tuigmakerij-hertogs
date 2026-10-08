@@ -65,7 +65,7 @@ paginaKlaar.then(() => {
   // lijstje dan een regel met niets erachter.
   const spec = (icoon, sleutel, label, waarde) => !waarde ? '' : `
     <div class="flex items-start gap-4">
-      <span aria-hidden="true" class="material-symbols-outlined text-secondary mt-1 ${icoon === 'sell' || icoon === 'layers' ? 'invisible' : ''}">${icoon}</span>
+      ${['sell', 'layers', 'palette'].includes(icoon) ? '' : `<span aria-hidden="true" class="material-symbols-outlined text-secondary mt-1">${icoon}</span>`}
       <div>
         <h3 data-t="${sleutel}" class="font-label-mono text-label-mono uppercase text-secondary mb-1">${label}</h3>
         <p class="font-body-md text-body-md text-primary">${waarde}</p>
