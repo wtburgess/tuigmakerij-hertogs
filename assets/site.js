@@ -576,7 +576,7 @@ const EN = {
   'home.karolien.link': 'Read my story',
   'home.review.boventitel': 'Your experience',
   'home.review.titel': 'Would you like to share a review?',
-  'home.review.intro': 'Have you bought a harness bag or had something repaired? I would love to hear about your experience. Your review is first sent to me by email and never appears on the website automatically.',
+  'home.review.intro': 'Have you bought a harness bag or had something repaired? I would love to hear about your experience.',
   'home.review.naam': 'Name',
   'home.review.score': 'Rating',
   'home.review.tekst': 'Your review',
