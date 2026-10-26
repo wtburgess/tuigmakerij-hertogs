@@ -224,8 +224,14 @@
 
   <!-- 6. Reviews worden eerst per e-mail aan Karolien bezorgd. Er verschijnt
        dus nooit automatisch tekst van een bezoeker op de website. -->
-  <section id="review" class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen">
-    <div class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop">
+  <section id="review" class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen relative overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+      <div class="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-primary/10"></div>
+      <div class="absolute -bottom-28 -left-20 w-80 h-80 rounded-full bg-secondary/10"></div>
+      <div class="absolute top-0 inset-x-0 stitch-divider-kruis opacity-60"></div>
+      <div class="absolute bottom-0 inset-x-0 stitch-divider-kruis opacity-60"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop">
       <div class="text-center mb-10">
         <span class="font-label-mono text-label-mono text-secondary uppercase block mb-4" data-t="home.review.boventitel">Jouw ervaring</span>
         <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary mb-5" data-t="home.review.titel">Wil je een review delen?</h2>
