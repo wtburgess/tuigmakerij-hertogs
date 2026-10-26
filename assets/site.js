@@ -580,7 +580,7 @@ const EN = {
   'home.review.naam': 'Name',
   'home.review.score': 'Rating',
   'home.review.tekst': 'Your review',
-  'home.review.toestemming': 'You may share my review on the website after consulting me.',
+  'home.review.toestemming': 'I give permission for my review to be published on the website.',
   'home.review.knop': 'Send review',
   'home.review.mail.onderwerp': 'Review for Tuigtassen Hertogs',
   'home.review.mail.naam': 'Name',
