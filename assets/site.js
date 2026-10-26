@@ -1053,6 +1053,12 @@ function renderHeader(actief) {
                    transition-colors duration-300">${taalKnopTekst(ANDERE_TAAL[TAAL])}</button>
   </div>
 </div>
+<div class="lg:hidden px-margin-mobile pb-4">
+  <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
+     class="block w-full text-center whitespace-nowrap bg-deep-forest text-on-primary rounded
+            font-label-sm text-label-sm uppercase tracking-widest px-6 py-3
+            hover:bg-tertiary transition-colors duration-300" data-t="header.instagram">Achter de schermen</a>
+</div>
 <div data-menu hidden class="lg:hidden border-t border-surface-container bg-surface">
   <nav class="px-margin-mobile py-4 flex flex-col gap-1">
     ${NAV.map((n) => link(n, 'border-l-2 pl-4 py-2')).join('')}
