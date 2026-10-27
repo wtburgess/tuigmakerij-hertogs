@@ -1041,7 +1041,7 @@ function renderHeader(actief) {
        class="hidden xl:inline-flex items-center gap-2 whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
               hover:bg-tertiary transition-colors duration-300">
-      <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
         <rect x="3" y="3" width="18" height="18" rx="5"></rect>
         <circle cx="12" cy="12" r="4"></circle>
         <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
@@ -1081,7 +1081,7 @@ function renderHeader(actief) {
      class="flex w-full items-center justify-center gap-2 text-center whitespace-nowrap bg-deep-forest text-on-primary rounded
             font-label-sm text-label-sm uppercase tracking-widest px-6 py-3
             hover:bg-tertiary transition-colors duration-300">
-    <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
         <rect x="3" y="3" width="18" height="18" rx="5"></rect>
         <circle cx="12" cy="12" r="4"></circle>
         <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
