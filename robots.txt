@@ -7,3 +7,5 @@ User-agent: *
 Disallow: /admin.html
 Disallow: /bestellen.html
 Disallow: /bedankt.html
+
+Sitemap: https://tuigtassenhertogs.be/sitemap.xml
