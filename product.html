@@ -59,6 +59,21 @@ paginaKlaar.then(() => {
     return;
   }
 
+  // Prijs en voorraad in een vorm die Google leest; die kan ze dan in de zoekresultaten tonen.
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Product',
+    name: p.naam, description: p.verhaal,
+    image: p.fotos.map(f => new URL(fotoUrl(f), location.href).href),
+    brand: { '@type': 'Brand', name: 'Tuigtassen Hertogs' },
+    offers: {
+      '@type': 'Offer', price: p.prijs, priceCurrency: 'EUR', url: location.href,
+      availability: p.voorraad > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+    }
+  });
+  document.head.appendChild(ld);
+
   const uitverkocht = p.voorraad < 1;
 
   // Nog niet ingevulde specificaties laten we gewoon weg: liever een korter
@@ -119,6 +134,7 @@ paginaKlaar.then(() => {
   const tekenProduct = () => {
     const naam = veld(p, 'naam');
     document.title = `${naam} — Tuigtassen Hertogs`;
+    document.querySelector('meta[name="description"]').content = veld(p, 'verhaal') || naam;
 
     root.innerHTML = `
     <nav class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-10">
