@@ -1038,9 +1038,16 @@ function renderHeader(actief) {
   </nav>
   <div class="flex items-center gap-1">
     <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
-       class="hidden xl:inline-block whitespace-nowrap bg-deep-forest text-on-primary rounded
+       class="hidden xl:inline-flex items-center gap-2 whitespace-nowrap bg-deep-forest text-on-primary rounded
               font-label-sm text-label-sm uppercase tracking-widest px-6 py-3 mr-3
-              hover:bg-tertiary transition-colors duration-300" data-t="header.instagram">Achter de schermen</a>
+              hover:bg-tertiary transition-colors duration-300">
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+        <circle cx="12" cy="12" r="4"></circle>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+      </svg>
+      <span data-t="header.instagram">Achter de schermen</span>
+    </a>
     <!-- Tussenin past de knop hierboven niet; daar blijft de Instagram-link als
          icoon staan. Op een telefoon valt ze helemaal weg: daar stond ze als
          naamloos icoontje te concurreren met het mandje en het menu, terwijl
@@ -1071,9 +1078,16 @@ function renderHeader(actief) {
 </div>
 <div class="lg:hidden px-margin-mobile pb-4">
   <a href="${CONTACT.instagram}" target="_blank" rel="noopener"
-     class="block w-full text-center whitespace-nowrap bg-deep-forest text-on-primary rounded
+     class="flex w-full items-center justify-center gap-2 text-center whitespace-nowrap bg-deep-forest text-on-primary rounded
             font-label-sm text-label-sm uppercase tracking-widest px-6 py-3
-            hover:bg-tertiary transition-colors duration-300" data-t="header.instagram">Achter de schermen</a>
+            hover:bg-tertiary transition-colors duration-300">
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+        <circle cx="12" cy="12" r="4"></circle>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+      </svg>
+    <span data-t="header.instagram">Achter de schermen</span>
+  </a>
 </div>
 <div data-menu hidden class="lg:hidden border-t border-surface-container bg-surface">
   <nav class="px-margin-mobile py-4 flex flex-col gap-1">
