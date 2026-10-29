@@ -233,68 +233,6 @@
    </div>
   </section>
 
-  <!-- 6. Reviews worden eerst per e-mail aan Karolien bezorgd. Er verschijnt
-       dus nooit automatisch tekst van een bezoeker op de website. -->
-  <section id="review" class="w-full py-stack-raw md:py-section-xl bg-secondary-fixed-dim texture-linen relative overflow-hidden">
-    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
-      <div class="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-primary/10"></div>
-      <div class="absolute -bottom-28 -left-20 w-80 h-80 rounded-full bg-secondary/10"></div>
-      <div class="absolute top-0 inset-x-0 stitch-divider-kruis opacity-60"></div>
-      <div class="absolute bottom-0 inset-x-0 stitch-divider-kruis opacity-60"></div>
-    </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop">
-      <div class="text-center mb-10">
-        <span class="font-label-mono text-label-mono text-secondary uppercase block mb-4" data-t="home.review.boventitel">Jouw ervaring</span>
-        <h2 class="font-display-lg text-[40px] md:text-[56px] leading-tight text-primary mb-5" data-t="home.review.titel">Wil je een review delen?</h2>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto" data-t="home.review.intro">
-          Heb je een tuigtas gekocht of iets laten herstellen? Ik lees graag hoe je het ervaren hebt.
-        </p>
-      </div>
-
-      <form id="review-form" class="bg-surface-container-lowest p-6 md:p-10 rounded saddle-stitch">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <label class="block">
-            <span class="block font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2" data-t="home.review.naam">Naam</span>
-            <input id="review-naam" name="naam" type="text" required autocomplete="name"
-                   class="w-full rounded border-secondary/40 bg-background text-on-surface focus:border-primary focus:ring-primary">
-          </label>
-          <label class="block">
-            <span class="block font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2" data-t="home.review.score">Beoordeling</span>
-            <select id="review-score" name="score" required
-                    class="w-full rounded border-secondary/40 bg-background text-on-surface focus:border-primary focus:ring-primary">
-              <option value="5">★★★★★ — 5/5</option>
-              <option value="4">★★★★☆ — 4/5</option>
-              <option value="3">★★★☆☆ — 3/5</option>
-              <option value="2">★★☆☆☆ — 2/5</option>
-              <option value="1">★☆☆☆☆ — 1/5</option>
-            </select>
-          </label>
-        </div>
-
-        <label class="block mt-6">
-          <span class="block font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2" data-t="home.review.tekst">Jouw review</span>
-          <textarea id="review-tekst" name="review" rows="6" required
-                    class="w-full rounded border-secondary/40 bg-background text-on-surface focus:border-primary focus:ring-primary"></textarea>
-        </label>
-
-        <label class="flex items-start gap-3 mt-5 font-body-md text-body-md text-on-surface-variant">
-          <input id="review-delen" name="delen" type="checkbox"
-                 class="mt-1 rounded border-secondary/40 text-primary focus:ring-primary">
-          <span data-t="home.review.toestemming">ik geef toestemming om mijn review op de website te publiceren</span>
-        </label>
-
-        <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
-          <button type="submit"
-                  class="inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-tertiary transition-colors duration-300">
-            <span data-t="home.review.knop">Review versturen</span>
-            <span class="material-symbols-outlined text-base">mail</span>
-          </button>
-          <p id="review-status" class="hidden font-body-md text-body-md text-on-surface-variant" aria-live="polite"></p>
-        </div>
-      </form>
-    </div>
-  </section>
-
   <!-- 6. Verwittiging bij een nieuwe collectie: je nummer achterlaten, en
        Karolien stuurt een berichtje zodra er nieuwe tassen klaar zijn. -->
   <section id="drop" data-drop="Blijf op de hoogte" data-drop-t="drop.titel.home" class="w-full py-stack-raw relative scroll-mt-24"></section>
@@ -314,34 +252,6 @@
   };
   paginaKlaar.then(tekenHome);
   document.addEventListener('taal:gewisseld', tekenHome);
-
-  document.getElementById('review-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const naam = document.getElementById('review-naam').value.trim();
-    const score = document.getElementById('review-score').value;
-    const review = document.getElementById('review-tekst').value.trim();
-    const delen = document.getElementById('review-delen').checked;
-    const onderwerp = t('home.review.mail.onderwerp', 'Review voor Tuigtassen Hertogs');
-    const toestemming = delen
-      ? t('home.review.mail.ja', 'Ja, na overleg')
-      : t('home.review.mail.nee', 'Nee');
-    const inhoud = [
-      t('home.review.mail.naam', 'Naam') + ': ' + naam,
-      t('home.review.mail.score', 'Beoordeling') + ': ' + score + '/5',
-      '',
-      t('home.review.mail.review', 'Review') + ':',
-      review,
-      '',
-      t('home.review.mail.delen', 'Mag deze review na overleg op de website worden gedeeld?') + ' ' + toestemming
-    ].join('\n');
-
-    document.getElementById('review-status').textContent =
-      t('home.review.status', 'Je mailprogramma wordt geopend. Verstuur daar nog even de e-mail om je review te bezorgen.');
-    document.getElementById('review-status').classList.remove('hidden');
-    window.location.href = 'mailto:' + CONTACT.email
-      + '?subject=' + encodeURIComponent(onderwerp)
-      + '&body=' + encodeURIComponent(inhoud);
-  });
 </script>
 </body>
 </html>
